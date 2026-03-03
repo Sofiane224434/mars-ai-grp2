@@ -1,0 +1,8 @@
+/* 1 seule ligne ! */
+@import "tailwindcss";
+/* Classes réutilisables (optionnel) */
+@layer components {
+.btn { @apply px-6 py-2 rounded-lg font-medium transition-all; }
+.btn-primary { @apply bg-indigo-600 text-white hover:bg-indigo-700; }
+.form-input { @apply w-full px-4 py-2 border-2 rounded-lg; }
+}

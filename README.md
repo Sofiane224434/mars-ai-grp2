@@ -44,7 +44,7 @@ cd .. && npm install
 
 ### Lancement
 
-```bash
+```powershell
 # Lancer Backend et Frontend simultanément (depuis la racine)
 npm run dev
 

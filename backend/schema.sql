@@ -190,7 +190,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `marsai`.`autoemail`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `marsai`.`autoemail` (
+CREATE TABLE IF NOT EXISTS `marsai`.`auto_email` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `category` ENUM("validation", "redo", "refuse") NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `marsai`.`autoemail` (
   `isactive` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_teamid_team_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_autoemail_users`
+  CONSTRAINT `fk_auto_email_users`
     FOREIGN KEY (`user_id`)
     REFERENCES `marsai`.`users` (`id`)
     ON DELETE CASCADE

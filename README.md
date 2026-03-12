@@ -12,6 +12,7 @@ Une application web fullstack moderne avec authentification JWT, architecture MV
 - [Démarrage Rapide](#-démarrage-rapide)
 - [Fonctionnalités](#-fonctionnalités)
 - [Architecture](#️-architecture-du-projet)
+- [Shared / Zod](#-shared)
 - [Technologies](#-technologies)
 - [API Endpoints](#-api-endpoints)
 - [Scripts Disponibles](#️-scripts-disponibles)
@@ -105,6 +106,7 @@ npm run dev:frontend  # Frontend uniquement
 | **bcrypt** | Hashage sécurisé des mots de passe | - |
 | **dotenv** | Gestion des variables d'environnement | - |
 | **CORS** | Middleware pour les requêtes cross-origin | - |
+| **Zod** | Validation de schémas TypeScript-first | 3.x |
 
 ### Frontend
 | Technologie | Description | Version |
@@ -114,6 +116,7 @@ npm run dev:frontend  # Frontend uniquement
 | **React Router** | Bibliothèque de routing pour React | 6.x |
 | **Axios** | Client HTTP pour les appels API | - |
 | **ESLint** | Linter pour maintenir la qualité du code | - |
+| **Zod** | Validation de schémas partagés avec le backend | 3.x |
 
 ### Outils de Développement
 - **npm/yarn** : Gestionnaires de paquets
@@ -130,12 +133,52 @@ Le projet est organisé en deux parties principales :
 marsai/
 ├── backend/          # API REST Node.js
 ├── frontend/         # Application React
+├── shared/           # Ressources partagées (schémas Zod)
 └── README.md
 ```
 
 ---
 
-## 🔧 Backend
+## � Shared
+
+### Schémas de Validation Partagés
+
+Le dossier `shared/` contient les schémas [Zod](https://zod.dev/) utilisés à la fois par le **frontend** et le **backend** pour garantir une validation cohérente des données.
+
+```
+shared/
+└── schemas.js    # Schémas Zod partagés (login, register, etc.)
+```
+
+#### Schémas disponibles
+
+| Schéma | Description | Champs validés |
+|--------|-------------|----------------|
+| `loginSchema` | Validation du formulaire de connexion | `email` (email valide), `password` (min. 6 caractères) |
+
+#### Exemple d'utilisation
+
+```js
+import { loginSchema } from '../shared/schemas.js';
+
+// Validation côté backend (Express)
+const result = loginSchema.safeParse(req.body);
+if (!result.success) {
+  return res.status(400).json({ errors: result.error.errors });
+}
+
+// Validation côté frontend (React)
+const result = loginSchema.safeParse(formData);
+if (!result.success) {
+  setErrors(result.error.flatten().fieldErrors);
+}
+```
+
+> **Avantage clé** : un seul schéma de validation défini une fois, réutilisé des deux côtés pour éviter toute divergence entre le frontend et le backend.
+
+---
+
+## �🔧 Backend
 
 ### Structure du Dossier
 
@@ -444,7 +487,8 @@ Authorization: Bearer <votre_token_jwt>
   "bcryptjs": "^2.4.3",           // Hashage mots de passe
   "dotenv": "^16.0.0",            // Variables d'environnement
   "cors": "^2.8.5",               // Middleware CORS
-  "express-validator": "^7.0.0"   // Validation des données
+  "express-validator": "^7.0.0",  // Validation des données
+  "zod": "^3.0.0"                 // Validation schémas partagés
 }
 ```
 
@@ -455,7 +499,8 @@ Authorization: Bearer <votre_token_jwt>
   "react": "^18.2.0",             // Bibliothèque UI
   "react-dom": "^18.2.0",         // Rendu React pour le web
   "react-router-dom": "^6.8.0",   // Routing
-  "axios": "^1.3.0"               // Client HTTP
+  "axios": "^1.3.0",              // Client HTTP
+  "zod": "^3.0.0"                 // Validation schémas partagés
 }
 ```
 
@@ -482,7 +527,7 @@ Authorization: Bearer <votre_token_jwt>
 ### Sécurité
 - ✅ **Hashage sécurisé** : Bcrypt pour les mots de passe
 - ✅ **JWT tokens** : Authentification stateless et sécurisée
-- ✅ **Validation** : Vérification des données côté serveur
+- ✅ **Validation Zod** : Schémas partagés entre frontend et backend pour une cohérence garantie
 - ✅ **CORS configuré** : Protection contre les requêtes non autorisées
 - ✅ **Variables d'environnement** : Secrets jamais commités dans le code
 
@@ -596,6 +641,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 - [Vite](https://vitejs.dev/) - Documentation Vite
 - [React Router](https://reactrouter.com/) - Documentation React Router
 - [MySQL](https://dev.mysql.com/doc/) - Documentation MySQL
+- [Zod](https://zod.dev/) - Documentation Zod
 
 ### Tutoriels Recommandés
 - [JWT Authentication Best Practices](https://jwt.io/introduction)

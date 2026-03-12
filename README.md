@@ -1,13 +1,13 @@
-# 🚀 Starter Kit - Application Fullstack
+# 🚀 Marsai - Application Fullstack
 
 [![Node.js](https://img.shields.io/badge/Node.js-16%2B-green)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
 [![Express](https://img.shields.io/badge/Express-4-lightgrey)](https://expressjs.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Un starter kit moderne et complet pour développer rapidement des applications web fullstack avec authentification JWT, architecture MVC et composants React réutilisables.
+Une application web fullstack moderne avec authentification JWT, architecture MVC et composants React réutilisables.
 
-## 📑 Table des Matières
+##  Table des Matières
 
 - [Démarrage Rapide](#-démarrage-rapide)
 - [Fonctionnalités](#-fonctionnalités)
@@ -28,21 +28,32 @@ Un starter kit moderne et complet pour développer rapidement des applications w
 ### Installation
 
 ```bash
-# Installation Backend
-cd backend
-npm install
-npm run dev
+# Copier les variables d'environnement
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 
-# Installation Frontend (dans un nouveau terminal)
-cd frontend
-npm install
-npm run dev
+# Installation des dépendances Backend
+cd backend && npm install
 
-#Copier coller les variables d'environnement
-cp /backend/.env.example /backend/.env cp /frontend/.env.example /frontend/.env
+# Installation des dépendances Frontend
+cd ../frontend && npm install
+
+# Installation de concurrently (racine du projet)
+cd .. && npm install
 ```
 
 ### Lancement
+
+```bash
+# Lancer Backend et Frontend simultanément (depuis la racine)
+npm run dev
+
+# Ou séparément
+npm run dev:backend   # Backend uniquement
+npm run dev:frontend  # Frontend uniquement
+```
+
+> `concurrently` permet de démarrer le backend et le frontend en une seule commande depuis la racine du projet.
 
 - **Backend** : `http://localhost:5000`
 - **Frontend** : `http://localhost:5173`
@@ -52,7 +63,6 @@ cp /backend/.env.example /backend/.env cp /frontend/.env.example /frontend/.env
 ## ✨ Fonctionnalités
 
 ### Authentification et Sécurité
-- ✅ Inscription et connexion utilisateur
 - ✅ Authentification JWT (JSON Web Tokens)
 - ✅ Protection des routes backend avec middleware
 - ✅ Protection des routes frontend avec `PrivateRoute`
@@ -117,7 +127,7 @@ cp /backend/.env.example /backend/.env cp /frontend/.env.example /frontend/.env
 Le projet est organisé en deux parties principales :
 
 ```
-starter-kit/
+marsai/
 ├── backend/          # API REST Node.js
 ├── frontend/         # Application React
 └── README.md
@@ -171,7 +181,7 @@ NODE_ENV=development
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=votre_password
-DB_NAME=starter_kit
+DB_NAME=marsai
 
 # JWT
 JWT_SECRET=votre_secret_jwt_tres_securise
@@ -542,8 +552,8 @@ Les contributions sont les bienvenues ! Voici comment vous pouvez contribuer :
 
 ### 1. Fork le projet
 ```bash
-git clone https://github.com/votre-username/starter-kit.git
-cd starter-kit
+git clone https://github.com/votre-username/mars-ai-grp2.git
+cd mars-ai-grp2
 ```
 
 ### 2. Créer une branche
@@ -601,7 +611,7 @@ Ce projet est sous licence MIT. Vous êtes libre de l'utiliser, le modifier et l
 ```
 MIT License
 
-Copyright (c) 2026 Starter Kit
+Copyright (c) 2026 Marsai
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -626,7 +636,7 @@ SOFTWARE.
 
 ## 👨‍💻 Auteurs
 
-Développé avec ❤️ pour faciliter le démarrage de vos projets fullstack.
+Développé avec ❤️ par l'équipe Marsai.
 
 ---
 

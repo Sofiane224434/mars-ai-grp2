@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 
-export default function LargeFormFirst({ GetFirst }) {
+export default function LargeFormFirst({ GetData, prevResults }) {
 
     const [input1, setInput1] = useState("");
     const [input2, setInput2] = useState("");
-    // const [formResults, setFormResults] = useState(
-    //     {
-    //         form: "form1",
-    //         results: [input1, input2]
-    //     }
-    // )
 
     function sendData() {
         const newData = {
             form: "form1",
             results: [input1, input2]
         }
-        GetFirst(newData);
+        GetData(newData);
     }
+
+    useEffect(() => {
+        if (prevResults) {
+            setInput1(prevResults.results[0]);
+            setInput2(prevResults.results[1]);
+        }
+    }, prevResults)
 
     useEffect(() => {
         sendData();

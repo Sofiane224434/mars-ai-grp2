@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function LargeFormFourth() {
+export default function LargeFormFourth({ GetData }) {
     const [input1, setInput1] = useState("");
     const [input2, setInput2] = useState("");
+
+    function sendData() {
+        const newData = {
+            form: "form4",
+            results: [input1, input2]
+        }
+        GetData(newData);
+    }
+
+    useEffect(() => {
+        sendData();
+    }, [input1, input2])
 
     return (
         <div>

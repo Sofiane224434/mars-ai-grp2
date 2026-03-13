@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StepsTrack from "../StepsTrack";
 import LargeFormFirst from "./allforms/LargeFormFirst";
 import LargeFormSecond from "./allforms/LargeFormSecond";
@@ -11,24 +11,39 @@ export default function LargeFormMaster() {
     const minstep = 1;
     const [currentStep, setCurrentStep] = useState(1);
     const [firstFormResults, setFirstFormResults] = useState(null);
+    const [secondFormResults, setSecondFormResults] = useState(null);
+    const [thirdFormResults, setThirdFormResults] = useState(null);
+    const [fourthFormResults, setFourthFormResults] = useState(null);
+    const [finalResult, setFinalResult] = useState();
 
     function firstFormGet(info) {
         setFirstFormResults(info);
-        //console.log(info);
+    }
+
+    function secondFormGet(info) {
+        setSecondFormResults(info);
+    }
+
+    function thirdFormGet(info) {
+        setThirdFormResults(info);
+    }
+
+    function fourthFormGet(info) {
+        setFourthFormResults(info);
     }
 
     function getForm(step) {
         switch (step) {
             case 1:
-                return (<LargeFormFirst GetFirst={firstFormGet} />);
+                return (<LargeFormFirst GetData={firstFormGet} prevResults={firstFormResults} />);
             case 2:
-                return (<LargeFormSecond />);
+                return (<LargeFormSecond GetData={secondFormGet} />);
             case 3:
-                return (<LargeFormThird />);
+                return (<LargeFormThird GetData={thirdFormGet} />);
             case 4:
-                return (<LargeFormFourth />);
+                return (<LargeFormFourth GetData={fourthFormGet} />);
             default:
-                return (<LargeFormFirst />);
+                return (<LargeFormFirst GetData={firstFormGet} prevResults={firstFormResults} />);
         }
     }
 
@@ -42,7 +57,18 @@ export default function LargeFormMaster() {
         if (currentStep < maxstep) {
             setCurrentStep(currentStep + 1);
         }
-        console.log(firstFormResults);
+    }
+
+    function handleSubmit() {
+        setFinalResult(
+            [
+                firstFormResults,
+                secondFormResults,
+                thirdFormResults,
+                fourthFormResults
+            ]
+        )
+        //console.log(finalResult);
     }
 
     function controlPrevButton() {
@@ -56,12 +82,23 @@ export default function LargeFormMaster() {
     function controlNextButton() {
         if (currentStep == maxstep) {
             return (
-                <button>Submit</button>
+                <button onClick={handleSubmit}>Submit</button>
             )
         } else {
             return (
                 <button onClick={goForward}>Next</button>
             )
+        }
+    }
+
+    function controlResults() {
+        if (finalResult) {
+            return (finalResult.map(e =>
+                <div>
+                    <div>{e.form}</div>
+                    {e.results.map(i => <div>{i}</div>)}
+                </div>
+            ))
         }
     }
 
@@ -71,6 +108,7 @@ export default function LargeFormMaster() {
             {getForm(currentStep)}
             {controlPrevButton()}
             {controlNextButton()}
+            {controlResults()}
         </div>
     )
 }

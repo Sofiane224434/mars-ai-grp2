@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function LargeFormThird() {
+export default function LargeFormThird({ GetData }) {
     const [input1, setInput1] = useState("");
     const [input2, setInput2] = useState("");
+
+    function sendData() {
+        const newData = {
+            form: "form2",
+            results: [input1, input2]
+        }
+        GetData(newData);
+    }
+
+    useEffect(() => {
+        sendData();
+    }, [input1, input2])
 
     return (
         <div>

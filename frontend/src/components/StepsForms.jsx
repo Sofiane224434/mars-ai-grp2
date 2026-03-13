@@ -114,7 +114,7 @@ export default function StepsForms() {
 
     return (
         <>
-            <StepsTrack step={currentStep} />
+            <StepsTrack step={currentStep} maxstep={maxStep} />
             {getFormByStep(currentStep)}
             <button type="button" onClick={goBack}>Go back</button>
             {generateSubmit()}

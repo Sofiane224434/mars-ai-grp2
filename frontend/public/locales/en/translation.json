@@ -1,0 +1,8 @@
+{
+  "nav": {
+    "home": "Home"
+  },
+  "hero": {
+    "title": "Welcome {{name}}"
+  }
+}

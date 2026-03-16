@@ -1,16 +1,43 @@
 import { useState, useEffect } from "react";
 
-export default function LargeFormThird({ GetData }) {
+let initial_inputs = [
+    {
+        name: "input1",
+        label: "Enter input 1",
+        value: ""
+    },
+    {
+        name: "input2",
+        label: "Enter input 2",
+        value: ""
+    }
+]
+
+export default function LargeFormFirst({ GetData, prevResults }) {
+
     const [input1, setInput1] = useState("");
     const [input2, setInput2] = useState("");
 
+    const [allInputs, setAllInputs] = useState(
+        [
+
+        ]
+    );
+
     function sendData() {
         const newData = {
-            form: "form3",
+            form: "form1",
             results: [input1, input2]
         }
         GetData(newData);
     }
+
+    useEffect(() => {
+        if (prevResults) {
+            setInput1(prevResults.results[0]);
+            setInput2(prevResults.results[1]);
+        }
+    }, prevResults)
 
     useEffect(() => {
         sendData();
@@ -18,7 +45,7 @@ export default function LargeFormThird({ GetData }) {
 
     return (
         <div>
-            <div>Form 3</div>
+            <div>Form 1</div>
             <form>
                 <div>Input 1</div>
                 <input type="text" onChange={(e) => setInput1(e.target.value)}

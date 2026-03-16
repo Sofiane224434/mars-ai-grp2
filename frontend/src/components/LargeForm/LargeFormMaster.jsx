@@ -18,6 +18,7 @@ export default function LargeFormMaster() {
 
     function firstFormGet(info) {
         setFirstFormResults(info);
+        console.log("fformget", firstFormResults);
     }
 
     function secondFormGet(info) {
@@ -92,14 +93,45 @@ export default function LargeFormMaster() {
     }
 
     function controlResults() {
+        // if (finalResult) {
+        //     return (finalResult.map(e => {
+        //         if (e.results) {
+        //             <div>
+        //                 <div>{e.form}</div>
+        //                 {e.results.map(i => <div>{i.name}: {i.value}</div>)}
+        //             </div>
+        //         } else {
+        //             <div>{e.form} : no results</div>
+        //         })
+        //     })
+        // }
         if (finalResult) {
-            return (finalResult.map(e =>
-                <div>
-                    <div>{e.form}</div>
-                    {e.results.map(i => <div>{i}</div>)}
-                </div>
-            ))
+            console.log(finalResult);
+            return (finalResult.map(e => {
+                if (e.results) {
+                    <div>
+                        <div> {e.form} </div>
+                        {e.results.map(i => {
+                            if (i.name && i.value) {
+                                <div>{i.name}: {i.value}</div>
+                            } else {
+                                <div>???</div>
+                            }
+                        })}
+                    </div>
+                } else {
+                    <div> {e.form} : no results found. </div>
+                }
+            }))
         }
+        // if (finalResult) {
+        //     return (finalResult.map(e =>
+        //         <div>
+        //             <div>{e.form}</div>
+        //             {e.results.map(i => <div>{i.name}: {i.value}</div>)}
+        //         </div>
+        //     ))
+        // }
     }
 
     return (

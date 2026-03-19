@@ -13,7 +13,6 @@
                 "label": "Please enter input 2 :"
             },
             {
-                "name": "namegroup",
                 "type": "group",
                 "content": [
                     {
@@ -25,6 +24,16 @@
                         "name": "lastname",
                         "type": "text",
                         "label": "Enter your last name :"
+                    }
+                ]
+            },
+            {
+                "name": "additiontest",
+                "type": "addition",
+                "label": "Veuillez entrer vos couleurs préférées",
+                "content": [
+                    {
+                        "type": "text"
                     }
                 ]
             }

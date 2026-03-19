@@ -7,7 +7,7 @@
 
 Une application web fullstack moderne avec authentification JWT, architecture MVC et composants React réutilisables.
 
-##  Table des Matières
+## Table des Matières
 
 - [Démarrage Rapide](#-démarrage-rapide)
 - [Fonctionnalités](#-fonctionnalités)
@@ -22,6 +22,7 @@ Une application web fullstack moderne avec authentification JWT, architecture MV
 ## 🚀 Démarrage Rapide
 
 ### Prérequis
+
 - Node.js (v16 ou supérieur)
 - MySQL
 - npm ou yarn
@@ -64,6 +65,7 @@ npm run dev:frontend  # Frontend uniquement
 ## ✨ Fonctionnalités
 
 ### Authentification et Sécurité
+
 - ✅ Authentification JWT (JSON Web Tokens)
 - ✅ Protection des routes backend avec middleware
 - ✅ Protection des routes frontend avec `PrivateRoute`
@@ -71,6 +73,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ Gestion de session utilisateur
 
 ### Architecture Frontend
+
 - ✅ Architecture React moderne avec Hooks
 - ✅ Gestion d'état global avec Context API
 - ✅ Routing avec React Router
@@ -79,6 +82,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ Qualité de code avec ESLint
 
 ### Architecture Backend
+
 - ✅ API REST avec Express.js
 - ✅ Architecture MVC (Models, Views, Controllers)
 - ✅ Connexion base de données MySQL
@@ -87,6 +91,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ CORS configuré pour le développement
 
 ### Développement
+
 - ✅ Hot reload (Frontend et Backend)
 - ✅ Variables d'environnement (.env)
 - ✅ Code modulaire et maintenable
@@ -97,6 +102,7 @@ npm run dev:frontend  # Frontend uniquement
 ## 🛠️ Technologies
 
 ### Backend
+
 | Technologie | Description | Version |
 |-------------|-------------|---------|
 | **Node.js** | Environnement d'exécution JavaScript | 16+ |
@@ -109,6 +115,7 @@ npm run dev:frontend  # Frontend uniquement
 | **Zod** | Validation de schémas TypeScript-first | 3.x |
 
 ### Frontend
+
 | Technologie | Description | Version |
 |-------------|-------------|---------|
 | **React** | Bibliothèque UI pour construire des interfaces | 18.x |
@@ -119,6 +126,7 @@ npm run dev:frontend  # Frontend uniquement
 | **Zod** | Validation de schémas partagés avec le backend | 3.x |
 
 ### Outils de Développement
+
 - **npm/yarn** : Gestionnaires de paquets
 - **Nodemon** : Auto-restart du serveur backend
 - **Git** : Contrôle de version
@@ -129,7 +137,7 @@ npm run dev:frontend  # Frontend uniquement
 
 Le projet est organisé en deux parties principales :
 
-```
+```markdown
 marsai/
 ├── backend/          # API REST Node.js
 ├── frontend/         # Application React
@@ -145,7 +153,7 @@ marsai/
 
 Le dossier `shared/` contient les schémas [Zod](https://zod.dev/) utilisés à la fois par le **frontend** et le **backend** pour garantir une validation cohérente des données.
 
-```
+```markdown
 shared/
 └── schemas.js    # Schémas Zod partagés (login, register, etc.)
 ```
@@ -182,7 +190,7 @@ if (!result.success) {
 
 ### Structure du Dossier
 
-```
+```markdown
 backend/
 ├── config/               # Configuration de l'application
 │   └── db.js            # Configuration et connexion MySQL
@@ -237,7 +245,7 @@ JWT_EXPIRES_IN=24h
 
 ### Structure du Dossier
 
-```
+```markdown
 frontend/
 ├── public/              # Fichiers statiques publics
 │   └── assets/          # Images, icônes statiques
@@ -276,6 +284,7 @@ frontend/
 ### Architecture des Composants
 
 #### 📦 Components (`components/`)
+
 Composants réutilisables et génériques :
 
 - **Header** : Barre de navigation avec liens et état d'authentification
@@ -283,22 +292,26 @@ Composants réutilisables et génériques :
 - **PrivateRoute** : Composant HOC pour protéger les routes nécessitant une authentification
 
 #### 🌐 Contexts (`contexts/`)
+
 Gestion d'état global avec Context API :
 
 - **AuthContext** : Fournit l'état d'authentification (user, login, logout, register)
 
 #### 🪝 Hooks (`hooks/`)
+
 Hooks personnalisés pour la réutilisabilité :
 
 - **useAuth** : Simplifie l'accès au AuthContext dans les composants
 
 #### 📐 Layouts (`layouts/`)
+
 Templates de mise en page :
 
 - **AuthLayout** : Layout minimaliste pour les pages d'authentification
 - **MainLayout** : Layout complet avec Header et Footer pour les pages principales
 
 #### 📄 Pages (`pages/`)
+
 Composants de pages complètes :
 
 - **Home** : Page d'accueil accessible à tous
@@ -307,6 +320,7 @@ Composants de pages complètes :
 - **Dashboard** : Page privée pour utilisateurs authentifiés
 
 #### 🔌 Services (`services/`)
+
 Communication avec le backend :
 
 - **api.js** : Instance Axios configurée avec intercepteurs pour gérer les tokens JWT
@@ -325,7 +339,7 @@ VITE_API_URL=http://localhost:5000
 
 ### Flow d'Authentification
 
-```
+```markdown
 ┌─────────────┐          ┌─────────────┐          ┌──────────────┐
 │   Frontend  │          │   Backend   │          │   Database   │
 │   (React)   │          │  (Express)  │          │    (MySQL)   │
@@ -368,6 +382,7 @@ VITE_API_URL=http://localhost:5000
 ### Étapes Détaillées
 
 #### 1️⃣ Inscription (Register)
+
 - L'utilisateur remplit le formulaire sur la page [Register.jsx](frontend/src/pages/Register.jsx)
 - Le frontend envoie `POST /api/auth/register` avec `{ email, password, name }`
 - Le backend hash le mot de passe avec **bcrypt**
@@ -377,6 +392,7 @@ VITE_API_URL=http://localhost:5000
 - L'utilisateur est automatiquement connecté
 
 #### 2️⃣ Connexion (Login)
+
 - L'utilisateur remplit le formulaire sur [Login.jsx](frontend/src/pages/Login.jsx)
 - Le frontend envoie `POST /api/auth/login` avec `{ email, password }`
 - Le backend vérifie les credentials
@@ -384,11 +400,13 @@ VITE_API_URL=http://localhost:5000
 - Le token est stocké et l'utilisateur est connecté
 
 #### 3️⃣ Accès aux Routes Protégées
+
 - **Backend** : Le middleware [auth.middleware.js](backend/middlewares/auth.middleware.js) vérifie le token JWT dans les en-têtes
 - **Frontend** : Le composant [PrivateRoute.jsx](frontend/src/components/PrivateRoute.jsx) vérifie l'état d'authentification
 - L'[AuthContext.jsx](frontend/src/contexts/AuthContext.jsx) maintient l'état global d'authentification
 
 #### 4️⃣ Déconnexion (Logout)
+
 - Le token est supprimé du `localStorage`
 - L'état d'authentification est réinitialisé
 - L'utilisateur est redirigé vers la page d'accueil
@@ -420,6 +438,7 @@ VITE_API_URL=http://localhost:5000
 ### Réponses API
 
 #### Succès (200/201)
+
 ```json
 {
   "success": true,
@@ -436,6 +455,7 @@ VITE_API_URL=http://localhost:5000
 ```
 
 #### Erreur (400/401/404/500)
+
 ```json
 {
   "success": false,
@@ -507,9 +527,11 @@ Authorization: Bearer <votre_token_jwt>
 ### Dev Dependencies
 
 **Backend:**
+
 - `nodemon` : Redémarrage automatique du serveur
 
 **Frontend:**
+
 - `vite` : Build tool et dev server
 - `eslint` : Linter JavaScript/React
 - `@vitejs/plugin-react` : Plugin React pour Vite
@@ -519,12 +541,14 @@ Authorization: Bearer <votre_token_jwt>
 ## 🎯 Bonnes Pratiques
 
 ### Architecture et Organisation
+
 - ✅ **Séparation des préoccupations** : Backend et Frontend totalement découplés
 - ✅ **Architecture MVC** : Models, Controllers, Routes clairement séparés
 - ✅ **Composants modulaires** : Components React réutilisables et testables
 - ✅ **Single Responsibility** : Chaque fichier a une responsabilité unique
 
 ### Sécurité
+
 - ✅ **Hashage sécurisé** : Bcrypt pour les mots de passe
 - ✅ **JWT tokens** : Authentification stateless et sécurisée
 - ✅ **Validation Zod** : Schémas partagés entre frontend et backend pour une cohérence garantie
@@ -532,12 +556,14 @@ Authorization: Bearer <votre_token_jwt>
 - ✅ **Variables d'environnement** : Secrets jamais commités dans le code
 
 ### Code Quality
+
 - ✅ **ESLint** : Maintien de la qualité et cohérence du code
 - ✅ **Structure claire** : Dossiers et fichiers organisés logiquement
 - ✅ **Nommage explicite** : Variables et fonctions avec des noms descriptifs
 - ✅ **Comments** : Documentation des parties complexes
 
 ### Performance
+
 - ✅ **Vite build tool** : Build et HMR ultra-rapides
 - ✅ **Code splitting** : Chargement optimisé avec React Router
 - ✅ **Async/Await** : Gestion asynchrone propre
@@ -550,36 +576,48 @@ Authorization: Bearer <votre_token_jwt>
 ### Problèmes Courants
 
 #### ❌ Erreur de connexion à la base de données
+
 ```bash
 Error: connect ECONNREFUSED 127.0.0.1:3306
 ```
+
 **Solution :**
+
 - Vérifiez que MySQL est démarré
 - Vérifiez les credentials dans `.env`
 - Assurez-vous que la base de données existe
 
 #### ❌ CORS Error
-```
+
+```markdown
 Access to XMLHttpRequest blocked by CORS policy
 ```
+
 **Solution :**
+
 - Vérifiez que le backend accepte l'origine du frontend
 - Vérifiez `VITE_API_URL` dans le `.env` du frontend
 
 #### ❌ JWT Token invalide
-```
+
+```markdown
 401 Unauthorized: Invalid token
 ```
+
 **Solution :**
+
 - Vérifiez que `JWT_SECRET` est identique dans votre environnement
 - Reconnectez-vous pour obtenir un nouveau token
 - Vérifiez que le token est bien envoyé dans les headers
 
 #### ❌ Port déjà utilisé
-```
+
+```markdown
 Error: listen EADDRINUSE: address already in use :::5000
 ```
+
 **Solution :**
+
 ```bash
 # Windows
 netstat -ano | findstr :5000
@@ -596,23 +634,27 @@ lsof -ti:5000 | xargs kill -9
 Les contributions sont les bienvenues ! Voici comment vous pouvez contribuer :
 
 ### 1. Fork le projet
+
 ```bash
 git clone https://github.com/votre-username/mars-ai-grp2.git
 cd mars-ai-grp2
 ```
 
 ### 2. Créer une branche
+
 ```bash
 git checkout -b feature/nouvelle-fonctionnalite
 ```
 
 ### 3. Commiter vos changements
+
 ```bash
 git add .
 git commit -m "feat: ajout d'une nouvelle fonctionnalité"
 ```
 
 ### 4. Pousser vers la branche
+
 ```bash
 git push origin feature/nouvelle-fonctionnalite
 ```
@@ -636,6 +678,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 ## 📚 Ressources et Documentation
 
 ### Documentation Officielle
+
 - [React](https://react.dev/) - Documentation React
 - [Express.js](https://expressjs.com/) - Documentation Express
 - [Vite](https://vitejs.dev/) - Documentation Vite
@@ -644,6 +687,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 - [Zod](https://zod.dev/) - Documentation Zod
 
 ### Tutoriels Recommandés
+
 - [JWT Authentication Best Practices](https://jwt.io/introduction)
 - [React Context API](https://react.dev/reference/react/useContext)
 - [Express.js Guide](https://expressjs.com/en/guide/routing.html)
@@ -654,7 +698,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 
 Ce projet est sous licence MIT. Vous êtes libre de l'utiliser, le modifier et le distribuer.
 
-```
+```markdown
 MIT License
 
 Copyright (c) 2026 Marsai

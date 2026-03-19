@@ -2,7 +2,48 @@
 @import "tailwindcss";
 /* Classes réutilisables (optionnel) */
 @layer components {
-.btn { @apply px-6 py-2 rounded-lg font-medium transition-all; }
-.btn-primary { @apply bg-indigo-600 text-white hover:bg-indigo-700; }
-.form-input { @apply w-full px-4 py-2 border-2 rounded-lg; }
+    .btn-base {
+        @apply relative inline-flex items-center justify-center text-xl text-center leading-normal cursor-pointer;
+        letter-spacing: 0;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .btn-bg-base {
+        @apply pointer-events-none absolute w-full h-[67.97%] top-[15.81%] left-0 rounded-[31.63px];
+    }
+
+    .neon-yellow {
+        width: 134px;
+        height: 63px;
+        font-weight: 400;
+        color: var(--color-jaune-souffre);
+    }
+
+    .gradient-blue {
+        width: 197px;
+        height: 63px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .filled-yellow {
+        width: 168px;
+        height: 80px;
+        font-weight: 400;
+        color: var(--color-ocre-rouge);
+    }
+}
+
+
+@theme {
+    --color-brun-brule: #803110;
+    --color-ocre-rouge: #BE6422;
+    --color-fauve: #D58B52;
+    --color-jaune-souffre: #FDFF6B;
+    --color-turquoise-vif: #4DF6FF;
+    --color-bleu-ciel: #42CBE6;
+    --color-bleu-canard: #2B9498;
+    --color-gris-anthracite: #383839;
+    --color-reglisse: #232323;
+    --color-noir-bleute: #1D1D24;
 }

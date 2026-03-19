@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button } from '../UI/Button.jsx';
+import Button from '../UI/Button.jsx';
 
-export function Navbar({ isRounded = false }) {
+function Navbar({ isRounded = false }) {
 
     //Pour ouvrir ou fermer le menu hamburger
     const [isOpen, setIsOpen] = useState(false);
@@ -53,4 +53,7 @@ export function Navbar({ isRounded = false }) {
     </nav>
   );
 }
+
+export { Navbar };
+export default Navbar;
 

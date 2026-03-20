@@ -14,7 +14,7 @@
     "participate": "Participate",
     "movies": "Movies"
   },
-  "hero": {
-    "title": "Welcome {{name}}"
+  "home": {
+    "HeroSection": "People at the heart of AI"
   }
 }

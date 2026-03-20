@@ -36,14 +36,30 @@ export const addMovie = async (req, res) => {
 
 export const getMovieImage = async (req, res) => {
   try {
-    const key = req.params.key; // Récupère la clé du fichier depuis l'URL
+    const key = decodeURIComponent(req.query.key || ""); // Récupère la clé du fichier depuis l'URL
+    if (!key) {
+      return res.status(400).json({ error: "Paramètre key manquant" });
+    }
+
     const readStream = getFileStream(key); // Obtient un flux de lecture depuis S3
+
+    readStream.on("error", (err) => {
+      console.error("Erreur stream S3:", err);
+      if (err.code === "NoSuchKey") {
+        return res.status(404).json({ error: "Fichier introuvable sur S3" });
+      }
+      return res
+        .status(500)
+        .json({ error: "Erreur de récupération du fichier S3" });
+    });
 
     // Pipe le flux du fichier directement vers la réponse HTTP
     // Cela permet d'envoyer l'image au navigateur.
     readStream.pipe(res);
   } catch (error) {
     console.error("Erreur de récupération du fichier depuis S3:", error);
-    res.status(500).send("Erreur de récupération du fichier depuis S3.");
+    res
+      .status(500)
+      .json({ error: "Erreur de récupération du fichier depuis S3" });
   }
 };

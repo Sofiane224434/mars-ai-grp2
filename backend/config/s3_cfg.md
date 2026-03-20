@@ -35,8 +35,8 @@ Le fichier `s3.js` exporte les fonctions suivantes pour gérer les interactions 
 
 Ce fichier définit les routes liées aux films :
 *   `POST /api/movies` : Endpoint pour la soumission de nouveaux films. Il utilise le middleware `multer` pour gérer le traitement des fichiers `multipart/form-data`.
-*   `GET /api/movies/images/:key` : Endpoint pour récupérer une image (ou un fichier) depuis Scaleway S3 en utilisant sa clé.
-
+*   `GET /api/movies/images/*` : Endpoint pour récupérer une image (ou un fichier) depuis Scaleway S3 en utilisant sa clé.
+> *ex* : `GET /api/movies/images/grp2/dbccbef00084f21c17278c94d5158294
 ### `controllers/movie.controller.js`
 
 Ce contrôleur implémente la logique métier pour les opérations liées aux films :

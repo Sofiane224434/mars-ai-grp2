@@ -32,6 +32,13 @@
         font-weight: 400;
         color: var(--color-ocre-rouge);
     }
+
+    .square-yellow {
+        width: 168px;
+        height: 80px;
+        font-weight: 400;
+        color: var(--color-ocre-rouge);
+    }
 }
 
 

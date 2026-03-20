@@ -33,6 +33,14 @@ const Button = ({
       bg: (
         <div className="btn-bg-base border-[5px] border-solid border-jaune-souffre bg-jaune-souffre" />
       )
+    },
+
+    // Variente 4 : Gradiant rouge ocre vers rouge vif rectangulaire - Bouton actif
+    'square-yellow': {
+      container: "square-yellow",
+      bg: (
+        <div className="btn-bg-base border-[5px] border-solid border-jaune-souffre bg-jaune-souffre rounded-none" />
+      )
     }
   };
 

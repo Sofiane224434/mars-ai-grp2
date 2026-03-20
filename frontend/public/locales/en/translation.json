@@ -16,5 +16,13 @@
   },
   "hero": {
     "title": "Welcome {{name}}"
+  },
+  "footer": {
+    "collaborator": "In collaboration with",
+    "textcontact": "Stay in touch",
+    "newsletter": "Newsletter subscription",
+    "emailplaceholder": "Your e-mail address",
+    "subscribe": "Sign up",
+    "rights": "All rights reserved"
   }
 }

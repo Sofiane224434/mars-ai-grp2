@@ -8,5 +8,11 @@
   "header.title": "MarsAi",
   "header.language.change": "Changer la langue",
   "header.language.french": "Français",
-  "header.language.english": "Anglais"
+  "header.language.english": "Anglais",
+  "footer.collaborator": "En collaboration avec",
+  "footer.textcontact": "Restez en contact",
+  "footer.newsletter": "Inscription à la newsletter",
+  "footer.emailplaceholder": "Votre adresse e-mail",
+  "footer.subscribe": "S'inscrire à la newsletter",
+  "footer.rights": "Tous droits réservés"
 }

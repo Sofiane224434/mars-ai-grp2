@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import MarsLogo from '../../assets/icons/Marsai.svg?react';
-import LanguageIcon from '../../../public/assets/icons/language-svgrepo-com.svg?react';
+import LanguageIcon from '../../assets/icons/language-svgrepo-com.svg?react';
 import Navbar from './Navbar';
 
 function Header() {
@@ -36,7 +36,7 @@ function Header() {
                             className="w-10 h-10 rounded-md border border-gray-500 bg-noir-bleute/70 flex items-center justify-center hover:bg-noir-bleute transition"
                         >
                             <LanguageIcon
-                                alt={t('header.language.change')}
+                                aria-label={t('header.language.change')}
                                 className="w-5 h-5"
                                 style={{ filter: 'brightness(0) invert(1)', transform: 'scale(1.25)' }}
                             />

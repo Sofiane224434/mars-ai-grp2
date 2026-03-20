@@ -33,6 +33,16 @@ function Header() {
                             Dashboard
                         </NavLink>
                     )}
+                    {isAuthenticated && (
+                        <NavLink
+                            to="/email-test"
+                            className={({ isActive }) =>
+                                `hover:text-blue-200 transition ${isActive ? 'font-bold' : ''}`
+                            }
+                        >
+                            Test email
+                        </NavLink>
+                    )}
                 </nav>
                 <div className="flex gap-4 items-center">
                     {isAuthenticated ? (

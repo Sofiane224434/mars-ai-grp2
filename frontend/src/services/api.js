@@ -1,5 +1,5 @@
 // services/api.js
-const API_URL = 'http://localhost:5000/api';
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
 async function fetchAPI(endpoint, options = {}) {
 const token = localStorage.getItem('token');
 const headers = {
@@ -33,4 +33,11 @@ method: 'POST',
 body: JSON.stringify({ email, password })
 }),
 getProfile: () => fetchAPI('/auth/me')
+}
+
+export const emailService = {
+send: (payload) => fetchAPI('/email/send', {
+method: 'POST',
+body: JSON.stringify(payload)
+})
 }

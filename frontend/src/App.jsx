@@ -8,6 +8,7 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import EmailTest from './pages/EmailTest.jsx';
 function App() {
   const { loading } = useAuth();
   if (loading) return <div><p>Chargement...</p></div>;
@@ -18,6 +19,9 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/dashboard" element={
         <PrivateRoute><Dashboard /></PrivateRoute>
+        } />
+      <Route path="/email-test" element={
+        <PrivateRoute><EmailTest /></PrivateRoute>
         } />
       </Route>
       {/* Routes SANS Header (plein écran) */}

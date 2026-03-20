@@ -1,8 +1,20 @@
 {
-    "nav": { 
-        "home": "Accueil" 
+    "nav": {
+        "home": "Accueil",
+        "movies": "Films",
+        "about": "À propos",
+        "faq": "FAQ",
+        "participate": "Participer"
     },
-    "hero": { 
+    "hero": {
         "title": "Bienvenue {{name}}"
+    },
+    "header": {
+        "title": "MarsAi",
+        "language": {
+            "change": "Changer la langue",
+            "french": "Français",
+            "english": "Anglais"
+        }
     }
 }

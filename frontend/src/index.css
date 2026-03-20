@@ -1,5 +1,22 @@
-/* 1 seule ligne ! */
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'Marseille';
+    src: url('./assets/fonts/fonnts.com-Marseille_SemiBold.otf') format('opentype');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+h1,
+h2 {
+    font-family: 'Marseille', serif;
+}
+
+.font-title {
+    font-family: 'Marseille', serif;
+}
+
 /* Classes réutilisables (optionnel) */
 @layer components {
     .btn-base {

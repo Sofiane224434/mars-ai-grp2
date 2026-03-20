@@ -243,10 +243,13 @@ frontend/
 │   └── assets/          # Images, icônes statiques
 ├── src/
 │   ├── assets/          # Ressources (images, fonts, icônes)
+│   │   ├── fonts/       # Polices personnalisées
 │   │   └── icons/       # Icônes de l'application
 │   ├── components/      # Composants React réutilisables
-│   │   ├── Footer.jsx       # Pied de page
-│   │   ├── Header.jsx       # En-tête navigation
+│   │   ├── layout/
+│   │   │   ├── Footer.jsx   # Pied de page
+│   │   │   ├── Header.jsx   # En-tête avec logo + navbar
+│   │   │   └── Navbar.jsx   # Barre de navigation principale
 │   │   └── PrivateRoute.jsx # HOC protection routes
 │   ├── contexts/        # Contextes React (state global)
 │   │   └── AuthContext.jsx  # État authentification

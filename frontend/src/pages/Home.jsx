@@ -1,6 +1,7 @@
 // pages/Home.jsx
 import { Link } from 'react-router-dom';
 import HeroSection from '../components/sections/HeroSection/HeroSection.jsx';
+import CountdownTimer from '../components/sections/HeroSection/CountdownTimer/CountdownTimer.jsx';
 
 function Home() {
    
@@ -8,6 +9,7 @@ function Home() {
         <main>
         <>
         <HeroSection />
+        <CountdownTimer />
         </>
         </main>
     );

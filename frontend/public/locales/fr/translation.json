@@ -6,8 +6,8 @@
         "faq": "FAQ",
         "participate": "Participer"
     },
-    "hero": {
-        "title": "Bienvenue {{name}}"
+    "home": {
+        "HeroSection": "L'humain au coeur de l'IA"
     },
     "header": {
         "title": "MarsAi",

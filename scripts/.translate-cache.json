@@ -4,7 +4,7 @@
   "nav.about": "À propos",
   "nav.faq": "FAQ",
   "nav.participate": "Participer",
-  "hero.title": "Bienvenue {{name}}",
+  "home.HeroSection": "L'humain au coeur de l'IA",
   "header.title": "MarsAi",
   "header.language.change": "Changer la langue",
   "header.language.french": "Français",

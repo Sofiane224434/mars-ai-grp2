@@ -1,4 +1,12 @@
 {
   "nav.home": "Accueil",
-  "hero.title": "Bienvenue {{name}}"
+  "nav.movies": "Films",
+  "nav.about": "À propos",
+  "nav.faq": "FAQ",
+  "nav.participate": "Participer",
+  "hero.title": "Bienvenue {{name}}",
+  "header.title": "MarsAi",
+  "header.language.change": "Changer la langue",
+  "header.language.french": "Français",
+  "header.language.english": "Anglais"
 }

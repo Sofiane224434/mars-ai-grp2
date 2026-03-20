@@ -1,6 +1,18 @@
 {
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "french": "French",
+      "english": "English",
+      "change": "Change language"
+    }
+  },
   "nav": {
-    "home": "Home"
+    "home": "Home",
+    "about": "About us",
+    "faq": "FAQ",
+    "participate": "Participate",
+    "movies": "Movies"
   },
   "hero": {
     "title": "Welcome {{name}}"

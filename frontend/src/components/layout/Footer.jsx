@@ -12,61 +12,68 @@ import TwitterIcon from "../../assets/icons/Icons-twiter.svg?react";
 function Footer() {
     const { t } = useTranslation();
     return (
-        <footer className="bg-noir-bleute text-white py-6 mt-auto">
+        <footer className="bg-noir-bleute text-white py-6 sm:py-8 lg:py-10 mt-auto">
             <div className="container mx-auto px-4 text-center">
-                <div className="relative">
-                    <div className="flex flex-col items-center gap-1 mb-3 hover:opacity-90 transition md:absolute md:left-28 md:top-1/2 md:-translate-y-1/2 md:mb-0">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-6">
+                    {/* Logo Section */}
+                    <div className="flex flex-col items-center gap-1 mb-6 sm:mb-8 lg:mb-0 hover:opacity-90 transition lg:flex-shrink-0">
                         <Link to="/" className="flex flex-col items-center text-center">
                             <MarsLogo
-                                className="w-20 h-20 md:w-30 md:h-30"
+                                className="w-16 h-16 sm:w-20 sm:h-20 lg:w-28 lg:h-28"
                                 viewBox="45 70 110 85"
                                 preserveAspectRatio="xMidYMid meet"
                                 aria-label="Logo Mars AI"
                                 role="img"
                             />
-                            <h1 className="font-title text-3xl md:text-5xl font-bold tracking-wide">{t('header.title')}</h1>
+                            <h1 className="font-title text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide mt-2">{t('header.title')}</h1>
                         </Link>
-                        {t('footer.collaborator')}
-                        <img src="/assets/icons/laplateforme.png" alt="La Plateforme" className="h-8" />
+                        <p className="text-xs sm:text-sm">{t('footer.collaborator')}</p>
+                        <img src="/assets/icons/laplateforme.png" alt="La Plateforme" className="h-6 sm:h-8 mt-1" />
                     </div>
-                    <div className="flex flex-col items-center justify-center">
-                        <Button variant="filled-yellow" className="w-[80%] max-w-90">{t('nav.home')}</Button>
-                        <Button variant="neon-yellow" className="w-[80%] max-w-90">{t('nav.movies')}</Button>
-                        <Button variant="neon-yellow" className="w-[80%] max-w-90">{t('nav.about')}</Button>
-                        <Button variant="neon-yellow" className="w-[80%] max-w-90">{t('nav.faq')}</Button>
-                        <Button variant="gradient-blue" className="w-[80%] max-w-90">{t('nav.participate')}</Button>
+
+                    {/* Buttons Section */}
+                    <div className="flex flex-col items-stretch sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-0 lg:flex-grow lg:max-w-md">
+                        <Button variant="filled-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.home')}</Button>
+                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.movies')}</Button>
+                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.about')}</Button>
+                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.faq')}</Button>
+                        <Button variant="gradient-blue" className="w-full sm:w-72 lg:w-72">{t('nav.participate')}</Button>
                     </div>
-                    <div className="flex flex-col items-center gap-1 mt-6 md:absolute md:right-16 md:top-1/2 md:-translate-y-1/2 text-center">
-                        <p>{t('footer.textcontact')}</p>
-                        <div className="flex items-center justify-center gap-4 w-full">
+
+                    {/* Contact & Newsletter Section */}
+                    <div className="flex flex-col items-center gap-2 sm:gap-3 lg:flex-shrink-0">
+                        <p className="text-sm sm:text-base">{t('footer.textcontact')}</p>
+                        <div className="flex items-center justify-center gap-3 sm:gap-4 w-full">
                             <a href="https://www.instagram.com/mars_ai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                                <InstagramIcon className="h-6 w-6" aria-hidden="true" />
+                                <InstagramIcon className="h-5 w-5 sm:h-6 sm:w-6 hover:opacity-70 transition" aria-hidden="true" />
                             </a>
                             <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                                <YoutubeIcon className="h-6 w-6" aria-hidden="true" />
+                                <YoutubeIcon className="h-5 w-5 sm:h-6 sm:w-6 hover:opacity-70 transition" aria-hidden="true" />
                             </a>
                             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                                <FacebookIcon className="h-6 w-6" aria-hidden="true" />
+                                <FacebookIcon className="h-5 w-5 sm:h-6 sm:w-6 hover:opacity-70 transition" aria-hidden="true" />
                             </a>
                             <a href="https://www.linkedin.com/company/mars-ai/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                                <LinkedinIcon className="h-6 w-6" aria-hidden="true" />
+                                <LinkedinIcon className="h-5 w-5 sm:h-6 sm:w-6 hover:opacity-70 transition" aria-hidden="true" />
                             </a>
                             <a href="https://twitter.com/mars_ai" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                                <TwitterIcon className="h-6 w-6" aria-hidden="true" />
+                                <TwitterIcon className="h-5 w-5 sm:h-6 sm:w-6 hover:opacity-70 transition" aria-hidden="true" />
                             </a>
                         </div>
-                        <p>{t('footer.newsletter')}</p>
-                        <form className="flex flex-col items-center gap-2 mt-2 w-full md:w-64">
+                        <p className="text-sm sm:text-base">{t('footer.newsletter')}</p>
+                        <form className="flex flex-col items-stretch sm:items-center gap-2 mt-2 w-full sm:w-72 lg:w-64">
                             <input
                                 type="email"
                                 placeholder={t('footer.emailplaceholder')}
-                                className="w-full sm:w-64 px-4 py-2 rounded-md border border-gray-300 bg-white text-noir-bleute placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-jaune-souffre transition"
+                                className="w-full px-3 sm:px-4 py-2 rounded-md border border-gray-300 bg-white text-noir-bleute placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-jaune-souffre transition"
                             />
                             <Button variant="square-yellow" className="w-full">{t('footer.subscribe')}</Button>
                         </form>
                     </div>
                 </div>
-                <p className="text-sm">
+
+                {/* Footer Bottom */}
+                <p className="text-xs sm:text-sm mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-700">
                     MarsAI - © {new Date().getFullYear()} - {t('footer.rights')}
                 </p>
             </div>

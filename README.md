@@ -1,31 +1,34 @@
-# 🚀 Marsai - Application Fullstack
+# 🚀 MarsAI Festival — Application Fullstack
 
-[![Node.js](https://img.shields.io/badge/Node.js-16%2B-green)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
-[![Express](https://img.shields.io/badge/Express-4-lightgrey)](https://expressjs.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
+[![Express](https://img.shields.io/badge/Express-5-lightgrey)](https://expressjs.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Une application web fullstack moderne avec authentification JWT, architecture MVC et composants React réutilisables.
+Application web fullstack pour le festival MarsAI : soumission de films, accès jury/admin, et diffusion publique.
 
-## Table des Matières
+## Table des matières
 
-- [Démarrage Rapide](#-démarrage-rapide)
-- [Fonctionnalités](#-fonctionnalités)
-- [Architecture](#️-architecture-du-projet)
-- [Shared / Zod](#-shared)
-- [Technologies](#-technologies)
+- [Démarrage rapide](#-démarrage-rapide)
+- [Architecture du projet](#-architecture-du-projet)
+- [Stack technique](#-stack-technique)
+- [Variables d'environnement](#-variables-denvironnement)
 - [API Endpoints](#-api-endpoints)
-- [Scripts Disponibles](#️-scripts-disponibles)
-- [Bonnes Pratiques](#-bonnes-pratiques)
-- [Contribuer](#-contribuer)
+- [Stockage médias (Scaleway S3)](#-stockage-médias-scaleway-s3)
+- [Scripts disponibles](#-scripts-disponibles)
+- [Troubleshooting](#-troubleshooting)
+- [Conventions de commit](#-conventions-de-commit)
+- [Licence](#-licence)
 
-## 🚀 Démarrage Rapide
+---
+
+## ⚡ Démarrage rapide
 
 ### Prérequis
 
-- Node.js (v16 ou supérieur)
-- MySQL
-- npm ou yarn
+- Node.js 18+
+- MySQL 8+
+- npm
 
 ### Installation
 
@@ -105,8 +108,8 @@ npm run dev:frontend  # Frontend uniquement
 
 | Technologie | Description | Version |
 |-------------|-------------|---------|
-| **Node.js** | Environnement d'exécution JavaScript | 16+ |
-| **Express.js** | Framework web minimaliste et flexible | 4.x |
+| **Node.js** | Environnement d'exécution JavaScript | 18+ |
+| **Express.js** | Framework web minimaliste et flexible | 5.2.1 |
 | **MySQL** | Système de gestion de base de données | 8.x |
 | **JWT** | Authentification par tokens | - |
 | **bcrypt** | Hashage sécurisé des mots de passe | - |
@@ -118,12 +121,12 @@ npm run dev:frontend  # Frontend uniquement
 
 | Technologie | Description | Version |
 |-------------|-------------|---------|
-| **React** | Bibliothèque UI pour construire des interfaces | 18.x |
+| **React** | Bibliothèque UI pour construire des interfaces | 19.2.0 |
 | **Vite** | Build tool ultra-rapide pour le développement | 5.x |
-| **React Router** | Bibliothèque de routing pour React | 6.x |
+| **React Router** | Bibliothèque de routing pour React | 7.13.0 |
 | **Axios** | Client HTTP pour les appels API | - |
 | **ESLint** | Linter pour maintenir la qualité du code | - |
-| **Zod** | Validation de schémas partagés avec le backend | 3.x |
+| **Zod** | Validation de schémas partagés avec le backend | 4.3.6 |
 
 ### Outils de Développement
 
@@ -435,6 +438,13 @@ VITE_API_URL=http://localhost:5000
 | GET     | `/api/auth/profile`  | Récupérer profil utilisateur   | 🔒 Privé   | - |
 | PUT     | `/api/auth/profile`  | Mettre à jour profil           | 🔒 Privé   | `{ "name": "string", "email": "string" }` |
 
+### Médias (S3)
+
+| Méthode | Endpoint                              | Description                               | Protection |
+|---------|---------------------------------------|-------------------------------------------|------------|
+| POST    | `/api/movies`                         | Upload fichier vers S3 (`video_file`)     | Public*    |
+| GET     | `/api/movies/images?key=<s3Key>`      | Lecture d’un fichier depuis S3            | Public*    |
+
 ### Réponses API
 
 #### Succès (200/201)
@@ -472,6 +482,37 @@ Pour les routes protégées, incluez le token JWT dans l'en-tête :
 Authorization: Bearer <votre_token_jwt>
 ```
 
+## 🗂️ Stockage médias (Scaleway S3)
+
+Le backend utilise Scaleway Object Storage (compatible S3) pour les uploads de fichiers.
+
+### Variables d’environnement backend
+
+À définir dans `backend/.env` :
+
+- `SCALEWAY_ACCESS_KEY`
+- `SCALEWAY_SECRET_KEY`
+- `SCALEWAY_ENDPOINT` (ex: `https://s3.fr-par.scw.cloud`)
+- `SCALEWAY_BUCKET_NAME` (ex: `tln`)
+- `SCALEWAY_REGION` (ex: `fr-par`)
+- `SCALEWAY_FOLDER` (ex: `grp2`)
+
+### Endpoints S3 implémentés
+
+- `POST /api/movies`  
+  Upload d’un fichier via `multipart/form-data` avec le champ `video_file`.
+- `GET /api/movies/images?key=<s3KeyEncodée>`  
+  Récupération d’un fichier depuis S3 via la clé (`key`) encodée URL.
+
+Exemple :
+`/api/movies/images?key=grp2%2Fdbccbef00084f21c17278c94d5158294`
+
+### Dépendances backend liées
+
+- `aws-sdk`
+- `multer`
+- `dotenv`
+  
 ---
 
 ## 🛠️ Scripts Disponibles
@@ -501,10 +542,10 @@ Authorization: Bearer <votre_token_jwt>
 
 ```json
 {
-  "express": "^4.18.0",           // Framework web
+  "express": "^5.18.0",           // Framework web
   "mysql2": "^3.0.0",             // Driver MySQL
   "jsonwebtoken": "^9.0.0",       // Génération et vérification JWT
-  "bcryptjs": "^2.4.3",           // Hashage mots de passe
+  "bcrypt": "^2.4.3",           // Hashage mots de passe
   "dotenv": "^16.0.0",            // Variables d'environnement
   "cors": "^2.8.5",               // Middleware CORS
   "express-validator": "^7.0.0",  // Validation des données
@@ -528,7 +569,7 @@ Authorization: Bearer <votre_token_jwt>
 
 **Backend:**
 
-- `nodemon` : Redémarrage automatique du serveur
+- `node --watch` : Redémarrage automatique du serveur 
 
 **Frontend:**
 
@@ -726,7 +767,7 @@ SOFTWARE.
 
 ## 👨‍💻 Auteurs
 
-Développé avec ❤️ par l'équipe Marsai.
+Développé avec ❤️ par l'équipe MarsAI.
 
 ---
 

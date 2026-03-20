@@ -4,19 +4,14 @@ import { addMovie, getMovieImage } from "../controllers/movie.controller.js";
 
 const router = express.Router();
 
-//  Stocke les fichiers temporairement sur le disque (backend/uploads) avant de les uploader vers S3.
-// 'video_file' -> nom du champ dans le formulaire de téléchargement (front)
+// Stockage temporaire local avant upload S3
 const upload = multer({ dest: "uploads/" });
 
-// Route pour upload de films
+// Upload d'un fichier vers S3
 router.post("/movies", upload.single("video_file"), addMovie);
 
-// Route pour récupérer les images des films (sans *)
+// Récupération d'un fichier S3 via query param
+// Exemple: /api/movies/images?key=grp2%2F<mon_fichier>
 router.get("/movies/images", getMovieImage);
 
 export default router;
-
-// Route pour récupérer les images des films
-// router.get("/movies/images/:key", getMovieImage);
-// Route pour récupérer les images des films (avec *)
-//router.get('/movies/images/*', getMovieImage);

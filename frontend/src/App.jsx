@@ -5,7 +5,7 @@ import AdminLayout from './layouts/AdminLayout.jsx';
 import JuryLayout from './layouts/JuryLayout.jsx';
 
 // Pages Publiques
-import Home from './Home.jsx';
+import Home from './pages/public/Home.jsx';
 import Movies from './pages/public/Movies.jsx';
 import Awards from './pages/public/Awards.jsx';
 import About from './pages/public/About.jsx';

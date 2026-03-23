@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 //test runs imports
 // import LargeFormMaster from '../components/LargeForm/LargeFormMaster.jsx';
-import StepsFormsNewtest from '../components/StepsFormsNewtest.jsx';
-import ProtoAddInput from '../components/ProtoAddInput.jsx';
+//import StepsFormsNewtest from '../components/StepsFormsNewtest.jsx';
+//import ProtoAddInput from '../components/ProtoAddInput.jsx';
+import SimplerFormTest from '../components/SimplerFormTest.jsx';
 
 function Home() {
     const { isAuthenticated } = useAuth();
@@ -33,8 +34,7 @@ function Home() {
                 </div>
             </div>
             {/* test runs */}
-            <StepsFormsNewtest />
-            <ProtoAddInput />
+            <SimplerFormTest />
         </>
     );
 }

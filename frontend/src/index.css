@@ -1,73 +1,90 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: 'Marseille';
-    src: url('./assets/fonts/fonnts.com-Marseille_SemiBold.otf') format('opentype');
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
+  font-family: "Marseille";
+  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")
+    format("opentype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
 }
 
 h1,
 h2 {
-    font-family: 'Marseille', serif;
+  font-family: "Marseille", serif;
 }
 
+h3,
+p {
+  font-family: "Times New Roman", Times, serif;
+}
 .font-title {
-    font-family: 'Marseille', serif;
+  font-family: "Marseille", serif;
 }
 
 /* Classes réutilisables (optionnel) */
 @layer components {
-    .btn-base {
-        @apply relative inline-flex items-center justify-center text-xl text-center leading-normal cursor-pointer;
-        letter-spacing: 0;
-        font-family: 'Times New Roman', Times, serif;
-    }
+  .btn-base {
+    @apply relative inline-flex items-center justify-center text-xl text-center leading-normal cursor-pointer;
+    letter-spacing: 0;
+    font-family: "Times New Roman", Times, serif;
+  }
 
-    .btn-bg-base {
-        @apply pointer-events-none absolute w-full h-[67.97%] top-[15.81%] left-0 rounded-[31.63px];
-    }
+  .btn-bg-base {
+    @apply pointer-events-none absolute w-full h-[67.97%] top-[15.81%] left-0 rounded-full;
+  }
 
-    .neon-yellow {
-        width: 134px;
-        height: 63px;
-        font-weight: 400;
-        color: var(--color-jaune-souffre);
-    }
+  .status-base {
+    @apply relative flex items-center w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
+  }
 
-    .gradient-blue {
-        width: 197px;
-        height: 63px;
-        font-weight: 700;
-        color: white;
-    }
+  .status-base-icon {
+    @apply relative h-3.5 w-auto shrink-0 object-contain;
+  }
 
-    .filled-yellow {
-        width: 168px;
-        height: 80px;
-        font-weight: 400;
-        color: var(--color-ocre-rouge);
-    }
+  .neon-yellow {
+    width: 134px;
+    height: 63px;
+    font-weight: 400;
+    color: var(--color-jaune-souffre);
+  }
 
-    .square-yellow {
-        width: 168px;
-        height: 80px;
-        font-weight: 400;
-        color: var(--color-ocre-rouge);
-    }
+  .gradient-blue {
+    width: 197px;
+    height: 63px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .filled-yellow {
+    width: 168px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-ocre-rouge);
+  }
+
+  .square-yellow {
+    width: 168px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-ocre-rouge);
+  }
 }
 
-
 @theme {
-    --color-brun-brule: #803110;
-    --color-ocre-rouge: #BE6422;
-    --color-fauve: #D58B52;
-    --color-jaune-souffre: #FDFF6B;
-    --color-turquoise-vif: #4DF6FF;
-    --color-bleu-ciel: #42CBE6;
-    --color-bleu-canard: #2B9498;
-    --color-gris-anthracite: #383839;
-    --color-reglisse: #232323;
-    --color-noir-bleute: #1D1D24;
+  --color-brun-brule: #803110;
+  --color-brulure-despespoir: #6e1515;
+  --color-vert-insecateur: #34ff38;
+  --color-ocre-rouge: #be6422;
+  --color-fauve: #d58b52;
+  --color-jaune-souffre: #fdff6b;
+  --color-jaune-simpson: #ffea00;
+  --color-orange-genial: #ff9d00;
+  --color-turquoise-vif: #4df6ff;
+  --color-bleu-ciel: #42cbe6;
+  --color-bleu-canard: #2b9498;
+  --color-gris-anthracite: #383839;
+  --color-gris-magneti: #8f8f8f;
+  --color-reglisse: #232323;
+  --color-noir-bleute: #1d1d24;
 }

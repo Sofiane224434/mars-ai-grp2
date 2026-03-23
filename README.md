@@ -315,6 +315,29 @@ Templates de mise en page :
 
 - **AuthLayout** : Layout minimaliste pour les pages d'authentification
 - **MainLayout** : Layout complet avec Header et Footer pour les pages principales
+- **AdminLayout** : Layout dashboard admin avec `HeaderAdmin` + `Outlet` + `Footer`
+- **JuryLayout** : Layout dashboard jury avec `HeaderJury` + `Outlet` + `Footer`
+
+#### 🧭 Routing des Dashboards
+
+Les pages dashboard doivent être déclarées comme routes enfants de leurs layouts pour charger correctement les en-têtes dédiés :
+
+- Routes admin sous `AdminLayout` pour afficher `HeaderAdmin`
+- Routes jury sous `JuryLayout` pour afficher `HeaderJury`
+
+Exemple dans `App.jsx` :
+
+```jsx
+<Route element={<AdminLayout />}>
+  <Route path="/dashboard/adminpanel" element={<AdminPanel />} />
+  {/* ...autres routes admin */}
+</Route>
+
+<Route element={<JuryLayout />}>
+  <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
+  {/* ...autres routes jury */}
+</Route>
+```
 
 #### 📄 Pages (`pages/`)
 

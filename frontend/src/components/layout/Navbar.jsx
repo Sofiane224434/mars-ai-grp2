@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import Button from '../UI/Button.jsx';
+import { Link } from 'react-router-dom';
+import Button from '../ui/Button.jsx';
 
 function Navbar({ isRounded = false }) {
 
@@ -32,11 +33,21 @@ function Navbar({ isRounded = false }) {
       <div className="flex items-center gap-4">
         {/* Liens - Cachés sur petit mobile */}
         <div className="hidden md:flex items-center justify-center flex-1 gap-4">
-          <Button variant="filled-yellow">{t('nav.home')}</Button>
-          <Button variant="neon-yellow">{t('nav.movies')}</Button>
-          <Button variant="neon-yellow">{t('nav.about')}</Button>
-          <Button variant="neon-yellow">{t('nav.faq')}</Button>
-          <Button variant="gradient-blue">{t('nav.participate')}</Button>
+          <Link to="/">
+            <Button variant="filled-yellow">{t('nav.home')}</Button>
+          </Link>
+          <Link to="/movies">
+            <Button variant="neon-yellow">{t('nav.movies')}</Button>
+          </Link>
+          <Link to="/about">
+            <Button variant="neon-yellow">{t('nav.about')}</Button>
+          </Link>
+          <Link to="/faq">
+            <Button variant="neon-yellow">{t('nav.faq')}</Button>
+          </Link>
+          <Link to="/auth">
+            <Button variant="gradient-blue">{t('nav.participate')}</Button>
+          </Link>
 
         </div>
       </div>
@@ -44,11 +55,21 @@ function Navbar({ isRounded = false }) {
       {/* --- MENU MOBILE DÉROULANT --- */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 bg-noir-bleute py-8 px-6 flex flex-col items-center gap-4 md:hidden border-t border-white/10 shadow-2xl">
-          <Button variant="filled-yellow" className="w-[80%] max-w-70" onClick={() => setIsOpen(false)}>{t('nav.home')}</Button>
-          <Button variant="neon-yellow" className="w-[80%] max-w-70" onClick={() => setIsOpen(false)}>{t('nav.movies')}</Button>
-          <Button variant="neon-yellow" className="w-[80%] max-w-70" onClick={() => setIsOpen(false)}>{t('nav.about')}</Button>
-          <Button variant="neon-yellow" className="w-[80%] max-w-70 border-t border-white/10 my-2" onClick={() => setIsOpen(false)}>{t('nav.faq')}</Button>
-          <Button variant="gradient-blue" className="w-[80%] max-w-70" onClick={() => setIsOpen(false)}>{t('nav.participate')}</Button>
+          <Link to="/" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+            <Button variant="filled-yellow" className="w-full">{t('nav.home')}</Button>
+          </Link>
+          <Link to="/movies" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+            <Button variant="neon-yellow" className="w-full">{t('nav.movies')}</Button>
+          </Link>
+          <Link to="/about" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+            <Button variant="neon-yellow" className="w-full">{t('nav.about')}</Button>
+          </Link>
+          <Link to="/faq" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center border-t border-white/10 my-2">
+            <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
+          </Link>
+          <Link to="/auth" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+            <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
+          </Link>
         </div>
       )}
 

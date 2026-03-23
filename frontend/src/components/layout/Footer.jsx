@@ -1,4 +1,4 @@
-import Button from "../UI/Button";
+import Button from "../ui/Button";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import MarsLogo from "../../assets/icons/Marsai.svg?react";
@@ -33,11 +33,21 @@ function Footer() {
 
                     {/* Buttons Section */}
                     <div className="flex flex-col items-stretch sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-0 lg:flex-grow lg:max-w-md">
-                        <Button variant="filled-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.home')}</Button>
-                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.movies')}</Button>
-                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.about')}</Button>
-                        <Button variant="neon-yellow" className="w-full sm:w-72 lg:w-72">{t('nav.faq')}</Button>
-                        <Button variant="gradient-blue" className="w-full sm:w-72 lg:w-72">{t('nav.participate')}</Button>
+                        <Link to="/" className="w-full sm:w-72 lg:w-72 mx-auto">
+                            <Button variant="filled-yellow" className="w-full">{t('nav.home')}</Button>
+                        </Link>
+                        <Link to="/movies" className="w-full sm:w-72 lg:w-72 mx-auto">
+                            <Button variant="neon-yellow" className="w-full">{t('nav.movies')}</Button>
+                        </Link>
+                        <Link to="/about" className="w-full sm:w-72 lg:w-72 mx-auto">
+                            <Button variant="neon-yellow" className="w-full">{t('nav.about')}</Button>
+                        </Link>
+                        <Link to="/faq" className="w-full sm:w-72 lg:w-72 mx-auto">
+                            <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
+                        </Link>
+                        <Link to="/auth" className="w-full sm:w-72 lg:w-72 mx-auto">
+                            <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
+                        </Link>
                     </div>
 
                     {/* Contact & Newsletter Section */}

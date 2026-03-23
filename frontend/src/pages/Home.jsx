@@ -4,7 +4,7 @@ import HeroSection from '../components/sections/HeroSection/HeroSection.jsx';
 import CountdownTimer from '../components/sections/HeroSection/CountdownTimer/CountdownTimer.jsx';
 
 function Home() {
-   
+
     return (
         <main>
         <>

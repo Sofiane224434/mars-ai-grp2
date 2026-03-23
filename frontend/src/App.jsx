@@ -1,19 +1,19 @@
 // App.jsx
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.jsx';
-import DashboardLayout from './layouts/DashboardLayout.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import JuryLayout from './layouts/JuryLayout.jsx';
 
 // Pages Publiques
-import Home from './pages/Home.jsx';
-import Movies from './pages/Movies.jsx';
-import Awards from './pages/Awards.jsx';
-import About from './pages/About.jsx';
-import FAQ from './pages/FAQ.jsx';
-import Auth from './pages/Auth.jsx';
-import Error from './pages/Error.jsx';
+import Home from './pages/public/Home.jsx';
+import Movies from './pages/public/Movies.jsx';
+import Awards from './pages/public/Awards.jsx';
+import About from './pages/public/About.jsx';
+import FAQ from './pages/public/FAQ.jsx';
+import Auth from './pages/public/Auth.jsx';
+import Error from './pages/public/Error.jsx';
 
 // Pages Dashboard
-import Dashboard from './pages/Dashboard.jsx';
 import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
 import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
@@ -38,28 +38,24 @@ function App() {
         <Route path="/auth" element={<Auth />} />
       </Route>
 
-      {/* Routes DASHBOARD avec Header uniquement */}
-      <Route element={<DashboardLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-
-        {/* Admin Panel Routes */}
+      {/* Admin Panel Routes avec HeaderAdmin */}
+      <Route element={<AdminLayout />}>
         <Route path="/dashboard/adminpanel" element={<AdminPanel />} />
         <Route path="/dashboard/adminpanel/editsite" element={<EditSite />} />
         <Route path="/dashboard/adminpanel/invitejury" element={<InviteJury />} />
-
-        {/* Admin Movies & Selection */}
         <Route path="/dashboard/movies" element={<AdminMovies />} />
+      </Route>
+
+      {/* Jury Routes avec HeaderJury */}
+      <Route element={<JuryLayout />}>
+        <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
+        <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
         <Route path="/dashboard/validation" element={<Validation />} />
         <Route path="/dashboard/top50" element={<Top50 />} />
         <Route path="/dashboard/top5" element={<Top5 />} />
-
-        {/* Admin Options */}
         <Route path="/dashboard/options" element={<Options />} />
-
-        {/* Jury Routes */}
-        <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
-        <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
       </Route>
+
 
       {/* Page d'erreur */}
       <Route path="/error" element={<Error />} />

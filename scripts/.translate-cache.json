@@ -1,0 +1,18 @@
+{
+  "nav.home": "Accueil",
+  "nav.movies": "Films",
+  "nav.about": "À propos",
+  "nav.faq": "FAQ",
+  "nav.participate": "Participer",
+  "home.HeroSection": "L'humain au coeur de l'IA",
+  "header.title": "MarsAi",
+  "header.language.change": "Changer la langue",
+  "header.language.french": "Français",
+  "header.language.english": "Anglais",
+  "footer.collaborator": "En collaboration avec",
+  "footer.textcontact": "Restez en contact",
+  "footer.newsletter": "Inscription à la newsletter",
+  "footer.emailplaceholder": "Votre adresse e-mail",
+  "footer.subscribe": "S'inscrire à la newsletter",
+  "footer.rights": "Tous droits réservés"
+}

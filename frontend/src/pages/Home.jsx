@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth.js';
 function Home() {
     const { isAuthenticated } = useAuth();
     return (
-        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
             <div className="text-center">
                 <h1 className="text-4xl font-bold text-gray-900 mb-4">Bienvenue sur le Starter Kit</h1>
                 <p className="text-lg text-gray-600 mb-8">Template moderne React + Node.js + MySQL</p>

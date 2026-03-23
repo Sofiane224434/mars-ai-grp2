@@ -66,6 +66,7 @@ export default function ProtoAddInput() {
     }
 
     function changeValue(e, index, groupindex = null) {
+        console.log("index: ", index, "groupindex: ", groupindex);
         if (groupindex) {
             let newdata = results.inputdata;
             newdata[groupindex].content[index].value = e.target.value;
@@ -114,7 +115,7 @@ export default function ProtoAddInput() {
         const nextRes = array.inputdata.map((elem, index) => {
             if (index == grpindex) {
                 // elem.content.push(addition);
-                return elem;
+                return [...elem.content, addition];
             } else {
                 return elem;
             }
@@ -126,6 +127,11 @@ export default function ProtoAddInput() {
         //get the input model to add
         let inputtoadd = results.inputdata[grpindex].inputtoadd;
         console.log("inputtoadd", inputtoadd);
+
+        const newInputData = [...results.inputdata];
+        newInputData[grpindex].content.push(inputtoadd);
+        setResults({ ...results, inputdata: newInputData })
+        console.log(results);
         //let nextRes = addtoInputGroup(index, inputtoadd, results);
         //console.log("nextres", nextRes);
 

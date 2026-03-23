@@ -1,0 +1,82 @@
+[
+    {
+        "formname": "form1",
+        "inputdata": [
+            {
+                "name": "input1",
+                "type": "text",
+                "label": "Enter input1 :"
+            },
+            {
+                "name": "input2",
+                "type": "text",
+                "label": "Please enter input 2 :"
+            },
+            {
+                "name": "namegroup",
+                "type": "group",
+                "content": [
+                    {
+                        "name": "firstname",
+                        "type": "text",
+                        "label": "Enter your first name :"
+                    },
+                    {
+                        "name": "lastname",
+                        "type": "text",
+                        "label": "Enter your last name :"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "formname": "form2",
+        "inputdata": [
+            {
+                "name": "input1",
+                "type": "text",
+                "label": "Enter input1 please :"
+            },
+            {
+                "name": "selectinput",
+                "type": "select",
+                "label": "Please select something: ",
+                "options": [
+                    {
+                        "name": "A",
+                        "value": "A"
+                    },
+                    {
+                        "name": "B",
+                        "value": "B"
+                    },
+                    {
+                        "name": "C",
+                        "value": "C"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "formname": "form3",
+        "inputdata": [
+            {
+                "name": "inputdate",
+                "type": "date",
+                "label": "Select a date :"
+            }
+        ]
+    },
+    {
+        "formname": "form4",
+        "inputdata": [
+            {
+                "name": "input1",
+                "type": "text",
+                "label": "Enter name :"
+            }
+        ]
+    }
+]

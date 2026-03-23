@@ -4,3 +4,6 @@
 /frontend/dist
 /frontend/.env
 /node_modules
+
+# Ignore les fichier documentations utilisateurs
+.help/*

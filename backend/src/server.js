@@ -5,6 +5,7 @@ import cors from "cors";
 import { testConnection } from "./config/db.js"; 
 import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
+import emailRoutes from './routes/email.routes.js';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api", movieRoutes);
+app.use('/api/email', emailRoutes);
 
 // 404 - Ajouter le middleware de gestion des routes non trouvées
 app.use((req, res) => res.status(404).json({ error: 'Route non trouvée' }));

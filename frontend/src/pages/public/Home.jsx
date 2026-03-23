@@ -1,6 +1,6 @@
 // pages/Home.jsx
 import { Link } from 'react-router-dom';
-import HeroSection from '../components/sections/HeroSection/HeroSection.jsx';
+import HeroSection from '../../components/sections/HeroSection/HeroSection.jsx';
 
 function Home() {
 

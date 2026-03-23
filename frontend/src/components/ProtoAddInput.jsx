@@ -128,8 +128,13 @@ export default function ProtoAddInput() {
         let inputtoadd = results.inputdata[grpindex].inputtoadd;
         console.log("inputtoadd", inputtoadd);
 
+        const newData = JSON.parse(JSON.stringify(results));
+        console.log(newData);
+        let newinp_toadd = newData.inputdata[grpindex].content[0];
+        newinp_toadd.value = "";
+
         const newInputData = [...results.inputdata];
-        newInputData[grpindex].content.push(inputtoadd);
+        newInputData[grpindex].content.push(newinp_toadd);
         setResults({ ...results, inputdata: newInputData })
         console.log(results);
         //let nextRes = addtoInputGroup(index, inputtoadd, results);

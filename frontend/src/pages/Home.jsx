@@ -11,14 +11,9 @@ function Home() {
                 <p className="text-lg text-gray-600 mb-8">Template moderne React + Node.js + MySQL</p>
                 <div className="flex gap-4 justify-center">
                     {isAuthenticated ? (
-                        <>
-                            <Link to="/dashboard" className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
-                                Accéder au Dashboard
-                            </Link>
-                            <Link to="/email-test" className="px-6 py-3 bg-white text-indigo-700 rounded-lg font-semibold hover:bg-indigo-50 transition border border-indigo-200">
-                                Tester l'envoi d'email
-                            </Link>
-                        </>
+                        <Link to="/dashboard" className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                            Accéder au Dashboard
+                        </Link>
                     ) : (
                         <>
                             <Link to="/register" className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">

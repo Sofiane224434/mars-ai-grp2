@@ -48,7 +48,7 @@ export default function ProtoAddInput() {
                                     <div>
                                         <input type={inp2.type} value={inp2.value}
                                             onChange={(e) => changeValue(e, i2, id)}></input>
-                                        <button type="button" onClick={removeInput(id, i2)}>REMOVE</button>
+                                        <button type="button" onClick={() => removeInput(id, i2)}>REMOVE</button>
                                     </div>)
                             }
 
@@ -101,14 +101,18 @@ export default function ProtoAddInput() {
         //add in array the input to add
         newInputData[grpindex].content.push(newinp_toadd);
         //save in results
-        setResults({ ...results, inputdata: newInputData })
+        setResults({ ...results, inputdata: newInputData });
     }
 
     function removeInput(groupindex, index) {
-        console.log(results.inputdata[groupindex].content[index]);
+        //console.log(results.inputdata[groupindex].content[index]);
+        const newInputData = [...results.inputdata];
+        let modify = newInputData[groupindex].content.filter((c, i) => i !== index);
+        newInputData[groupindex].content = modify;
+        console.log(newInputData);
+        setResults({ ...results, inputdata: newInputData });
+        // console.log(results);
     }
-
-    //console.log(results.inputdata[1].content[0]);
 
     return (
         <div>

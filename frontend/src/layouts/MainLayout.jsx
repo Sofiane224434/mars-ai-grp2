@@ -1,16 +1,18 @@
 // layouts/MainLayout.jsx
 import { Outlet } from 'react-router-dom';
-import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.jsx';
+import Header from '../components/layout/Header.jsx';
+//import Navbar from '../components/layout/Navbar.jsx';
+import Footer from '../components/layout/Footer.jsx';
+
 function MainLayout() {
-return (
-<div>
-    <Header />
-        <main>
-            <Outlet />
-        </main>
-    <Footer />
-</div>
-);
+    return (
+        <>
+            <Header />
+            <main>
+                <Outlet />
+            </main>
+            <Footer />
+        </>
+    );
 }
 export default MainLayout;

@@ -254,10 +254,13 @@ frontend/
 │   └── assets/          # Images, icônes statiques
 ├── src/
 │   ├── assets/          # Ressources (images, fonts, icônes)
+│   │   ├── fonts/       # Polices personnalisées
 │   │   └── icons/       # Icônes de l'application
 │   ├── components/      # Composants React réutilisables
-│   │   ├── Footer.jsx       # Pied de page
-│   │   ├── Header.jsx       # En-tête navigation
+│   │   ├── layout/
+│   │   │   ├── Footer.jsx   # Pied de page
+│   │   │   ├── Header.jsx   # En-tête avec logo + navbar
+│   │   │   └── Navbar.jsx   # Barre de navigation principale
 │   │   └── PrivateRoute.jsx # HOC protection routes
 │   ├── contexts/        # Contextes React (state global)
 │   │   └── AuthContext.jsx  # État authentification
@@ -403,7 +406,6 @@ VITE_API_URL=http://localhost:5000
 - Le token est stocké et l'utilisateur est connecté
 
 #### 3️⃣ Accès aux Routes Protégées
-
 - **Backend** : Le middleware [auth.middleware.js](backend/middlewares/auth.middleware.js) vérifie le token JWT dans les en-têtes
 - **Frontend** : Le composant [PrivateRoute.jsx](frontend/src/components/PrivateRoute.jsx) vérifie l'état d'authentification
 - L'[AuthContext.jsx](frontend/src/contexts/AuthContext.jsx) maintient l'état global d'authentification

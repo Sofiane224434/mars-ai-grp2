@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "french": "French",
+      "english": "English",
+      "change": "Change language"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "faq": "FAQ",
+    "participate": "Participate",
+    "movies": "Movies"
+  },
+  "hero": {
+    "title": "Welcome {{name}}"
+  },
+  "footer": {
+    "collaborator": "In collaboration with",
+    "textcontact": "Stay in touch",
+    "newsletter": "Newsletter subscription",
+    "emailplaceholder": "Your e-mail address",
+    "subscribe": "Subscribe to our newsletter",
+    "rights": "All rights reserved"
+  },
+  "home": {
+    "HeroSection": "People at the heart of AI"
+  }
+}

@@ -22,7 +22,7 @@ console.log('MySQL connecté');
 connection.release();
 return true;
 } catch (error) {
-console.error('Erreur MySQL:', error.message);
+console.error("Erreur MySQL:", error);
 return false;
 }
 }

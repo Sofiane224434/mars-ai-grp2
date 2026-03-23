@@ -14,9 +14,6 @@
     "participate": "Participate",
     "movies": "Movies"
   },
-  "hero": {
-    "title": "Welcome {{name}}"
-  },
   "footer": {
     "collaborator": "In collaboration with",
     "textcontact": "Stay in touch",
@@ -26,6 +23,12 @@
     "rights": "All rights reserved"
   },
   "home": {
-    "HeroSection": "People at the heart of AI"
+    "HeroSection": "People at the heart of AI",
+    "titles1": "1 MINUTE",
+    "description1": "Each film lasts a maximum of 1 minute",
+    "titles2": "1 THEME",
+    "description2": "Each film has a common theme: A desirable future",
+    "titles3": "1 WINNER",
+    "description3": "One big winner!"
   }
 }

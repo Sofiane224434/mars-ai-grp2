@@ -13,12 +13,18 @@ const init_values = {
             name: "addinput",
             label: "my add input",
             type: "addition",
-            content: [
-                {
-                    type: "text",
-                    value: ""
-                }
-            ]
+            inputtoadd:
+            {
+                type: "text",
+                value: "",
+            },
+            content:
+                [
+                    {
+                        type: "text",
+                        value: ""
+                    }
+                ]
         }
     ]
 }
@@ -62,7 +68,7 @@ export default function ProtoAddInput() {
     function changeValue(e, index, groupindex = null) {
         if (groupindex) {
             let newdata = results.inputdata;
-            newdata[groupindex].content[index] = { ...newdata, value: e.target.value }
+            newdata[groupindex].content[index].value = e.target.value;
             //console.log(newdata);
             setResults({ ...results, inputdata: newdata });
         } else {
@@ -98,23 +104,35 @@ export default function ProtoAddInput() {
         // setResults({ ...results, inputdata: newData });
     }
 
-    function getInputtoAdd(groupindex) {
-        const clone = JSON.parse(JSON.stringify(results));
-        let add = clone.inputdata[groupindex].content[0];
-        //add.value = "";
-        return add;
+    function getGroupCopy(groupindex) {
+
+        let myelem = init_values.inputdata[groupindex].content[0];
+        return myelem;
     }
 
-    function addInput(groupindex) {
-        //get the input model to add
-        let inputtoadd = getInputtoAdd(groupindex);
-        inputtoadd.value = "";
-        console.log("firstlog", inputtoadd);
+    function addtoInputGroup(grpindex, addition, array) {
+        const nextRes = array.inputdata.map((elem, index) => {
+            if (index == grpindex) {
+                // elem.content.push(addition);
+                return elem;
+            } else {
+                return elem;
+            }
+        })
+        return nextRes;
+    }
 
-        let newdata = results.inputdata;
-        newdata[groupindex].content.push(inputtoadd);
-        console.log(newdata);
-        setResults({ ...results, inputdata: newdata });
+    function addInput(grpindex) {
+        //get the input model to add
+        let inputtoadd = results.inputdata[grpindex].inputtoadd;
+        console.log("inputtoadd", inputtoadd);
+        //let nextRes = addtoInputGroup(index, inputtoadd, results);
+        //console.log("nextres", nextRes);
+
+        // let newdata = results.inputdata;
+        // newdata[groupindex].content.push(inputtoadd);
+        // console.log(newdata);
+        // setResults({ ...results, inputdata: newdata });
 
         // let newdata = results.inputdata.map((elem, i) => {
         //     if (i == groupindex) {

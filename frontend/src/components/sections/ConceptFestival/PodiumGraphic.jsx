@@ -8,7 +8,7 @@ const PodiumGraphic = () => {
 
      return(
     <>
-    <section className='bg-noir-bleute'>
+    <section>
       <div className="flex flex-col items-center justify-center p-6 gap-4">
         <img 
           src="/assets/img/Podium.png" 

@@ -35,11 +35,15 @@ p {
   }
 
   .status-base {
-    @apply relative flex items-center w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
+    @apply relative flex items-center gap-1.5 w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
   }
 
   .status-base-icon {
-    @apply relative h-3.5 w-auto shrink-0 object-contain;
+    @apply relative h-5 w-auto shrink-0 object-contain;
+  }
+
+  .status-base-icon-jury {
+    @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1;
   }
 
   .neon-yellow {
@@ -69,12 +73,22 @@ p {
     font-weight: 400;
     color: var(--color-ocre-rouge);
   }
+
+  .filled-jury {
+    width: 150px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-slate-800);
+   
+    
+  }
 }
 
 @theme {
   --color-brun-brule: #803110;
   --color-brulure-despespoir: #6e1515;
   --color-vert-insecateur: #34ff38;
+  --color-vert-picollo: #14ae5c;
   --color-ocre-rouge: #be6422;
   --color-fauve: #d58b52;
   --color-jaune-souffre: #fdff6b;

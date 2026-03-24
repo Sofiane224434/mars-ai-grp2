@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from '../../ui/Button';
+import Button from '../../UI/Button';
 import { useTranslation } from 'react-i18next';
 
 // import CountdownTimer from './CountdownTimer';

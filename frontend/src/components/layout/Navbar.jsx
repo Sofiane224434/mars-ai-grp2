@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import Button from '../ui/Button.jsx';
+import Button from '../UI/Button.jsx';
 
 function Navbar({ isRounded = false }) {
 
@@ -45,9 +45,7 @@ function Navbar({ isRounded = false }) {
           <Link to="/faq">
             <Button variant="neon-yellow">{t('nav.faq')}</Button>
           </Link>
-          <Link to="/auth">
-            <Button variant="gradient-blue">{t('nav.participate')}</Button>
-          </Link>
+          <Button variant="gradient-blue">{t('nav.participate')}</Button>
 
         </div>
       </div>
@@ -67,9 +65,9 @@ function Navbar({ isRounded = false }) {
           <Link to="/faq" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center border-t border-white/10 my-2">
             <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
           </Link>
-          <Link to="/auth" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+          <div className="w-[80%] max-w-70 flex justify-center">
             <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
-          </Link>
+          </div>
         </div>
       )}
 

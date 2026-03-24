@@ -1,8 +1,13 @@
-import jury_valid from "../../assets/icons/jury_valid.svg"
-import jury_refuse from "../../assets/icons/jury_refuse.svg"
-import jury_review from "../../assets/icons/jury_review.svg"
-
-
+import jury_valid from "../../assets/icons/jury_valid.svg";
+import jury_refuse from "../../assets/icons/jury_refuse.svg";
+import jury_review from "../../assets/icons/jury_review.svg";
+import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
+import panel_icon_film from "../../assets/icons/panel_icon_film.png";
+import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
+import panel_icon_50 from "../../assets/icons/panel_icon_50.png";
+import panel_icon_add from "../../assets/icons/panel_icon_add.png";
+import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
+import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 
 const Button = ({
   variant = "neon-yellow",
@@ -41,7 +46,7 @@ const Button = ({
     "filled-yellow": {
       container: "filled-yellow",
       bg: (
-        <div className="btn-bg-base border-[5px] border-solid border-jaune-souffre bg-jaune-souffre"  />
+        <div className="btn-bg-base border-[5px] border-solid border-jaune-souffre bg-jaune-souffre" />
       ),
     },
 
@@ -86,6 +91,115 @@ const Button = ({
         <div>
           <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
           <img className="status-base-icon-jury" alt="Icon" src={jury_review} />
+        </div>
+      ),
+    },
+
+    //---------------------------------------------------------------------------------------------------------
+    // Bouton Admin
+    //---------------------------------------------------------------------------------------------------------
+
+    // Variante 1 : Bouton Panel Admin - Assigner des Vidéos
+    "btn-panel-assign": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
+          <img
+            className="status-base-icon-jury"
+            alt="Icon"
+            src={panel_icon_assign1}
+          />
+        </div>
+      ),
+    },
+
+    // Variante 2 : Voir vidéos
+    "btn-panel-film": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
+          <img
+            className="status-base-icon-jury"
+            src={panel_icon_film}
+            alt="Icon"
+          />
+        </div>
+      ),
+    },
+
+    // Variante 3 : Modifier Mails
+    "btn-panel-mail": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
+          <img
+            className="status-base-icon-jury"
+            src={panel_icon_mail}
+            alt="Icon"
+          />
+        </div>
+      ),
+    },
+
+    // Variante 4 : Top 50
+    "btn-panel-50": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
+          <img
+            className="status-base-icon-jury -ml-7"
+            src={panel_icon_50}
+            alt="Icon"
+          />
+        </div>
+      ),
+    },
+
+    // Variante 5 : Ajouter Jury
+    "btn-panel-add": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
+          <img
+            className="status-base-icon-jury"
+            src={panel_icon_add}
+            alt="Icon"
+          />
+        </div>
+      ),
+    },
+
+    // Variante 6 : Mofidier Site
+    "btn-panel-setting": {
+      container: "square-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none " />
+          <img
+            className="status-base-icon-jury "
+            src={panel_icon_setting}
+            alt="Icon"
+          />
+        </div>
+      ),
+    },
+
+    // Variante 7 : Acceuil
+    "btn-panel-home": {
+      container: "home-admin",
+      bg: (
+        <div>
+          <div className="btn-bg-admin-base rounded-none" />
+          <img
+            className="status-base-icon-jury-accueil"
+            src={panel_icon_home}
+            alt="Icon"
+          />
         </div>
       ),
     },

@@ -135,7 +135,7 @@ export default function SimplerFormTest() {
                     checked={results["colors"] ?
                         results["colors"]["checkbox_color"] :
                         false}></input>
-                {results["color"] && results["color"]["checkbox_color"] &&
+                {results["colors"] && results["colors"]["checkbox_color"] &&
                     <div>
                         <div>Enter fave color</div>
                         <input type="text" name="color" onChange={(e) => handleChange(e, true, "colors")}

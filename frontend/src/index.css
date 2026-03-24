@@ -46,6 +46,20 @@ p {
     @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1;
   }
 
+  .color-gradient-blue-yellow-green {
+    @apply bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent;
+  }
+
+  .concept-festival{
+    @apply pt-10 px-10 mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent drop-shadow-sm;
+    
+  }
+
+  .background-gradient-black {
+    @apply bg-linear-to-b from-black via-noir-bleute to-gris-anthracite;
+  }
+
+
   .neon-yellow {
     width: 134px;
     height: 63px;
@@ -101,4 +115,5 @@ p {
   --color-gris-magneti: #8f8f8f;
   --color-reglisse: #232323;
   --color-noir-bleute: #1d1d24;
+ 
 }

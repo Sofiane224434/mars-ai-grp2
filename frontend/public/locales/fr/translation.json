@@ -7,7 +7,14 @@
         "participate": "Participer"
     },
     "home": {
-        "HeroSection": "L'humain au coeur de l'IA"
+        "HeroSection": "L'humain au coeur de l'IA",
+        "titles1": "1 MINUTE",
+        "description1": "Chaque film dure 1 minute maximum", 
+        "titles2": "1 THÈME",
+        "description2": "Chaque film a pour thème commun : Un futur souhaitable",
+         "titles3": "1 GAGNANT",
+        "description3": "Un seul grand gagnant !"
+
     },
     "header": {
         "title": "MarsAi",

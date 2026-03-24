@@ -15,7 +15,9 @@ export default function SimplerFormTest() {
         const name = target.name;
         if (isgroup) {
             if (results[groupname]) {
-                setResults(values => ({ ...values, [groupname]: values2 => ({ ...values2, [name]: value }) }));
+                let newres = JSON.parse(JSON.stringify(results));
+                newres[groupname][name] = value;
+                setResults(newres);
                 console.log(results);
             } else {
                 let obj = { [name]: value };
@@ -30,8 +32,11 @@ export default function SimplerFormTest() {
         if (!results[groupname]) {
             setResults(values => ({ ...values, [groupname]: { 0: "", 1: "" } }));
         } else {
-            const valname = results[groupname].length;
-            setResults(values => ({ ...values, [groupname]: values2 => ({ ...values2, [valname]: "" }) }));
+            const valname = Object.keys(results[groupname]).length;
+            let newres = JSON.parse(JSON.stringify(results));
+            console.log("newres:", newres);
+            newres[groupname][valname] = "";
+            setResults(newres);
         }
 
     }
@@ -89,8 +94,13 @@ export default function SimplerFormTest() {
                         onChange={(e) => handleChange(e, true, "meals")}></input>
                     {results.meals && Object.keys(results.meals).map((a, i) => {
                         if (i > 0) {
-                            return (<input type="text" name={i}
-                                onChange={(e) => handleChange(e, true, "meals")}></input>)
+                            return (
+                                <div>
+                                    <input type="text" name={i}
+                                        onChange={(e) => handleChange(e, true, "meals")}></input>
+                                    <button type="button" onClick={() => deleteFromResults(i, true, "meals")}>X</button>
+                                </div>
+                            )
                         }
                     })}
                     <button type="button" onClick={() => addToGroup("meals")}>ADD</button>

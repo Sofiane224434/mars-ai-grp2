@@ -4,10 +4,75 @@ import StepsTrack from "./StepsTrack";
 export default function SimplerFormTest() {
 
     const [results, setResults] = useState({});
+    //const [verifyrules, setVerifyrules] = useState({});
+    const [errorMessages, setErrorMessages] = useState([]);
+
     const [currentStep, setCurrentStep] = useState(1);
     const [maxStep, setMaxStep] = useState(null);
 
     //input functions
+
+    // function generateRules(e, obj) {
+    //     let formname = e.target.parent.name;
+
+    //     let default_obj = {
+    //         regex: null,
+    //         length_range: { min: null, max: null },
+    //         required: false,
+
+    //     }
+    //     let rulename = e.target.name;
+    //     if (Object.keys(verifyrules).length === 0) {
+    //         // setVerifyrules([{ [formname]: [{ [rulename]: obj }] }]);
+    //         setVerifyrules({ [formname]: { [rulename]: obj } });
+    //     } else {
+    //         let newverif = JSON.parse(JSON.stringify(verifyrules));
+    //         newverif[formname].push({ [rulename]: obj });
+    //         setVerifyrules(newverif);
+    //     }
+    // }
+
+    function checkRegex({ value, regex }) {
+        return regex.test(value);
+    }
+
+    function checklenght({ min, max, value }) {
+        if (value.length < min || value.length > max) {
+            return false;
+        }
+        return true;
+    }
+
+    function checkEmpty({ value }) {
+        if (value == "") {
+            return true;
+        }
+        if (!value || value != false) {
+            return true;
+        }
+        return false;
+    }
+
+    function checkVideo({ file }) {
+        //check if >size
+        //check if 16:9? optional?
+    }
+
+    function verifyValue(e, obj) {
+        let value = e.target.value;
+        if (obj.required) {
+            if (checkEmpty({ value: value })) {
+
+            } else {
+                //should return something to avoid other checks?
+            }
+        }
+        if (obj.regex) {
+            if (!checkRegex({ regex: obj.regex, value: value })) {
+
+            }
+        }
+    }
 
     function handleChange(e, isgroup = false, groupname = null) {
         const target = e.target;
@@ -51,13 +116,6 @@ export default function SimplerFormTest() {
         console.log(results);
     }
 
-    // function handleConditionalGroup(e, groupname) {
-    //     if(!e.target.checked) {
-    //         let newres = JSON.parse(JSON.stringify(results));
-
-    //     }
-    // }
-
     function addToGroup(groupname) {
         if (!results[groupname]) {
             setResults(values => ({ ...values, [groupname]: { 0: "", 1: "" } }));
@@ -84,7 +142,7 @@ export default function SimplerFormTest() {
     //form setup
     const myforms = [
         [
-            <form>
+            <form name="form1">
                 <div>My first input</div>
                 <input type="text" name="inp1" onChange={handleChange}
                     value={results["inp1"] ? results["inp1"] : ""}></input>
@@ -97,7 +155,8 @@ export default function SimplerFormTest() {
                     value={results["upload" ? results["upload"] : ""]}
                     files={results['upload'] ? results["upload"].File : ""}></input>
                 <div>Options test</div>
-                <select name="optionstest" onChange={handleChange}>
+                <select name="optionstest" onChange={handleChange}
+                    value={results["optionstest"] ? results["optionstest"] : ""}>
                     <option value={""}></option>
                     <option value={"first"}>First option</option>
                     <option value={"second"}>Second option</option>
@@ -106,7 +165,8 @@ export default function SimplerFormTest() {
                 {results["optionstest"] == "other" &&
                     <div>
                         <div>Which one?</div>
-                        <input name=""></input>
+                        <input name="optionresponse" onChange={handleChange}
+                            value={results["optionresponse"] ? results["optionresponse"] : ""}></input>
                     </div>
                 }
             </form>
@@ -116,12 +176,16 @@ export default function SimplerFormTest() {
                 <div>Grouped inputs</div>
                 <div>
                     <div>
-                        <div>Nom</div>
-                        <input type="text" name="nom"></input>
+                        <div>Lastname</div>
+                        <input type="text" name="lastname"
+                            onChange={handleChange}
+                            value={results["lastname"] ? results["lastname"] : ""}></input>
                     </div>
                     <div>
-                        <div>Prénom</div>
-                        <input type="text" name="prenom"></input>
+                        <div>Name</div>
+                        <input type="text" name="firstname"
+                            onChange={handleChange}
+                            value={results["firstname"] ? results["firstname"] : ""}></input>
                     </div>
                 </div>
             </form>
@@ -182,6 +246,12 @@ export default function SimplerFormTest() {
 
     function generateForms(step) {
         return (myforms[step - 1])
+    }
+
+    //form verifications functions
+
+    function verifyForm() {
+
     }
 
     //button functions

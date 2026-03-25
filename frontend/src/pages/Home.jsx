@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth.js';
 //import StepsFormsNewtest from '../components/StepsFormsNewtest.jsx';
 //import ProtoAddInput from '../components/ProtoAddInput.jsx';
 import SimplerFormTest from '../components/SimplerFormTest.jsx';
+import MasterForm from '../components/FormNew/MasterForm.jsx';
 
 function Home() {
     const { isAuthenticated } = useAuth();
@@ -34,6 +35,7 @@ function Home() {
                 </div>
             </div>
             {/* test runs */}
+            <MasterForm></MasterForm>
             <SimplerFormTest />
         </>
     );

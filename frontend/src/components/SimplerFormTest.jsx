@@ -6,6 +6,7 @@ export default function SimplerFormTest() {
     const [results, setResults] = useState({});
     //const [verifyrules, setVerifyrules] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
+    const [correspondance, setCorrespondance] = useState([])
 
     const [currentStep, setCurrentStep] = useState(1);
     const [maxStep, setMaxStep] = useState(null);
@@ -55,19 +56,29 @@ export default function SimplerFormTest() {
 
     function checkVideo({ file }) {
         //check if >size
+        //check if .mp4, .mov
         //check if 16:9? optional?
     }
 
-    function verifyValue(e, obj) {
-        let value = e.target.value;
-        if (obj.required) {
+    function checkImage({ file }) {
+        //check width height -> 16/9
+        //check size
+        //check .png, .jpg
+    }
+
+    function verifyValues(arrayofinputs, objwithrules) {
+        for (let e in arrayofinputs) {
+            let value = results[e];
+        }
+        //let value = e.target.value;
+        if (objwithrules.required) {
             if (checkEmpty({ value: value })) {
 
             } else {
                 //should return something to avoid other checks?
             }
         }
-        if (obj.regex) {
+        if (objwithrules.regex) {
             if (!checkRegex({ regex: obj.regex, value: value })) {
 
             }
@@ -140,9 +151,216 @@ export default function SimplerFormTest() {
     }
 
     //form setup
+    const mytrueforms = [
+        [
+            <form>
+                <h2>Etape 1 : Fiche film</h2>
+                <div>
+                    <div>Titre original du film</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>Titre du film traduit en français</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>Synopsis</div>
+                    <textarea></textarea>
+                </div>
+
+                <div>
+                    <div>Langue du film</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>Fichier vidéo (.mp4 ou .mov)</div>
+                    <input type="file"></input>
+                </div>
+
+                <div>
+                    <div>Ce film contient de la musique et/ou une banque de sons</div>
+                    <input type="checkbox"></input>
+                </div>
+
+                {/* Additive conditional input here */}
+
+                <div>
+                    <div>Lien de votre film sur Youtube</div>
+                    <input type="url"></input>
+                </div>
+
+            </form>
+        ],
+        [
+            <form>
+                <h2>Etape 2 : Déclaration d'usage de l'IA</h2>
+
+                <div>
+                    <div>Ce film utilise l'IA pour...</div>
+                    <div>
+                        <input type="checkbox"></input>
+                        <div>La génération du scénario</div>
+                    </div>
+                    {/* Insert additive here on conditional for each one (must be select) */}
+                    <div>
+                        <input type="checkbox"></input>
+                        <div>La génération de la vidéo</div>
+                    </div>
+
+                    <div>
+                        <input type="checkbox"></input>
+                        <div>La post production (editing, etc...)</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div>Classification de l'oeuvre</div>
+                    <select name="classification">
+                        <option value={""}>...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <div>Notes de productions (vos prompts)</div>
+                    <textarea></textarea>
+                </div>
+
+            </form>
+        ],
+        [
+            <form>
+                <h2>Etape 3 : Multimédia et accessibilité</h2>
+
+                <div>
+                    <div>Votre vignette (image représentant votre vidéo)</div>
+                    <input type="file"></input>
+                </div>
+
+                <div>
+                    <div>Captures d'écran de votre film</div>
+                    <input type="file"></input>
+                </div>
+
+                <div>
+                    <input type="checkbox"></input>
+                    <div>Ce film contient des dialogues ou des textes nécessitants
+                        des sous-titres
+                    </div>
+                    {/* Insert conditional upload of srt file here */}
+                </div>
+
+            </form>
+        ],
+        [
+            <form>
+                <h2>Etape 4 : vos informations</h2>
+                <div>
+                    <div>
+                        <div>Nom</div>
+                        <input type="text" name="lastname"></input>
+                    </div>
+
+                    <div>
+                        <div>Prénom</div>
+                        <input type="text" name="firstname"></input>
+                    </div>
+                </div>
+
+                <div>
+                    <div>Civilité</div>
+                    <select name="gender">
+                        <option value={""}>...</option>
+                        <option value={"m"}>Monsieur</option>
+                        <option value={"f"}>Madame</option>
+                        <option value={"other"}>Autre</option>
+                    </select>
+                </div>
+
+                <div>
+                    <div>Vos réseaux sociaux</div>
+
+                    <div>
+                        <div>Réseau 1</div>
+                        <div>
+                            <div>Nom du réseau</div>
+                            <input type="text"></input>
+                        </div>
+
+                        <div>
+                            <div>Lien vers le réseau</div>
+                            <input type="url"></input>
+                        </div>
+                    </div>
+
+                    {/* Additive here */}
+
+                    <button type="button">(+) Ajouter un réseau</button>
+                </div>
+
+                <div>
+                    <div>Email</div>
+                    <input type="email"></input>
+                </div>
+
+                <div>
+                    <div>Numéro de téléphone</div>
+                    <input type="tel"></input>
+                </div>
+
+                <div>
+                    <div>Date de naissance</div>
+                    <input type="date"></input>
+                </div>
+
+                <div>
+                    <div>Pays</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>Adresse</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>Complément d'adresse</div>
+                    <input type="text"></input>
+                </div>
+
+                <div>
+                    <div>
+                        <div>Code postal</div>
+                        {/* Note: this should accept only numbers */}
+                        <input type="text"></input>
+                    </div>
+
+                    <div>
+                        <div>Ville</div>
+                        <input type="text"></input>
+                    </div>
+                </div>
+
+                <div>
+                    <div>Comment avez-vous connu MarsAi ?</div>
+                    <select name="marketting">
+                        <option value={""}>...</option>
+                        <option>Bouche à oreille</option>
+                        <option>Sur internet</option>
+                    </select>
+                </div>
+
+                <div>J'ai lu et j'accepte les conditions d'envoi vidéo</div>
+                <div>J'ai lu et j'accepte le règlement du festival MarsAi</div>
+            </form>
+        ]
+    ]
+
     const myforms = [
         [
-            <form name="form1">
+            <form>
                 <div>My first input</div>
                 <input type="text" name="inp1" onChange={handleChange}
                     value={results["inp1"] ? results["inp1"] : ""}></input>
@@ -199,7 +417,7 @@ export default function SimplerFormTest() {
                     checked={results["colors"] ?
                         results["colors"]["checkbox_color"] :
                         false}></input>
-                {results["colors"] && results["colors"]["checkbox_color"] &&
+                {results.colors?.checkbox_color &&
                     <div>
                         <div>Enter fave color</div>
                         <input type="text" name="color" onChange={(e) => handleChange(e, true, "colors")}

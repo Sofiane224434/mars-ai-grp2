@@ -46,11 +46,11 @@ p {
   }
 
   .status-base-icon-jury {
-    @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1 mr-3 ml-3;
+    @apply absolute -left-1 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
   }
 
-.status-base-icon-jury-accueil {
-    @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1;
+  .status-base-icon-jury-accueil {
+    @apply absolute left-2 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
   }
 
   .color-gradient-blue-yellow-green {
@@ -101,12 +101,13 @@ p {
   }
 
   .square-admin {
-    width: 168px;
+    width: 193px;
     height: 80px;
     font-weight: 400;
     color: var(--color-white);
     font-family: "Inter-Regular", Helvetica;
     font-size: medium;
+    padding-left: 30px;
   }
 
   .home-admin {

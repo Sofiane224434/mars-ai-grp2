@@ -8,7 +8,7 @@ function Movies() {
     return (
         <div className="min-h-screen">
             <h1>{t("nav.movies")}</h1>
-            <MainLayoutAdmin></MainLayoutAdmin>
+            <MainLayoutAdmin variant = "admin"/>
             
         </div>
     );

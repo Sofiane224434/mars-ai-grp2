@@ -3,8 +3,7 @@ import StepsTrack from "./StepsTrack";
 
 export default function SimplerFormTest() {
 
-    const [results, setResults] = useState({
-    });
+    const [results, setResults] = useState({});
     //const [verifyrules, setVerifyrules] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
     const [correspondance, setCorrespondance] = useState([])
@@ -86,9 +85,49 @@ export default function SimplerFormTest() {
         }
     }
 
-    function changeInput(e) {
-        let ischeck = false;
-        let inpname = e.target.name;
+    function handleChange(e, isgroup = false, groupname = null) {
+        const target = e.target;
+        let value;
+        if (target.type === "checkbox") {
+            value = target.checked;
+        } else if (target.type === "file") {
+            console.log(target);
+            value = target.files[0];
+
+            //for getting width and height modify later for video format
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                let image = new Image();
+                image.src = event.target.result;
+
+                image.onload = function () {
+                    console.log(this);
+                }
+            };
+
+            reader.readAsDataURL(value);
+        } else {
+            value = target.value;
+        }
+        //const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        if (isgroup) {
+            if (results[groupname]) {
+                let newres = JSON.parse(JSON.stringify(results));
+                newres[groupname][name] = value;
+                setResults(newres);
+                //console.log(results);
+            } else {
+                let obj = { [name]: value };
+                setResults(values => ({ ...values, [groupname]: obj }));
+            }
+        } else {
+            setResults(values => ({ ...values, [name]: value }));
+        }
+        console.log(results);
+    }
+
+    function changeInput({ e, formgroup, inpname, ischeck = false, }) {
         let value;
         if (ischeck) {
             value = e.target.checked;
@@ -96,10 +135,8 @@ export default function SimplerFormTest() {
             value = e.target.value;
         }
         //replace with results
-        let newres = JSON.parse(JSON.stringify(results));
-        newres[inpname] = value;
+        let newres = JSON.parse(JSON.stringify({ value: "" }));
         //set results
-        setResults(newres);
     }
 
     function addToGroup(groupname) {
@@ -125,121 +162,34 @@ export default function SimplerFormTest() {
         setResults(newResults);
     }
 
-    function getvalue(e) {
-        // console.log(e);
-        // let targetname = e.target.name;
-        // console.log(targetname);
-        return "abc";
-    }
-
-    // const myinp = <input type="text" name="movies!!!" value={""}></input>
-    // console.log(myinp);
-
-    const myinputs = [
-        <input type="text" name="movietitle"
-            value={results["movietitle"] ? results["movietitle"] : ""}
-            onChange={changeInput}></input>,
-        <input type="text" name="movietitletranslated"></input>,
-        <textarea name="synopsis"></textarea>,
-        <input type="text" name="movielanguage"></input>,
-        <input type="file" name="videofile"></input>,
-        <input name="soundbankcheck" type="checkbox"></input>,
-        <input type="url" name="youtubelink"></input>,
-
-        <input name="aiscenariocheck" type="checkbox"></input>,
-        <input name="aivideocheck" type="checkbox"></input>,
-        <input name="aipostprodcheck" type="checkbox"></input>,
-        <select name="classification">
-            <option value={""}>...</option>
-        </select>,
-        <textarea name="prompts"></textarea>,
-
-        <input type="file" name="movieimage"></input>,
-        <input type="file" name="moviescreenshots"></input>,
-        <input type="checkbox" name="dialoguecheck"></input>,
-
-        <input type="text" name="lastname"></input>,
-        <input type="text" name="firstname"></input>,
-        <select name="gender">
-            <option value={""}>...</option>
-            <option value={"m"}>Monsieur</option>
-            <option value={"f"}>Madame</option>
-            <option value={"other"}>Autre</option>
-        </select>,
-        <input name="socialname1" type="text"></input>,
-        <input name="sociallink1" type="url"></input>,
-        <input name="email" type="email"></input>,
-        <input name="tel" type="tel"></input>,
-        <input name="birthdate" type="date"></input>,
-        <input name="country" type="text"></input>,
-        <input name="address" type="text"></input>,
-        <input name="address2" type="text"></input>,
-        <input name="zipcode" type="text"></input>,
-        <input name="city" type="text"></input>,
-        <select name="marketting">
-            <option value={""}>...</option>
-            <option value={"bouche à oreille"}>Bouche à oreille</option>
-            <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>
-            <option value={"autre"}>Autre (précisez)</option>
-        </select>,
-        <input type="checkbox" name="toscheck"></input>,
-        <input type="checkbox" name="rulescheck"></input>
-    ];
-
-    //build results
-    useEffect(() => {
-        let newres = {};
-        for (let i in myinputs) {
-            let getname = myinputs[i].props.name;
-            newres[getname] = "";
-        };
-        //console.log(newres)
-        setResults(newres);
-    }, [])
-    //console.log(results)
-
-
-    // for (let a in myinputs) {
-    //     console.log(myinputs[a]);
-    // }
-    function getinputfromarray(inputname) {
-        for (let a in myinputs) {
-            //console.log(myinputs[a]);
-            if (myinputs[a].props.name === inputname) {
-                return myinputs[a];
-            }
-        }
-    }
-    //console.log(getinputfromarray("movietitle"))
-
     //form setup
-    const myforms = [
+    const mytrueforms = [
         [
             <form>
                 <h2>Etape 1 : Fiche film</h2>
                 <div>
                     <div>Titre original du film</div>
-                    {getinputfromarray("movietitle")}
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>Titre du film traduit en français</div>
-                    <input type="text" name="movietitletranslated"></input>
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>Synopsis</div>
-                    <textarea name="synopsis"></textarea>
+                    <textarea></textarea>
                 </div>
 
                 <div>
                     <div>Langue du film</div>
-                    <input type="text" name="movielanguage"></input>
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>Fichier vidéo (.mp4 ou .mov)</div>
-                    <input type="file" name="videofile"></input>
+                    <input type="file"></input>
                 </div>
 
                 <div>
@@ -252,7 +202,7 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Lien de votre film sur Youtube</div>
-                    <input type="url" name="youtubelink"></input>
+                    <input type="url"></input>
                 </div>
 
             </form>
@@ -264,17 +214,17 @@ export default function SimplerFormTest() {
                 <div>
                     <div>Ce film utilise l'IA pour...</div>
                     <div>
-                        <input name="aiscenariocheck" type="checkbox"></input>
+                        <input type="checkbox"></input>
                         <div>La génération du scénario</div>
                     </div>
                     {/* Insert additive here on conditional for each one (must be select) */}
                     <div>
-                        <input name="aivideocheck" type="checkbox"></input>
+                        <input type="checkbox"></input>
                         <div>La génération de la vidéo</div>
                     </div>
 
                     <div>
-                        <input name="aipostprodcheck" type="checkbox"></input>
+                        <input type="checkbox"></input>
                         <div>La post production (editing, etc...)</div>
                     </div>
                 </div>
@@ -288,7 +238,7 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Notes de productions (vos prompts)</div>
-                    <textarea name="prompts"></textarea>
+                    <textarea></textarea>
                 </div>
 
             </form>
@@ -299,18 +249,16 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Votre vignette (image représentant votre vidéo)</div>
-                    <input type="file" name="movieimage"></input>
+                    <input type="file"></input>
                 </div>
 
                 <div>
                     <div>Captures d'écran de votre film</div>
-                    <input type="file" name="moviescreenshots"></input>
-                    {/* Check how to add possibility for multiple
-                    uploads */}
+                    <input type="file"></input>
                 </div>
 
                 <div>
-                    <input type="checkbox" name="dialoguecheck"></input>
+                    <input type="checkbox"></input>
                     <div>Ce film contient des dialogues ou des textes nécessitants
                         des sous-titres
                     </div>
@@ -351,12 +299,12 @@ export default function SimplerFormTest() {
                         <div>Réseau 1</div>
                         <div>
                             <div>Nom du réseau</div>
-                            <input name="socialname1" type="text"></input>
+                            <input type="text"></input>
                         </div>
 
                         <div>
                             <div>Lien vers le réseau</div>
-                            <input name="sociallink1" type="url"></input>
+                            <input type="url"></input>
                         </div>
                     </div>
 
@@ -367,44 +315,44 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Email</div>
-                    <input name="email" type="email"></input>
+                    <input type="email"></input>
                 </div>
 
                 <div>
                     <div>Numéro de téléphone</div>
-                    <input name="tel" type="tel"></input>
+                    <input type="tel"></input>
                 </div>
 
                 <div>
                     <div>Date de naissance</div>
-                    <input name="birthdate" type="date"></input>
+                    <input type="date"></input>
                 </div>
 
                 <div>
                     <div>Pays</div>
-                    <input name="country" type="text"></input>
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>Adresse</div>
-                    <input name="address" type="text"></input>
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>Complément d'adresse</div>
-                    <input name="address2" type="text"></input>
+                    <input type="text"></input>
                 </div>
 
                 <div>
                     <div>
                         <div>Code postal</div>
                         {/* Note: this should accept only numbers */}
-                        <input name="zipcode" type="text"></input>
+                        <input type="text"></input>
                     </div>
 
                     <div>
                         <div>Ville</div>
-                        <input name="city" type="text"></input>
+                        <input type="text"></input>
                     </div>
                 </div>
 
@@ -412,26 +360,112 @@ export default function SimplerFormTest() {
                     <div>Comment avez-vous connu MarsAi ?</div>
                     <select name="marketting">
                         <option value={""}>...</option>
-                        <option value={"bouche à oreille"}>Bouche à oreille</option>
-                        <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>
-                        <option value={"autre"}>Autre (précisez)</option>
+                        <option>Bouche à oreille</option>
+                        <option>Sur internet</option>
                     </select>
-                    {/* insert input on selecting "other" */}
                 </div>
 
-                <div>
-                    <input type="checkbox" name="toscheck"></input>
-                    <div>J'ai lu et j'accepte les conditions d'envoi vidéo</div>
-                </div>
-
-                <div>
-                    <input type="checkbox" name="rulescheck"></input>
-                    <div>J'ai lu et j'accepte le règlement du festival MarsAi</div>
-                </div>
-
+                <div>J'ai lu et j'accepte les conditions d'envoi vidéo</div>
+                <div>J'ai lu et j'accepte le règlement du festival MarsAi</div>
             </form>
         ]
-    ];
+    ]
+
+    const myforms = [
+        [
+            <form>
+                <div>My first input</div>
+                <input type="text" name="inp1" onChange={handleChange}
+                    value={results["inp1"] ? results["inp1"] : ""}></input>
+                <div>My second input</div>
+                <input type="text" name="inp2" onChange={handleChange}
+                    value={results["inp2"] ? results["inp2"] : ""}></input>
+                <div>Upload video/image file</div>
+                <input type="file" name="upload" onChange={handleChange}
+                    accept="image/png, image/jpg, video/mp4, video/mov"
+                    value={results["upload" ? results["upload"] : ""]}
+                    files={results['upload'] ? results["upload"].File : ""}></input>
+                <div>Options test</div>
+                <select name="optionstest" onChange={handleChange}
+                    value={results["optionstest"] ? results["optionstest"] : ""}>
+                    <option value={""}></option>
+                    <option value={"first"}>First option</option>
+                    <option value={"second"}>Second option</option>
+                    <option value={"other"}>Other</option>
+                </select>
+                {results["optionstest"] == "other" &&
+                    <div>
+                        <div>Which one?</div>
+                        <input name="optionresponse" onChange={handleChange}
+                            value={results["optionresponse"] ? results["optionresponse"] : ""}></input>
+                    </div>
+                }
+            </form>
+        ],
+        [
+            <form>
+                <div>Grouped inputs</div>
+                <div>
+                    <div>
+                        <div>Lastname</div>
+                        <input type="text" name="lastname"
+                            onChange={handleChange}
+                            value={results["lastname"] ? results["lastname"] : ""}></input>
+                    </div>
+                    <div>
+                        <div>Name</div>
+                        <input type="text" name="firstname"
+                            onChange={handleChange}
+                            value={results["firstname"] ? results["firstname"] : ""}></input>
+                    </div>
+                </div>
+            </form>
+        ],
+        [
+            <form>
+                {/* group name: colors */}
+                <div>Talk about colors? (optional)</div>
+                <input type="checkbox" name="checkbox_color"
+                    onChange={(e) => handleChange(e, true, "colors")}
+                    checked={results["colors"] ?
+                        results["colors"]["checkbox_color"] :
+                        false}></input>
+                {results.colors?.checkbox_color &&
+                    <div>
+                        <div>Enter fave color</div>
+                        <input type="text" name="color" onChange={(e) => handleChange(e, true, "colors")}
+                            value={results["colors"]["color"] ?
+                                results["colors"]["color"] : ""}></input>
+                    </div>
+                }
+                <div>All your meals; note: additive</div>
+                {/* groupname: meals */}
+                <div>
+                    <input type="text" name={0}
+                        onChange={(e) => handleChange(e, true, "meals")}
+                        value={results["meals"] ? (results["meals"][0] ?
+                            results["meals"][0] : "") : ""
+                        }></input>
+                    {results.meals && Object.keys(results.meals).map((a, i) => {
+                        if (i > 0) {
+                            return (
+                                <div>
+                                    <input type="text" name={i}
+                                        onChange={(e) => handleChange(e, true, "meals")}
+                                        value={results["meals"] ? (results["meals"][i] ?
+                                            results["meals"][i] : "") : ""
+                                        }></input>
+                                    <button type="button" onClick={() => deleteFromResults(i, true, "meals")}>
+                                        (X)</button>
+                                </div>
+                            )
+                        }
+                    })}
+                    <button type="button" onClick={() => addToGroup("meals")}>ADD</button>
+                </div>
+            </form>
+        ]
+    ]
 
     //set maxstep
 

@@ -1,17 +1,13 @@
 import jury_valid from "../../assets/icons/jury_valid.svg";
 import jury_refuse from "../../assets/icons/jury_refuse.svg";
 import jury_review from "../../assets/icons/jury_review.svg";
-import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
-import panel_icon_film from "../../assets/icons/panel_icon_film.png";
-import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
-import panel_icon_50 from "../../assets/icons/panel_icon_50.png";
-import panel_icon_add from "../../assets/icons/panel_icon_add.png";
-import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
 import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 
 const Button = ({
   variant = "neon-yellow",
   children = "Button",
+  iconImg = "",
+  iconOnly = false,
   className = "",
   interactive = false,
   type = "button",
@@ -19,6 +15,17 @@ const Button = ({
   disabled = false,
   ariaLabel,
 }) => {
+  const iconToDisplay = iconImg || panel_icon_home;
+  const panelBgClass = iconOnly
+    ? "pointer-events-none absolute inset-0 rounded-full bg-bleu-ocean"
+    : "btn-bg-admin-base bg-bleu-ocean rounded-none";
+  const panelIconClass = iconOnly
+    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    : "status-base-icon-jury";
+  const homePanelIconClass = iconOnly
+    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    : "status-base-icon-jury-accueil";
+
   //---------------------------------------------------------------------------------------------------------
   // Bouton Public
   //---------------------------------------------------------------------------------------------------------
@@ -59,7 +66,7 @@ const Button = ({
     },
 
     //---------------------------------------------------------------------------------------------------------
-    // Bouton Jury
+    // Status Jury
     //---------------------------------------------------------------------------------------------------------
 
     // Variante 1 : Validé
@@ -100,113 +107,36 @@ const Button = ({
     //---------------------------------------------------------------------------------------------------------
 
     // Variante 1 : Bouton Panel Admin - Assigner des Vidéos
-    "btn-panel-assign": {
+    "btn-panel": {
       container: "square-admin",
       bg: (
         <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
-          <img
-            className="status-base-icon-jury"
-            alt="Icon"
-            src={panel_icon_assign1}
-          />
+          <div className={panelBgClass} />
+          <img className={panelIconClass} alt="Icon" src={iconToDisplay} />
         </div>
       ),
     },
 
-    // Variante 2 : Voir vidéos
-    "btn-panel-film": {
-      container: "square-admin",
-      bg: (
-        <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
-          <img
-            className="status-base-icon-jury"
-            src={panel_icon_film}
-            alt="Icon"
-          />
-        </div>
-      ),
-    },
-
-    // Variante 3 : Modifier Mails
-    "btn-panel-mail": {
-      container: "square-admin",
-      bg: (
-        <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
-          <img
-            className="status-base-icon-jury"
-            src={panel_icon_mail}
-            alt="Icon"
-          />
-        </div>
-      ),
-    },
-
-    // Variante 4 : Top 50
-    "btn-panel-50": {
-      container: "square-admin",
-      bg: (
-        <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
-          <img
-            className="status-base-icon-jury -ml-7"
-            src={panel_icon_50}
-            alt="Icon"
-          />
-        </div>
-      ),
-    },
-
-    // Variante 5 : Ajouter Jury
-    "btn-panel-add": {
-      container: "square-admin",
-      bg: (
-        <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none" />
-          <img
-            className="status-base-icon-jury"
-            src={panel_icon_add}
-            alt="Icon"
-          />
-        </div>
-      ),
-    },
-
-    // Variante 6 : Mofidier Site
-    "btn-panel-setting": {
-      container: "square-admin",
-      bg: (
-        <div>
-          <div className="btn-bg-admin-base bg-bleu-ocean rounded-none " />
-          <img
-            className="status-base-icon-jury "
-            src={panel_icon_setting}
-            alt="Icon"
-          />
-        </div>
-      ),
-    },
-
-    // Variante 7 : Acceuil
+    // Variante 2 : Acceuil
     "btn-panel-home": {
       container: "home-admin",
       bg: (
         <div>
           <div className="btn-bg-admin-base rounded-none" />
-          <img
-            className="status-base-icon-jury-accueil"
-            src={panel_icon_home}
-            alt="Icon"
-          />
+          <img className={homePanelIconClass} src={iconToDisplay} alt="Icon" />
         </div>
       ),
     },
   };
 
   const currentVariant = variants[variant] || variants["neon-yellow"];
-  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${className}`;
+  const textOffsetClass =
+    variant === "btn-panel-home" && !iconOnly ? "pl-3" : "";
+  const iconOnlyClass =
+    iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
+      ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
+      : "";
+  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 
   if (!interactive) {
     return (
@@ -219,7 +149,13 @@ const Button = ({
         {currentVariant.bg}
 
         {/* Contenu du texte */}
-        <span className="relative z-10 pointer-events-none">{children}</span>
+        {!iconOnly && (
+          <span
+            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
+          >
+            {children}
+          </span>
+        )}
       </span>
     );
   }
@@ -236,9 +172,16 @@ const Button = ({
       {currentVariant.bg}
 
       {/* Contenu du texte */}
-      <span className="relative z-10 pointer-events-none">{children}</span>
+      {!iconOnly && (
+        <span
+          className={`relative z-10 pointer-events-none ${textOffsetClass}`}
+        >
+          {children}
+        </span>
+      )}
     </button>
   );
 };
 
+export { Button };
 export default Button;

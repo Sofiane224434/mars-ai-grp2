@@ -75,7 +75,11 @@ const Button = ({
       bg: (
         <div>
           <div className="btn-bg-base border-2 border-solid bg-vert-picollo" />
-          <img className="status-base-icon-jury" alt="Icon" src={jury_valid} />
+          <img
+            className="status-base-icon-jury translate-x-5"
+            alt="Icon"
+            src={jury_valid}
+          />
         </div>
       ),
     },
@@ -86,7 +90,11 @@ const Button = ({
       bg: (
         <div>
           <div className="btn-bg-base border-2 border-solid bg-red-500" />
-          <img className="status-base-icon-jury" alt="Icon" src={jury_refuse} />
+          <img
+            className="status-base-icon-jury translate-x-5 -translate-y-2.5"
+            alt="Icon"
+            src={jury_refuse}
+          />
         </div>
       ),
     },
@@ -97,7 +105,11 @@ const Button = ({
       bg: (
         <div>
           <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
-          <img className="status-base-icon-jury" alt="Icon" src={jury_review} />
+          <img
+            className="status-base-icon-jury translate-x-5"
+            alt="Icon"
+            src={jury_review}
+          />
         </div>
       ),
     },
@@ -131,7 +143,11 @@ const Button = ({
 
   const currentVariant = variants[variant] || variants["neon-yellow"];
   const textOffsetClass =
-    variant === "btn-panel-home" && !iconOnly ? "pl-3" : "";
+    variant === "btn-panel-home" && !iconOnly
+      ? "pl-3"
+      : ["valid-jury", "refuse-jury", "review-jury"].includes(variant)
+        ? "pl-5"
+        : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
       ? "!w-14 !h-14 !p-0 !pl-0 justify-center"

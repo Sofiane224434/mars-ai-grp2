@@ -3,36 +3,13 @@ import StepsTrack from "./StepsTrack";
 
 export default function SimplerFormTest() {
 
-    const [results, setResults] = useState({
-    });
+    const [results, setResults] = useState({});
     //const [verifyrules, setVerifyrules] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
     const [correspondance, setCorrespondance] = useState([])
 
     const [currentStep, setCurrentStep] = useState(1);
     const [maxStep, setMaxStep] = useState(null);
-
-    //input functions
-
-    // function generateRules(e, obj) {
-    //     let formname = e.target.parent.name;
-
-    //     let default_obj = {
-    //         regex: null,
-    //         length_range: { min: null, max: null },
-    //         required: false,
-
-    //     }
-    //     let rulename = e.target.name;
-    //     if (Object.keys(verifyrules).length === 0) {
-    //         // setVerifyrules([{ [formname]: [{ [rulename]: obj }] }]);
-    //         setVerifyrules({ [formname]: { [rulename]: obj } });
-    //     } else {
-    //         let newverif = JSON.parse(JSON.stringify(verifyrules));
-    //         newverif[formname].push({ [rulename]: obj });
-    //         setVerifyrules(newverif);
-    //     }
-    // }
 
     function checkRegex({ value, regex }) {
         return regex.test(value);
@@ -87,11 +64,13 @@ export default function SimplerFormTest() {
     }
 
     function changeInput(e) {
-        let ischeck = false;
+        let ischeck = e.target.type === "checkbox" ? true : false;
         let inpname = e.target.name;
         let value;
         if (ischeck) {
             value = e.target.checked;
+        } else if (e.target.type === "file") {
+            return;
         } else {
             value = e.target.value;
         }
@@ -100,6 +79,7 @@ export default function SimplerFormTest() {
         newres[inpname] = value;
         //set results
         setResults(newres);
+        //console.log(results);
     }
 
     function addToGroup(groupname) {
@@ -137,53 +117,64 @@ export default function SimplerFormTest() {
 
     const myinputs = [
         <input type="text" name="movietitle"
-            value={results["movietitle"] ? results["movietitle"] : ""}
-            onChange={changeInput}></input>,
-        <input type="text" name="movietitletranslated"></input>,
-        <textarea name="synopsis"></textarea>,
-        <input type="text" name="movielanguage"></input>,
+            value={results["movietitle"] || ""}></input>,
+        <input type="text" name="movietitletranslated"
+            value={results["movietitletranslated"] || ""}></input>,
+        <textarea name="synopsis" value={results["synopsis"] || ""}></textarea>,
+        <input type="text" name="movielanguage"
+            value={results["movielanguage"] || ""}></input>,
         <input type="file" name="videofile"></input>,
-        <input name="soundbankcheck" type="checkbox"></input>,
-        <input type="url" name="youtubelink"></input>,
+        <input name="soundbankcheck" type="checkbox"
+            checked={results["soundbankcheck"] || false}></input>,
+        <input type="url" name="youtubelink"
+            value={results["youtubelink"] || ""}></input>,
 
-        <input name="aiscenariocheck" type="checkbox"></input>,
-        <input name="aivideocheck" type="checkbox"></input>,
-        <input name="aipostprodcheck" type="checkbox"></input>,
-        <select name="classification">
+        <input name="aiscenariocheck" type="checkbox"
+            checked={results["aiscenariocheck"] || false}></input>,
+        <input name="aivideocheck" type="checkbox"
+            checked={results["aivideocheck"] || false}></input>,
+        <input name="aipostprodcheck" type="checkbox"
+            checked={results["aipostprodcheck"] || false}></input>,
+        <select name="classification" value={results["classification"] || ""}>
             <option value={""}>...</option>
+            <option value={"allai"}>Génération intégrale (100% IA)</option>
+            <option value={"hybrid"}>Production hybride (Prises de vues réelles +
+                apports IA)
+            </option>
         </select>,
-        <textarea name="prompts"></textarea>,
+        <textarea name="prompts" value={results["prompts"] || ""}></textarea>,
 
         <input type="file" name="movieimage"></input>,
         <input type="file" name="moviescreenshots"></input>,
-        <input type="checkbox" name="dialoguecheck"></input>,
+        <input type="checkbox" name="dialoguecheck"
+            checked={results["dialoguecheck"] || false}></input>,
 
-        <input type="text" name="lastname"></input>,
-        <input type="text" name="firstname"></input>,
-        <select name="gender">
+        <input type="text" name="lastname" value={results["lastname"] || ""}></input>,
+        <input type="text" name="firstname" value={results["firstname"] || ""}></input>,
+        <select name="gender" value={results["gender"] || ""}>
             <option value={""}>...</option>
             <option value={"m"}>Monsieur</option>
             <option value={"f"}>Madame</option>
             <option value={"other"}>Autre</option>
         </select>,
-        <input name="socialname1" type="text"></input>,
-        <input name="sociallink1" type="url"></input>,
-        <input name="email" type="email"></input>,
-        <input name="tel" type="tel"></input>,
-        <input name="birthdate" type="date"></input>,
-        <input name="country" type="text"></input>,
-        <input name="address" type="text"></input>,
-        <input name="address2" type="text"></input>,
-        <input name="zipcode" type="text"></input>,
-        <input name="city" type="text"></input>,
-        <select name="marketting">
+        <input name="socialname1" type="text" value={results["socialname1"] || ""}></input>,
+        <input name="sociallink1" type="url" value={results["sociallink1"] || ""}></input>,
+        <input name="email" type="email" value={results["email"] || ""}></input>,
+        <input name="tel" type="tel" value={results["tel"] || ""}></input>,
+        <input name="birthdate" type="date" value={results["birthdate"] || ""}></input>,
+        <input name="country" type="text" value={results["country"] || ""}></input>,
+        <input name="address" type="text" value={results["address"] || ""}></input>,
+        <input name="address2" type="text" value={results["address2"] || ""}></input>,
+        <input name="zipcode" type="text" value={results["zipcode"] || ""}></input>,
+        <input name="city" type="text" value={results["city"] || ""}></input>,
+        <select name="marketting" value={results["marketting"] || ""}>
             <option value={""}>...</option>
             <option value={"bouche à oreille"}>Bouche à oreille</option>
             <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>
             <option value={"autre"}>Autre (précisez)</option>
         </select>,
-        <input type="checkbox" name="toscheck"></input>,
-        <input type="checkbox" name="rulescheck"></input>
+        <input type="checkbox" name="toscheck" checked={results["toscheck"] || false}></input>,
+        <input type="checkbox" name="rulescheck" checked={results["rulescheck"] || false}></input>
     ];
 
     //build results
@@ -196,7 +187,6 @@ export default function SimplerFormTest() {
         //console.log(newres)
         setResults(newres);
     }, [])
-    //console.log(results)
 
 
     // for (let a in myinputs) {
@@ -212,10 +202,129 @@ export default function SimplerFormTest() {
     }
     //console.log(getinputfromarray("movietitle"))
 
+    //form verifications functions
+    function textVerify({
+        value,
+        regex = null,
+        maxlen = null,
+        minlen = null,
+        required = false
+    }) {
+        let trackobj = {
+            regex_err: false,
+            maxlen_err: false,
+            minlen_err: false,
+            required_err: false,
+        }
+        if (required) {
+            if (["", null, undefined].includes(value)) {
+                trackobj.required_err = true;
+                return trackobj;
+            }
+        } else {
+            if (["", null, undefined].includes(value)) {
+                return trackobj;
+            }
+        }
+        if (regex) {
+            if (!regex.test(value)) {
+                trackobj.regex_err = true;
+            }
+        }
+        if (maxlen) {
+            if (value.length > maxlen) {
+                trackobj.maxlen_err = true;
+            }
+        }
+        if (minlen) {
+            if (value.length < minlen) {
+                trackobj.minlen_err = true;
+            }
+        }
+        return trackobj;
+    }
+
+    function verifyNumber(
+        {
+            value,
+            min = null,
+            max = null,
+            required = false
+        }
+    ) {
+        let trackobj = {
+            required_err: null,
+            min_err: null,
+            max_err: null
+        };
+
+        if (required) {
+            if (["", null, undefined].includes(value)) {
+                trackobj.required_err = "empty";
+            }
+        }
+    }
+
+    function verifyForm() {
+        switch (currentStep) {
+            case 1:
+                /**
+                 * Need to check:
+                 * movietitle
+                 * movietitletranslated
+                 * synopsis
+                 * movielanguage
+                 * videofile
+                 * soundbankcheck
+                 * NOTE: if checked, look for additive inputs
+                 * youtubelink
+                 */
+                return;
+            case 2:
+                /**
+                 * aiscenariocheck
+                 * aivideocheck
+                 * aipostprodcheck
+                 * NOTE: at least one of the 3 have to be checked
+                 * NOTE: Must then check the additional inputs
+                 * classification
+                 * prompts
+                 */
+                return;
+            case 3:
+                /**
+                 * movieimage
+                 * moviescreenshots
+                 * dialoguecheck
+                 * NOTE : if checked look for srt input
+                 */
+                return;
+            case 4:
+                /**
+                 * lastname
+                 * firstname
+                 * gender
+                 * socials (socialname & sociallink) look for additives
+                 * email
+                 * tel
+                 * birthdate
+                 * country
+                 * address
+                 * address2
+                 * zipcode
+                 * country
+                 * marketting
+                 * toscheck
+                 * rulescheck
+                 */
+                return;
+        }
+    }
+
     //form setup
     const myforms = [
         [
-            <form>
+            <form onChange={changeInput}>
                 <h2>Etape 1 : Fiche film</h2>
                 <div>
                     <div>Titre original du film</div>
@@ -224,124 +333,123 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Titre du film traduit en français</div>
-                    <input type="text" name="movietitletranslated"></input>
+                    {getinputfromarray("movietitletranslated")}
                 </div>
 
                 <div>
                     <div>Synopsis</div>
-                    <textarea name="synopsis"></textarea>
+                    {getinputfromarray("synopsis")}
                 </div>
 
                 <div>
                     <div>Langue du film</div>
-                    <input type="text" name="movielanguage"></input>
+                    {getinputfromarray("movielanguage")}
                 </div>
 
                 <div>
                     <div>Fichier vidéo (.mp4 ou .mov)</div>
-                    <input type="file" name="videofile"></input>
+                    {getinputfromarray("videofile")}
                 </div>
 
                 <div>
                     <div>Ce film contient de la musique et/ou une banque de sons</div>
-                    <input name="soundbankcheck" type="checkbox"></input>
+                    {getinputfromarray("soundbankcheck")}
                 </div>
 
-                {/* Additive conditional input here */}
-                { }
+                {/* Additive conditional additive input here */}
 
                 <div>
                     <div>Lien de votre film sur Youtube</div>
-                    <input type="url" name="youtubelink"></input>
+                    {getinputfromarray("youtubelink")}
                 </div>
 
             </form>
         ],
         [
-            <form>
+            <form onChange={changeInput}>
                 <h2>Etape 2 : Déclaration d'usage de l'IA</h2>
 
                 <div>
                     <div>Ce film utilise l'IA pour...</div>
                     <div>
-                        <input name="aiscenariocheck" type="checkbox"></input>
+                        {getinputfromarray("aiscenariocheck")}
                         <div>La génération du scénario</div>
                     </div>
                     {/* Insert additive here on conditional for each one (must be select) */}
                     <div>
-                        <input name="aivideocheck" type="checkbox"></input>
+                        {getinputfromarray("aivideocheck")}
                         <div>La génération de la vidéo</div>
                     </div>
 
                     <div>
-                        <input name="aipostprodcheck" type="checkbox"></input>
+                        {getinputfromarray("aipostprodcheck")}
                         <div>La post production (editing, etc...)</div>
                     </div>
                 </div>
 
                 <div>
                     <div>Classification de l'oeuvre</div>
-                    <select name="classification">
-                        <option value={""}>...</option>
-                    </select>
+                    {getinputfromarray("classification")}
                 </div>
 
                 <div>
                     <div>Notes de productions (vos prompts)</div>
-                    <textarea name="prompts"></textarea>
+                    {getinputfromarray("prompts")}
                 </div>
 
             </form>
         ],
         [
-            <form>
+            <form onChange={changeInput}>
                 <h2>Etape 3 : Multimédia et accessibilité</h2>
 
                 <div>
                     <div>Votre vignette (image représentant votre vidéo)</div>
-                    <input type="file" name="movieimage"></input>
+                    {getinputfromarray("movieimage")}
                 </div>
 
                 <div>
                     <div>Captures d'écran de votre film</div>
-                    <input type="file" name="moviescreenshots"></input>
+                    {getinputfromarray("moviescreenshots")}
                     {/* Check how to add possibility for multiple
                     uploads */}
                 </div>
 
                 <div>
-                    <input type="checkbox" name="dialoguecheck"></input>
+                    {getinputfromarray("dialoguecheck")}
                     <div>Ce film contient des dialogues ou des textes nécessitants
                         des sous-titres
                     </div>
                     {/* Insert conditional upload of srt file here */}
+                    {results["dialoguecheck"] == true &&
+                        <div>
+                            <div>Veuillez déposer un fichier sous-titres (.srt)</div>
+                            <input type="file" name="srtfile"></input>
+                        </div>
+
+                    }
                 </div>
 
             </form>
         ],
         [
-            <form>
+            <form onChange={changeInput}>
                 <h2>Etape 4 : vos informations</h2>
                 <div>
                     <div>
                         <div>Nom</div>
-                        <input type="text" name="lastname"></input>
+                        {getinputfromarray("lastname")}
                     </div>
 
                     <div>
                         <div>Prénom</div>
-                        <input type="text" name="firstname"></input>
+                        {getinputfromarray("firstname")}
                     </div>
                 </div>
 
                 <div>
                     <div>Civilité</div>
-                    <select name="gender">
-                        <option value={""}>...</option>
-                        <option value={"m"}>Monsieur</option>
-                        <option value={"f"}>Madame</option>
-                        <option value={"other"}>Autre</option>
-                    </select>
+                    {getinputfromarray("gender")}
                 </div>
 
                 <div>
@@ -351,12 +459,12 @@ export default function SimplerFormTest() {
                         <div>Réseau 1</div>
                         <div>
                             <div>Nom du réseau</div>
-                            <input name="socialname1" type="text"></input>
+                            {getinputfromarray("socialname1")}
                         </div>
 
                         <div>
                             <div>Lien vers le réseau</div>
-                            <input name="sociallink1" type="url"></input>
+                            {getinputfromarray("sociallink1")}
                         </div>
                     </div>
 
@@ -367,65 +475,60 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Email</div>
-                    <input name="email" type="email"></input>
+                    {getinputfromarray("email")}
                 </div>
 
                 <div>
                     <div>Numéro de téléphone</div>
-                    <input name="tel" type="tel"></input>
+                    {getinputfromarray("tel")}
                 </div>
 
                 <div>
                     <div>Date de naissance</div>
-                    <input name="birthdate" type="date"></input>
+                    {getinputfromarray("birthdate")}
                 </div>
 
                 <div>
                     <div>Pays</div>
-                    <input name="country" type="text"></input>
+                    {getinputfromarray("country")}
                 </div>
 
                 <div>
                     <div>Adresse</div>
-                    <input name="address" type="text"></input>
+                    {getinputfromarray("address")}
                 </div>
 
                 <div>
                     <div>Complément d'adresse</div>
-                    <input name="address2" type="text"></input>
+                    {getinputfromarray("address2")}
                 </div>
 
                 <div>
                     <div>
                         <div>Code postal</div>
                         {/* Note: this should accept only numbers */}
-                        <input name="zipcode" type="text"></input>
+                        {getinputfromarray("zipcode")}
                     </div>
 
                     <div>
                         <div>Ville</div>
-                        <input name="city" type="text"></input>
+                        {getinputfromarray("city")}
                     </div>
                 </div>
 
                 <div>
                     <div>Comment avez-vous connu MarsAi ?</div>
-                    <select name="marketting">
-                        <option value={""}>...</option>
-                        <option value={"bouche à oreille"}>Bouche à oreille</option>
-                        <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>
-                        <option value={"autre"}>Autre (précisez)</option>
-                    </select>
+                    {getinputfromarray("marketting")}
                     {/* insert input on selecting "other" */}
                 </div>
 
                 <div>
-                    <input type="checkbox" name="toscheck"></input>
+                    {getinputfromarray("toscheck")}
                     <div>J'ai lu et j'accepte les conditions d'envoi vidéo</div>
                 </div>
 
                 <div>
-                    <input type="checkbox" name="rulescheck"></input>
+                    {getinputfromarray("rulescheck")}
                     <div>J'ai lu et j'accepte le règlement du festival MarsAi</div>
                 </div>
 
@@ -443,12 +546,6 @@ export default function SimplerFormTest() {
 
     function generateForms(step) {
         return (myforms[step - 1])
-    }
-
-    //form verifications functions
-
-    function verifyForm() {
-
     }
 
     //button functions

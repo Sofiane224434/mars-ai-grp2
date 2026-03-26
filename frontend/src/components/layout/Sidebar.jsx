@@ -1,23 +1,22 @@
 import { useState } from "react";
-import { Button } from "../components/ui/Button";
-import panel_icon_assign1 from "../assets/icons/panel_icon_assign1.png";
-import panel_icon_film from "../assets/icons/panel_icon_film.png";
-import panel_icon_mail from "../assets/icons/panel_icon_mail.png";
-import panel_icon_setting from "../assets/icons/panel_icon_setting.png";
-import panel_icon_50 from "../assets/icons/panel_icon_50.png";
-import panel_icon_add from "../assets/icons/panel_icon_add.png";
-import panel_icon_home from "../assets/icons/panel_icon_home.png";
-import panel_icon_not_watched from "../assets/icons/panel_icon_not_watched.png";
+import { Button } from "../ui/Button";
+import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
+import panel_icon_film from "../../assets/icons/panel_icon_film.png";
+import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
+import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
+import panel_icon_50 from "../../assets/icons/panel_icon_50.png";
+import panel_icon_add from "../../assets/icons/panel_icon_add.png";
+import panel_icon_home from "../../assets/icons/panel_icon_home.png";
+import panel_icon_not_watched from "../../assets/icons/panel_icon_not_watched.png";
 
-const MainLayoutAdmin = ({ variant = "admin", className = "" }) => {
+const Sidebar = ({ variant = "admin", className = "" }) => {
   const [collapsed, setCollapsed] = useState(false);
-
   const variants = {
     admin: {
       container: "mt-6 relative h-[1024px] transition-all duration-200",
       bg: <div className="absolute inset-0 bg-noir-bleute" />,
       content:
-        "relative z-10 h-full px-6 pt-16 flex flex-col items-start gap-0 transition-all duration-200",
+        "relative z-10 h-full px-6 pt-7 flex flex-col items-start gap-0 transition-all duration-200",
       title: "w-full text-center text-white font-normal text-2xl mb-10",
     },
 
@@ -25,7 +24,7 @@ const MainLayoutAdmin = ({ variant = "admin", className = "" }) => {
       container: "mt-6 relative h-[1024px] transition-all duration-200",
       bg: <div className="absolute inset-0 bg-noir-bleute" />,
       content:
-        "relative z-10 h-full px-6 pt-16 flex flex-col items-start gap-0 transition-all duration-200",
+        "relative z-10 h-full px-6 pt-7 flex flex-col items-start gap-0 transition-all duration-200",
       title: "w-full text-center text-white font-normal text-2xl mb-10",
     },
   };
@@ -131,4 +130,4 @@ const MainLayoutAdmin = ({ variant = "admin", className = "" }) => {
   );
 };
 
-export default MainLayoutAdmin;
+export default Sidebar;

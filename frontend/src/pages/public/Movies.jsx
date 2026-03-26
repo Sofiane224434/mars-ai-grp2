@@ -1,6 +1,6 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
-import MainLayoutAdmin from "../../layouts/MainLayoutAdmin";
+import Sidebar from "../../components/layout/SideBar";
 
 function Movies() {
   const { t } = useTranslation();
@@ -8,7 +8,7 @@ function Movies() {
   return (
     <div className="min-h-screen">
       <h1>{t("nav.movies")}</h1>
-      <MainLayoutAdmin variant="admin" />
+      <Sidebar variant="admin" />
     </div>
   );
 }

@@ -30,8 +30,12 @@ export const requireAuth = (requiredRole) => {
       // On laisse passer la requête au prochain fichier (le contrôleur)
       next(); 
     } catch (error) {
+      // DEBUG: Afficher la vraie raison du rejet dans le terminal
+      console.error("Erreur JWT détaillée :", error.message);
+      
       // Si le token est faux, expiré ou malformé, on bloque.
       return res.status(401).json({ error: "Session invalide ou expirée." });
+    
     }
   };
 };

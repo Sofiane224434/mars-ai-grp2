@@ -1,45 +1,63 @@
-import JuryMovieModel from '../models/juryMovie.model.js';
+import * as JuryMovieModel from '../models/juryMovie.model.js';
 
-// MISSION 1 : Renvoyer la liste des films (Route GET)
 export const getAssignedMovies = async (req, res) => {
   try {
-    // Magie du middleware requireAuth : l'ID du jury est déjà dans req.user !
-    // Pas besoin de le passer dans l'URL, c'est 100% sécurisé.
-    const juryId = req.user.id; 
-    
-    // On demande au modèle d'aller chercher les films de ce jury
-    const movies = await JuryMovieModel.getMoviesByJuryId(juryId);
-    
-    // On renvoie les films au Front-End avec un code de succès 200
-    return res.status(200).json(movies);
+    const userId = req.user.id;
+    const movies = await JuryMovieModel.getAssignedMoviesByUser(userId);
+
+    return res.status(200).json({
+      success: true,
+      data: movies
+    });
   } catch (error) {
-    console.error("Erreur getAssignedMovies:", error);
-    return res.status(500).json({ error: "Erreur lors de la récupération des films." });
+    console.error('Erreur lors de la recuperation des films assignes :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Impossible de recuperer les films assignes.'
+    });
   }
 };
 
-// MISSION 2 : Mettre à jour le statut d'un film (Route PUT)
-export const updateMovieStatus = async (req, res) => {
+export const validateMovieStatus = async (req, res) => {
   try {
-    // 1. On récupère l'ID du film depuis l'URL (ex: /api/jury/movies/15/status -> id = 15)
-    const movieId = req.params.id;
-    
-    // 2. On récupère le fameux statusId (Magie de Zod : on est CERTAIN que c'est 1, 2, 3 ou 4)
-    const { statusId } = req.body; 
-    
-    // 3. On récupère l'ID du jury depuis son token
-    const juryId = req.user.id;
+    const movieId = Number(req.params.id);
+    const { statusId } = req.body;
+    const userId = req.user.id;
 
-    // On donne tout ça au modèle pour qu'il mette à jour la base de données MySQL
-    const updatedMovie = await JuryMovieModel.updateStatus(movieId, juryId, statusId);
+    if (!Number.isInteger(movieId) || movieId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID de film invalide.'
+      });
+    }
 
-    // Tout s'est bien passé, on prévient le Front-End !
+    const isAssigned = await JuryMovieModel.isMovieAssignedToUser(movieId, userId);
+    if (!isAssigned) {
+      return res.status(403).json({
+        success: false,
+        message: "Ce film n'est pas assigne a ce membre du jury."
+      });
+    }
+
+    const updateResult = await JuryMovieModel.updateMovieStatus(movieId, statusId);
+    if (updateResult && updateResult.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Film introuvable ou statut déjà identique.'
+      });
+    }
+
+    // PLUS DE BROUILLON D'E-MAIL ICI ! Juste une validation claire.
     return res.status(200).json({
-      message: "Statut du film mis à jour avec succès.",
-      movie: updatedMovie
+      success: true,
+      message: "Statut mis à jour avec succès. L'administrateur a été notifié."
     });
+
   } catch (error) {
-    console.error("Erreur updateMovieStatus:", error);
-    return res.status(500).json({ error: "Erreur lors de la modification du statut." });
+    console.error('Erreur lors de la validation par le jury :', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Une erreur est survenue lors de l'enregistrement de la décision." 
+    });
   }
 };

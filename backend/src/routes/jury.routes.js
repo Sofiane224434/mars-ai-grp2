@@ -1,7 +1,7 @@
 import express from 'express';
 import { requireAuth } from '../middlewares/requireAuth.js';
 import { updateMovieStatusSchema } from '@mars/shared';
-import { getAssignedMovies, updateMovieStatus } from '../controllers/juryMovie.controller.js';
+import { getAssignedMovies, validateMovieStatus } from '../controllers/juryMovie.controller.js';
 
 const router = express.Router();
 
@@ -33,8 +33,8 @@ router.use(requireAuth('jury'));
 router.get('/movies', getAssignedMovies);
 
 // PUT /api/jury/movies/:id/status
-// Ordre de passage : requireAuth (déjà passé) -> validateRequest (Zod) -> updateMovieStatus (Contrôleur)
-router.put('/movies/:id/status', validateRequest(updateMovieStatusSchema), updateMovieStatus);
+// Ordre de passage : requireAuth (deja passe) -> validateRequest (Zod) -> validateMovieStatus (Controleur)
+router.put('/movies/:id/status', validateRequest(updateMovieStatusSchema), validateMovieStatus);
 
 // On exporte le routeur pour que le serveur principal puisse l'utiliser
 export default router;

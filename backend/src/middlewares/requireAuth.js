@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
-//Le rôle de ce fichier est d'intercepter chaque requête vers le panel du jury, de vérifier que la personne possède un "badge" (le token JWT) valide, et qu'elle a bien le rôle "jury".
-export const requireAuth = (requiredRole) => {
+// Le role de ce fichier est d'intercepter chaque requete vers le panel du jury,
+// de verifier que la personne possede un token JWT valide, et qu'elle a bien le status attendu.
+export const requireAuth = (requiredStatus) => {
   return (req, res, next) => {
     try {
       // 1. On cherche le token dans les headers (Bearer) ou dans les cookies
@@ -19,8 +20,8 @@ export const requireAuth = (requiredRole) => {
       // 3. On décrypte le token avec ta clé secrète
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // 4. On vérifie si l'utilisateur a le droit d'être ici (ex: est-il 'jury' ?)
-      if (requiredRole && decoded.role !== requiredRole) {
+      // 4. Le projet s'appuie sur le champ status (ex: "jury", "admin")
+      if (requiredStatus && decoded.status !== requiredStatus) {
         return res.status(403).json({ error: "Accès interdit. Vous n'avez pas les droits nécessaires." });
       }
 

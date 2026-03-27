@@ -1,18 +1,44 @@
-// On simule des appels asynchrones à une base de données avec des Promesses
-const getMoviesByJuryId = async (juryId) => {
-  console.log(`[MOCK] Recherche des films pour le jury n°${juryId}...`);
-  return [
-    { id: 1, title: "L'éveil de l'IA", statusId: 4 },
-    { id: 2, title: "Futur Imparfait", statusId: 1 }
-  ];
+import { query } from '../config/db.js';
+
+// Recuperer les films assignes a un membre du jury
+export const getAssignedMoviesByUser = async (userId) => {
+  const sql = `
+    SELECT
+      m.id,
+      m.title_original,
+      m.title_english,
+      m.language,
+      m.classification,
+      m.status AS statusId,
+      s.status AS statusLabel,
+      m.created_at,
+      m.updated_at
+    FROM users_movies um
+    INNER JOIN movies m ON m.id = um.movie_id
+    LEFT JOIN status s ON s.id = m.status
+    WHERE um.user_id = ?
+    ORDER BY m.updated_at DESC, m.id DESC
+  `;
+
+  return await query(sql, [userId]);
 };
 
-const updateStatus = async (movieId, juryId, statusId) => {
-  console.log(`[MOCK] Le jury n°${juryId} a mis le film n°${movieId} au statut ${statusId}`);
-  return { id: movieId, statusId: statusId, message: "Ceci est un faux retour de BDD" };
+// Verifier que le film est bien assigne a ce jury
+export const isMovieAssignedToUser = async (movieId, userId) => {
+  const sql = `
+    SELECT 1
+    FROM users_movies
+    WHERE movie_id = ? AND user_id = ?
+    LIMIT 1
+  `;
+
+  const rows = await query(sql, [movieId, userId]);
+  return rows.length > 0;
 };
 
-export default {
-  getMoviesByJuryId,
-  updateStatus
+// Mettre à jour le statut du film
+export const updateMovieStatus = async (movieId, statusId) => {
+  const sql = "UPDATE movies SET status = ? WHERE id = ?";
+  return await query(sql, [statusId, movieId]);
 };
+

@@ -4,32 +4,21 @@ import StepsTrack from "./StepsTrack";
 export default function SimplerFormTest() {
 
     const [results, setResults] = useState({});
-    //const [verifyrules, setVerifyrules] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
+
     const [correspondance, setCorrespondance] = useState([])
 
     const [currentStep, setCurrentStep] = useState(1);
     const [maxStep, setMaxStep] = useState(null);
 
-    function checkRegex({ value, regex }) {
-        return regex.test(value);
-    }
-
-    function checklenght({ min, max, value }) {
-        if (value.length < min || value.length > max) {
-            return false;
+    function getNested(obj, ...args) {
+        let res = args.reduce((obj, level) => obj && obj[level], obj);
+        //console.log(res);
+        if (res == undefined) {
+            return ("");
+        } else {
+            return res;
         }
-        return true;
-    }
-
-    function checkEmpty({ value }) {
-        if (value == "") {
-            return true;
-        }
-        if (!value || value != false) {
-            return true;
-        }
-        return false;
     }
 
     function checkVideo({ file }) {
@@ -44,25 +33,6 @@ export default function SimplerFormTest() {
         //check .png, .jpg
     }
 
-    function verifyValues(arrayofinputs, objwithrules) {
-        for (let e in arrayofinputs) {
-            let value = results[e];
-        }
-        //let value = e.target.value;
-        if (objwithrules.required) {
-            if (checkEmpty({ value: value })) {
-
-            } else {
-                //should return something to avoid other checks?
-            }
-        }
-        if (objwithrules.regex) {
-            if (!checkRegex({ regex: obj.regex, value: value })) {
-
-            }
-        }
-    }
-
     function changeInput(e) {
         let ischeck = e.target.type === "checkbox" ? true : false;
         let inpname = e.target.name;
@@ -74,12 +44,23 @@ export default function SimplerFormTest() {
         } else {
             value = e.target.value;
         }
-        //replace with results
+
+        //copy result
         let newres = JSON.parse(JSON.stringify(results));
-        newres[inpname] = value;
+
+        if (e.target.ariaLabel) {
+            if (newres[e.target.ariaLabel]) {
+                newres[e.target.ariaLabel][inpname] = value;
+            } else {
+                newres[e.target.ariaLabel] = { [inpname]: value };
+            }
+        } else {
+            newres[inpname] = value;
+        }
+
         //set results
         setResults(newres);
-        //console.log(results);
+        console.log(results);
     }
 
     function addToGroup(groupname) {
@@ -88,12 +69,16 @@ export default function SimplerFormTest() {
         } else {
             const valname = Object.keys(results[groupname]).length;
             let newres = JSON.parse(JSON.stringify(results));
-            console.log("newres:", newres);
             newres[groupname][valname] = "";
             setResults(newres);
         }
 
     }
+
+    //debug
+    useEffect(() => {
+        console.log(results);
+    }, [results])
 
     function deleteFromResults(name, isgroup = false, groupname = null) {
         const newResults = { ...results };
@@ -103,13 +88,6 @@ export default function SimplerFormTest() {
             delete newResults[name];
         }
         setResults(newResults);
-    }
-
-    function getvalue(e) {
-        // console.log(e);
-        // let targetname = e.target.name;
-        // console.log(targetname);
-        return "abc";
     }
 
     // const myinp = <input type="text" name="movies!!!" value={""}></input>
@@ -186,6 +164,7 @@ export default function SimplerFormTest() {
         };
         //console.log(newres)
         setResults(newres);
+        setErrorMessages(newres);
     }, [])
 
 
@@ -200,22 +179,149 @@ export default function SimplerFormTest() {
             }
         }
     }
-    //console.log(getinputfromarray("movietitle"))
+
+    function geterrormessage(inputname) {
+        let messages = errorMessages[inputname];
+        if (messages) {
+            return (<div>{errorMessages[inputname]}</div>);
+        }
+        return;
+    }
+
+    function clearerror(errorname) {
+        let newerr = { ...errorMessages };
+        newerr[errorname] = "";
+        setErrorMessages(newerr);
+    }
+
+    function clearAllerrors() {
+        let newerr = { ...errorMessages };
+        for (let a in newerr) {
+            newerr[a] = "";
+        }
+        setErrorMessages(newerr);
+    }
+
+    function editErrorMessages(errorkey, newvalue) {
+        let newerr = { ...errorMessages };
+        newerr[errorkey] = newvalue;
+        setErrorMessages(newerr);
+    }
 
     //form verifications functions
-    function textVerify({
-        value,
+
+    /**
+     * Vérifie un texte selon certains critères et set des messages d'erreurs si erreur
+     * @param {*} keyname Le nom de la clé de valeur à vérifier (ex: "movietitle")
+     * @param regex Si existe, le regex à vérifier 
+     * @param maxlen La longueur maximale du texte si existe
+     * @param minlen La longueur minimum du text si existe
+     * @param required Si true, lance une erreur si le texte est vide
+     * @returns {boolean} Si le texte passe ou non la vérification (true si tout est ok,
+     * false si erreur)
+     */
+    function checkText({
+        keyname,
         regex = null,
         maxlen = null,
         minlen = null,
         required = false
     }) {
-        let trackobj = {
-            regex_err: false,
-            maxlen_err: false,
-            minlen_err: false,
-            required_err: false,
+        let value = results[keyname];
+        // let trackobj = {
+        //     regex_err: false,
+        //     maxlen_err: false,
+        //     minlen_err: false,
+        //     required_err: false,
+        // }
+
+        let messages = {
+            required: "Veuillez remplir ce champ.",
+            maxlen: "Texte trop long, doit être moins de " + maxlen + " caractères.",
+            minlen: "Texte trop court, doit avoir plus de " + minlen + " caractères.",
+            regex: {
+                name: {
+                    message: "Erreur : ne doit contenir que des lettres, tirets, espaces ou chiffres.",
+                    includes: ["firstname, lastname, language, movielanguage, country"]
+                },
+                email: {
+                    message: "Erreur : doit suivre un modèle email (exemple@email.com).",
+                    includes: ["email"]
+                },
+                youtube: {
+                    message: "Erreur: doit être une url youtube.",
+                    includes: ["youtubelink"]
+                },
+                url: {
+                    message: "Erreur : doit être une url.",
+                    includes: ["sociallink"]
+                },
+                numbers: {
+                    message: "Erreur : ne doit contenir que des chiffres.",
+                    includes: ["tel", "zipcode"]
+                },
+                default: "Erreur, texte incorrecte."
+            }
         }
+
+        if (required) {
+            if (["", null, undefined].includes(value)) {
+                editErrorMessages(keyname, messages.required)
+                return false;
+            }
+        } else {
+            if (["", null, undefined].includes(value)) {
+                return true;
+            }
+        }
+        if (regex) {
+            if (!regex.test(value)) {
+                let applied_message = false;
+                for (let m in messages.regex) {
+                    if (m !== "default") {
+                        if (messages.regex[m].includes.includes(keyname)) {
+                            editErrorMessages(keyname, messages.regex[m].message);
+                            applied_message = true;
+                        }
+                        //console.log(m);
+                    }
+                }
+                if (!applied_message) {
+                    editErrorMessages(keyname, messages.regex.default);
+                }
+                return false;
+            }
+        }
+        if (maxlen) {
+            if (value.length > maxlen) {
+                return false;
+            }
+        }
+        if (minlen) {
+            if (value.length < minlen) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkNumber(
+        {
+            keyname,
+            min = null,
+            max = null,
+            required = false
+        }
+    ) {
+
+        let value = results[keyname];
+
+        let trackobj = {
+            required_err: false,
+            min_err: false,
+            max_err: false
+        };
+
         if (required) {
             if (["", null, undefined].includes(value)) {
                 trackobj.required_err = true;
@@ -226,43 +332,17 @@ export default function SimplerFormTest() {
                 return trackobj;
             }
         }
-        if (regex) {
-            if (!regex.test(value)) {
-                trackobj.regex_err = true;
+        if (max) {
+            if (value > max) {
+                trackobj.max_err = true;
             }
         }
-        if (maxlen) {
-            if (value.length > maxlen) {
-                trackobj.maxlen_err = true;
-            }
-        }
-        if (minlen) {
-            if (value.length < minlen) {
-                trackobj.minlen_err = true;
+        if (min) {
+            if (value < min) {
+                trackobj.min_err = true;
             }
         }
         return trackobj;
-    }
-
-    function verifyNumber(
-        {
-            value,
-            min = null,
-            max = null,
-            required = false
-        }
-    ) {
-        let trackobj = {
-            required_err: null,
-            min_err: null,
-            max_err: null
-        };
-
-        if (required) {
-            if (["", null, undefined].includes(value)) {
-                trackobj.required_err = "empty";
-            }
-        }
     }
 
     function verifyForm() {
@@ -279,7 +359,23 @@ export default function SimplerFormTest() {
                  * NOTE: if checked, look for additive inputs
                  * youtubelink
                  */
-                return;
+                clearAllerrors()
+                let myverifications = [
+                    checkText({ keyname: "movietitle", maxlen: 255, required: true }),
+                    checkText({ keyname: "movietitletranslated", maxlen: 255, required: true }),
+                    checkText({ keyname: "synopsis", maxlen: 500, required: true }),
+                    checkText({ keyname: "movielanguage", maxlen: 100, required: true }),
+                    checkText({ keyname: "youtubelink", required: true })
+                ]
+                //needs file checker ^^^
+                if (results["soundbankcheck"]) {
+                    //check for the extra inputs
+                }
+                if (myverifications.includes(false)) {
+                    return false;
+                } else {
+                    return true;
+                }
             case 2:
                 /**
                  * aiscenariocheck
@@ -357,6 +453,33 @@ export default function SimplerFormTest() {
                 </div>
 
                 {/* Additive conditional additive input here */}
+                {
+                    results["soundbankcheck"] &&
+                    <div>
+                        <input type="text" name={0} aria-label="soundbank_group"
+                            value={getNested(results, "soundbank_group", 0) ?
+                                results["soundbank_group"][0] : ""
+                            }></input>
+                        {results["soundbank_group"] &&
+                            Object.keys(results["soundbank_group"]).map(sb => {
+                                console.log("sbres", results["soundbank_group"][sb] ?
+                                    results["soundbank_group"][sb] : "cannot find"
+                                );
+                                if (sb > 0) {
+                                    return (
+                                        <input aria-label="soundbank_group" type="text" name={sb}
+                                            value={results["soundbank_group"][sb] ?
+                                                results["soundbank_group"][sb] : ""
+                                            }
+                                        ></input>)
+                                }
+
+                            }
+                            )}
+                        <button onClick={() => addToGroup("soundbank_group")}
+                            type="button">(+) Ajouter une musique/banque son</button>
+                    </div>
+                }
 
                 <div>
                     <div>Lien de votre film sur Youtube</div>
@@ -555,7 +678,9 @@ export default function SimplerFormTest() {
     }
 
     function gonext() {
-        setCurrentStep(currentStep + 1);
+        if (verifyForm()) {
+            setCurrentStep(currentStep + 1);
+        }
     }
 
     function handleSubmit() {

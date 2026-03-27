@@ -35,8 +35,10 @@ function App() {
         <Route path="/awards" element={<Awards />} />
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
-        <Route path="/auth" element={<Auth />} />
       </Route>
+
+      {/* Route Auth sans Header/Footer */}
+      <Route path="/auth" element={<Auth />} />
 
       {/* Admin Panel Routes avec HeaderAdmin */}
       <Route element={<AdminLayout />}>

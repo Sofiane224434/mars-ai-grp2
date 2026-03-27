@@ -31,9 +31,12 @@ p {
   }
 
   .btn-bg-base {
-    @apply pointer-events-none absolute w-full h-[67.97%] top-[15.81%] left-0 rounded-full;
+    @apply pointer-events-none absolute w-full h-[65%] top-[15%] left-0 right-0 rounded-full;
   }
 
+  .btn-bg-admin-base {
+    @apply pointer-events-none absolute h-14 top-[17%] -left-4 -right-4 rounded-full  justify-center;
+  }
   .status-base {
     @apply relative flex items-center gap-1.5 w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
   }
@@ -43,7 +46,27 @@ p {
   }
 
   .status-base-icon-jury {
-    @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1;
+    @apply relative h-7 w-auto shrink-0 object-contain mt-1 mr-3 ml-3;
+  }
+
+  .status-base-icon-jury-action {
+    @apply pointer-events-none absolute left-2.5 top-1/2 h-5 w-auto -translate-y-1/2 object-contain;
+  }
+
+  .status-base-icon-jury-accueil {
+    @apply absolute left-2 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
+  }
+
+  .color-gradient-blue-yellow-green {
+    @apply bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent;
+  }
+
+  .concept-festival {
+    @apply pt-10 px-10 mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent drop-shadow-sm;
+  }
+
+  .background-gradient-black {
+    @apply bg-linear-to-b from-black via-noir-bleute to-gris-anthracite;
   }
 
   .neon-yellow {
@@ -75,12 +98,37 @@ p {
   }
 
   .filled-jury {
-    width: 150px;
-    height: 80px;
+    width: 114px;
+    height: 50px;
     font-weight: 400;
     color: var(--color-slate-800);
-   
-    
+  }
+
+  .square-admin {
+    width: 193px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-white);
+    font-family: "Inter-Regular", Helvetica;
+    font-size: medium;
+    padding-left: 30px;
+  }
+
+  .home-admin {
+    position: relative;
+    width: 168px;
+    height: 42px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 15px;
+    border-radius: 50px;
+    background: linear-gradient(
+      90deg,
+      rgba(253, 255, 107, 1) 0%,
+      rgba(213, 139, 82, 1) 100%
+    );
   }
 }
 
@@ -97,6 +145,7 @@ p {
   --color-turquoise-vif: #4df6ff;
   --color-bleu-ciel: #42cbe6;
   --color-bleu-canard: #2b9498;
+  --color-bleu-ocean: #42cbe6;
   --color-gris-anthracite: #383839;
   --color-gris-magneti: #8f8f8f;
   --color-reglisse: #232323;

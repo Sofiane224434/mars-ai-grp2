@@ -1,17 +1,25 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
-import { Filtre } from "../../components/ui/Filtre";
+import Sidebar from "../../components/layout/SideBar";
+import Button from "../../components/UI/Button.jsx";
+import MovieCard from '../../components/UI/MovieCard.jsx';
 
 function Movies() {
   const { t } = useTranslation();
 
-  return (
-    <div className="min-h-screen">
-      <h1>{t("nav.movies")}</h1>
-      <Filtre variant="filtre_horizontal"> TEST </Filtre>
-      <Filtre variant="filtre_vertical"> TEST </Filtre>
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-linear-to-b from-noir-bleute to-gris-anthracite px-4 py-10">
+            <h1 className="text-center text-5xl text-white">{t("nav.movies")}</h1>
+
+            <div className="mx-auto mt-8 flex max-w-6xl justify-center">
+                <MovieCard
+                    variant="basic"
+                    title="Titre de la video"
+                    directorName="Nom Prenom"
+                />
+            </div>
+        </div>
+    );
 }
 
 export default Movies;

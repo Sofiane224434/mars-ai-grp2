@@ -1,0 +1,13 @@
+{
+  "name": "@mars/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./schemas.js",
+  "exports": {
+    ".": "./schemas.js"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}

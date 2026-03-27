@@ -1,12 +1,11 @@
 // layouts/MainLayout.jsx
 import { Outlet } from 'react-router-dom';
-import HeaderJury from '../components/layout/HeaderJury.jsx';
-import Footer from '../components/layout/Footer.jsx';
+import PanelJury from '../components/layout/PanelJury.jsx';
 
 function JuryLayout() {
     return (
         <>
-            <HeaderJury />
+            <PanelJury />
             <main>
                 <Outlet />
             </main>

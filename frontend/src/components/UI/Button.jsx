@@ -73,14 +73,14 @@ const Button = ({
     "valid-jury": {
       container: "filled-jury",
       bg: (
-        <>
+        <div>
           <div className="btn-bg-base border-2 border-solid bg-vert-picollo" />
           <img
-            className="status-base-icon-jury-action"
+            className="status-base-icon-jury translate-x-5"
             alt="Icon"
             src={jury_valid}
           />
-        </>
+        </div>
       ),
     },
 
@@ -88,14 +88,14 @@ const Button = ({
     "refuse-jury": {
       container: "filled-jury",
       bg: (
-        <>
+        <div>
           <div className="btn-bg-base border-2 border-solid bg-red-500" />
           <img
-            className="status-base-icon-jury-action"
+            className="status-base-icon-jury translate-x-5 -translate-y-2.5"
             alt="Icon"
             src={jury_refuse}
           />
-        </>
+        </div>
       ),
     },
 
@@ -103,14 +103,14 @@ const Button = ({
     "review-jury": {
       container: "filled-jury",
       bg: (
-        <>
+        <div>
           <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
           <img
-            className="status-base-icon-jury-action"
+            className="status-base-icon-jury translate-x-5"
             alt="Icon"
             src={jury_review}
           />
-        </>
+        </div>
       ),
     },
 
@@ -146,7 +146,7 @@ const Button = ({
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
       : ["valid-jury", "refuse-jury", "review-jury"].includes(variant)
-        ? "pl-3"
+        ? "pl-5"
         : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")

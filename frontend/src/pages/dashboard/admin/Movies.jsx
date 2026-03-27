@@ -1,5 +1,5 @@
 // pages/dashboard/admin/Movies.jsx
-import MovieCard from '../../../components/UI/MovieCard.jsx';
+import MovieCard from '../../../components/ui/MovieCard.jsx';
 
 function Movies() {
     const handlePlaceholder = () => {

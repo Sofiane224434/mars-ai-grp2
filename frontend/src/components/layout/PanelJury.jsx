@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-function HeaderJury() {
+
+function PanelJury() {
     return (
         <header>
             <div>
@@ -22,4 +23,4 @@ function HeaderJury() {
     );
 }
 
-export default HeaderJury;
+export default PanelJury;

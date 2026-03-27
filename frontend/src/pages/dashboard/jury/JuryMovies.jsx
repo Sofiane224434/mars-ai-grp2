@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import MovieCard from '../../../components/UI/MovieCard.jsx';
-import Pagination from '../../../components/UI/Pagination.jsx';
+import MovieCard from '../../../components/ui/MovieCard.jsx';
+import Pagination from '../../../components/ui/Pagination.jsx';
 
 function JuryMovies() {
   // 1. La "fausse" base de données (pour tester avant l'API)

@@ -46,7 +46,11 @@ p {
   }
 
   .status-base-icon-jury {
-    @apply absolute -left-1 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
+    @apply relative h-7 w-auto shrink-0 object-contain mt-1 mr-3 ml-3;
+  }
+
+  .status-base-icon-jury-action {
+    @apply pointer-events-none absolute left-2.5 top-1/2 h-5 w-auto -translate-y-1/2 object-contain;
   }
 
   .status-base-icon-jury-accueil {
@@ -94,8 +98,8 @@ p {
   }
 
   .filled-jury {
-    width: 150px;
-    height: 80px;
+    width: 114px;
+    height: 50px;
     font-weight: 400;
     color: var(--color-slate-800);
   }

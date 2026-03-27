@@ -371,6 +371,7 @@ export default function SimplerFormTest() {
                 if (results["soundbankcheck"]) {
                     //check for the extra inputs
                 }
+                return true;
                 if (myverifications.includes(false)) {
                     return false;
                 } else {
@@ -386,7 +387,7 @@ export default function SimplerFormTest() {
                  * classification
                  * prompts
                  */
-                return;
+                return true;
             case 3:
                 /**
                  * movieimage
@@ -394,7 +395,7 @@ export default function SimplerFormTest() {
                  * dialoguecheck
                  * NOTE : if checked look for srt input
                  */
-                return;
+                return true;
             case 4:
                 /**
                  * lastname
@@ -413,7 +414,7 @@ export default function SimplerFormTest() {
                  * toscheck
                  * rulescheck
                  */
-                return;
+                return true;
         }
     }
 
@@ -499,6 +500,54 @@ export default function SimplerFormTest() {
                         <div>La génération du scénario</div>
                     </div>
                     {/* Insert additive here on conditional for each one (must be select) */}
+
+                    {
+                        results["aiscenariocheck"] &&
+                        <div>
+                            <select name={0} aria-label="aiscenario_group">
+                                <option value={"gemini"}>Google : (Gemini)</option>
+                                <option value={"midjourney"}>Midjourney</option>
+                                <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
+                                <option value={"claude"}>Anthropic (Claude)</option>
+                                <option value={"grok"}>Grok</option>
+                                <option value={"other"}>Autre...</option>
+                            </select>
+                            {
+                                getNested(results, "aiscenario_group", 0) &&
+                                results["aiscenario_group"][0] === "other" &&
+                                <input type="text" name={"inp_0"}
+                                    aria-label="aiscenario_group"></input>
+                            }
+                            <button type="button" onClick={() => addToGroup("aiscenario_group")}
+
+                            >(+) Ajouter une IA</button>
+                        </div>
+                        // <div>
+                        //     <input type="text" name={0} aria-label="soundbank_group"
+                        //         value={getNested(results, "soundbank_group", 0) ?
+                        //             results["soundbank_group"][0] : ""
+                        //         }></input>
+                        //     {results["soundbank_group"] &&
+                        //         Object.keys(results["soundbank_group"]).map(sb => {
+                        //             console.log("sbres", results["soundbank_group"][sb] ?
+                        //                 results["soundbank_group"][sb] : "cannot find"
+                        //             );
+                        //             if (sb > 0) {
+                        //                 return (
+                        //                     <input aria-label="soundbank_group" type="text" name={sb}
+                        //                         value={results["soundbank_group"][sb] ?
+                        //                             results["soundbank_group"][sb] : ""
+                        //                         }
+                        //                     ></input>)
+                        //             }
+
+                        //         }
+                        //         )}
+                        //     <button onClick={() => addToGroup("soundbank_group")}
+                        //         type="button">(+) Ajouter une IA</button>
+                        // </div>
+                    }
+
                     <div>
                         {getinputfromarray("aivideocheck")}
                         <div>La génération de la vidéo</div>

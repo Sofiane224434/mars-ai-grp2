@@ -53,8 +53,8 @@ p {
     @apply pointer-events-none absolute left-2.5 top-1/2 h-5 w-auto -translate-y-1/2 object-contain;
   }
 
-.status-base-icon-jury-accueil {
-    @apply relative h-7 w-auto shrink-0 object-contain mr-1.5 mt-1;
+  .status-base-icon-jury-accueil {
+    @apply absolute left-2 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
   }
 
   .color-gradient-blue-yellow-green {
@@ -105,12 +105,13 @@ p {
   }
 
   .square-admin {
-    width: 168px;
+    width: 193px;
     height: 80px;
     font-weight: 400;
     color: var(--color-white);
     font-family: "Inter-Regular", Helvetica;
     font-size: medium;
+    padding-left: 30px;
   }
 
   .home-admin {

@@ -1,15 +1,15 @@
 // layouts/MainLayout.jsx
 import { Outlet } from 'react-router-dom';
-import PanelJury from '../components/layout/PanelJury.jsx';
+import Sidebar from '../components/layout/Sidebar.jsx';
 
 function JuryLayout() {
     return (
-        <>
-            <PanelJury />
-            <main>
+        <div className="min-h-screen flex bg-noir-bleute">
+            <Sidebar variant="jury" />
+            <main className="flex-1 min-w-0 bg-noir-bleute">
                 <Outlet />
             </main>
-        </>
+        </div>
     );
 }
 export default JuryLayout;

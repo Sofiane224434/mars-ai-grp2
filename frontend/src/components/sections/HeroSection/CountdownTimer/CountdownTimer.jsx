@@ -92,7 +92,7 @@ const CountdownTimer = ({ targetDate }) => {
       </div>
 
       {/* TITRE TOP 50 avec dégradé de texte */}
-      <h3 className="mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-green-400 to-cyan-400 drop-shadow-sm">
+      <h3 className="mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-linear-to-r from-yellow-400 via-green-400 to-cyan-400 drop-shadow-sm">
         Top 50
       </h3>
       

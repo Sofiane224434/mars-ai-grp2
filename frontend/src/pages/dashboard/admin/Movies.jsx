@@ -1,9 +1,35 @@
 // pages/dashboard/admin/Movies.jsx
+import MovieCard from '../../../components/UI/MovieCard.jsx';
 
 function Movies() {
+    const handlePlaceholder = () => {
+        // Placeholder until admin actions are connected to backend.
+    };
+
     return (
-        <div>
-            <h1>Tous les Films</h1>
+        <div className="min-h-screen bg-linear-to-b from-noir-bleute to-gris-anthracite px-4 py-10">
+            <h1 className="text-center text-5xl text-white">Tous les Films</h1>
+
+            <div className="mx-auto mt-8 grid max-w-6xl gap-8 lg:grid-cols-2">
+                <MovieCard
+                    variant="admin-assign"
+                    status="wait"
+                    title="Titre de la video"
+                    directorName="Nom Prenom"
+                    onAssign={handlePlaceholder}
+                    onMoreInfo={handlePlaceholder}
+                />
+
+                <MovieCard
+                    variant="admin-assigned"
+                    status="review"
+                    title="Titre de la video"
+                    directorName="Nom Prenom"
+                    assignedJurors={['Jury nom prenom', 'Jury nom prenom', 'Jury nom prenom']}
+                    onAssign={handlePlaceholder}
+                    onMoreInfo={handlePlaceholder}
+                />
+            </div>
         </div>
     );
 }

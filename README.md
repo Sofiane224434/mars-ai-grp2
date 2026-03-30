@@ -37,14 +37,14 @@ Application web fullstack pour le festival MarsAI : soumission de films, accès 
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 
+# Installation de concurrently (racine du projet)
+npm install
+
 # Installation des dépendances Backend
 cd backend && npm install
 
 # Installation des dépendances Frontend
 cd ../frontend && npm install
-
-# Installation de concurrently (racine du projet)
-cd .. && npm install
 ```
 
 ### Lancement
@@ -59,13 +59,15 @@ npm test
 # Ou séparément
 npm run dev:backend   # Backend uniquement
 npm run dev:frontend  # Frontend uniquement
-npm run test -w backend # Tests backend uniquement
-npm run test -w frontend # Tests frontend uniquement
+npm run test:backend  # Tests backend uniquement
+npm run test:frontend # Tests frontend uniquement
 ```
 
 > Tous les tests utilisent Jest avec Testing Library côté frontend.
 
 > `concurrently` permet de démarrer le backend et le frontend en une seule commande depuis la racine du projet.
+
+> Le backend et le frontend disposent chacun de leur propre `node_modules` et de leur propre `package-lock.json`.
 
 - **Backend** : `http://localhost:5000`
 - **Frontend** : `http://localhost:5173`
@@ -151,48 +153,8 @@ Le projet est organisé en deux parties principales :
 marsai/
 ├── backend/          # API REST Node.js
 ├── frontend/         # Application React
-├── shared/           # Ressources partagées (schémas Zod)
 └── README.md
 ```
-
----
-
-## � Shared
-
-### Schémas de Validation Partagés
-
-Le dossier `shared/` contient les schémas [Zod](https://zod.dev/) utilisés à la fois par le **frontend** et le **backend** pour garantir une validation cohérente des données.
-
-```markdown
-shared/
-└── schemas.js    # Schémas Zod partagés (login, register, etc.)
-```
-
-#### Schémas disponibles
-
-| Schéma | Description | Champs validés |
-|--------|-------------|----------------|
-| `loginSchema` | Validation du formulaire de connexion | `email` (email valide), `password` (min. 6 caractères) |
-
-#### Exemple d'utilisation
-
-```js
-import { loginSchema } from '../shared/schemas.js';
-
-// Validation côté backend (Express)
-const result = loginSchema.safeParse(req.body);
-if (!result.success) {
-  return res.status(400).json({ errors: result.error.errors });
-}
-
-// Validation côté frontend (React)
-const result = loginSchema.safeParse(formData);
-if (!result.success) {
-  setErrors(result.error.flatten().fieldErrors);
-}
-```
-
-> **Avantage clé** : un seul schéma de validation défini une fois, réutilisé des deux côtés pour éviter toute divergence entre le frontend et le backend.
 
 ---
 

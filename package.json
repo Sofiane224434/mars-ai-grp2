@@ -1,22 +1,16 @@
 {
   "name": "mars-ai-grp2",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend",
-    "shared",
-    "scripts"
-  ],
   "devDependencies": {
     "concurrently": "^9.2.1"
   },
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "test": "npm run test -w backend && npm run test -w frontend",
-    "test:backend": "npm run test -w backend",
-    "test:frontend": "npm run test -w frontend",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "npm --prefix backend run test",
+    "test:frontend": "npm --prefix frontend run test",
     "translate": "node scripts/translate.js",
     "translate:watch": "node scripts/translate.js --watch"
   },

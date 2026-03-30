@@ -1,6 +1,6 @@
 import express from 'express';
 import { requireAuth } from '../middlewares/requireAuth.js';
-import { updateMovieStatusSchema } from '@mars/shared';
+import { updateMovieStatusSchema } from '../schemas/jury.schema.js';
 import { getAssignedMovies, validateMovieStatus } from '../controllers/juryMovie.controller.js';
 
 const router = express.Router();

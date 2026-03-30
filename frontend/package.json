@@ -12,7 +12,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@mars/shared": "*",
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.14.0",
     "express": "^5.2.1",

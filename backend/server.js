@@ -4,6 +4,11 @@ import express from 'express';
 import cors from 'cors';
 import { testConnection } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
+
+import { bucketS3 } from './testers3/s3.js';
+
+//console.log("Showing process.env :", process.env)
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 // Connexion BDD
@@ -25,6 +30,9 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 // 404
 app.use((req, res) => res.status(404).json({ error: 'Route non trouvée' }));
+
+//bucketS3();
+
 // Démarrage
 app.listen(PORT, () => {
     console.log(`Serveur sur http://localhost:${PORT}`);

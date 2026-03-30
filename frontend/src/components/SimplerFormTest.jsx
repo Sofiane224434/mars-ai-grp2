@@ -232,8 +232,18 @@ export default function SimplerFormTest() {
         }
     }
 
-    function geterrormessage(inputname) {
-        let messages = errorMessages[inputname];
+    function geterrormessage(inputname, group = null) {
+        let messages;
+
+        if (group) {
+            if (!errorMessages[group]) {
+                return;
+            }
+            messages = errorMessages[group][inputname];
+        } else {
+            messages = errorMessages[inputname];
+        }
+
         if (messages) {
             return (<div>{errorMessages[inputname]}</div>);
         }
@@ -483,6 +493,8 @@ export default function SimplerFormTest() {
         }
     }
 
+    const [tempvideo, setTempVideo] = useState({});
+
     //form setup
     const myforms = [
         [
@@ -510,6 +522,13 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Fichier vidéo (.mp4 ou .mov)</div>
+                    <input type="file" onChange={(e) => {
+                        setTempVideo({
+                            file: e.target.files,
+                            value: e.target.value
+                        })
+                    }} files={tempvideo.file ? tempvideo.file : ""}
+                        value={tempvideo.value ? tempvideo.value : ""}></input>
                     {getinputfromarray("videofile")}
                 </div>
 

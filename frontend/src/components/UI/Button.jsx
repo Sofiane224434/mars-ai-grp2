@@ -27,6 +27,26 @@ const Button = ({
   const homePanelIconClass = iconOnly
     ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
     : "status-base-icon-jury-accueil";
+  const filterToneClasses = {
+    approved: {
+      bg: "bg-vert-insecateur",
+      text: "text-green-800",
+    },
+    review: {
+      bg: "bg-jaune-simpson",
+      text: "text-ocre-rouge",
+    },
+    rejected: {
+      bg: "bg-red-500",
+      text: "text-brulure-despespoir",
+    },
+    pending: {
+      bg: "bg-gris-magneti",
+      text: "text-gris-anthracite",
+    },
+  };
+  const currentFilterTone =
+    filterToneClasses[filterTone] || filterToneClasses.pending;
 
   //---------------------------------------------------------------------------------------------------------
   // Bouton Public
@@ -71,8 +91,8 @@ const Button = ({
     // Status Jury
     //---------------------------------------------------------------------------------------------------------
 
-    // Variante 1 : Validé
-    "valid-jury": {
+    // Variante 1 : Approuvé
+    "approved-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -86,8 +106,8 @@ const Button = ({
       ),
     },
 
-    // Variante 2 : Refusé
-    "refuse-jury": {
+    // Variante 2 : Rejeté
+    "rejected-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -101,8 +121,8 @@ const Button = ({
       ),
     },
 
-    // Variante 3 : À Revoir
-    "review-jury": {
+    // Variante 3 : En attente
+    "pending-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -112,6 +132,22 @@ const Button = ({
             alt="Icon"
             src={jury_review}
           />
+        </div>
+      ),
+    },
+
+    // Variante : Filtre statuts dashboard jury
+    "status-filter": {
+      container: "status-filter",
+      bg: (
+        <div className={`btn-bg-filter ${currentFilterTone.bg}`}>
+          <span
+            className={`filter-checkbox ${checked ? "filter-checkbox-checked" : "filter-checkbox-unchecked"}`}
+          >
+            <span className={`filter-checkmark ${checked ? "opacity-100" : "opacity-0"}`}>
+              ✓
+            </span>
+          </span>
         </div>
       ),
     },
@@ -147,14 +183,28 @@ const Button = ({
   const textOffsetClass =
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
-      : ["valid-jury", "refuse-jury", "review-jury"].includes(variant)
+      : variant === "status-filter"
+        ? "pl-6 pr-2 text-base"
+      : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
         ? "pl-5"
         : "";
+  const textColorClass =
+    variant === "status-filter"
+      ? checked
+        ? currentFilterTone.text
+        : "text-black/45"
+      : "";
+  const filterStateClass =
+    variant === "status-filter"
+      ? checked
+        ? "status-filter-checked"
+        : "status-filter-unchecked"
+      : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
       ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
       : "";
-  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
+  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${filterStateClass} ${className}`;
 
   if (!interactive) {
     return (
@@ -169,7 +219,7 @@ const Button = ({
         {/* Contenu du texte */}
         {!iconOnly && (
           <span
-            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
+            className={`relative z-10 pointer-events-none ${textOffsetClass} ${textColorClass}`}
           >
             {children}
           </span>
@@ -192,7 +242,7 @@ const Button = ({
       {/* Contenu du texte */}
       {!iconOnly && (
         <span
-          className={`relative z-10 pointer-events-none ${textOffsetClass}`}
+          className={`relative z-10 pointer-events-none ${textOffsetClass} ${textColorClass}`}
         >
           {children}
         </span>

@@ -39,7 +39,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
   }`.trim();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-noir-bleute">
       <div className={containerClass}>
         {currentVariant.bg}
         <button
@@ -76,23 +76,29 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             >
               ASSIGNER VIDEOS
             </Button>
+            
           )}
+
+          {!isJuryPanel && (
           <Button
             variant="btn-panel"
-            iconImg={panel_icon_film}
+            iconImg={panel_icon_mail}
             iconOnly={collapsed}
             iconClassName={collapsed ? "-translate-x-4" : "-translate-x-3"}
           >
-            VOIR FILMS
+            CONFIRMATION EMAIL
           </Button>
+           )}
+
           <Button
             variant="btn-panel"
             iconImg={panel_icon_mail}
             iconClassName="-translate-x-1"
             iconOnly={collapsed}
           >
-            OPTIONS MAIL
+            VOIR FILMS
           </Button>
+         
           <Button
             variant="btn-panel"
             iconImg={panel_icon_50}
@@ -107,7 +113,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               iconImg={panel_icon_not_watched}
               iconOnly={collapsed}
             >
-              VOIR VIDÉO NON JUGÉS
+              VOIR VIDÉOS NON JUGÉES
             </Button>
           )}
           {!isJuryPanel && (

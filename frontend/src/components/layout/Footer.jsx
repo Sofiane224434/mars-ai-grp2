@@ -1,4 +1,4 @@
-import Button from "../UI/Button";
+import Button from "../ui/Button";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import MarsLogo from "../../assets/icons/Marsai.svg?react";

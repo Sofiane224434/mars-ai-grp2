@@ -37,6 +37,27 @@ p {
   .btn-bg-admin-base {
     @apply pointer-events-none absolute h-14 top-[17%] -left-4 -right-4 rounded-full  justify-center;
   }
+
+  .btn-bg-filter {
+    @apply pointer-events-none absolute inset-0 rounded-sm;
+  }
+
+  .filter-checkbox {
+    @apply absolute left-2.5 top-1/2 flex h-3.5 w-3.5 -translate-y-1/2 items-center justify-center rounded-xs border border-black/70 bg-white transition-colors;
+  }
+
+  .filter-checkbox-checked {
+    @apply border-reglisse bg-reglisse text-white;
+  }
+
+  .filter-checkbox-unchecked {
+    @apply border-black/60 bg-white text-transparent;
+  }
+
+  .filter-checkmark {
+    @apply text-[11px] leading-none font-black transition-opacity;
+  }
+
   .status-base {
     @apply relative flex items-center gap-1.5 w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
   }
@@ -102,6 +123,21 @@ p {
     height: 50px;
     font-weight: 400;
     color: var(--color-slate-800);
+  }
+
+  .status-filter {
+    width: 170px;
+    height: 42px;
+    font-weight: 700;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .status-filter-checked {
+    @apply opacity-100;
+  }
+
+  .status-filter-unchecked {
+    @apply opacity-55;
   }
 
   .square-admin {

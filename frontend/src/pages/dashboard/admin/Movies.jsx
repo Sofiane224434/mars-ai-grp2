@@ -1,5 +1,5 @@
 // pages/dashboard/admin/Movies.jsx
-import MovieCard from '../../../components/UI/MovieCard.jsx';
+import MovieCard from '../../../components/ui/MovieCard.jsx';
 
 function Movies() {
     const handlePlaceholder = () => {
@@ -13,7 +13,7 @@ function Movies() {
             <div className="mx-auto mt-8 grid max-w-6xl gap-8 lg:grid-cols-2">
                 <MovieCard
                     variant="admin-assign"
-                    status="wait"
+                    status="pending"
                     title="Titre de la video"
                     directorName="Nom Prenom"
                     onAssign={handlePlaceholder}
@@ -22,7 +22,7 @@ function Movies() {
 
                 <MovieCard
                     variant="admin-assigned"
-                    status="review"
+                    status="rejected"
                     title="Titre de la video"
                     directorName="Nom Prenom"
                     assignedJurors={['Jury nom prenom', 'Jury nom prenom', 'Jury nom prenom']}

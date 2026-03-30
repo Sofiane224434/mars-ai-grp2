@@ -7,6 +7,7 @@ const Button = ({
   variant = "neon-yellow",
   children = "Button",
   iconImg = "",
+  iconClassName = "",
   iconOnly = false,
   className = "",
   interactive = false,
@@ -22,6 +23,7 @@ const Button = ({
   const panelIconClass = iconOnly
     ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
     : "status-base-icon-jury";
+  const panelIconWithOffsetClass = `${panelIconClass} ${iconClassName}`.trim();
   const homePanelIconClass = iconOnly
     ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
     : "status-base-icon-jury-accueil";
@@ -124,7 +126,7 @@ const Button = ({
       bg: (
         <div>
           <div className={panelBgClass} />
-          <img className={panelIconClass} alt="Icon" src={iconToDisplay} />
+          <img className={panelIconWithOffsetClass} alt="Icon" src={iconToDisplay} />
         </div>
       ),
     },

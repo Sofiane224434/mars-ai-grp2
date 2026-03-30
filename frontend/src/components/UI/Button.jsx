@@ -1,6 +1,10 @@
 import jury_valid from "../../assets/icons/jury_valid.svg";
 import jury_refuse from "../../assets/icons/jury_refuse.svg";
 import jury_review from "../../assets/icons/jury_review.svg";
+import icon_valid from "../../assets/icons/icon_valid.png";
+import icon_refuse from "../../assets/icons/icon_refuse.png";
+import icon_review from "../../assets/icons/icon_review.png";
+import icon_wait from "../../assets/icons/icon_wait.png";
 import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 
 const Button = ({
@@ -136,6 +140,66 @@ const Button = ({
       ),
     },
 
+    // Variante simple : Rejete (Rouge)
+    rejected: {
+      container: "filled-jury",
+      bg: (
+        <div>
+          <div className="btn-bg-base border-2 border-solid bg-red-500" />
+          <img
+            className="status-base-icon-jury translate-x-5 -translate-y-2.5"
+            alt="Icon"
+            src={icon_refuse}
+          />
+        </div>
+      ),
+    },
+
+    // Variante simple : Approuve
+    approved: {
+      container: "filled-jury",
+      bg: (
+        <div>
+          <div className="btn-bg-base border-2 border-solid bg-vert-insecateur" />
+          <img
+            className="status-base-icon-jury translate-x-5"
+            alt="Icon"
+            src={icon_valid}
+          />
+        </div>
+      ),
+    },
+
+    // Variante simple : A revoir
+    review: {
+      container: "filled-jury",
+      bg: (
+        <div>
+          <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
+          <img
+            className="status-base-icon-jury translate-x-5"
+            alt="Icon"
+            src={icon_review}
+          />
+        </div>
+      ),
+    },
+
+    // Variante simple : En attente
+    pending: {
+      container: "filled-jury",
+      bg: (
+        <div>
+          <div className="btn-bg-base border-2 border-solid bg-gris-magneti" />
+          <img
+            className="status-base-icon-jury translate-x-5"
+            alt="Icon"
+            src={icon_wait}
+          />
+        </div>
+      ),
+    },
+
     // Variante : Filtre statuts dashboard jury
     "status-filter": {
       container: "status-filter",
@@ -185,7 +249,7 @@ const Button = ({
       ? "pl-3"
       : variant === "status-filter"
         ? "pl-6 pr-2 text-base"
-      : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
+      : ["approved-jury", "rejected-jury", "pending-jury", "approved", "rejected", "review", "pending"].includes(variant)
         ? "pl-5"
         : "";
   const textColorClass =

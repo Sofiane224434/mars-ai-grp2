@@ -49,6 +49,8 @@ const Button = ({
       text: "text-gris-anthracite",
     },
   };
+  const filterTone =""; //! A verifier
+  const checked = false;//! A verifier
   const currentFilterTone =
     filterToneClasses[filterTone] || filterToneClasses.pending;
 

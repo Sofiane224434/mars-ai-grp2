@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "../UI/Button";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_film from "../../assets/icons/panel_icon_film.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
@@ -35,7 +35,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
     collapsed ? "w-[92px]" : "w-[245px]"
   } ${className}`.trim();
   const contentClass = `${currentVariant.content} ${
-    collapsed ? "px-3 items-center gap-3" : "px-6 items-start"
+    collapsed ? "px-3 items-center gap-3" : "px-6 items-center gap-0"
   }`.trim();
 
   return (
@@ -72,6 +72,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               variant="btn-panel"
               iconImg={panel_icon_assign1}
               iconOnly={collapsed}
+            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-3"}
             >
               ASSIGNER VIDEOS
             </Button>
@@ -83,6 +84,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             variant="btn-panel"
             iconImg={panel_icon_mail}
             iconOnly={collapsed}
+            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-3"}
           >
             CONFIRMATION EMAIL
           </Button>
@@ -90,7 +92,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
           <Button
             variant="btn-panel"
-            iconImg={panel_icon_film}
+            iconImg={panel_icon_mail}
+            iconClassName="-translate-x-1"
             iconOnly={collapsed}
           >
             VOIR FILMS
@@ -99,6 +102,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           <Button
             variant="btn-panel"
             iconImg={panel_icon_50}
+            iconClassName="-translate-x-6"
             iconOnly={collapsed}
           >
             TOP 50

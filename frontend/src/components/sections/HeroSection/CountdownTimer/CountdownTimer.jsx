@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../../../UI/Button';
+import Button from '../../../ui/Button';
 
 const CountdownTimer = ({ targetDate }) => {
   // 1. Initialisation pure : On démarre à zéro pour garantir un premier rendu stable

@@ -1,8 +1,8 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../components/layout/SideBar";
-import Button from "../../components/ui/Button";
-import MovieCard from '../../components/UI/MovieCard.jsx';
+import Button from "../../components/ui/Button.jsx";
+import MovieCard from '../../components/ui/MovieCard.jsx';
 
 function Movies() {
   const { t } = useTranslation();

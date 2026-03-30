@@ -1,5 +1,6 @@
 import icon_valid from "../../assets/icons/icon_valid.png";
 import icon_refuse from "../../assets/icons/icon_refuse.png";
+import icon_review from "../../assets/icons/icon_review.png";
 import icon_wait from "../../assets/icons/icon_wait.png";
 
 export const Status = ({
@@ -35,7 +36,19 @@ export const Status = ({
       ),
     },
 
-    // Variant 3 : En attente
+    // Variant 3 : A revoir
+    review: {
+      container: "bg-jaune-simpson border-orange-genial text-yellow-800",
+      icon: "",
+      bg: (
+        <div>
+          <div className="status-base" />
+          <img className="status-base-icon" alt="Icon" src={icon_review} />
+        </div>
+      ),
+    },
+
+    // Variant 4 : En attente
     pending: {
       container: "bg-gris-magneti border-gray-800 text-gray-800",
       icon: "",

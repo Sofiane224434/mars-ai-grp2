@@ -4,12 +4,14 @@ import { Status } from './StatusBadge.jsx';
 const STATUS_VARIANT = {
   pending: 'pending',
   approved: 'approved',
+  review: 'review',
   rejected: 'rejected',
 };
 
 const STATUS_LABEL = {
   pending: 'En attente',
   approved: 'Approuve',
+  review: 'A revoir',
   rejected: 'Rejete',
 };
 
@@ -100,7 +102,7 @@ function MovieCard({
           interactive
           variant="filled-yellow"
           onClick={onMoreInfo}
-          className="mt-4 h-9 w-full rounded-full text-base"
+          className="mt-5 h-10 w-auto rounded-full px-8 text-base"
         >
           Voir plus d&apos;informations
         </Button>

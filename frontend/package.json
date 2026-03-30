@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mars/shared": "*",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.14.0",
+    "express": "^5.2.1",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^3.0.2",
@@ -20,9 +23,7 @@
     "react-i18next": "^16.5.8",
     "react-router-dom": "^7.13.0",
     "tailwindcss": "^4.1.18",
-    "zod": "^4.3.6",
-    "@mars/shared": "*",
-     "express": "^5.2.1"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

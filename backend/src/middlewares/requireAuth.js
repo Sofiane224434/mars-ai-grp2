@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 // Le role de ce fichier est d'intercepter chaque requete vers le panel du jury,
 // de verifier que la personne possede un token JWT valide, et qu'elle a bien le status attendu.
+
+const DEV_TEMP_TOKEN = 'token_temporaire_123';
+
 export const requireAuth = (requiredStatus) => {
   return (req, res, next) => {
     try {
@@ -15,6 +18,21 @@ export const requireAuth = (requiredStatus) => {
       // 2. Si aucun token n'est trouvé, on bloque l'accès immédiatement (401)
       if (!token) {
         return res.status(401).json({ error: "Accès refusé. Veuillez vous connecter." });
+      }
+
+      // 2.bis Simulation locale: token de test autorisé uniquement hors production.
+      if (process.env.NODE_ENV !== 'production' && token === DEV_TEMP_TOKEN) {
+        req.user = {
+          id: 1,
+          email: 'jury.temp@local.dev',
+          status: 'jury',
+        };
+
+        if (requiredStatus && req.user.status !== requiredStatus) {
+          return res.status(403).json({ error: "Accès interdit. Vous n'avez pas les droits nécessaires." });
+        }
+
+        return next();
       }
 
       // 3. On décrypte le token avec ta clé secrète

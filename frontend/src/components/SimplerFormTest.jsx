@@ -152,7 +152,9 @@ export default function SimplerFormTest() {
             <option value={"autre"}>Autre (précisez)</option>
         </select>,
         <input type="checkbox" name="toscheck" checked={results["toscheck"] || false}></input>,
-        <input type="checkbox" name="rulescheck" checked={results["rulescheck"] || false}></input>
+        <input type="checkbox" name="rulescheck" checked={results["rulescheck"] || false}></input>,
+
+        <select></select>
     ];
 
     //build results
@@ -225,9 +227,13 @@ export default function SimplerFormTest() {
         regex = null,
         maxlen = null,
         minlen = null,
-        required = false
+        required = false,
+        group = null,
     }) {
         let value = results[keyname];
+        if (group) {
+            value = results[group][keyname];
+        }
         // let trackobj = {
         //     regex_err: false,
         //     maxlen_err: false,
@@ -310,7 +316,8 @@ export default function SimplerFormTest() {
             keyname,
             min = null,
             max = null,
-            required = false
+            required = false,
+            group = null
         }
     ) {
 
@@ -504,7 +511,8 @@ export default function SimplerFormTest() {
                     {
                         results["aiscenariocheck"] &&
                         <div>
-                            <select name={0} aria-label="aiscenario_group">
+                            <select name={0} aria-label="aiscenariocheck_group">
+                                <option value="">...</option>
                                 <option value={"gemini"}>Google : (Gemini)</option>
                                 <option value={"midjourney"}>Midjourney</option>
                                 <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
@@ -513,12 +521,29 @@ export default function SimplerFormTest() {
                                 <option value={"other"}>Autre...</option>
                             </select>
                             {
-                                getNested(results, "aiscenario_group", 0) &&
-                                results["aiscenario_group"][0] === "other" &&
+                                getNested(results, "aiscenariocheck_group", 0) &&
+                                results["aiscenariocheck_group"][0] === "other" &&
                                 <input type="text" name={"inp_0"}
                                     aria-label="aiscenario_group"></input>
                             }
-                            <button type="button" onClick={() => addToGroup("aiscenario_group")}
+                            {results["aiscenariocheck_group"] &&
+
+                                Object.keys(results["aiscenariocheck_group"]).map(sb => {
+                                    console.log(sb);
+                                    if (sb > 0) {
+                                        <select name={sb} aria-label="aiscenariocheck_group">
+                                            <option value="">...</option>
+                                            <option value={"gemini"}>Google : (Gemini)</option>
+                                            <option value={"midjourney"}>Midjourney</option>
+                                            <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
+                                            <option value={"claude"}>Anthropic (Claude)</option>
+                                            <option value={"grok"}>Grok</option>
+                                            <option value={"other"}>Autre...</option>
+                                        </select>
+                                    }
+
+                                })}
+                            <button type="button" onClick={() => addToGroup("aiscenariocheck_group")}
 
                             >(+) Ajouter une IA</button>
                         </div>

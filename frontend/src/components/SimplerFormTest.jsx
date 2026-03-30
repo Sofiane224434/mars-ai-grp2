@@ -67,7 +67,8 @@ export default function SimplerFormTest() {
         if (!results[groupname]) {
             setResults(values => ({ ...values, [groupname]: { 0: "", 1: "" } }));
         } else {
-            const valname = Object.keys(results[groupname]).length;
+            const length = Object.keys(results[groupname]).length;
+            const valname = Number(Object.keys(results[groupname])[length - 1]) + 1;
             let newres = JSON.parse(JSON.stringify(results));
             newres[groupname][valname] = "";
             setResults(newres);

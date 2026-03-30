@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-function HeaderAdmin() {
+
+function PanelAdmin() {
     return (
         <header>
             <div>
@@ -19,4 +20,4 @@ function HeaderAdmin() {
     );
 }
 
-export default HeaderAdmin;
+export default PanelAdmin;

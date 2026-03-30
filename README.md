@@ -53,10 +53,17 @@ cd .. && npm install
 # Lancer Backend et Frontend simultanément (depuis la racine)
 npm run dev
 
+# Lancer tous les tests (backend + frontend)
+npm test
+
 # Ou séparément
 npm run dev:backend   # Backend uniquement
 npm run dev:frontend  # Frontend uniquement
+npm run test -w backend # Tests backend uniquement
+npm run test -w frontend # Tests frontend uniquement
 ```
+
+> Tous les tests utilisent Jest avec Testing Library côté frontend.
 
 > `concurrently` permet de démarrer le backend et le frontend en une seule commande depuis la racine du projet.
 

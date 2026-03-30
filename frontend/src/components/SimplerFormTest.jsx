@@ -75,20 +75,20 @@ export default function SimplerFormTest() {
 
     }
 
-    //debug
-    useEffect(() => {
-        console.log(results);
-    }, [results])
-
-    function deleteFromResults(name, isgroup = false, groupname = null) {
+    function deleteFromResults(name, group = null) {
         const newResults = { ...results };
-        if (isgroup) {
-            delete newResults[groupname][name];
+        if (group) {
+            delete newResults[group][name];
         } else {
             delete newResults[name];
         }
         setResults(newResults);
     }
+
+    //debug
+    useEffect(() => {
+        console.log(results);
+    }, [results])
 
     // const myinp = <input type="text" name="movies!!!" value={""}></input>
     // console.log(myinp);
@@ -157,6 +157,55 @@ export default function SimplerFormTest() {
         <select></select>
     ];
 
+    function makeAiSelect(index_number, checkgroupname, inputgroupname) {
+        return (<div>
+            <select name={index_number} aria-label={checkgroupname}
+                value={getNested(results, checkgroupname, index_number) || ""}>
+                <option value="">...</option>
+                <option value={"gemini"}>Google : (Gemini)</option>
+                <option value={"midjourney"}>Midjourney</option>
+                <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
+                <option value={"claude"}>Anthropic (Claude)</option>
+                <option value={"grok"}>Grok</option>
+                <option value={"other"}>Autre...</option>
+            </select>
+            {
+                getNested(results, checkgroupname, index_number) &&
+                results[checkgroupname][index_number] === "other" &&
+                <input type="text" name={index_number}
+                    aria-label={inputgroupname}></input>
+            }
+        </div>)
+    }
+
+    function makeAiMultigroup(checkgroupname, inputgroupname) {
+        return (<div>
+            {makeAiSelect(0, checkgroupname, inputgroupname)}
+
+            {results[checkgroupname] &&
+
+                Object.keys(results[checkgroupname]).map(sb => {
+
+                    if (sb > 0) {
+                        return (
+                            <div>
+                                {makeAiSelect(sb, checkgroupname, inputgroupname)}
+                                <button type="button" onClick={() => {
+                                    deleteFromResults(sb, checkgroupname);
+                                    deleteFromResults(sb, inputgroupname)
+                                }}
+                                >(X) SUPPRIMER</button>
+                            </div>
+                        )
+                    }
+
+                })}
+
+            <button type="button" onClick={() => addToGroup(checkgroupname)}
+            >(+) Ajouter une IA</button>
+        </div>)
+    }
+
     //build results
     useEffect(() => {
         let newres = {};
@@ -204,9 +253,13 @@ export default function SimplerFormTest() {
         setErrorMessages(newerr);
     }
 
-    function editErrorMessages(errorkey, newvalue) {
+    function editErrorMessages(errorkey, newvalue, group = null) {
         let newerr = { ...errorMessages };
-        newerr[errorkey] = newvalue;
+        if (group) {
+            newerr[group][errorkey] = newvalue;
+        } else {
+            newerr[errorkey] = newvalue;
+        }
         setErrorMessages(newerr);
     }
 
@@ -230,16 +283,12 @@ export default function SimplerFormTest() {
         required = false,
         group = null,
     }) {
-        let value = results[keyname];
+        let value;
         if (group) {
             value = results[group][keyname];
+        } else {
+            value = results[keyname];
         }
-        // let trackobj = {
-        //     regex_err: false,
-        //     maxlen_err: false,
-        //     minlen_err: false,
-        //     required_err: false,
-        // }
 
         let messages = {
             required: "Veuillez remplir ce champ.",
@@ -272,7 +321,7 @@ export default function SimplerFormTest() {
 
         if (required) {
             if (["", null, undefined].includes(value)) {
-                editErrorMessages(keyname, messages.required)
+                editErrorMessages(keyname, messages.required, group)
                 return false;
             }
         } else {
@@ -286,25 +335,27 @@ export default function SimplerFormTest() {
                 for (let m in messages.regex) {
                     if (m !== "default") {
                         if (messages.regex[m].includes.includes(keyname)) {
-                            editErrorMessages(keyname, messages.regex[m].message);
+                            editErrorMessages(keyname, messages.regex[m].message, group);
                             applied_message = true;
                         }
                         //console.log(m);
                     }
                 }
                 if (!applied_message) {
-                    editErrorMessages(keyname, messages.regex.default);
+                    editErrorMessages(keyname, messages.regex.default, group);
                 }
                 return false;
             }
         }
         if (maxlen) {
             if (value.length > maxlen) {
+                editErrorMessages(keyname, messages.maxlen, group);
                 return false;
             }
         }
         if (minlen) {
             if (value.length < minlen) {
+                editErrorMessages(keyname, messages.minlen, group);
                 return false;
             }
         }
@@ -320,36 +371,42 @@ export default function SimplerFormTest() {
             group = null
         }
     ) {
+        let value;
+        if (group) {
+            value = results[group][keyname];
+        } else {
+            value = results[keyname];
+        }
 
-        let value = results[keyname];
-
-        let trackobj = {
-            required_err: false,
-            min_err: false,
-            max_err: false
+        let messages = {
+            required: "Veuillez remplir ce champ.",
+            min: "Veuillez rentrer un chiffre supérieur à " + min + ".",
+            max: "Veuillez rentrer un chiffre inférieur à " + max + "."
         };
 
         if (required) {
             if (["", null, undefined].includes(value)) {
-                trackobj.required_err = true;
-                return trackobj;
+                editErrorMessages(keyname, messages.required, group);
+                return false;
             }
         } else {
             if (["", null, undefined].includes(value)) {
-                return trackobj;
+                return true;
             }
         }
         if (max) {
             if (value > max) {
-                trackobj.max_err = true;
+                editErrorMessages(keyname, messages.max, group);
+                return false;
             }
         }
         if (min) {
             if (value < min) {
-                trackobj.min_err = true;
+                editErrorMessages(keyname, messages.min, group);
+                return false;
             }
         }
-        return trackobj;
+        return true;
     }
 
     function verifyForm() {
@@ -510,67 +567,7 @@ export default function SimplerFormTest() {
 
                     {
                         results["aiscenariocheck"] &&
-                        <div>
-                            <select name={0} aria-label="aiscenariocheck_group">
-                                <option value="">...</option>
-                                <option value={"gemini"}>Google : (Gemini)</option>
-                                <option value={"midjourney"}>Midjourney</option>
-                                <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
-                                <option value={"claude"}>Anthropic (Claude)</option>
-                                <option value={"grok"}>Grok</option>
-                                <option value={"other"}>Autre...</option>
-                            </select>
-                            {
-                                getNested(results, "aiscenariocheck_group", 0) &&
-                                results["aiscenariocheck_group"][0] === "other" &&
-                                <input type="text" name={"inp_0"}
-                                    aria-label="aiscenario_group"></input>
-                            }
-                            {results["aiscenariocheck_group"] &&
-
-                                Object.keys(results["aiscenariocheck_group"]).map(sb => {
-                                    console.log(sb);
-                                    if (sb > 0) {
-                                        <select name={sb} aria-label="aiscenariocheck_group">
-                                            <option value="">...</option>
-                                            <option value={"gemini"}>Google : (Gemini)</option>
-                                            <option value={"midjourney"}>Midjourney</option>
-                                            <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>
-                                            <option value={"claude"}>Anthropic (Claude)</option>
-                                            <option value={"grok"}>Grok</option>
-                                            <option value={"other"}>Autre...</option>
-                                        </select>
-                                    }
-
-                                })}
-                            <button type="button" onClick={() => addToGroup("aiscenariocheck_group")}
-
-                            >(+) Ajouter une IA</button>
-                        </div>
-                        // <div>
-                        //     <input type="text" name={0} aria-label="soundbank_group"
-                        //         value={getNested(results, "soundbank_group", 0) ?
-                        //             results["soundbank_group"][0] : ""
-                        //         }></input>
-                        //     {results["soundbank_group"] &&
-                        //         Object.keys(results["soundbank_group"]).map(sb => {
-                        //             console.log("sbres", results["soundbank_group"][sb] ?
-                        //                 results["soundbank_group"][sb] : "cannot find"
-                        //             );
-                        //             if (sb > 0) {
-                        //                 return (
-                        //                     <input aria-label="soundbank_group" type="text" name={sb}
-                        //                         value={results["soundbank_group"][sb] ?
-                        //                             results["soundbank_group"][sb] : ""
-                        //                         }
-                        //                     ></input>)
-                        //             }
-
-                        //         }
-                        //         )}
-                        //     <button onClick={() => addToGroup("soundbank_group")}
-                        //         type="button">(+) Ajouter une IA</button>
-                        // </div>
+                        makeAiMultigroup("aiscenariocheck_group", "aiscenario_group")
                     }
 
                     <div>
@@ -578,10 +575,20 @@ export default function SimplerFormTest() {
                         <div>La génération de la vidéo</div>
                     </div>
 
+                    {
+                        results["aivideocheck"] &&
+                        makeAiMultigroup("aivideocheck_group", "aivideo_group")
+                    }
+
                     <div>
                         {getinputfromarray("aipostprodcheck")}
                         <div>La post production (editing, etc...)</div>
                     </div>
+
+                    {
+                        results["aipostprodcheck"] &&
+                        makeAiMultigroup("aipostprodcheck_group", "aipostprod_group")
+                    }
                 </div>
 
                 <div>

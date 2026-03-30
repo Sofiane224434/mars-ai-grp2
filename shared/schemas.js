@@ -9,7 +9,7 @@ export const loginSchema = z.object({
 
 // const en MAJUSCALE SCREAMING_SNAKE_CASE. car constantes dures, valeurs de configuration globales qui ne changeront jamais
 
-const ALLOWED_STATUS_IDS = [1, 2, 3, 4]; // 1:En attente(pending) , 2:Refusée(rejected) À , 3:revoir(review) , 4:Validée(approved)
+const ALLOWED_STATUS_IDS = [1, 2, 3, 4]; // 1:pending, 2:rejected, 3:pending (legacy), 4:approved
 
 export const updateMovieStatusSchema = z.object({
   body: z.object({

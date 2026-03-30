@@ -7,9 +7,7 @@ function About() {
 
     return (
         <div className="min-h-screen">
-            <h1>{t("nav.about")}</h1>
-            <Sidebar> </Sidebar>
-        
+            <h1>{t("nav.about")}</h1>   
         </div>
     );
 }

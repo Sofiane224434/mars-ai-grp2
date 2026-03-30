@@ -58,7 +58,6 @@ function JuryMovies() {
         setIsLoading(false);
       }
     };
-
     fetchMovies();
   }, []); 
 

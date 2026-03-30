@@ -14,6 +14,7 @@
   "dependencies": {
     "@mars/shared": "*",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.14.0",
     "express": "^5.2.1",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",

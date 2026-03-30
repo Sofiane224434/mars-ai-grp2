@@ -69,8 +69,8 @@ const Button = ({
     // Status Jury
     //---------------------------------------------------------------------------------------------------------
 
-    // Variante 1 : Validé
-    "valid-jury": {
+    // Variante 1 : Approuvé
+    "approved-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -84,8 +84,8 @@ const Button = ({
       ),
     },
 
-    // Variante 2 : Refusé
-    "refuse-jury": {
+    // Variante 2 : Rejeté
+    "rejected-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -99,8 +99,8 @@ const Button = ({
       ),
     },
 
-    // Variante 3 : À Revoir
-    "review-jury": {
+    // Variante 3 : En attente
+    "pending-jury": {
       container: "filled-jury",
       bg: (
         <div>
@@ -145,7 +145,7 @@ const Button = ({
   const textOffsetClass =
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
-      : ["valid-jury", "refuse-jury", "review-jury"].includes(variant)
+      : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
         ? "pl-5"
         : "";
   const iconOnlyClass =

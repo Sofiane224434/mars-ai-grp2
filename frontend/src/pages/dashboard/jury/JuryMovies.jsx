@@ -13,7 +13,7 @@ function JuryMovies() {
             <div className="mx-auto mt-8 grid max-w-6xl gap-8 lg:grid-cols-2">
                 <MovieCard
                     variant="jury-pending"
-                    status="wait"
+                    status="pending"
                     title="Titre de la video"
                     directorName="Nom Prenom"
                     onJudge={handlePlaceholder}
@@ -22,7 +22,7 @@ function JuryMovies() {
 
                 <MovieCard
                     variant="jury-reviewed"
-                    status="valid"
+                    status="approved"
                     title="Titre de la video"
                     directorName="Nom Prenom"
                     onMoreInfo={handlePlaceholder}

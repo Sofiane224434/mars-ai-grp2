@@ -2,17 +2,15 @@ import Button from './Button.jsx';
 import { Status } from './StatusBadge.jsx';
 
 const STATUS_VARIANT = {
-  wait: 'wait',
-  valid: 'valid',
-  review: 'review',
-  refuse: 'refuse',
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected',
 };
 
 const STATUS_LABEL = {
-  wait: 'En attente',
-  valid: 'Valide',
-  review: 'A revoir',
-  refuse: 'Refuse',
+  pending: 'En attente',
+  approved: 'Approuve',
+  rejected: 'Rejete',
 };
 
 function MovieCard({
@@ -20,13 +18,12 @@ function MovieCard({
   title = 'Titre de la video',
   directorName = 'Nom Prenom',
   description = 'Une description raccourcie de la video. Texte texte. Plus de description...',
-  status = 'wait',
+  status = 'pending',
   assignedJurors = [],
   thumbnailSrc,
   onThumbnailClick,
   onAssign,
   onMoreInfo,
-  onJudge,
 }) {
   const isAdmin = variant === 'admin-assign' || variant === 'admin-assigned';
   const showAssignedJurors = variant === 'admin-assigned';
@@ -57,43 +54,11 @@ function MovieCard({
         )}
       </button>
 
-      {isJuryPending && (
-        <div className="mt-3">
-          <p className="text-2xl sm:text-3xl">Juger :</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Button
-              interactive
-              variant="valid-jury"
-              className="rounded-full text-sm whitespace-nowrap"
-              onClick={() => onJudge?.('valid')}
-            >
-              Valider
-            </Button>
-            <Button
-              interactive
-              variant="review-jury"
-              className="rounded-full text-sm whitespace-nowrap"
-              onClick={() => onJudge?.('review')}
-            >
-              A revoir
-            </Button>
-            <Button
-              interactive
-              variant="refuse-jury"
-              className="rounded-full text-sm whitespace-nowrap"
-              onClick={() => onJudge?.('refuse')}
-            >
-              Refuser
-            </Button>
-          </div>
-        </div>
-      )}
-
       {showStatus && (
         <div className="mt-3 flex items-center gap-2">
           <span className="text-2xl sm:text-3xl">Statut :</span>
-          <Status variant={STATUS_VARIANT[status] || 'wait'} className="px-3 py-1">
-            {STATUS_LABEL[status] || STATUS_LABEL.wait}
+          <Status variant={STATUS_VARIANT[status] || 'pending'} className="px-3 py-1">
+            {STATUS_LABEL[status] || STATUS_LABEL.pending}
           </Status>
         </div>
       )}

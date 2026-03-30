@@ -1,10 +1,9 @@
 import icon_valid from "../../assets/icons/icon_valid.png";
 import icon_refuse from "../../assets/icons/icon_refuse.png";
-import icon_review from "../../assets/icons/icon_review.png";
 import icon_wait from "../../assets/icons/icon_wait.png";
 
 export const Status = ({
-  variant = "attente",
+  variant = "pending",
   children = "Status",
   className = "",
 }) => {
@@ -14,7 +13,7 @@ export const Status = ({
 
   // Variant 1 : refusé (Rouge)
   const variants = {
-    refuse: {
+    rejected: {
       container: "bg-red-500 border-brulure-despespoir text-brulure-despespoir",
       bg: (
         <div>
@@ -26,7 +25,7 @@ export const Status = ({
 
     // Variant 2 : validé
 
-    valid: {
+    approved: {
       container: "bg-vert-insecateur border-green-800 text-green-800",
       bg: (
         <div>
@@ -36,20 +35,8 @@ export const Status = ({
       ),
     },
 
-    // Variant 3 : À revoir
-    review: {
-      container: "bg-jaune-simpson border-orange-genial text-yellow-800",
-      icon: "",
-      bg: (
-        <div>
-          <div className="status-base " />
-          <img className="status-base-icon" alt="Icon" src={icon_review} />
-        </div>
-      ),
-    },
-
-    // Variant 4 : En attente
-    wait: {
+    // Variant 3 : En attente
+    pending: {
       container: "bg-gris-magneti border-gray-800 text-gray-800",
       icon: "",
       bg: (
@@ -61,7 +48,7 @@ export const Status = ({
     },
   };
 
-  const currentVariant = variants[variant] || variants.wait;
+  const currentVariant = variants[variant] || variants.pending;
 
   return (
     <div className={`${baseStyles} ${currentVariant.container} ${className}`}>

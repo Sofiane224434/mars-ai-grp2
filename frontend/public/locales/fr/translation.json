@@ -12,21 +12,42 @@
         "description1": "Chaque film dure 1 minute maximum", 
         "titles2": "1 THÈME",
         "description2": "Chaque film a pour thème commun : Un futur souhaitable",
-         "titles3": "1 GAGNANT",
+        "titles3": "1 GAGNANT",
         "description3": "Un seul grand gagnant !",
         "PodiumGraphic": "Sur une sélection de plus de 20 000 vidéos"
 
     },
-    "header": {
-        "title": "MarsAi",
-        "language": {
-            "change": "Changer la langue",
-            "french": "Français",
-            "english": "Anglais"
-        }
-    },
-    "footer": {
-        "collaborator": "En collaboration avec",
+    "faq": {
+        "title": "Foire Aux Questions (FAQ) - Festival MarsAi",
+        "disclaimer": "La réponse à votre question se trouve peut-être ci-dessous ! ",
+        "informations-title": "Informations Pratiques:",
+        "informations-content": "Où et quand se déroule le festival MarsAi ? Le festival se tiendra sur deux jours, le vendredi 5 juin et le dimanche 7 juin. L'événement aura lieu au Dock des Suds (12 Rue Urbain V, 13002 Marseille). Les portes ouvrent à 10h00 et ferment à 19h00.",
+        "question1": "Comment puis-je me rendre sur place ?",
+        "answer1-1": "En transports en commun : Métro ligne 2 (arrêt Désirée Clary) ou Tramway T2/T3 (arrêt Arenc Le Silo).",
+        "answer1-2": "En voiture : Des parkings publics payants (Indigo Quai d'Arenc, Espercieux) sont situés à proximité immédiate.",
+        "answer1-3": "En mobilité douce : Un espace pour stationner les vélos et trottinettes est disponible sur le parvis.",
+        "answer1-4": "Le site est-il accessible aux personnes à mobilité réduite (PMR) ? Oui, le Dock des Suds est de plain-pied et entièrement accessible. Des sanitaires adaptés sont à disposition dans l'enceinte du bâtiment",
+        "access-title": "🎟️ Accès et Inscription 🎟️",
+        "question2": "Dois-je acheter ou réserver un billet ? ",
+        "answer2": "Non, l'accès au festival MarsAi est entièrement gratuit et sans billet. Vous pouvez venir librement à l'heure qui vous souhaitez.",
+        "question3": "Y a-t-il une jauge maximale ?",
+        "answer3": "L'entrée est libre, mais soumise à la capacité d'accueil du Dock des Suds. En cas de très forte affluence, une file d'attente pourra être mise en place à l'entrée pour des raisons de sécurité.",
+        "programation-title": "🤖 Programmation et Ateliers 🤖 ",
+        "question4": "À qui s'adresse le festival MarsAi ?",
+        "answer4": "Le festival est pensé pour tout le monde ! Que vous soyez un professionnel de la tech, un étudiant, ou simplement curieux de découvrir les dernières avancées en intelligence artificielle, vous trouverez des conférences et des démonstrations adaptées à votre niveau.",
+        "question5": "Faut-il s'inscrire à l'avance pour les ateliers pratiques ?",
+        "answer5": " L'entrée générale est libre, mais certains ateliers spécifiques nécessitent une inscription sur place, à l'accueil du festival, le jour même. Les places sont attribuées par ordre d'arrivée."
+    },  
+        "header": {
+            "title": "MarsAi",
+            "language": {
+                "change": "Changer la langue",
+                "french": "Français",
+                "english": "Anglais"
+            }
+        },
+        "footer": {
+            "collaborator": "En collaboration avec",
         "textcontact": "Restez en contact",
         "newsletter": "Inscription à la newsletter",
         "emailplaceholder": "Votre adresse e-mail",

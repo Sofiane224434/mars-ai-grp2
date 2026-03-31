@@ -189,7 +189,7 @@ const Button = ({
         ? "pl-5"
         : "";
   const textColorClass =
-    variant === "status-filter"
+    variant === "status-"
       ? checked
         ? currentFilterTone.text
         : "text-black/45"

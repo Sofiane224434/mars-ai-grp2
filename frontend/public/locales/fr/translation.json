@@ -15,7 +15,27 @@
          "titles3": "1 GAGNANT",
         "description3": "Un seul grand gagnant !",
         "PodiumGraphic": "Sur une sélection de plus de 20 000 vidéos"
-
+    },
+    "about": {
+        "blocks": {
+            "block1": {
+                "title": "Qu'est-ce que MarsAI ?",
+                "text": "Un Festival de <strong>courts-métrages de 1 minute</strong> réalisés par <strong>IA</strong>\n\nDes conférences et workshops <strong>gratuits</strong>\n\nDes <strong>partages d'expériences d'experts en IA</strong> pour les pros et le grand public\n\n<strong>2 jours de festival à Marseille</strong> au coeur de l'IA"
+            },
+            "block2": {
+                "title": "Objectif du festival",
+                "text": "Mettre l'humain au coeur de la création d'oeuvres générées par IA\n\nChallenger la créativité des participants grâce à un <strong>format très court</strong>\n\nMettre à profit la puissance de l'IA autour d'un thème : <strong>Imaginez des futurs souhaitables</strong>"
+            },
+            "block3": {
+                "title": "Format de la sélection",
+                "text": "<strong>Appel à projet</strong> de 2 mois\n\n<strong>50 courts-métrages d'une minute</strong> sélectionnés en compétition officielle\n\nDiffusion en ligne des oeuvres (web et réseaux sociaux)\n\n<strong>Diffusion en salles de cinéma</strong> et festivals de films"
+            },
+            "block4": {
+                "title": "Le lieu",
+                "subtitle": "La plateforme",
+                "text": "<strong>4 000 m2 d'espaces</strong> dans le centre de Marseille, pour accueillir l'événement"
+            }
+        }
     },
     "header": {
         "title": "MarsAi",

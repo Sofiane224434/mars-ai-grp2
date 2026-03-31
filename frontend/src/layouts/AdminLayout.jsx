@@ -4,12 +4,12 @@ import Sidebar from "../components/layout/Sidebar.jsx";
 
 function AdminLayout() {
   return (
-    <>
-      <Sidebar />
-      <main>
-        <Outlet />
-      </main>
-    </>
+     <div className="min-h-screen flex">
+            <Sidebar variant="admin" />
+            <main>
+                <Outlet />
+            </main>
+        </div>
   );
 }
 export default AdminLayout;

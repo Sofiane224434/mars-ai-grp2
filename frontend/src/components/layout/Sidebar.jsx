@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../UI/Button";
+import { Button } from "../ui/Button";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_film from "../../assets/icons/panel_icon_film.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
@@ -13,16 +13,16 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
   const [collapsed, setCollapsed] = useState(false);
   const variants = {
     admin: {
-      container: "mt-6 relative h-[1024px] transition-all duration-200",
-      bg: <div className="absolute inset-0 bg-noir-bleute" />,
+      container: "mt-6 relative max-h-screen transition-all duration-200",
+       bg: <div className="absolute -top-1 -bottom-5 left-0 right-0 bg-noir-bleute" />,
       content:
         "relative z-10 h-full px-6 pt-7 flex flex-col items-start gap-0 transition-all duration-200",
       title: "w-full text-center text-white font-normal text-2xl mb-10",
     },
 
     jury: {
-      container: "mt-6 relative h-[1024px] transition-all duration-200",
-      bg: <div className="absolute inset-0 bg-noir-bleute" />,
+      container: "mt-6 relative max-h-screen transition-all duration-200",
+      bg: <div className="absolute -top-1 -bottom-5 left-0 right-0 bg-noir-bleute" />,
       content:
         "relative z-10 h-full px-6 pt-7 flex flex-col items-start gap-0 transition-all duration-200",
       title: "w-full text-center text-white font-normal text-2xl mb-10",
@@ -31,17 +31,18 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
   const currentVariant = variants[variant] || variants.admin;
   const isJuryPanel = variant === "jury";
-  const containerClass = `${currentVariant.container} ${
-    collapsed ? "w-[92px]" : "w-[245px]"
+  const containerClass = `mt-1 relative min-h-screen transition-all duration-200 ${
+    collapsed ? "w-[110px]" : "w-[245px]"
   } ${className}`.trim();
   const contentClass = `${currentVariant.content} ${
-    collapsed ? "px-3 items-center gap-3" : "px-6 items-center gap-0"
+    collapsed ? "px-1 items-center gap-3" : "px-2 items-center gap-0"
   }`.trim();
 
   return (
-    <div className="min-h-screen bg-noir-bleute">
+    <div className="sticky top-0 self-start max-h-screen h-screen">
       <div className={containerClass}>
         {currentVariant.bg}
+        <div className="relative z-40">
         <button
           type="button"
           onClick={() => setCollapsed((prev) => !prev)}
@@ -50,7 +51,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           className="absolute -right-[25px] top-8 z-20 h-[50px] w-[25px] rounded-r-full bg-[#42cbe6] flex items-center justify-center pr-1.5"
         >
           {!collapsed ? (
-            <span className="relative block h-4 w-4">
+            <span className="relative block h-4 w-40">
               <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 rotate-45 bg-bleu-canard" />
               <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 -rotate-45 bg-bleu-canard" />
             </span>
@@ -64,6 +65,9 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             variant="btn-panel-home"
             iconImg={panel_icon_home}
             iconOnly={collapsed}
+            className={collapsed ? "mb-4 ml-0" : "mb-5 ml-2"}
+            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-2" }
+
           >
             ACCUEIL
           </Button>
@@ -72,7 +76,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               variant="btn-panel"
               iconImg={panel_icon_assign1}
               iconOnly={collapsed}
-            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-3"}
+            iconClassName={collapsed ? "-translate-x-5" : "-translate-x-4"}
             >
               ASSIGNER VIDEOS
             </Button>
@@ -84,7 +88,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             variant="btn-panel"
             iconImg={panel_icon_mail}
             iconOnly={collapsed}
-            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-3"}
+            iconClassName={collapsed ? "-translate-x-4" : "-translate-x-4"}
           >
             CONFIRMATION EMAIL
           </Button>
@@ -92,8 +96,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
           <Button
             variant="btn-panel"
-            iconImg={panel_icon_mail}
-            iconClassName="-translate-x-1"
+            iconImg={panel_icon_film}
+             iconClassName={collapsed ? "-translate-x-4" : "-translate-x-7"}
             iconOnly={collapsed}
           >
             VOIR FILMS
@@ -102,7 +106,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           <Button
             variant="btn-panel"
             iconImg={panel_icon_50}
-            iconClassName="-translate-x-6"
+            iconClassName={collapsed ? "-translate-x-6" : "-translate-x-11"}
             iconOnly={collapsed}
           >
             TOP 50
@@ -111,6 +115,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             <Button
               variant="btn-panel"
               iconImg={panel_icon_not_watched}
+              iconClassName={collapsed ? "-translate-x-1" : "-translate-x-4"}
               iconOnly={collapsed}
             >
               VOIR VIDÉOS NON JUGÉES
@@ -121,6 +126,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               variant="btn-panel"
               iconImg={panel_icon_add}
               iconOnly={collapsed}
+              iconClassName={collapsed ? "-translate-x-3.5" : "-translate-x-4"}
+              
             >
               AJOUTER JURY
             </Button>
@@ -130,10 +137,12 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               variant="btn-panel"
               iconImg={panel_icon_setting}
               iconOnly={collapsed}
+             iconClassName={collapsed ? "-translate-x-3.5" : "-translate-x-4"}
             >
               MODIFIER LE SITE
             </Button>
           )}
+        </div>
         </div>
       </div>
     </div>

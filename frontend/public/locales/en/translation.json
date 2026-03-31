@@ -32,6 +32,26 @@
     "description3": "One big winner!",
     "PodiumGraphic": "From a selection of over 20,000 videos"
   },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "What is MarsAI?",
+        "text": "A festival of <strong>1-minute short films</strong> made with <strong>AI</strong>\n\nFree <strong>conferences and workshops</strong>\n\n<strong>Experience sharing with AI experts</strong> for professionals and the general public\n\n<strong>2 days of festival in Marseille</strong>, at the heart of AI"
+      },
+      "block2": {
+        "title": "Festival objective",
+        "text": "Put people at the heart of creating AI-generated works\n\nChallenge participants' creativity through a <strong>very short format</strong>\n\nLeverage the power of AI around one theme: <strong>Imagine desirable futures</strong>"
+      },
+      "block3": {
+        "title": "Selection format",
+        "text": "<strong>2-month open call</strong>\n\n<strong>50 one-minute short films</strong> selected for the official competition\n\nOnline distribution of works (web and social networks)\n\n<strong>Screenings in cinemas</strong> and film festivals"
+      },
+      "block4": {
+        "title": "Venue",
+        "subtitle": "La Plateforme",
+        "text": "<strong>4,000 m2 of spaces</strong> in central Marseille to host the event"
+      }
+    }
   "faq": {
     "informations-title": "Practical information:",
     "informations-content": "When and where does the MarsAi festival take place? The festival will take place over two days, Friday June 5 and Sunday June 7. The event takes place at the Dock des Suds (12 Rue Urbain V, 13002 Marseille). Doors open at 10:00 and close at 19:00.",

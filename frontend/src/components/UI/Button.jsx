@@ -150,6 +150,18 @@ const Button = ({
       : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
         ? "pl-5"
         : "";
+  const textColorClass =
+    variant === "status-"
+      ? checked
+        ? currentFilterTone.text
+        : "text-black/45"
+      : "";
+  const filterStateClass =
+    variant === "status-filter"
+      ? checked
+        ? "status-filter-checked"
+        : "status-filter-unchecked"
+      : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
       ? "!w-14 !h-14 !p-0 !pl-0 justify-center"

@@ -1,6 +1,6 @@
-// pages/About.jsx
+import React from "react";
 import { useTranslation } from "react-i18next";
-import Sidebar from "../../components/layout/SideBar";
+import AboutSection from "../../components/sections/About/AboutSection";
 
 function About() {
     const { t } = useTranslation();

@@ -1,7 +1,7 @@
 import express from 'express';
 import { requireAuth } from '../middlewares/requireAuth.js';
-import { updateMovieStatusSchema } from '../schemas/jury.schema.js';
-import { getAssignedMovies, validateMovieStatus } from '../controllers/juryMovie.controller.js';
+import { getMovieByIdSchema, updateMovieStatusSchema } from '../schemas/jury.schema.js';
+import { getAssignedMovies, getMovieById, validateMovieStatus } from '../controllers/juryMovie.controller.js';
 
 const router = express.Router();
 
@@ -18,7 +18,8 @@ const validateRequest = (schema) => (req, res, next) => {
     next(); // Le colis est propre, on laisse passer !
   } catch (error) {
     // Le colis est mauvais (ex: statusId = 99), on renvoie l'erreur détaillée au Front-End
-    return res.status(400).json({ erreurs: error.errors });
+    const details = error?.issues || error?.errors || [{ message: 'Requete invalide.' }];
+    return res.status(400).json({ erreurs: details });
   }
 };
 
@@ -31,6 +32,10 @@ router.use(requireAuth('jury'));
 //  GET /api/jury/movies
 // L'utilisateur est déjà vérifié par requireAuth, on l'envoie direct au contrôleur.
 router.get('/movies', getAssignedMovies);
+
+// GET /api/jury/movies/:id
+// Retourne le détail d'un film assigné au juré connecté.
+router.get('/movies/:id', validateRequest(getMovieByIdSchema), getMovieById);
 
 // PUT /api/jury/movies/:id/status
 // Ordre de passage : requireAuth (deja passe) -> validateRequest (Zod) -> validateMovieStatus (Controleur)

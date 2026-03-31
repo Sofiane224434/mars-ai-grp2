@@ -39,7 +39,7 @@ p {
   }
 
   .btn-bg-filter {
-    @apply pointer-events-none absolute inset-0 rounded-sm;
+    @apply pointer-events-none absolute inset-0;
   }
 
   .filter-checkbox {
@@ -106,7 +106,7 @@ p {
 
   .filled-yellow {
     width: 168px;
-    height: 80px;
+    height: 70px;
     font-weight: 400;
     color: var(--color-ocre-rouge);
   }

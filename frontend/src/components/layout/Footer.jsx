@@ -14,9 +14,9 @@ function Footer() {
     return (
         <footer className="bg-noir-bleute text-white py-6 sm:py-8 lg:py-10 mt-auto">
             <div className="container mx-auto px-4 text-center">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-6">
+                <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:px-6">
                     {/* Logo Section */}
-                    <div className="flex flex-col items-center gap-1 mb-6 sm:mb-8 lg:mb-0 hover:opacity-90 transition lg:shrink-0">
+                    <div className="flex flex-col items-center gap-1 mb-6 sm:mb-8 lg:mb-0 hover:opacity-90 transition lg:justify-self-start">
                         <Link to="/" className="flex flex-col items-center text-center">
                             <MarsLogo
                                 className="w-16 h-16 sm:w-20 sm:h-20 lg:w-28 lg:h-28"
@@ -32,7 +32,7 @@ function Footer() {
                     </div>
 
                     {/* Buttons Section */}
-                    <div className="flex flex-col items-stretch sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-0 lg:grow lg:max-w-md">
+                    <div className="flex flex-col items-stretch sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-0 lg:justify-self-center">
                         <Link to="/" className="w-full sm:w-72 lg:w-72 mx-auto">
                             <Button variant="filled-yellow" className="w-full">{t('nav.home')}</Button>
                         </Link>
@@ -51,7 +51,7 @@ function Footer() {
                     </div>
 
                     {/* Contact & Newsletter Section */}
-                    <div className="flex flex-col items-center gap-2 sm:gap-3 lg:shrink-0">
+                    <div className="flex flex-col items-center gap-2 sm:gap-3 lg:justify-self-end">
                         <p className="text-sm sm:text-base">{t('footer.textcontact')}</p>
                         <div className="flex items-center justify-center gap-3 sm:gap-4 w-full">
                             <a href="https://www.instagram.com/mars_ai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

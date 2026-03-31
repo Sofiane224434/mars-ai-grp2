@@ -15,3 +15,8 @@ export const updateMovieStatusSchema = z.object({
             })
     })
 });
+
+// 1. Schéma Zod pour sécuriser la validation du statut (Vote)
+export const voteSchema = z.object({
+  statusId: z.number().int().positive("L'ID du statut est invalide.")
+});

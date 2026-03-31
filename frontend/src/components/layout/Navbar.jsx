@@ -20,13 +20,13 @@ function Navbar({ isRounded = false }) {
       {/* 2. BOUTON BURGER MOBILE  */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden w-12 h-12 bg-jaune-souffre flex flex-col justify-center items-center gap-1.5 cursor-pointer"
+        className="md:hidden w-12 h-12 bg-jaune-souffre flex flex-col justify-center items-center gap-1 cursor-pointer"
         aria-label="Menu"
       >
-        {/* Lignes très épaisses (h-[5px]) et sombres */}
-        <span className={`w-7 h-1.25 bg-[#0A0A0A] transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.75" : ""}`}></span>
-        <span className={`w-7 h-1.25 bg-[#0A0A0A] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}></span>
-        <span className={`w-7 h-1.25 bg-[#0A0A0A] transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2.75" : ""}`}></span>
+        {/* Lignes très épaisses et sombres */}
+        <span className={`w-6 h-1 bg-[#0A0A0A] transition-all duration-300 origin-center ${isOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+        <span className={`w-6 h-1 bg-[#0A0A0A] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}></span>
+        <span className={`w-6 h-1 bg-[#0A0A0A] transition-all duration-300 origin-center ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
       </button>
 
       {/* Conteneur pour tous les boutons */}

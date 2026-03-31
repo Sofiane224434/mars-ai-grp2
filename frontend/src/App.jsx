@@ -24,6 +24,7 @@ import Top5 from './pages/dashboard/admin/Top5.jsx';
 import Options from './pages/dashboard/admin/Options.jsx';
 import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
 import JuryMovies from './pages/dashboard/jury/JuryMovies.jsx';
+import MovieDetail from './pages/dashboard/jury/MovieDetail.jsx';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
       <Route element={<JuryLayout />}>
         <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
         <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
+        <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
         <Route path="/dashboard/validation" element={<Validation />} />
         <Route path="/dashboard/top50" element={<Top50 />} />
         <Route path="/dashboard/top5" element={<Top5 />} />

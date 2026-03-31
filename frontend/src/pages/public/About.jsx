@@ -6,13 +6,9 @@ function About() {
     const { t } = useTranslation();
 
     return (
-        <article className="min-h-screen w-full bg-gris-anthracite overflow-x-hidden pb-0">
-            {/* Title reserved for SEO only to prevent white spacing */}
-            <h1 className="sr-only">{t("nav.about")}</h1>
-
-            {/* Content Sections - Full width */}
-            <AboutSection />
-        </article>
+        <div className="min-h-screen">
+            <h1>{t("nav.about")}</h1>   
+        </div>
     );
 }
 

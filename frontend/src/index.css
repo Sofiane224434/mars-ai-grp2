@@ -39,7 +39,7 @@ p {
   }
 
   .btn-bg-filter {
-    @apply pointer-events-none absolute inset-0 rounded-sm;
+    @apply pointer-events-none absolute inset-0;
   }
 
   .filter-checkbox {
@@ -67,7 +67,7 @@ p {
   }
 
   .status-base-icon-jury {
-    @apply relative h-7 w-auto shrink-0 object-contain mt-1 mr-3 ml-3;
+    @apply relative h-7 w-auto shrink-0 object-contain mt-1 mr-3 ml-0;
   }
 
   .status-base-icon-jury-action {
@@ -106,7 +106,7 @@ p {
 
   .filled-yellow {
     width: 168px;
-    height: 80px;
+    height: 70px;
     font-weight: 400;
     color: var(--color-ocre-rouge);
   }

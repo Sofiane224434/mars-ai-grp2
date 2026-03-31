@@ -52,6 +52,7 @@
         "text": "<strong>4,000 m2 of spaces</strong> in central Marseille to host the event"
       }
     }
+  },
   "faq": {
     "informations-title": "Practical information:",
     "informations-content": "When and where does the MarsAi festival take place? The festival will take place over two days, Friday June 5 and Sunday June 7. The event takes place at the Dock des Suds (12 Rue Urbain V, 13002 Marseille). Doors open at 10:00 and close at 19:00.",
@@ -72,5 +73,11 @@
     "answer5": " General admission is free, but some specific workshops require on-site registration at the festival reception on the day. Places are allocated on a first-come, first-served basis.",
     "disclaimer": "The answer to your question may be found below!",
     "title": "Frequently Asked Questions (FAQ) - MarsAi Festival"
+  },
+  "movies": {
+    "empty-title": "Coming soon",
+    "empty-description": "The 50 films selected by the jury will be displayed here at the end of the submission phase. Check back soon!",
+    "current-phase-label": "Current phase",
+    "current-phase": "Submission period"
   }
 }

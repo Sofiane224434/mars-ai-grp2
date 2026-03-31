@@ -42,3 +42,39 @@ export const updateMovieStatus = async (movieId, statusId) => {
   return await query(sql, [statusId, movieId]);
 };
 
+// Récupérer les détails d'un film ET vérifier s'il est assigné au juré
+export const getMovieDetailById = async (movieId, userId) => {
+  const sql = `
+    SELECT
+      m.id,
+      m.title_original AS title,
+      m.synopsis_original AS synopsis,
+      m.youtube_url AS videoUrl,
+      m.language,
+      (
+        SELECT GROUP_CONCAT(DISTINCT al.ai_name ORDER BY al.ai_name SEPARATOR ', ')
+        FROM used_ai ua
+        LEFT JOIN ai_list al ON al.id = ua.ai_name
+        WHERE ua.movie_id = m.id
+      ) AS aiTools,
+      m.status AS statusId,
+      s.status AS statusLabel,
+      m.created_at AS createdAt,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      dp.email AS directorEmail,
+      um.user_id AS isAssigned
+    FROM movies m
+    LEFT JOIN users_movies um ON m.id = um.movie_id AND um.user_id = ?
+    LEFT JOIN status s ON s.id = m.status
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.id = ?
+  `;
+
+  // Le paramètre 1 (userId) remplace le premier ?, le paramètre 2 (movieId) le second ?
+  const rows = await query(sql, [userId, movieId]);
+  
+  // Retourne la ligne si le film existe, sinon undefined
+  return rows.length > 0 ? rows[0] : null;
+};
+

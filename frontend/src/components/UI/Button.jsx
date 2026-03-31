@@ -1,10 +1,6 @@
 import jury_valid from "../../assets/icons/jury_valid.svg";
 import jury_refuse from "../../assets/icons/jury_refuse.svg";
 import jury_review from "../../assets/icons/jury_review.svg";
-import icon_valid from "../../assets/icons/icon_valid.png";
-import icon_refuse from "../../assets/icons/icon_refuse.png";
-import icon_review from "../../assets/icons/icon_review.png";
-import icon_wait from "../../assets/icons/icon_wait.png";
 import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 
 const Button = ({
@@ -31,28 +27,6 @@ const Button = ({
   const homePanelIconClass = iconOnly
     ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
     : "status-base-icon-jury-accueil";
-  const filterToneClasses = {
-    approved: {
-      bg: "bg-vert-insecateur",
-      text: "text-green-800",
-    },
-    review: {
-      bg: "bg-jaune-simpson",
-      text: "text-ocre-rouge",
-    },
-    rejected: {
-      bg: "bg-red-500",
-      text: "text-brulure-despespoir",
-    },
-    pending: {
-      bg: "bg-gris-magneti",
-      text: "text-gris-anthracite",
-    },
-  };
-  const filterTone =""; //! A verifier
-  const checked = false;//! A verifier
-  const currentFilterTone =
-    filterToneClasses[filterTone] || filterToneClasses.pending;
 
   //---------------------------------------------------------------------------------------------------------
   // Bouton Public
@@ -85,7 +59,7 @@ const Button = ({
       ),
     },
 
-    // Variente 4 : Gradiant rouge ocre vers rouge vif rectangulaire - Bouton actif
+    // Variante 4 : Gradiant rouge ocre vers rouge vif rectangulaire - Bouton actif
     "square-yellow": {
       container: "square-yellow",
       bg: (
@@ -94,7 +68,7 @@ const Button = ({
     },
 
     //---------------------------------------------------------------------------------------------------------
-    // Status Jury
+    // Boutons de status Jury
     //---------------------------------------------------------------------------------------------------------
 
     // Variante 1 : Approuvé
@@ -142,82 +116,6 @@ const Button = ({
       ),
     },
 
-    // Variante simple : Rejete (Rouge)
-    rejected: {
-      container: "filled-jury",
-      bg: (
-        <div>
-          <div className="btn-bg-base border-2 border-solid bg-red-500" />
-          <img
-            className="status-base-icon-jury translate-x-5 -translate-y-2.5"
-            alt="Icon"
-            src={icon_refuse}
-          />
-        </div>
-      ),
-    },
-
-    // Variante simple : Approuve
-    approved: {
-      container: "filled-jury",
-      bg: (
-        <div>
-          <div className="btn-bg-base border-2 border-solid bg-vert-insecateur" />
-          <img
-            className="status-base-icon-jury translate-x-5"
-            alt="Icon"
-            src={icon_valid}
-          />
-        </div>
-      ),
-    },
-
-    // Variante simple : A revoir
-    review: {
-      container: "filled-jury",
-      bg: (
-        <div>
-          <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
-          <img
-            className="status-base-icon-jury translate-x-5"
-            alt="Icon"
-            src={icon_review}
-          />
-        </div>
-      ),
-    },
-
-    // Variante simple : En attente
-    pending: {
-      container: "filled-jury",
-      bg: (
-        <div>
-          <div className="btn-bg-base border-2 border-solid bg-gris-magneti" />
-          <img
-            className="status-base-icon-jury translate-x-5"
-            alt="Icon"
-            src={icon_wait}
-          />
-        </div>
-      ),
-    },
-
-    // Variante : Filtre statuts dashboard jury
-    "status-filter": {
-      container: "status-filter",
-      bg: (
-        <div className={`btn-bg-filter ${currentFilterTone.bg}`}>
-          <span
-            className={`filter-checkbox ${checked ? "filter-checkbox-checked" : "filter-checkbox-unchecked"}`}
-          >
-            <span className={`filter-checkmark ${checked ? "opacity-100" : "opacity-0"}`}>
-              ✓
-            </span>
-          </span>
-        </div>
-      ),
-    },
-
     //---------------------------------------------------------------------------------------------------------
     // Bouton Admin
     //---------------------------------------------------------------------------------------------------------
@@ -249,28 +147,14 @@ const Button = ({
   const textOffsetClass =
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
-      : variant === "status-filter"
-        ? "pl-6 pr-2 text-base"
-      : ["approved-jury", "rejected-jury", "pending-jury", "approved", "rejected", "review", "pending"].includes(variant)
+      : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
         ? "pl-5"
         : "";
-  const textColorClass =
-    variant === "status-filter"
-      ? checked
-        ? currentFilterTone.text
-        : "text-black/45"
-      : "";
-  const filterStateClass =
-    variant === "status-filter"
-      ? checked
-        ? "status-filter-checked"
-        : "status-filter-unchecked"
-      : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
       ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
       : "";
-  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${filterStateClass} ${className}`;
+  const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 
   if (!interactive) {
     return (
@@ -285,7 +169,7 @@ const Button = ({
         {/* Contenu du texte */}
         {!iconOnly && (
           <span
-            className={`relative z-10 pointer-events-none ${textOffsetClass} ${textColorClass}`}
+            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
           >
             {children}
           </span>
@@ -308,7 +192,7 @@ const Button = ({
       {/* Contenu du texte */}
       {!iconOnly && (
         <span
-          className={`relative z-10 pointer-events-none ${textOffsetClass} ${textColorClass}`}
+          className={`relative z-10 pointer-events-none ${textOffsetClass}`}
         >
           {children}
         </span>

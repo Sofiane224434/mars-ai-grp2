@@ -43,7 +43,7 @@ export default function SimplerFormTest() {
     }
 
     function changeInput(e) {
-        console.log(e.target);
+        console.log(e);
         let ischeck = e.target.type === "checkbox" ? true : false;
         let inpname = e.target.name;
         let value;
@@ -802,8 +802,10 @@ export default function SimplerFormTest() {
     }
 
     function handleSubmit() {
-        console.log("Your submit is ready!");
-        console.log(results);
+        if (verifyForm()) {
+            console.log("Your submit is ready!");
+            console.log(results);
+        }
     }
 
     function generateBtns() {
@@ -839,7 +841,7 @@ export default function SimplerFormTest() {
     return (
         <>
             <StepsTrack step={currentStep} maxstep={maxStep} />
-            {generateForms()}
+            <form>{generateForms()}</form>
             {generateBtns()}
         </>
     )

@@ -5,7 +5,8 @@ import { useAuth } from '../hooks/useAuth.js';
 // import LargeFormMaster from '../components/LargeForm/LargeFormMaster.jsx';
 //import StepsFormsNewtest from '../components/StepsFormsNewtest.jsx';
 //import ProtoAddInput from '../components/ProtoAddInput.jsx';
-import SimplerFormTest from '../components/SimplerFormTest.jsx';
+//import SimplerFormTest from '../components/SimplerFormTest.jsx';
+import FinalForm from '../components/FinalForm/FinalForm.jsx';
 //import MasterForm from '../components/FormNew/MasterForm.jsx';
 
 function Home() {
@@ -35,7 +36,7 @@ function Home() {
                 </div>
             </div>
             {/* test runs */}
-            <SimplerFormTest />
+            <FinalForm />
         </>
     );
 }

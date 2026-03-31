@@ -1,13 +1,13 @@
-import { S3 } from "@aws-sdk/client-s3";
-//import 'dotenv/config';
+import { S3, ListObjectsCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import 'dotenv/config';
 
 const client = new S3({
-    region: SCALEWAY_REGION,
-    endpoint: SCALEWAY_ENDPOINT,
+    region: process.env.SCALEWAY_REGION,
+    endpoint: process.env.SCALEWAY_ENDPOINT,
     credentials: {
-        accessKeyId: SCALEWAY_ACCESS_KEY,
-        secretAccessKey: SCALEWAY_SECRET_KEY
-    }
+        accessKeyId: process.env.SCALEWAY_ACCESS_KEY,
+        secretAccessKey: process.env.SCALEWAY_SECRET_KEY
+    },
 });
 
 const bucketConfig = { bucket: "grp-2" }
@@ -15,8 +15,25 @@ const bucketConfig = { bucket: "grp-2" }
 export async function bucketS3() {
     // async/await.
     try {
+        const command = new ListObjectsCommand({
+            Bucket: process.env.SCALEWAY_BUCKET_NAME,
+            // Key: process.env.SCALEWAY_FOLDER
+        });
+        const contents = await client.send(command);
+
+        //get only grp2 objects
+        let mygroup = contents.Contents.filter((obj, index) => {
+            if (obj.Key.startsWith(process.env.SCALEWAY_FOLDER)) {
+                return (contents.Contents[index])
+            }
+        })
+
+        let url = process.env.SCALEWAY_ENDPOINT + "/" + process.env.SCALEWAY_BUCKET_NAME +
+            "/grp2/afee8e9278955cdcec747e836476cc8e";
+
+        console.log(mygroup);
         const data = await client.listBuckets();
-        console.log(data);
+        //console.log("my data: ", data);
         // process data.
     } catch (error) {
         // error handling.

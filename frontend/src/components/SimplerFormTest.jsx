@@ -6,8 +6,6 @@ export default function SimplerFormTest() {
     const [results, setResults] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
 
-    const [correspondance, setCorrespondance] = useState([])
-
     const [currentStep, setCurrentStep] = useState(1);
     const [maxStep, setMaxStep] = useState(null);
 
@@ -33,13 +31,26 @@ export default function SimplerFormTest() {
         //check .png, .jpg
     }
 
+    function handleFiles(value, file, name) {
+        let newres = JSON.parse(JSON.stringify(results));
+        let datatransfer = new DataTransfer();
+        datatransfer.items.add(file[0])
+        let obj = { value: value, file: datatransfer.files };
+        console.log(obj);
+        newres[name] = { value: value, file: datatransfer.files };
+        console.log("newres:", newres)
+        setResults(newres);
+    }
+
     function changeInput(e) {
+        console.log(e.target);
         let ischeck = e.target.type === "checkbox" ? true : false;
         let inpname = e.target.name;
         let value;
         if (ischeck) {
             value = e.target.checked;
         } else if (e.target.type === "file") {
+            handleFiles(e.target.value, e.target.files, inpname);
             return;
         } else {
             value = e.target.value;
@@ -102,7 +113,8 @@ export default function SimplerFormTest() {
         <textarea name="synopsis" value={results["synopsis"] || ""}></textarea>,
         <input type="text" name="movielanguage"
             value={results["movielanguage"] || ""}></input>,
-        <input type="file" name="videofile"></input>,
+        <input type="file" name="videofile"
+            files={getNested(results, "videofile", "file") || ""}></input>,
         <input name="soundbankcheck" type="checkbox"
             checked={results["soundbankcheck"] || false}></input>,
         <input type="url" name="youtubelink"
@@ -498,7 +510,7 @@ export default function SimplerFormTest() {
     //form setup
     const myforms = [
         [
-            <form onChange={changeInput}>
+            <form style={{ display: currentStep == 1 ? "block" : "none" }} onChange={changeInput}>
                 <h2>Etape 1 : Fiche film</h2>
                 <div>
                     <div>Titre original du film</div>
@@ -522,13 +534,13 @@ export default function SimplerFormTest() {
 
                 <div>
                     <div>Fichier vidéo (.mp4 ou .mov)</div>
-                    <input type="file" onChange={(e) => {
+                    {/* <input type="file" onChange={(e) => {
                         setTempVideo({
                             file: e.target.files,
                             value: e.target.value
                         })
                     }} files={tempvideo.file ? tempvideo.file : ""}
-                        value={tempvideo.value ? tempvideo.value : ""}></input>
+                        value={tempvideo.value ? tempvideo.value : ""}></input> */}
                     {getinputfromarray("videofile")}
                 </div>
 
@@ -574,7 +586,7 @@ export default function SimplerFormTest() {
             </form>
         ],
         [
-            <form onChange={changeInput}>
+            <form style={{ display: currentStep == 2 ? "block" : "none" }} onChange={changeInput}>
                 <h2>Etape 2 : Déclaration d'usage de l'IA</h2>
 
                 <div>
@@ -624,7 +636,7 @@ export default function SimplerFormTest() {
             </form>
         ],
         [
-            <form onChange={changeInput}>
+            <form style={{ display: currentStep == 3 ? "block" : "none" }} onChange={changeInput}>
                 <h2>Etape 3 : Multimédia et accessibilité</h2>
 
                 <div>
@@ -657,7 +669,7 @@ export default function SimplerFormTest() {
             </form>
         ],
         [
-            <form onChange={changeInput}>
+            <form style={{ display: currentStep == 4 ? "block" : "none" }} onChange={changeInput}>
                 <h2>Etape 4 : vos informations</h2>
                 <div>
                     <div>
@@ -768,8 +780,13 @@ export default function SimplerFormTest() {
 
     //form functions
 
-    function generateForms(step) {
-        return (myforms[step - 1])
+    function generateForms() {
+        let bigform = [];
+        for (let e in myforms) {
+            bigform.push(myforms[e])
+        }
+        return bigform;
+        // return (myforms[step - 1])
     }
 
     //button functions
@@ -822,7 +839,7 @@ export default function SimplerFormTest() {
     return (
         <>
             <StepsTrack step={currentStep} maxstep={maxStep} />
-            {generateForms(currentStep)}
+            {generateForms()}
             {generateBtns()}
         </>
     )

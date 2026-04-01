@@ -11,6 +11,7 @@ import Button from '../../../components/ui/Button.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
 // 1. Schéma Zod pour sécuriser la validation du statut (Vote)
 const voteSchema = z.object({
@@ -38,13 +39,24 @@ function MovieDetail() {
     const fetchMovie = async () => {
       try {
         setIsLoading(true);
+        setError(null);
+        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
         const response = await axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
         });
         setMovie(response.data);
       } catch (err) {
         console.error("Erreur de récupération :", err);
-        setError("Impossible de charger l'œuvre. Veuillez vérifier votre connexion.");
+        if (err?.response?.status === 401) {
+          setError("Session invalide ou expirée. Veuillez vous reconnecter.");
+        } else if (err?.response?.status === 403) {
+          setError("Accès interdit : ce film ne fait pas partie de votre sélection.");
+        } else if (err?.response?.status === 404) {
+          setError("Ce film est introuvable.");
+        } else {
+          setError("Impossible de charger l'œuvre. Vérifiez que l'API backend tourne sur http://localhost:5000.");
+        }
       } finally {
         setIsLoading(false);
       }

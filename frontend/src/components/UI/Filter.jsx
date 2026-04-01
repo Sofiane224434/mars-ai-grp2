@@ -17,6 +17,10 @@ const FILTER_TONE_CLASSES = {
     bg: "bg-gris-magneti",
     text: "text-gris-anthracite",
   },
+  assignation: {
+    bg: "bg-bleu-bulma",
+    text: "text-gris-anthracite",
+  },
 };
 
 const Filter = ({
@@ -33,7 +37,8 @@ const Filter = ({
   const isControlled = typeof checked === "boolean";
   const [internalChecked, setInternalChecked] = useState(defaultChecked);
   const isChecked = isControlled ? checked : internalChecked;
-  const currentTone = FILTER_TONE_CLASSES[variant] || FILTER_TONE_CLASSES.pending;
+  const currentTone =
+    FILTER_TONE_CLASSES[variant] || FILTER_TONE_CLASSES.pending;
   const stateClass = isChecked
     ? "status-filter-checked"
     : "status-filter-unchecked";
@@ -67,14 +72,16 @@ const Filter = ({
           <span
             className={`filter-checkbox ${isChecked ? "filter-checkbox-checked" : "filter-checkbox-unchecked"}`}
           >
-            <span className={`filter-checkmark ${isChecked ? "opacity-100" : "opacity-0"}`}>
+            <span
+              className={`filter-checkmark ${isChecked ? "opacity-100" : "opacity-0"}`}
+            >
               ✓
             </span>
           </span>
         </div>
 
         <span
-          className={`relative z-10 pointer-events-none pl-6 pr-2 text-base ${textColorClass}`}
+          className={`relative z-10 pointer-events-none pl-6 pr-2 text-sm ${textColorClass}`}
         >
           {children}
         </span>

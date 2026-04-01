@@ -4,6 +4,7 @@
 /frontend/dist
 /frontend/.env
 /node_modules
+/.vscode
 
 # Ignore les fichier documentations utilisateurs
 .help/*

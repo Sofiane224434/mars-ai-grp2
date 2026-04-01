@@ -151,10 +151,12 @@ p {
   }
 
   .status-filter {
-    width: 170px;
-    height: 42px;
+    width: 150px;
+    height: 38px;
     font-weight: 700;
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
   }
 
   .status-filter-checked {
@@ -204,10 +206,12 @@ p {
   --color-jaune-simpson: #ffea00;
   --color-orange-genial: #ff9d00;
   --color-turquoise-vif: #4df6ff;
+  --color-bleu-bulma: #42cbe6;
   --color-bleu-ciel: #42cbe6;
   --color-bleu-canard: #2b9498;
   --color-bleu-ocean: #42cbe6;
   --color-gris-anthracite: #383839;
+  --color-gris-steelix: #4a4a4a;
   --color-gris-magneti: #8f8f8f;
   --color-reglisse: #232323;
   --color-noir-bleute: #1d1d24;

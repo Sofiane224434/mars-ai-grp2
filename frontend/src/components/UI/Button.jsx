@@ -74,13 +74,14 @@ const Button = ({
     // Variante 1 : Approuvé
     "approved-jury": {
       container: "jury-action",
-      shadowClass: "shadow-[0_7px_0_rgb(10_110_58_/_0.95)] active:shadow-[0_2px_0_rgb(10_110_58_/_0.95)]",
+      shadowClass:
+        "shadow-[0_7px_0_rgb(10_110_58_/_0.95)] active:shadow-[0_2px_0_rgb(10_110_58_/_0.95)]",
       bg: (
         <div>
           <div className="jury-action-bg bg-vert-picollo shadow-none" />
           <img
             className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
-            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
+            style={{ filter: "drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))" }}
             alt="Icon"
             src={jury_valid}
           />
@@ -91,13 +92,14 @@ const Button = ({
     // Variante 2 : Rejeté
     "rejected-jury": {
       container: "jury-action",
-      shadowClass: "shadow-[0_7px_0_rgb(140_35_35_/_0.95)] active:shadow-[0_2px_0_rgb(140_35_35_/_0.95)]",
+      shadowClass:
+        "shadow-[0_7px_0_rgb(140_35_35_/_0.95)] active:shadow-[0_2px_0_rgb(140_35_35_/_0.95)]",
       bg: (
         <div>
           <div className="jury-action-bg bg-red-500 shadow-none" />
           <img
             className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
-            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
+            style={{ filter: "drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))" }}
             alt="Icon"
             src={jury_refuse}
           />
@@ -108,13 +110,14 @@ const Button = ({
     // Variante 3 : En attente
     "pending-jury": {
       container: "jury-action",
-      shadowClass: "shadow-[0_7px_0_rgb(168_130_0_/_0.95)] active:shadow-[0_2px_0_rgb(168_130_0_/_0.95)]",
+      shadowClass:
+        "shadow-[0_7px_0_rgb(168_130_0_/_0.95)] active:shadow-[0_2px_0_rgb(168_130_0_/_0.95)]",
       bg: (
         <div>
           <div className="jury-action-bg bg-jaune-simpson shadow-none" />
           <img
             className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
-            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
+            style={{ filter: "drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))" }}
             alt="Icon"
             src={jury_review}
           />
@@ -132,7 +135,11 @@ const Button = ({
       bg: (
         <div>
           <div className={panelBgClass} />
-          <img className={panelIconWithOffsetClass} alt="Icon" src={iconToDisplay} />
+          <img
+            className={panelIconWithOffsetClass}
+            alt="Icon"
+            src={iconToDisplay}
+          />
         </div>
       ),
     },
@@ -150,7 +157,11 @@ const Button = ({
   };
 
   const currentVariant = variants[variant] || variants["neon-yellow"];
-  const isJuryActionVariant = ["approved-jury", "rejected-jury", "pending-jury"].includes(variant);
+  const isJuryActionVariant = [
+    "approved-jury",
+    "rejected-jury",
+    "pending-jury",
+  ].includes(variant);
   const textOffsetClass =
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
@@ -164,10 +175,15 @@ const Button = ({
   const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 
   const pressWrapperClass = [
-    "relative inline-block",
-    !disabled && `${currentVariant.shadowClass || "shadow-[0_7px_0_rgb(0_0_0_/_0.45)] active:shadow-[0_2px_0_rgb(0_0_0_/_0.45)]"} transition-shadow duration-75`,
+    "relative",
+    className.includes("w-full") ? "block w-full" : "inline-block",
+    !disabled &&
+      isJuryActionVariant &&
+      `${currentVariant.shadowClass} transition-shadow duration-75`,
     (isJuryActionVariant || iconOnly) && "rounded-full",
-  ].filter(Boolean).join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   if (!interactive) {
     return (
@@ -198,7 +214,7 @@ const Button = ({
         onClick={onClick}
         disabled={disabled}
         aria-label={ariaLabel}
-        className={`${classes} ${!disabled ? "active:translate-y-1.25 transition-transform duration-75" : ""}`}
+        className={`${classes} ${!disabled && isJuryActionVariant ? "active:translate-y-1.25 transition-transform duration-75" : ""}`}
       >
         {/* Couche de fond (Background/Borders) */}
         {currentVariant.bg}

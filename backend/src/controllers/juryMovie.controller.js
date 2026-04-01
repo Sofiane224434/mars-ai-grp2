@@ -127,6 +127,12 @@ export const getMovieById = async (req, res) => {
 
   } catch (error) {
     console.error("Erreur GET /jury/movies/:id :", error);
+    if (error?.name === 'ZodError') {
+      const firstIssue = error?.issues?.[0]?.message;
+      return res.status(500).json({
+        message: firstIssue || 'Donnees invalides detectees dans la reponse API.'
+      });
+    }
     return res.status(500).json({ message: "Erreur interne du serveur." });
   }
 };

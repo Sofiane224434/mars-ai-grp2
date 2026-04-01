@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { z } from 'zod';
-
-// 👈 NOUVEAU 1 : Import du Hook de navigation
 import { useJuryMovieNavigation } from '../../../hooks/useJuryMovieNavigation.js';
 
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
@@ -22,7 +20,7 @@ const voteSchema = z.object({
 function MovieDetail() {
   const { movieId } = useParams();
 
-  // 👈 NOUVEAU 2 : Utilisation du Hook de navigation
+  // Utilisation du Hook de navigation
   const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
 
   // États globaux
@@ -216,10 +214,7 @@ function MovieDetail() {
           <div>{movie.director_language || "Non renseigné."}</div>
         </InfoPanel>
 
-        <NotesSection 
-          notes={notes}
-          onAddNote={handleAddNote}
-        />
+        <NotesSection movieId={movie.id} />
 
       </div>
     </div>

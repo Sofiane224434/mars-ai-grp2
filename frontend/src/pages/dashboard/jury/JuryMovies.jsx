@@ -52,7 +52,11 @@ function JuryMovies() {
         if (err?.response?.status === 401 || err?.response?.status === 403) {
           setError("Session invalide. Connectez-vous d'abord pour voir vos films assignés.");
         } else {
-          setError("Impossible de charger vos films. Vérifiez que l'API backend tourne sur http://localhost:5000.");
+          setError(
+            err?.response?.data?.message ||
+            err?.message ||
+            "Impossible de charger vos films. Vérifiez que l'API backend tourne sur http://localhost:5000."
+          );
         }
       } finally {
         setIsLoading(false);

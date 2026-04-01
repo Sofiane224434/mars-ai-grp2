@@ -62,3 +62,23 @@ export const movieDetailResponseSchema = z.object({
     country: z.string().nullable(),
     director_language: z.string().nullable()
 });
+
+
+//-------------------------------------COMMENTAIRES----------------------------------------------------//
+// Schéma pour GET /api/jury/comments?movieId=X
+export const getJuryCommentsSchema = z.object({
+  query: z.object({
+    // Tout ce qui vient de l'URL (query) est une string, on vérifie que c'est bien un nombre
+    movieId: z.string().regex(/^\d+$/, "Le paramètre movieId doit être un nombre entier valide.")
+  })
+});
+
+// Schéma pour POST /api/jury/comments
+export const postJuryCommentSchema = z.object({
+  body: z.object({
+    movieId: z.number().int().positive("L'ID du film est invalide."),
+    content: z.string()
+      .min(2, "La note doit contenir au moins 2 caractères.")
+      .max(2000, "La note est trop longue (maximum 2000 caractères).")
+  })
+});

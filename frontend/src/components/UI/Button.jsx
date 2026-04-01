@@ -73,12 +73,14 @@ const Button = ({
 
     // Variante 1 : Approuvé
     "approved-jury": {
-      container: "filled-jury",
+      container: "jury-action",
+      shadowClass: "shadow-[0_7px_0_rgb(10_110_58_/_0.95)] active:shadow-[0_2px_0_rgb(10_110_58_/_0.95)]",
       bg: (
         <div>
-          <div className="btn-bg-base border-2 border-solid bg-vert-picollo" />
+          <div className="jury-action-bg bg-vert-picollo shadow-none" />
           <img
-            className="status-base-icon-jury translate-x-5"
+            className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
+            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
             alt="Icon"
             src={jury_valid}
           />
@@ -88,12 +90,14 @@ const Button = ({
 
     // Variante 2 : Rejeté
     "rejected-jury": {
-      container: "filled-jury",
+      container: "jury-action",
+      shadowClass: "shadow-[0_7px_0_rgb(140_35_35_/_0.95)] active:shadow-[0_2px_0_rgb(140_35_35_/_0.95)]",
       bg: (
         <div>
-          <div className="btn-bg-base border-2 border-solid bg-red-500" />
+          <div className="jury-action-bg bg-red-500 shadow-none" />
           <img
-            className="status-base-icon-jury translate-x-5 -translate-y-2.5"
+            className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
+            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
             alt="Icon"
             src={jury_refuse}
           />
@@ -103,12 +107,14 @@ const Button = ({
 
     // Variante 3 : En attente
     "pending-jury": {
-      container: "filled-jury",
+      container: "jury-action",
+      shadowClass: "shadow-[0_7px_0_rgb(168_130_0_/_0.95)] active:shadow-[0_2px_0_rgb(168_130_0_/_0.95)]",
       bg: (
         <div>
-          <div className="btn-bg-base border-2 border-solid bg-jaune-simpson" />
+          <div className="jury-action-bg bg-jaune-simpson shadow-none" />
           <img
-            className="status-base-icon-jury translate-x-5"
+            className="pointer-events-none absolute left-4 top-[52%] h-6 w-6 -translate-y-1/2 object-contain"
+            style={{ filter: 'drop-shadow(0 3px 4px rgb(0 0 0 / 0.2))' }}
             alt="Icon"
             src={jury_review}
           />
@@ -144,29 +150,24 @@ const Button = ({
   };
 
   const currentVariant = variants[variant] || variants["neon-yellow"];
+  const isJuryActionVariant = ["approved-jury", "rejected-jury", "pending-jury"].includes(variant);
   const textOffsetClass =
     variant === "btn-panel-home" && !iconOnly
       ? "pl-3"
-      : ["approved-jury", "rejected-jury", "pending-jury"].includes(variant)
-        ? "pl-5"
+      : isJuryActionVariant
+        ? "pl-6 translate-y-px"
         : "";
-  const textColorClass =
-    variant === "status-"
-      ? checked
-        ? currentFilterTone.text
-        : "text-black/45"
-      : "";
-  const filterStateClass =
-    variant === "status-filter"
-      ? checked
-        ? "status-filter-checked"
-        : "status-filter-unchecked"
-      : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
       ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
       : "";
   const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
+
+  const pressWrapperClass = [
+    "relative inline-block",
+    !disabled && `${currentVariant.shadowClass || "shadow-[0_7px_0_rgb(0_0_0_/_0.45)] active:shadow-[0_2px_0_rgb(0_0_0_/_0.45)]"} transition-shadow duration-75`,
+    (isJuryActionVariant || iconOnly) && "rounded-full",
+  ].filter(Boolean).join(" ");
 
   if (!interactive) {
     return (
@@ -191,25 +192,27 @@ const Button = ({
   }
 
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={ariaLabel}
-      className={classes}
-    >
-      {/* Couche de fond (Background/Borders) */}
-      {currentVariant.bg}
+    <div className={pressWrapperClass}>
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        className={`${classes} ${!disabled ? "active:translate-y-1.25 transition-transform duration-75" : ""}`}
+      >
+        {/* Couche de fond (Background/Borders) */}
+        {currentVariant.bg}
 
-      {/* Contenu du texte */}
-      {!iconOnly && (
-        <span
-          className={`relative z-10 pointer-events-none ${textOffsetClass}`}
-        >
-          {children}
-        </span>
-      )}
-    </button>
+        {/* Contenu du texte */}
+        {!iconOnly && (
+          <span
+            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
+          >
+            {children}
+          </span>
+        )}
+      </button>
+    </div>
   );
 };
 

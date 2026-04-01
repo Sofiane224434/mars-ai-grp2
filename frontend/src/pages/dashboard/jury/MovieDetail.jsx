@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { z } from 'zod'; // Import de Zod
+import { z } from 'zod';
 
-// Imports de tes composants
+// 👈 NOUVEAU 1 : Import du Hook de navigation
+import { useJuryMovieNavigation } from '../../../hooks/useJuryMovieNavigation.js';
+
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
 import NotesSection from '../../../components/sections/DashboardJury/NotesSection.jsx';
@@ -11,8 +13,8 @@ import Button from '../../../components/ui/Button.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
-// 1. Schéma Zod pour sécuriser la validation du statut (Vote)
 const voteSchema = z.object({
   statusId: z.number().int().positive("L'ID du statut est invalide.")
 });
@@ -20,47 +22,64 @@ const voteSchema = z.object({
 function MovieDetail() {
   const { movieId } = useParams();
 
+  // 👈 NOUVEAU 2 : Utilisation du Hook de navigation
+  const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
+
   // États globaux
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isVoting, setIsVoting] = useState(false); // Pour éviter le spam-clic
+  const [isVoting, setIsVoting] = useState(false); 
   
   // États de l'iframe vidéo
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [notes, setNotes] = useState([
+    { content: "Ceci est une excellente réalisation, les plans sont très propres." }
+  ]);
 
-  // Exemple de fausses notes (sera remplacé par un GET /comments plus tard)
-  const fakeNotes = [{ content: "Ceci est une excellente réalisation, les plans sont très propres." }];
+  const handleAddNote = (content) => {
+    setNotes((prev) => [...prev, { content }]);
+  };
 
-  // 2. Appel API Réel : Récupération du film
   useEffect(() => {
     const fetchMovie = async () => {
       try {
+        // 👈 NOUVEAU 3 : On réinitialise l'état de la vidéo à chaque changement de film !
+        setIsVideoLoaded(false);
+        setVideoError(false);
         setIsLoading(true);
+        setError(null);
+
+        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
         const response = await axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
         });
         setMovie(response.data);
       } catch (err) {
         console.error("Erreur de récupération :", err);
-        setError("Impossible de charger l'œuvre. Veuillez vérifier votre connexion.");
+        if (err?.response?.status === 401) {
+          setError("Session invalide ou expirée. Veuillez vous reconnecter.");
+        } else if (err?.response?.status === 403) {
+          setError("Accès interdit : ce film ne fait pas partie de votre sélection.");
+        } else if (err?.response?.status === 404) {
+          setError("Ce film est introuvable.");
+        } else {
+          setError(err?.response?.data?.message || "Impossible de charger l'œuvre. Vérifiez que l'API backend tourne sur http://localhost:5000.");
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     if (movieId) fetchMovie();
-  }, [movieId]);
+  }, [movieId]); // L'effet se relance à chaque fois que l'URL change (grâce au Hook !)
 
-  // 3. Logique de Vote sécurisée par Zod
   const handleVote = async (newStatusId) => {
     try {
       setIsVoting(true);
-
-      // Validation stricte du payload avec Zod avant l'envoi réseau
       const validPayload = voteSchema.parse({ statusId: newStatusId });
-
       const token = localStorage.getItem('token') || 'token_temporaire_123';
      
       await axios.put(`${API_BASE_URL}/jury/movies/${movieId}/status`, validPayload, {
@@ -68,7 +87,6 @@ function MovieDetail() {
         withCredentials: true
       });
 
-      // Mise à jour de l'UI
       setMovie((prev) => ({ ...prev, statusId: newStatusId }));
       alert("Votre évaluation a été enregistrée avec succès.");
 
@@ -77,7 +95,6 @@ function MovieDetail() {
         console.error("Erreur Zod :", err.errors);
       } else {
         console.error("Erreur API lors du vote :", err);
-        // Si c'est toujours une 401 malgré le token, c'est que le token a expiré
         if (err.response?.status === 401) {
           alert("Votre session a expiré. Veuillez vous reconnecter.");
         } else {
@@ -115,7 +132,6 @@ function MovieDetail() {
     return { variant: 'pending', label: statusLabel || 'En attente' };
   };
 
-  // Sécurités de rendu
   if (isLoading) return <div className="min-h-screen background-gradient-black text-bleu-ciel flex items-center justify-center font-title text-2xl">Chargement...</div>;
   if (error || !movie) return <div className="min-h-screen background-gradient-black text-brulure-despespoir flex items-center justify-center text-2xl">{error}</div>;
 
@@ -125,24 +141,24 @@ function MovieDetail() {
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
       <div className="max-w-4xl mx-auto flex flex-col items-center">
         
-        {/* En-tête */}
         <div className="text-center mb-6 text-white">
           <h1 className="text-4xl font-bold font-title">{movie.title}</h1>
           <p className="text-gris-magneti text-sm mt-1">Par : {movie.directorName}</p>
         </div>
 
-        {/* Le lecteur vidéo */}
+        {/*Injection des fonctions de navigation dans VideoWrapper */}
         <VideoWrapper 
           embedUrl={getYouTubeEmbedUrl(movie.videoUrl)}
           isLoaded={isVideoLoaded}
           hasError={videoError}
           onLoad={() => setIsVideoLoaded(true)}
           onError={() => setVideoError(true)}
-          onPrev={() => console.log("Film précédent")}
-          onNext={() => console.log("Film suivant")}
+          canPrev={canPrev}
+          canNext={canNext}
+          onPrev={goPrev}
+          onNext={goNext}
         />
         
-        {/* Status JURY et Boutons de Vote */}
         <div className="text-white my-8 text-center border-b border-gris-magneti/30 pb-8 w-full">
            <div className="mb-4 flex items-center justify-center gap-2">
              <span className="text-gris-magneti">Statut de la vidéo :</span>
@@ -150,7 +166,6 @@ function MovieDetail() {
            </div>
            
            <div className="flex gap-4 justify-center">
-             {/* Note : On passe les IDs correspondants à getStatusBadgeFromDb (4 = Validé, 3 = À revoir, 2 = Refusé) */}
              <Button interactive variant="approved-jury" onClick={() => handleVote(4)} disabled={isVoting}>
                Valider
              </Button>
@@ -163,7 +178,6 @@ function MovieDetail() {
            </div>
         </div>
 
-        {/* Les encadrés d'informations */}
         <InfoPanel title="Informations sur la vidéo">
           <div className="text-gris-magneti font-medium">Synopsis :</div>
           <div>{movie.synopsis || "Non renseigné."}</div>
@@ -171,6 +185,12 @@ function MovieDetail() {
           <div>{movie.createdAt || "01/01/2026"}</div>
           <div className="text-gris-magneti font-medium">Langue :</div>
           <div>{movie.language || "Français"}</div>
+          <div className="text-gris-magneti font-medium">Fichier vidéo (S3) :</div>
+          <div>{movie.videofile || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Sous-titres :</div>
+          <div>{movie.subtitles || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Screenshot :</div>
+          <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
         </InfoPanel>
 
         <InfoPanel title="Informations sur le réalisateur">
@@ -179,13 +199,26 @@ function MovieDetail() {
           <div className="text-gris-magneti font-medium">Prénom :</div>
           <div>{movie.directorFirstName}</div>
           <div className="text-gris-magneti font-medium">Email :</div>
-          <div>{movie.directorEmail}</div>
+          <div>{movie.directorEmail || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Date de naissance :</div>
+          <div>{movie.date_of_birth || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Adresse :</div>
+          <div>{movie.address || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Adresse 2 :</div>
+          <div>{movie.address2 || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Code postal :</div>
+          <div>{movie.postal_code || "Non renseigné."}</div>
+           <div className="text-gris-magneti font-medium">Ville :</div>
+          <div>{movie.city || "Non renseigné."}</div>
+           <div className="text-gris-magneti font-medium">Pays :</div>
+          <div>{movie.country || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Langue parlée :</div>
+          <div>{movie.director_language || "Non renseigné."}</div>
         </InfoPanel>
 
-        {/* La zone des notes */}
         <NotesSection 
-          notes={fakeNotes} 
-          onAddNote={() => console.log("Ajout d'une note en cours...")} 
+          notes={notes}
+          onAddNote={handleAddNote}
         />
 
       </div>

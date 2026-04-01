@@ -3,12 +3,17 @@ import Spinner from '../../ui/Spinner.jsx';
 
 // Composant d'affichage du lecteur video avec navigation precedente/suivante.
 // Le parent controle l'etat via isLoaded/hasError et les callbacks onLoad/onError.
-const VideoWrapper = ({ embedUrl, isLoaded, hasError, onLoad, onError, onPrev, onNext }) => {
+const VideoWrapper = ({ embedUrl, isLoaded, hasError, onLoad, onError, onPrev, onNext, canPrev = true, canNext = true }) => {
   return (
     <div className="flex items-center justify-center w-full gap-4 my-6">
       
       {/* Flèche Précédent */}
-      <button onClick={onPrev} className="hidden md:flex text-bleu-ciel hover:text-white transition-colors hover:scale-110 cursor-pointer">
+      <button
+        onClick={onPrev}
+        disabled={!canPrev}
+        aria-label="Film precedent"
+        className={`hidden md:flex transition-colors ${canPrev ? 'text-bleu-ciel hover:text-white hover:scale-110 cursor-pointer' : 'text-gris-magneti/50 cursor-not-allowed opacity-60'}`}
+      >
         <svg className="w-16 h-16 fill-current" viewBox="0 0 24 24">
           <path d="M15 6L7 12L15 18V6Z" />
         </svg>
@@ -43,7 +48,12 @@ const VideoWrapper = ({ embedUrl, isLoaded, hasError, onLoad, onError, onPrev, o
       </div>
 
       {/* Flèche Suivant */}
-      <button onClick={onNext} className="hidden md:flex text-bleu-ciel hover:text-white transition-colors hover:scale-110 cursor-pointer">
+      <button
+        onClick={onNext}
+        disabled={!canNext}
+        aria-label="Film suivant"
+        className={`hidden md:flex transition-colors ${canNext ? 'text-bleu-ciel hover:text-white hover:scale-110 cursor-pointer' : 'text-gris-magneti/50 cursor-not-allowed opacity-60'}`}
+      >
         <svg className="w-16 h-16 fill-current" viewBox="0 0 24 24">
           <path d="M9 6V18L17 12L9 6Z" />
         </svg>

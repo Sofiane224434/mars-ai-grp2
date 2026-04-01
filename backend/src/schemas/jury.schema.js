@@ -41,6 +41,10 @@ export const movieDetailResponseSchema = z.object({
     title: z.string().min(1, 'Le titre est obligatoire.'),
     synopsis: z.string().nullable(),
     videoUrl: z.string().url('L\'URL de la video est invalide.').nullable(),
+    subtitles: z.string().nullable(),
+    videofile: z.string().nullable(),
+    thumbnail: z.string().nullable(),
+    screenshotLink: z.string().nullable(),
     language: z.string().min(1, 'La langue est obligatoire.'),
     createdAt: z.union([z.string(), z.date()]),
     aiTools: z.string().nullable(),
@@ -49,5 +53,12 @@ export const movieDetailResponseSchema = z.object({
     directorName: z.string().min(1, 'Le nom du réalisateur est obligatoire.'),
     directorFirstName: z.string().nullable(),
     directorLastName: z.string().nullable(),
-    directorEmail: z.string().email('Email invalide du réalisateur.').nullable()
+    directorEmail: z.string().email('Email invalide du réalisateur.').nullable(),
+    date_of_birth: z.union([z.string(), z.date()]).nullable(),
+    address: z.string().nullable(),
+    address2: z.string().nullable(),
+    postal_code: z.union([z.string(), z.number()]).nullable(),
+    city: z.string().nullable(),
+    country: z.string().nullable(),
+    director_language: z.string().nullable()
 });

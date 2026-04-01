@@ -73,5 +73,11 @@
         "emailplaceholder": "Votre adresse e-mail",
         "subscribe": "S'inscrire à la newsletter",
         "rights": "Tous droits réservés"
+    },
+    "movies": {
+        "empty-title": "Bientôt disponible",
+        "empty-description": "Les 50 films sélectionnés par le jury seront affichés ici à l'issue de la phase de candidature. Revenez prochainement !",
+        "current-phase-label": "Phase actuelle",
+        "current-phase": "Dépôt des candidatures"
     }
 }

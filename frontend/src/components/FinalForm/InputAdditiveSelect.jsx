@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
  * @param options Les options à utiliser dans un format array. Exemple :
  * [<option value="...">...</option>, ...]
  */
-export default function InputAdditiveSelect({ groupname, addlimit = 5, options, label, btntitle,
+export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle,
     valueother,
     getValuesFunc
 }) {
@@ -29,24 +29,17 @@ export default function InputAdditiveSelect({ groupname, addlimit = 5, options, 
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
-        // console.log(
-        //     {
-        //         "selvals": selectValues,
-        //         "firstInput": firstInput,
-        //         "firstInputText": firstInputText,
-        //         "textValues": textValues
-        //     }
-        // )
-
-        //Tri des valeurs pour obtenir seulements celles qui comptent
         let myfirstval, groupvals = [];
 
+        //Décide de prendre l'input texte ou select selon si select est en mode "autre"
+        //ou non
         if (firstInput == valueother) {
             myfirstval = firstInputText;
         } else {
             myfirstval = firstInput;
         }
 
+        //Même tri pour les valeurs additionnelles
         for (let n in selectValues) {
             if (selectValues[n] == valueother) {
                 groupvals.push(textValues[n]);
@@ -57,7 +50,8 @@ export default function InputAdditiveSelect({ groupname, addlimit = 5, options, 
 
         let cleanvalues = [myfirstval].concat(groupvals);
 
-        getValuesFunc({ [groupname]: cleanvalues });
+        //Rend les valeurs triées à la fonction du parent
+        getValuesFunc({ [name]: cleanvalues });
     }, [selectValues, firstInput, firstInputText, textValues])
 
     const myoptionmap = options.map(inp => { return (inp) });
@@ -114,24 +108,7 @@ export default function InputAdditiveSelect({ groupname, addlimit = 5, options, 
                     }
                 }
             }
-
-            // if (selectValues.length < (addlimit - 1) &&
-            //     selectValues[selectValues.length - 1] != "") {
-            //     setSelectValues([...selectValues, ""]);
-            // }
         }
-
-        // if (textValues.length < 1) {
-        //     if (firstInput != "") {
-        //         setTextValues([...textValues, ""]);
-        //     }
-
-        // } else {
-        //     if (textValues.length < (addlimit - 1) &&
-        //         selectValues[selectValues.length - 1] != "") {
-        //         setTextValues([...textValues, ""]);
-        //     }
-        // }
     }
 
     function updateSelectValues(e, index) {

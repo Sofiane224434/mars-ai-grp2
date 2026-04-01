@@ -4,14 +4,14 @@ import { useState, useEffect } from "react"
  * Permet de créer un groupe d'input additif, pour les cas où qqun peut ajouter 
  * plusieurs autres valeurs.
  * 
- * @param {*} addlimit Limite d'inputs qui peuvent être ajoutés, par défaut : 5
- * @param {*} groupname Rassemble toutes les données dans un objet avec key "groupname".
+ * @param addlimit Limite d'inputs qui peuvent être ajoutés, par défaut : 5
+ * @param name Rassemble toutes les données dans un objet avec key "name".
  * Obligatoire.
  * @param btntitle Le texte que devrait afficher le bouton
  * @param label Le titre de l'input
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
-export default function InputAdditive({ groupname, label, addlimit = 5, getValuesFunc,
+export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc,
     btntitle = "Ajouter" }) {
 
     //Le tout premier input, séparé car il ne peut pas être supprimé ou faire parti de map
@@ -27,7 +27,7 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
             //besoin, donc : lance une erreur.
             throw new Errror("Module : InputAdditive; oublie de groupname!");
         }
-        getValuesFunc({ [groupname]: allvalues });
+        getValuesFunc({ [name]: allvalues });
     }, [myValues, firstInput])
 
     /**

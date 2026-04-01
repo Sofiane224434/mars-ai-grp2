@@ -27,8 +27,24 @@ export const useJuryMovieNavigation = (currentMovieId) => {
           withCredentials: true
         });
 
+        const payload = response.data;
+        const normalizedMovies = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.movies)
+            ? payload.movies
+            : Array.isArray(payload?.data)
+              ? payload.data
+              : null;
+
+        if (!normalizedMovies) {
+          throw new Error('Format de reponse API invalide');
+        }
+
         // On extrait uniquement un tableau d'IDs [1, 5, 12, 45]
-        const ids = response.data.map(movie => movie.id);
+        const ids = normalizedMovies
+          .map((movie) => Number(movie?.id))
+          .filter((id) => Number.isInteger(id) && id > 0);
+    
         setMovieIds(ids);
       } catch (error) {
         console.error("Erreur lors de la récupération du contexte de navigation", error);

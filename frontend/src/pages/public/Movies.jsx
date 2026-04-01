@@ -1,6 +1,6 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
-import MovieCard from '../../components/UI/MovieCard.jsx';
+import MovieCard from '../../components/ui/MovieCard.jsx';
 
 function Movies() {
   const { t } = useTranslation();

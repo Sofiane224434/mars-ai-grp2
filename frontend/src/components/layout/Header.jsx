@@ -76,6 +76,7 @@ function Header() {
             </header>
             <div className="sticky top-0 z-50 bg-noir-bleute pt-2">
                 <Navbar />
+                <div className="h-1.5 w-full bg-jaune-souffre -mb-px" aria-hidden="true" />
             </div>
         </>
     );

@@ -34,9 +34,13 @@ function MovieDetail() {
   // États de l'iframe vidéo
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [notes, setNotes] = useState([
+    { content: "Ceci est une excellente réalisation, les plans sont très propres." }
+  ]);
 
-  // Exemple de fausses notes
-  const fakeNotes = [{ content: "Ceci est une excellente réalisation, les plans sont très propres." }];
+  const handleAddNote = (content) => {
+    setNotes((prev) => [...prev, { content }]);
+  };
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -62,7 +66,7 @@ function MovieDetail() {
         } else if (err?.response?.status === 404) {
           setError("Ce film est introuvable.");
         } else {
-          setError("Impossible de charger l'œuvre. Vérifiez que l'API backend tourne sur http://localhost:5000.");
+          setError(err?.response?.data?.message || "Impossible de charger l'œuvre. Vérifiez que l'API backend tourne sur http://localhost:5000.");
         }
       } finally {
         setIsLoading(false);
@@ -142,7 +146,7 @@ function MovieDetail() {
           <p className="text-gris-magneti text-sm mt-1">Par : {movie.directorName}</p>
         </div>
 
-        {/* 👈 NOUVEAU 4 : Injection des fonctions de navigation dans VideoWrapper */}
+        {/*Injection des fonctions de navigation dans VideoWrapper */}
         <VideoWrapper 
           embedUrl={getYouTubeEmbedUrl(movie.videoUrl)}
           isLoaded={isVideoLoaded}
@@ -181,6 +185,12 @@ function MovieDetail() {
           <div>{movie.createdAt || "01/01/2026"}</div>
           <div className="text-gris-magneti font-medium">Langue :</div>
           <div>{movie.language || "Français"}</div>
+          <div className="text-gris-magneti font-medium">Fichier vidéo (S3) :</div>
+          <div>{movie.videofile || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Sous-titres :</div>
+          <div>{movie.subtitles || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Screenshot :</div>
+          <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
         </InfoPanel>
 
         <InfoPanel title="Informations sur le réalisateur">
@@ -189,12 +199,26 @@ function MovieDetail() {
           <div className="text-gris-magneti font-medium">Prénom :</div>
           <div>{movie.directorFirstName}</div>
           <div className="text-gris-magneti font-medium">Email :</div>
-          <div>{movie.directorEmail}</div>
+          <div>{movie.directorEmail || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Date de naissance :</div>
+          <div>{movie.date_of_birth || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Adresse :</div>
+          <div>{movie.address || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Adresse 2 :</div>
+          <div>{movie.address2 || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Code postal :</div>
+          <div>{movie.postal_code || "Non renseigné."}</div>
+           <div className="text-gris-magneti font-medium">Ville :</div>
+          <div>{movie.city || "Non renseigné."}</div>
+           <div className="text-gris-magneti font-medium">Pays :</div>
+          <div>{movie.country || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Langue parlée :</div>
+          <div>{movie.director_language || "Non renseigné."}</div>
         </InfoPanel>
 
         <NotesSection 
-          notes={fakeNotes} 
-          onAddNote={() => console.log("Ajout d'une note en cours...")} 
+          notes={notes}
+          onAddNote={handleAddNote}
         />
 
       </div>

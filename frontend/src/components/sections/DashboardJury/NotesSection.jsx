@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../../ui/Button.jsx';
 
 const NotesSection = ({ notes, onAddNote }) => {
+  const [noteInput, setNoteInput] = useState('');
+
+  const handleAddNote = () => {
+    const trimmed = noteInput.trim();
+    if (!trimmed) return;
+    onAddNote?.(trimmed);
+    setNoteInput('');
+  };
+
   return (
     <div className="w-full mt-4">
       {/* Zone d'ajout */}
       <div className="mb-6 border border-bleu-ciel rounded-lg p-1">
         <div className="text-white mb-2 px-2 pt-2 font-title">Ajouter une note personnelle :</div>
         <textarea 
+          value={noteInput}
+          onChange={(e) => setNoteInput(e.target.value)}
           className="w-full bg-reglisse text-white p-3 rounded-md border-none outline-none resize-none h-24 placeholder-gris-magneti"
           placeholder="Saisissez votre note ici..."
         />
@@ -16,8 +27,9 @@ const NotesSection = ({ notes, onAddNote }) => {
       <Button
         interactive
         variant="gradient-blue"
-        onClick={onAddNote}
-        className="mb-6 text-noir-bleute font-bold text-xs uppercase"
+        onClick={handleAddNote}
+        disabled={!noteInput.trim()}
+       
       >
         Ajouter une note
       </Button>

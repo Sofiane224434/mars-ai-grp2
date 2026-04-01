@@ -14,21 +14,30 @@ export default function FinalForm() {
         <InputAdditive getValuesFunc={retrieveValues} groupname={"grp2"}></InputAdditive>
     ]
 
-    for (let a in myinputs) {
-        console.log(myinputs[a].props);
-    }
+    // for (let a in myinputs) {
+    //     console.log(myinputs[a].props);
+    // }
 
-    let example_select =
-        <select>
-            <option value={""}>...</option>
-            <option value={"val1"}>Valeur 1</option>
-            <option value={"val2"}>Valeur 2</option>
-        </select>
+    const myselectoptions = [
+        <option value="">...</option>,
+        <option value={"gemini"}>Google : (Gemini)</option>,
+        <option value={"midjourney"}>Midjourney</option>,
+        <option value={"chatGPT"}>OpenAI : (ChatGPT)</option>,
+        <option value={"claude"}>Anthropic (Claude)</option>,
+        <option value={"grok"}>Grok</option>,
+        <option value={"other"}>Autre...</option>
+    ];
+
+    // for (let a in myselectoptions) {
+    //     console.log(myselectoptions[a].props);
+    // }
 
     return (
         <form>
             {/* Map of my inputs here */}
-            <InputAdditiveSelect myinput={example_select}></InputAdditiveSelect>
+            <InputAdditiveSelect label={"Veuillez indiquer les IAs utilisées."}
+                valueother={"other"} options={myselectoptions} groupname={"aiselect"}
+                getValuesFunc={retrieveValues}></InputAdditiveSelect>
         </form>
     )
 }

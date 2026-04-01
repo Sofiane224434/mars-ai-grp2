@@ -5,8 +5,8 @@ import { useState, useEffect } from "react"
  * plusieurs autres valeurs.
  * 
  * @param {*} addlimit Limite d'inputs qui peuvent être ajoutés, par défaut : 5
- * @param {*} groupname Existe seulement pour le traitement dans le formulaire et rassembler toutes
- * les données dans un seul groupe objet.
+ * @param {*} groupname Rassemble toutes les données dans un objet avec key "groupname".
+ * Obligatoire.
  * @param btntitle Le texte que devrait afficher le bouton
  * @param label Le titre de l'input
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
@@ -19,11 +19,20 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
+    //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
         let allvalues = [firstInput].concat(myValues)
+        if (groupname == undefined || groupname == null) {
+            //Sans groupname, ne peut pas renvoyer la valeur groupe dont le parent a
+            //besoin, donc : lance une erreur.
+            throw new Errror("Module : InputAdditive; oublie de groupname!");
+        }
         getValuesFunc({ [groupname]: allvalues });
     }, [myValues, firstInput])
 
+    /**
+     * Ajoute un input texte en plus en ajoutant un vide ("") à l'array des valeurs
+     */
     function addInput() {
         if (myValues.length < 1) {
             if (firstInput != "") {
@@ -38,6 +47,11 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
 
     }
 
+    /**
+     * Permet de mettre à jour les valeurs
+     * @param {*} e event (qui contient la valeur)
+     * @param {*} index Index de la valeur à modifier
+     */
     function updateValues(e, index) {
         const newval = myValues.map((val, i) => {
             if (i == index) {
@@ -46,10 +60,13 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
                 return (val);
             }
         });
-
         setMyValues(newval);
     }
 
+    /**
+     * Supprime un input additionel à la position index
+     * @param {*} index Position de l'élément à supprimer dans l'array
+     */
     function removeInput(index) {
         let newvals = [...myValues];
         newvals.splice(index, 1);
@@ -60,10 +77,11 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
         <div>
             <div>{label ? label : "..."}</div>
             <input onChange={(e) => { setFirstInput(e.target.value) }} name={1} type="text" value={firstInput}></input>
+            {/* Map des valeurs additives */}
             {myValues.map((inp, index) => {
                 return (
                     <>
-                        <input onChange={(e) => { updateValues(e, index) }} name={1} type="text"
+                        <input onChange={(e) => { updateValues(e, index) }} name={index} type="text"
                             value={myValues[index]}></input>
                         <button type="button" onClick={() => { removeInput(index) }}>
                             (X) SUPPRIMER
@@ -71,7 +89,7 @@ export default function InputAdditive({ groupname, label, addlimit = 5, getValue
                     </>
                 )
             })}
-            <button type="button" onClick={addInput}>(+){btntitle}</button>
+            <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
         </div>
     )
 }

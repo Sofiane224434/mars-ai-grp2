@@ -10,8 +10,11 @@ import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrappe
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
 import NotesSection from '../../../components/sections/DashboardJury/NotesSection.jsx';
 import Button from '../../../components/ui/Button.jsx';
-import Spinner from '../../../components/ui/Spinner.jsx'; // Vérifie bien ton chemin d'import
+import Spinner from '../../../components/ui/Spinner.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
+
+// 🚀 NOUVEL IMPORT : Ton Custom Hook
+import useApi from '../../../hooks/useApi.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const DEV_TEMP_TOKEN = 'token_temporaire_123';
@@ -24,64 +27,49 @@ function MovieDetail() {
   const { movieId } = useParams();
   const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
 
-  // États globaux
-  const [movie, setMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // 🚀 1. INJECTION DU HOOK : Remplace 3 useState d'un seul coup !
+  // On renomme astucieusement data en 'movie', et setData en 'setMovie' pour ne rien casser ailleurs.
+  const { 
+    data: movie, 
+    isLoading, 
+    error, 
+    execute: fetchMovie, 
+    setData: setMovie 
+  } = useApi();
+
+  // États locaux (On les garde car ils sont spécifiques à cette page, pas à l'API GET)
   const [isVoting, setIsVoting] = useState(false); 
-  
-  // États de la modale de confirmation
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, statusId: null });
-  
-  // États de l'iframe vidéo
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
-  // Dictionnaire placé au niveau global pour être accessible partout
   const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider" };
 
+  // 🚀 2. LE USEEFFECT NETTOYÉ : Il ne contient plus que la logique d'appel, zéro gestion d'état !
   useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        setIsVideoLoaded(false);
-        setVideoError(false);
-        setIsLoading(true);
-        setError(null);
+    setIsVideoLoaded(false);
+    setVideoError(false);
 
-        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
-        const response = await axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
+    if (movieId) {
+      const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
+      // On passe la fonction réseau à notre hook, il s'occupe du reste (try/catch, loading, etc.)
+      fetchMovie(() => 
+        axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
-        });
-        setMovie(response.data);
-      } catch (err) {
-        console.error("Erreur de récupération :", err);
-        if (err?.response?.status === 401) {
-          setError("Session invalide ou expirée. Veuillez vous reconnecter.");
-        } else if (err?.response?.status === 403) {
-          setError("Accès interdit : ce film ne fait pas partie de votre sélection.");
-        } else if (err?.response?.status === 404) {
-          setError("Ce film est introuvable.");
-        } else {
-          setError(err?.response?.data?.message || "Impossible de charger l'œuvre. Vérifiez que l'API backend tourne sur http://localhost:5000.");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+        })
+      );
+    }
+  }, [movieId, fetchMovie]);
 
-    if (movieId) fetchMovie();
-  }, [movieId]);
 
-  // Étape 1 : Le clic sur le bouton ouvre la modale
   const initiateVote = (newStatusId) => {
     setConfirmDialog({ isOpen: true, statusId: newStatusId });
   };
 
-  // Étape 2 : Le clic dans la modale déclenche vraiment l'API
   const confirmVote = async () => {
     const newStatusId = confirmDialog.statusId;
-    setConfirmDialog({ isOpen: false, statusId: null }); // Ferme la modale
+    setConfirmDialog({ isOpen: false, statusId: null });
 
     try {
       setIsVoting(true);
@@ -93,7 +81,7 @@ function MovieDetail() {
         withCredentials: true
       });
 
-      // UI Optimiste
+      // 🚀 Grâce à l'export de setData depuis useApi, cette UI optimiste continue de fonctionner parfaitement !
       setMovie((prev) => ({ ...prev, statusId: newStatusId }));
       
       toast.success("Le statut du film a été modifié avec succès !", {
@@ -144,15 +132,24 @@ function MovieDetail() {
     return { variant: 'pending', label: statusLabel || 'En attente' };
   };
 
-// ✅ La nouvelle version avec ton composant Spinner :
-if (isLoading) {
-  return (
-    <div className="min-h-screen background-gradient-black flex items-center justify-center">
-      <Spinner text="Chargement de l'œuvre..." fullScreen={true} />
-    </div>
-  );
-}
-  if (error || !movie) return <div className="min-h-screen background-gradient-black text-brulure-despespoir flex items-center justify-center text-2xl">{error}</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen background-gradient-black flex items-center justify-center">
+        <Spinner text="Chargement de l'œuvre..." fullScreen={true} />
+      </div>
+    );
+  }
+
+  // 🚀 Affichage élégant de l'erreur gérée par useApi
+  if (error || !movie) {
+    return (
+      <div className="min-h-screen background-gradient-black flex items-center justify-center p-4">
+        <div className="text-brulure-despespoir font-title text-xl text-center bg-reglisse p-6 rounded-xl border border-brulure-despespoir/30">
+          {error || "Ce film est introuvable."}
+        </div>
+      </div>
+    );
+  }
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
   const isVoteLocked = movie.statusId !== 1;

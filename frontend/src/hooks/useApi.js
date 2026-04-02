@@ -40,7 +40,7 @@ const useApi = () => {
         }
     }, []);
     // 3. Valeurs retournées (API du Hook)
-  return { data, isLoading, error, execute };
+  return { data, isLoading, error, execute, setData };
     
 };
 

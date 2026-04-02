@@ -18,9 +18,6 @@ import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
 import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
 import AdminMovies from './pages/dashboard/admin/AdminMovies.jsx';
-import Validation from './pages/dashboard/admin/Validation.jsx';
-import Top50 from './pages/dashboard/admin/Top50.jsx';
-import Top5 from './pages/dashboard/admin/Top5.jsx';
 import Options from './pages/dashboard/admin/Options.jsx';
 import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
 import JuryMovies from './pages/dashboard/jury/JuryMovies.jsx';
@@ -47,6 +44,7 @@ function App() {
         <Route path="/dashboard/adminpanel/editsite" element={<EditSite />} />
         <Route path="/dashboard/adminpanel/invitejury" element={<InviteJury />} />
         <Route path="/dashboard/adminmovies" element={<AdminMovies />} />
+        <Route path="/dashboard/adminpanel/confirmation-mail" element={<Options />} />
       </Route>
 
       {/* Jury Routes avec HeaderJury */}
@@ -54,10 +52,6 @@ function App() {
         <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
         <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
         <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
-        <Route path="/dashboard/validation" element={<Validation />} />
-        <Route path="/dashboard/top50" element={<Top50 />} />
-        <Route path="/dashboard/top5" element={<Top5 />} />
-        <Route path="/dashboard/options" element={<Options />} />
       </Route>
 
 

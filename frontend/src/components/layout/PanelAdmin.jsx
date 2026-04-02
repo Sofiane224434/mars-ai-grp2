@@ -15,6 +15,8 @@ function PanelAdmin() {
                 <br />
                 <Link to="/dashboard/adminmovies">Gérer les films</Link>
                 <br />
+                <Link to="/dashboard/adminpanel/confirmation-mail">Confirmation mail</Link>
+                <br />
             </div>
         </header>
     );

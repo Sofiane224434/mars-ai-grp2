@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-gris-anthracite);
+}
+
 @font-face {
   font-family: "Marseille";
   src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")

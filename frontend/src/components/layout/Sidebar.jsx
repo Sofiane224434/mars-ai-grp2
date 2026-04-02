@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
 import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
-import panel_icon_50 from "../../assets/icons/panel_icon_50.png";
-import panel_icon_5 from "../../assets/icons/panel_icon_5.png";
 import panel_icon_add from "../../assets/icons/panel_icon_add.png";
 import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 import panel_icon_not_watched from "../../assets/icons/panel_icon_not_watched.png";
@@ -90,8 +88,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             </Link>
           )}
 
-          {isJuryPanel && (
-            <Link to="/dashboard/options" onClick={() => setMobileOpen(false)}>
+          {!isJuryPanel && (
+            <Link to="/dashboard/adminpanel/confirmation-mail" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_mail}
@@ -103,37 +101,15 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             </Link>
           )}
 
-          <Link to="/dashboard/top50" onClick={() => setMobileOpen(false)}>
-            <Button
-              variant="btn-panel"
-              iconImg={panel_icon_50}
-              iconOnly
-              className="h-12! w-12!"
-            >
-              TOP 50
-            </Button>
-          </Link>
-
-          <Link to="/dashboard/top5" onClick={() => setMobileOpen(false)}>
-            <Button
-              variant="btn-panel"
-              iconImg={panel_icon_5}
-              iconOnly
-              className="h-12! w-12!"
-            >
-              TOP 5
-            </Button>
-          </Link>
-
           {isJuryPanel && (
-            <Link to="/dashboard/validation" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/jury/:id/movies" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_not_watched}
                 iconOnly
                 className="h-12! w-12!"
               >
-                VOIR VIDÉOS NON JUGÉES
+                JUGER LES VIDÉOS
               </Button>
             </Link>
           )}
@@ -232,8 +208,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                   </Link>
                 )}
 
-                {isJuryPanel && (
-                  <Link to="/dashboard/options">
+                {!isJuryPanel && (
+                  <Link to="/dashboard/adminpanel/confirmation-mail">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_mail}
@@ -247,34 +223,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                   </Link>
                 )}
 
-                <Link to="/dashboard/top50">
-                  <Button
-                    variant="btn-panel"
-                    iconImg={panel_icon_50}
-                    iconClassName={collapsed ? "-translate-x-6" : "-translate-x-11"}
-                    iconOnly={collapsed}
-                  >
-                    TOP 50
-                  </Button>
-                </Link>
-
-                <Link to="/dashboard/top5">
-                  <Button
-                    variant="btn-panel"
-                    iconImg={panel_icon_5}
-                    iconClassName={
-                      collapsed
-                        ? "scale-250 !translate-x-[-50%]"
-                        : "scale-250 -translate-x-11"
-                    }
-                    iconOnly={collapsed}
-                  >
-                    TOP 5
-                  </Button>
-                </Link>
-
                 {isJuryPanel && (
-                  <Link to="/dashboard/validation">
+                  <Link to="/dashboard/jury/:id/movies">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_not_watched}
@@ -283,7 +233,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                       }
                       iconOnly={collapsed}
                     >
-                      VOIR VIDÉOS NON JUGÉES
+                      JUGER LES VIDÉOS
                     </Button>
                   </Link>
                 )}

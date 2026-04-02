@@ -10,6 +10,7 @@ import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrappe
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
 import NotesSection from '../../../components/sections/DashboardJury/NotesSection.jsx';
 import Button from '../../../components/ui/Button.jsx';
+import Spinner from '../../../components/ui/Spinner.jsx'; // Vérifie bien ton chemin d'import
 import { Status } from '../../../components/ui/StatusBadge.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -143,7 +144,14 @@ function MovieDetail() {
     return { variant: 'pending', label: statusLabel || 'En attente' };
   };
 
-  if (isLoading) return <div className="min-h-screen background-gradient-black text-bleu-ciel flex items-center justify-center font-title text-2xl">Chargement...</div>;
+// ✅ La nouvelle version avec ton composant Spinner :
+if (isLoading) {
+  return (
+    <div className="min-h-screen background-gradient-black flex items-center justify-center">
+      <Spinner text="Chargement de l'œuvre..." fullScreen={true} />
+    </div>
+  );
+}
   if (error || !movie) return <div className="min-h-screen background-gradient-black text-brulure-despespoir flex items-center justify-center text-2xl">{error}</div>;
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
@@ -179,7 +187,7 @@ function MovieDetail() {
              <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
            </div>
            
-           <div className="flex gap-4 justify-center">
+           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
              <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
                Valider
              </Button>

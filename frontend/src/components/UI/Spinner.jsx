@@ -1,10 +1,15 @@
 import React from 'react';
 
-const Spinner = () => {
+// 🚀 NOUVEAU : On ajoute des 'props' pour le rendre dynamique !
+const Spinner = ({ 
+  text = "Chargement...", // Texte par défaut
+  fullScreen = false      // Option pour qu'il prenne tout l'écran
+}) => {
   return (
-    <div className="col-span-full flex flex-col items-center justify-center py-20 gap-4">
+    <div className={`flex flex-col items-center justify-center gap-4 ${fullScreen ? 'min-h-screen' : 'py-10'}`}>
       <svg 
-        className="animate-spin h-12 w-12 text-[#F1C40F]" 
+        // 🚀 On remplace le jaune par ton 'bleu-ciel' !
+        className="animate-spin h-12 w-12 text-jaune-souffre" 
         xmlns="http://www.w3.org/2000/svg" 
         fill="none" 
         viewBox="0 0 24 24"
@@ -23,8 +28,9 @@ const Spinner = () => {
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         ></path>
       </svg>
-      <span className="text-zinc-400 text-sm font-medium animate-pulse">
-        Chargement des films...
+      {/* Le texte dynamique avec la typo de ton app */}
+      <span className="text-bleu-ciel font-title tracking-wider uppercase text-sm font-medium animate-pulse">
+        {text}
       </span>
     </div>
   );

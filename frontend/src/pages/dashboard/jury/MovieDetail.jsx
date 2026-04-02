@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { z } from 'zod';
 import { useJuryMovieNavigation } from '../../../hooks/useJuryMovieNavigation.js';
+import toast, { Toaster } from 'react-hot-toast';
 
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
@@ -32,18 +33,11 @@ function MovieDetail() {
   // États de l'iframe vidéo
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [notes, setNotes] = useState([
-    { content: "Ceci est une excellente réalisation, les plans sont très propres." }
-  ]);
-
-  const handleAddNote = (content) => {
-    setNotes((prev) => [...prev, { content }]);
-  };
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        // 👈 NOUVEAU 3 : On réinitialise l'état de la vidéo à chaque changement de film !
+        // On réinitialise l'état de la vidéo à chaque changement de film
         setIsVideoLoaded(false);
         setVideoError(false);
         setIsLoading(true);
@@ -72,7 +66,7 @@ function MovieDetail() {
     };
 
     if (movieId) fetchMovie();
-  }, [movieId]); // L'effet se relance à chaque fois que l'URL change (grâce au Hook !)
+  }, [movieId]);
 
   const handleVote = async (newStatusId) => {
     try {
@@ -85,8 +79,19 @@ function MovieDetail() {
         withCredentials: true
       });
 
+      // UI Optimiste
       setMovie((prev) => ({ ...prev, statusId: newStatusId }));
-      alert("Votre évaluation a été enregistrée avec succès.");
+      
+      // Déclenchement du Toast de succès
+      toast.success("Le statut du film a été modifié avec succès !", {
+        duration: 3000, 
+        position: 'bottom-right', 
+        style: {
+          background: '#1A232C', 
+          color: '#fff',
+          border: '1px solid #4DB8B9', 
+        },
+      });
 
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -94,9 +99,9 @@ function MovieDetail() {
       } else {
         console.error("Erreur API lors du vote :", err);
         if (err.response?.status === 401) {
-          alert("Votre session a expiré. Veuillez vous reconnecter.");
+          toast.error("Votre session a expiré. Veuillez vous reconnecter.", { duration: 4000, position: 'bottom-right' });
         } else {
-          alert("Une erreur est survenue lors de l'enregistrement de votre vote.");
+          toast.error("Une erreur est survenue lors de l'enregistrement de votre vote.", { duration: 4000, position: 'bottom-right' });
         }
       }
     } finally {
@@ -137,6 +142,10 @@ function MovieDetail() {
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
+      
+     
+      <Toaster />
+
       <div className="max-w-4xl mx-auto flex flex-col items-center">
         
         <div className="text-center mb-6 text-white">
@@ -144,7 +153,7 @@ function MovieDetail() {
           <p className="text-gris-magneti text-sm mt-1">Par : {movie.directorName}</p>
         </div>
 
-        {/*Injection des fonctions de navigation dans VideoWrapper */}
+        {/* Injection des fonctions de navigation dans VideoWrapper */}
         <VideoWrapper 
           embedUrl={getYouTubeEmbedUrl(movie.videoUrl)}
           isLoaded={isVideoLoaded}
@@ -214,6 +223,7 @@ function MovieDetail() {
           <div>{movie.director_language || "Non renseigné."}</div>
         </InfoPanel>
 
+        {/* Composant de notes entièrement autonome ! */}
         <NotesSection movieId={movie.id} />
 
       </div>

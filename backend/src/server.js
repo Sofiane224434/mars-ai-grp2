@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
 import emailRoutes from './routes/email.routes.js';
 import juryRoutes from './routes/jury.routes.js';
+import youtubeRoutes from './routes/youtube.routes.js';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", movieRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/jury', juryRoutes);
+app.use('/api/youtube', youtubeRoutes);
 
 // 404 - Ajouter le middleware de gestion des routes non trouvées
 app.use((req, res) => res.status(404).json({ error: 'Route non trouvée' }));

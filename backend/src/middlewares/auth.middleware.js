@@ -50,6 +50,10 @@ export const requireAuth = (allowedRoles = []) => {
 				return res.status(401).json({ error: "Utilisateur non trouvé" });
 			}
 
+			if (!decoded.tav || decoded.tav !== user.token_access) {
+				return res.status(401).json({ error: "Session révoquée" });
+			}
+
 			if (allowedRoles.length > 0 && !allowedRoles.includes(user.status)) {
 				return res.status(403).json({ error: "Accès interdit" });
 			}

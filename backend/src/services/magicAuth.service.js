@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import User from "../models/user.model.js";
 import { sendCustomEmail } from "./email.service.js";
 
@@ -55,12 +56,12 @@ const getSessionSecret = () =>
 const assertSecrets = () => {
   if (!getMagicSecret()) {
     throw new AuthConfigError(
-      "Secret JWT manquant (MAGIC_LINK_JWT_SECRET ou JWT_SECRET)."
+      "Secret JWT manquant (MAGIC_LINK_JWT_SECRET ou JWT_SECRET).",
     );
   }
   if (!getSessionSecret()) {
     throw new AuthConfigError(
-      "Secret session manquant (SESSION_JWT_SECRET ou JWT_SECRET)."
+      "Secret session manquant (SESSION_JWT_SECRET ou JWT_SECRET).",
     );
   }
 };
@@ -168,9 +169,17 @@ export const generateSessionToken = (user) => {
     email: user.email,
     role: user.status,
     type: "session",
+    tav: user.token_access,
   };
 
   return jwt.sign(payload, getSessionSecret(), {
     expiresIn: SESSION_EXPIRES_IN,
   });
+};
+
+export const rotateUserAccessTokenVersion = async (userId) => {
+  const newTokenAccess = `tav-reset-${crypto.randomUUID()}`;
+  const updated = await User.updateAccessTokenById(userId, newTokenAccess);
+  if (!updated) throw new UserNotFoundError();
+  return newTokenAccess;
 };

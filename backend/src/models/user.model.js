@@ -20,6 +20,12 @@ const User = {
     const results = await query(sql, [tokenAccess]);
     return results[0] || null;
   },
+
+  async updateAccessTokenById(userId, tokenAccess) {
+    const sql = `UPDATE users SET token_access = ? WHERE id = ?`;
+    const result = await query(sql, [tokenAccess, userId]);
+    return result.affectedRows === 1;
+  },
 };
 
 export default User;

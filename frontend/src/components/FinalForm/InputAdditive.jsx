@@ -22,8 +22,8 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
         let allvalues = [firstInput].concat(myValues)
-        if (groupname == undefined || groupname == null) {
-            //Sans groupname, ne peut pas renvoyer la valeur groupe dont le parent a
+        if (name == undefined || name == null) {
+            //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
             //besoin, donc : lance une erreur.
             throw new Errror("Module : InputAdditive; oublie de groupname!");
         }

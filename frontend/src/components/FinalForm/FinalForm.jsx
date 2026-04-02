@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import InputAdditive from "./InputAdditive";
 import InputAdditiveSelect from "./InputAdditiveSelect";
+import InputAdditiveGrouped from "./InputAdditiveGrouped";
 
 export default function FinalForm() {
 
@@ -73,8 +74,8 @@ export default function FinalForm() {
                 <option value={"f"}>Madame</option>
                 <option value={"other"}>Autre</option>
             </select>,
-            <InputAdditive name={socialname}></InputAdditive>,
-            <InputAdditive name={sociallinks}></InputAdditive>,
+            <InputAdditive name={"socialname"}></InputAdditive>,
+            <InputAdditive name={"sociallinks"}></InputAdditive>,
             <input name="socialname1" type="text" value={results["socialname1"] || ""}></input>,
             <input name="sociallink1" type="url" value={results["sociallink1"] || ""}></input>,
             <input name="email" type="email" value={results["email"] || ""}></input>,
@@ -134,6 +135,9 @@ export default function FinalForm() {
     return (
         <form>
             {/* Map of my inputs here */}
+            <InputAdditiveGrouped name={"socials"} inputnames={["socialname", "sociallink"]}
+                getValuesFunc={retrieveValues} labels={["Nom du réseau social", "Lien du réseau social"]}
+            ></InputAdditiveGrouped>
         </form>
     )
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import { useJuryMovieNavigation } from '../../../hooks/useJuryMovieNavigation.js';
 import toast, { Toaster } from 'react-hot-toast';
+import ConfirmModal from '../../../components/ui/ConfirmModal.jsx';
 
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
@@ -20,8 +21,6 @@ const voteSchema = z.object({
 
 function MovieDetail() {
   const { movieId } = useParams();
-
-  // Utilisation du Hook de navigation
   const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
 
   // États globaux
@@ -30,14 +29,19 @@ function MovieDetail() {
   const [error, setError] = useState(null);
   const [isVoting, setIsVoting] = useState(false); 
   
+  // États de la modale de confirmation
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, statusId: null });
+  
   // États de l'iframe vidéo
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
+  // Dictionnaire placé au niveau global pour être accessible partout
+  const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider" };
+
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        // On réinitialise l'état de la vidéo à chaque changement de film
         setIsVideoLoaded(false);
         setVideoError(false);
         setIsLoading(true);
@@ -68,7 +72,16 @@ function MovieDetail() {
     if (movieId) fetchMovie();
   }, [movieId]);
 
-  const handleVote = async (newStatusId) => {
+  // Étape 1 : Le clic sur le bouton ouvre la modale
+  const initiateVote = (newStatusId) => {
+    setConfirmDialog({ isOpen: true, statusId: newStatusId });
+  };
+
+  // Étape 2 : Le clic dans la modale déclenche vraiment l'API
+  const confirmVote = async () => {
+    const newStatusId = confirmDialog.statusId;
+    setConfirmDialog({ isOpen: false, statusId: null }); // Ferme la modale
+
     try {
       setIsVoting(true);
       const validPayload = voteSchema.parse({ statusId: newStatusId });
@@ -82,15 +95,10 @@ function MovieDetail() {
       // UI Optimiste
       setMovie((prev) => ({ ...prev, statusId: newStatusId }));
       
-      // Déclenchement du Toast de succès
       toast.success("Le statut du film a été modifié avec succès !", {
         duration: 3000, 
         position: 'bottom-right', 
-        style: {
-          background: '#1A232C', 
-          color: '#fff',
-          border: '1px solid #4DB8B9', 
-        },
+        style: { background: '#1A232C', color: '#fff', border: '1px solid #4DB8B9' },
       });
 
     } catch (err) {
@@ -101,7 +109,7 @@ function MovieDetail() {
         if (err.response?.status === 401) {
           toast.error("Votre session a expiré. Veuillez vous reconnecter.", { duration: 4000, position: 'bottom-right' });
         } else {
-          toast.error("Une erreur est survenue lors de l'enregistrement de votre vote.", { duration: 4000, position: 'bottom-right' });
+          toast.error("Une erreur est survenue lors de l'enregistrement.", { duration: 4000, position: 'bottom-right' });
         }
       }
     } finally {
@@ -139,11 +147,11 @@ function MovieDetail() {
   if (error || !movie) return <div className="min-h-screen background-gradient-black text-brulure-despespoir flex items-center justify-center text-2xl">{error}</div>;
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
+  const isVoteLocked = movie.statusId !== 1;
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
       
-     
       <Toaster />
 
       <div className="max-w-4xl mx-auto flex flex-col items-center">
@@ -153,7 +161,6 @@ function MovieDetail() {
           <p className="text-gris-magneti text-sm mt-1">Par : {movie.directorName}</p>
         </div>
 
-        {/* Injection des fonctions de navigation dans VideoWrapper */}
         <VideoWrapper 
           embedUrl={getYouTubeEmbedUrl(movie.videoUrl)}
           isLoaded={isVideoLoaded}
@@ -173,16 +180,22 @@ function MovieDetail() {
            </div>
            
            <div className="flex gap-4 justify-center">
-             <Button interactive variant="approved-jury" onClick={() => handleVote(4)} disabled={isVoting}>
+             <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
                Valider
              </Button>
-             <Button interactive variant="pending-jury" onClick={() => handleVote(3)} disabled={isVoting}>
+             <Button interactive variant="pending-jury" onClick={() => initiateVote(3)} disabled={isVoting || isVoteLocked}>
                A revoir
              </Button>
-             <Button interactive variant="rejected-jury" onClick={() => handleVote(2)} disabled={isVoting}>
+             <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
                Refuser
              </Button>
            </div>
+
+           {isVoteLocked && (
+             <p className="text-gris-magneti text-xs mt-4 italic">
+               Vous avez déjà statué sur ce film. Le vote est verrouillé.
+             </p>
+           )}
         </div>
 
         <InfoPanel title="Informations sur la vidéo">
@@ -223,10 +236,21 @@ function MovieDetail() {
           <div>{movie.director_language || "Non renseigné."}</div>
         </InfoPanel>
 
-        {/* Composant de notes entièrement autonome ! */}
         <NotesSection movieId={movie.id} />
 
       </div>
+
+      <ConfirmModal
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog({ isOpen: false, statusId: null })}
+        onConfirm={confirmVote}
+        title="Confirmer le vote"
+        confirmText="Oui, je confirme"
+        cancelText="Annuler"
+      >
+        Êtes-vous sûr de vouloir <span className="text-bleu-ciel font-bold text-lg uppercase tracking-wider">{statusLabels[confirmDialog.statusId]}</span> ce film ?<br/>
+        <span className="text-sm mt-2 block opacity-80">Cette action bloquera les votes suivants pour ce film.</span>
+      </ConfirmModal>
     </div>
   );
 }

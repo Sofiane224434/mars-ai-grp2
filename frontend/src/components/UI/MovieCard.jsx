@@ -1,47 +1,47 @@
-import Button from './Button.jsx';
-import { Status } from './StatusBadge.jsx';
+import Button from "./Button.jsx";
+import { Status } from "./StatusBadge.jsx";
 
 const STATUS_VARIANT = {
-  pending: 'pending',
-  approved: 'approved',
-  review: 'review',
-  rejected: 'rejected',
+  pending: "pending",
+  approved: "approved",
+  review: "review",
+  rejected: "rejected",
 };
 
 const STATUS_LABEL = {
-  pending: 'En attente',
-  approved: 'Approuve',
-  review: 'A revoir',
-  rejected: 'Rejete',
+  pending: "En attente",
+  approved: "Validé",
+  review: "À revoir",
+  rejected: "Refusé",
 };
 
 function MovieCard({
-  variant = 'basic',
-  title = 'Titre de la video',
-  directorName = 'Nom Prenom',
-  description = 'Une description raccourcie de la video. Texte texte. Plus de description...',
-  status = 'pending',
+  variant = "basic",
+  title = "Titre de la video",
+  directorName = "Nom Prénom",
+  description = "Une description raccourcie de la video. Texte texte. Plus de description...",
+  status = "pending",
   assignedJurors = [],
   thumbnailSrc,
   onThumbnailClick,
   onAssign,
   onMoreInfo,
 }) {
-  const isAdmin = variant === 'admin-assign' || variant === 'admin-assigned';
-  const showAssignedJurors = variant === 'admin-assigned';
-  const isJuryPending = variant === 'jury-pending';
-  const isJuryReviewed = variant === 'jury-reviewed';
-  const showStatus = variant !== 'basic';
+  const isAdmin = variant === "admin-assign" || variant === "admin-assigned";
+  const showAssignedJurors = variant === "admin-assigned";
+  const isJuryPending = variant === "jury-pending";
+  const isJuryReviewed = variant === "jury-reviewed";
+  const showStatus = variant !== "basic";
 
   return (
-    <article className="w-full max-w-96 rounded-3xl border border-noir-bleute/80 bg-gris-anthracite p-4 text-white shadow-lg sm:p-5">
-      <h3 className="font-title text-3xl leading-tight sm:text-4xl">{title}</h3>
-      <p className="mt-1 text-xl sm:text-2xl">Par : {directorName}</p>
+    <article className="flex h-full w-full max-w-96 flex-col rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-3 text-white shadow-lg sm:p-4">
+      <h3 className="font-title text-2xl leading-tight sm:text-3xl">{title}</h3>
+      <p className="text-lg sm:text-xl">Par : {directorName}</p>
 
       <button
         type="button"
         onClick={onThumbnailClick}
-        className="mt-3 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+        className="mt-2 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
       >
         {thumbnailSrc ? (
           <img
@@ -57,56 +57,69 @@ function MovieCard({
       </button>
 
       {showStatus && (
-        <div className="mt-3 flex items-center gap-2">
-          <span className="text-2xl sm:text-3xl">Statut :</span>
-          <Status variant={STATUS_VARIANT[status] || 'pending'} className="px-3 py-1">
+        <div className="mt-2 flex items-center gap-2">
+          <span className="text-xl sm:text-2xl">Statut :</span>
+          <Status
+            variant={STATUS_VARIANT[status] || "pending"}
+            className="px-2 py-0.5"
+          >
             {STATUS_LABEL[status] || STATUS_LABEL.pending}
           </Status>
         </div>
       )}
 
-      {isAdmin && (
-        <>
-          <p className="mt-3 text-2xl leading-snug sm:text-3xl">
-            {showAssignedJurors ? 'Video assignee a :' : 'Cette video n\'est pas assignee a un jury.'}
-          </p>
+      <div className="flex flex-col flex-1">
+        {isAdmin && (
+          <>
+            <p className="mt-2 text-xl leading-snug sm:text-2xl">
+              {showAssignedJurors
+                ? "Video assignée à :"
+                : "Cette video n'est pas assignée à un jury"}
+            </p>
 
-          {showAssignedJurors && (
-            <div className="mt-3 flex flex-wrap gap-2">
-              {assignedJurors.map((juryName) => (
-                <span
-                  key={juryName}
-                  className="rounded-sm bg-bleu-ocean px-3 py-1.5 text-xl text-white"
-                >
-                  {juryName}
-                </span>
-              ))}
-            </div>
-          )}
+            {showAssignedJurors && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {assignedJurors.map((juryName) => (
+                  <span
+                    key={juryName}
+                    className="rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white"
+                  >
+                    {juryName}
+                  </span>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
+      <div className="mt-auto flex flex-col pt-3">
+        {isAdmin && (
           <Button
             interactive
             variant="gradient-blue"
             onClick={onAssign}
-            className="mt-3 h-9 w-full rounded-full text-base"
+            className="h-10 w-full rounded-full text-base font-semibold"
           >
-            Assigner cette video a un jury
+            Assigner à un jury
           </Button>
-        </>
-      )}
+        )}
 
-      <p className="mt-3 text-xl leading-snug sm:text-2xl">{description}</p>
+        <p className="my-3 text-lg leading-snug sm:text-xl line-clamp-2 min-h-[2.75rem]">
+          {description}
+        </p>
 
-      {(isAdmin || isJuryPending || isJuryReviewed) && (
-        <Button
-          interactive
-          variant="filled-yellow"
-          onClick={onMoreInfo}
-          className="mt-5 h-10 w-auto rounded-full px-8 text-base"
-        >
-          Voir plus d&apos;informations
-        </Button>
-      )}
+        {(isAdmin || isJuryPending || isJuryReviewed) && (
+          <Button
+            interactive
+            variant="filled-yellow"
+            onClick={onMoreInfo}
+            className="h-10 w-full rounded-full px-8 text-base font-semibold text-center flex items-center justify-center"
+          >
+            Voir plus d&apos;informations
+          </Button>
+        )}
+      </div>
     </article>
   );
 }

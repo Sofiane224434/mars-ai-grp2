@@ -1,6 +1,5 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
-
 function Movies() {
     const { t } = useTranslation();
 

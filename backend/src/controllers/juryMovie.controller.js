@@ -98,6 +98,10 @@ export const getMovieById = async (req, res) => {
       title: movieData.title || 'Sans titre',
       synopsis: movieData.synopsis || null,
       videoUrl: movieData.videoUrl || null,
+      subtitles: movieData.subtitles || null,
+      videofile: movieData.videofile || null,
+      thumbnail: movieData.thumbnail || null,
+      screenshotLink: movieData.screenshotLink || null,
       language: movieData.language || 'Inconnue',
       createdAt: movieData.createdAt,
       aiTools: movieData.aiTools || null,
@@ -108,7 +112,14 @@ export const getMovieById = async (req, res) => {
       directorName,
       directorFirstName: movieData.directorFirstName || null,
       directorLastName: movieData.directorLastName || null,
-      directorEmail: movieData.directorEmail || null
+      directorEmail: movieData.directorEmail || null,
+      date_of_birth: movieData.date_of_birth || null,
+      address: movieData.address || null,
+      address2: movieData.address2 || null,
+      postal_code: movieData.postal_code || null,
+      city: movieData.city || null,
+      country: movieData.country || null,
+      director_language: movieData.director_language || null
     };
 
     const validatedResponse = movieDetailResponseSchema.parse(formattedResponse);
@@ -116,6 +127,12 @@ export const getMovieById = async (req, res) => {
 
   } catch (error) {
     console.error("Erreur GET /jury/movies/:id :", error);
+    if (error?.name === 'ZodError') {
+      const firstIssue = error?.issues?.[0]?.message;
+      return res.status(500).json({
+        message: firstIssue || 'Donnees invalides detectees dans la reponse API.'
+      });
+    }
     return res.status(500).json({ message: "Erreur interne du serveur." });
   }
 };

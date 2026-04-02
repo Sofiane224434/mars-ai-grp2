@@ -50,6 +50,16 @@ export const getMovieDetailById = async (movieId, userId) => {
       m.title_original AS title,
       m.synopsis_original AS synopsis,
       m.youtube_url AS videoUrl,
+      m.subtitles,
+      m.videofile,
+      m.thumbnail,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
       m.language,
       (
         SELECT GROUP_CONCAT(DISTINCT al.ai_name ORDER BY al.ai_name SEPARATOR ', ')
@@ -63,6 +73,13 @@ export const getMovieDetailById = async (movieId, userId) => {
       dp.firstname AS directorFirstName,
       dp.lastname AS directorLastName,
       dp.email AS directorEmail,
+      dp.date_of_birth,
+      dp.address,
+      dp.address2,
+      dp.postal_code,
+      dp.city,
+      dp.country,
+      dp.director_language,
       um.user_id AS isAssigned
     FROM movies m
     LEFT JOIN users_movies um ON m.id = um.movie_id AND um.user_id = ?

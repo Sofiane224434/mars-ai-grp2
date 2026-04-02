@@ -12,6 +12,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.14.0",
     "express": "^5.2.1",
@@ -21,6 +22,8 @@
     "ldrs": "^1.1.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-hook-form": "^7.72.0",
+    "react-hot-toast": "^2.6.0",
     "react-i18next": "^16.5.8",
     "react-router-dom": "^7.13.0",
     "tailwindcss": "^4.1.18",

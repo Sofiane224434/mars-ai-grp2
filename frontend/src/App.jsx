@@ -17,7 +17,7 @@ import Error from './pages/public/Error.jsx';
 import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
 import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
-import AdminMovies from './pages/dashboard/admin/Movies.jsx';
+import AdminMovies from './pages/dashboard/admin/AdminMovies.jsx';
 import Validation from './pages/dashboard/admin/Validation.jsx';
 import Top50 from './pages/dashboard/admin/Top50.jsx';
 import Top5 from './pages/dashboard/admin/Top5.jsx';
@@ -46,7 +46,7 @@ function App() {
         <Route path="/dashboard/adminpanel" element={<AdminPanel />} />
         <Route path="/dashboard/adminpanel/editsite" element={<EditSite />} />
         <Route path="/dashboard/adminpanel/invitejury" element={<InviteJury />} />
-        <Route path="/dashboard/movies" element={<AdminMovies />} />
+        <Route path="/dashboard/adminmovies" element={<AdminMovies />} />
       </Route>
 
       {/* Jury Routes avec HeaderJury */}

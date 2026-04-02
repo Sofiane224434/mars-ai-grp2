@@ -32,6 +32,12 @@ function MovieCard({
   const isJuryPending = variant === "jury-pending";
   const isJuryReviewed = variant === "jury-reviewed";
   const showStatus = variant !== "basic";
+  const uniqueAssignedJurors = [...new Set(
+    assignedJurors
+      .map((juryName) => juryName.trim())
+      .filter(Boolean),
+  )];
+  const hasAssignedJurors = uniqueAssignedJurors.length > 0;
 
   return (
     <article className="flex h-full w-full max-w-96 flex-col rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-3 text-white shadow-lg sm:p-4">
@@ -72,14 +78,14 @@ function MovieCard({
         {isAdmin && (
           <>
             <p className="mt-2 text-xl leading-snug sm:text-2xl">
-              {showAssignedJurors
+              {showAssignedJurors && hasAssignedJurors
                 ? "Video assignée à :"
                 : "Cette video n'est pas assignée à un jury"}
             </p>
 
-            {showAssignedJurors && (
+            {showAssignedJurors && hasAssignedJurors && (
               <div className="mt-2 flex flex-wrap gap-2">
-                {assignedJurors.map((juryName) => (
+                {uniqueAssignedJurors.map((juryName) => (
                   <span
                     key={juryName}
                     className="rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white"
@@ -101,7 +107,9 @@ function MovieCard({
             onClick={onAssign}
             className="h-10 w-full rounded-full text-base font-semibold"
           >
-            Assigner à un jury
+            {showAssignedJurors && hasAssignedJurors
+              ? "Modifier le jury"
+              : "Assigner à un jury"}
           </Button>
         )}
 

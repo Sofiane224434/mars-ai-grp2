@@ -13,7 +13,9 @@ function PanelAdmin() {
                 <br />
                 <Link to="/dashboard/adminpanel/invitejury">Inviter un jury</Link>
                 <br />
-                <Link to="/dashboard/movies">Gérer les films</Link>
+                <Link to="/dashboard/adminmovies">Gérer les films</Link>
+                <br />
+                <Link to="/dashboard/adminpanel/confirmation-mail">Confirmation mail</Link>
                 <br />
             </div>
         </header>

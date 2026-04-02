@@ -3,7 +3,7 @@
 function Options() {
     return (
         <div>
-            <h1>Options - Emails Automatiques</h1>
+            <h1>Confirmation mail</h1>
         </div>
     );
 }

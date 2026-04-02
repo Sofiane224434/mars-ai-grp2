@@ -5,14 +5,13 @@ import { Link } from "react-router-dom";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
 import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
-import panel_icon_50 from "../../assets/icons/panel_icon_50.png";
-import panel_icon_5 from "../../assets/icons/panel_icon_5.png";
 import panel_icon_add from "../../assets/icons/panel_icon_add.png";
 import panel_icon_home from "../../assets/icons/panel_icon_home.png";
 import panel_icon_not_watched from "../../assets/icons/panel_icon_not_watched.png";
 
 const Sidebar = ({ variant = "admin", className = "" }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const variants = {
     admin: {
       container: "mt-6 relative max-h-screen transition-all duration-200",
@@ -38,151 +37,241 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
   const currentVariant = variants[variant] || variants.admin;
   const isJuryPanel = variant === "jury";
   const containerClass =
-    `mt-1 relative min-h-screen transition-all duration-200 ${
-      collapsed ? "w-[110px]" : "w-[245px]"
-    } ${className}`.trim();
-  const contentClass = `${currentVariant.content} ${
-    collapsed ? "px-1 items-center gap-3" : "px-2 items-center gap-0"
-  }`.trim();
+    `mt-1 relative min-h-screen transition-all duration-200 w-[245px] ${collapsed ? "lg:w-[110px]" : ""
+      } ${className}`.trim();
+  const contentClass = `${currentVariant.content} px-2 items-center gap-0 ${collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
+    }`.trim();
 
   return (
-    <div className="sticky top-0 self-start max-h-screen h-screen">
-      <div className={containerClass}>
-        {currentVariant.bg}
-        <div className="relative z-40">
-          <button
-            type="button"
-            onClick={() => setCollapsed((prev) => !prev)}
-            aria-label={collapsed ? "Ouvrir le menu" : "Fermer le menu"}
-            aria-expanded={!collapsed}
-            className="absolute -right-[25px] top-8 z-20 h-[50px] w-[25px] rounded-r-full bg-[#42cbe6] flex items-center justify-center pr-1.5"
-          >
-            {!collapsed ? (
-              <span className="relative block h-4 w-40">
-                <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 rotate-45 bg-bleu-canard" />
-                <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 -rotate-45 bg-bleu-canard" />
-              </span>
-            ) : (
-              <span className="ml-1 block h-0 w-0 border-y-[7px] border-y-transparent border-l-[11px] border-l-bleu-canard" />
-            )}
-          </button>
+    <>
+      {/* ── MOBILE : drawer qui s'ouvre par le haut ── */}
+      <div
+        className={`fixed top-0 left-0 w-full z-50 bg-noir-bleute transition-transform duration-300 lg:hidden ${mobileOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+      >
+        {/* Bouton fermer */}
+        <button
+          type="button"
+          className="absolute top-2 right-2 z-10 h-9 w-9 flex items-center justify-center rounded-full border border-white/30 bg-noir-bleute/90 text-white shadow-sm transition-colors hover:bg-bleu-ocean/85"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Fermer le menu"
+        >
+          <span className="relative block h-3.5 w-3.5">
+            <span className="absolute left-1/2 top-1/2 h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded bg-white" />
+            <span className="absolute left-1/2 top-1/2 h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded bg-white" />
+          </span>
+        </button>
 
-          <div className={contentClass}>
-            <Link to="/dashboard/adminpanel">
-              <Button
-                variant="btn-panel-home"
-                iconImg={panel_icon_home}
-                iconOnly={collapsed}
-                className={collapsed ? "mb-4 ml-0" : "mb-5 ml-2"}
-                iconClassName={collapsed ? "-translate-x-4" : "-translate-x-2"}
-              >
-                ACCUEIL
-              </Button>
-            </Link>
+        {/* Items en grille 3×n */}
+        <nav className="flex flex-wrap justify-center gap-3 px-4 pt-12 pb-5">
+          <Link to="/dashboard/adminpanel" onClick={() => setMobileOpen(false)}>
+            <Button
+              variant="btn-panel-home"
+              iconImg={panel_icon_home}
+              iconOnly
+              className="h-12! w-12!"
+            >
+              ACCUEIL
+            </Button>
+          </Link>
 
-            {!isJuryPanel && (
-              <Link to="/dashboard/movies">
-                <Button
-                  variant="btn-panel"
-                  iconImg={panel_icon_assign1}
-                  iconOnly={collapsed}
-                  iconClassName={
-                    collapsed ? "-translate-x-5" : "-translate-x-4"
-                  }
-                >
-                  GÉRER LES VIDEOS
-                </Button>
-              </Link>
-            )}
-
-            {isJuryPanel && (
-              <Link to="/dashboard/options">
-                <Button
-                  variant="btn-panel"
-                  iconImg={panel_icon_mail}
-                  iconOnly={collapsed}
-                  iconClassName={
-                    collapsed ? "-translate-x-4" : "-translate-x-4"
-                  }
-                >
-                  CONFIRMATION EMAIL
-                </Button>
-              </Link>
-            )}
-
-            <Link to="/dashboard/top50">
+          {!isJuryPanel && (
+            <Link to="/dashboard/adminmovies" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
-                iconImg={panel_icon_50}
-                iconClassName={collapsed ? "-translate-x-6" : "-translate-x-11"}
-                iconOnly={collapsed}
+                iconImg={panel_icon_assign1}
+                iconOnly
+                className="h-12! w-12!"
               >
-                TOP 50
+                GÉRER LES VIDEOS
               </Button>
             </Link>
+          )}
 
-            <Link to="/dashboard/top5">
+          {!isJuryPanel && (
+            <Link to="/dashboard/adminpanel/confirmation-mail" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
-                iconImg={panel_icon_5}
-                iconClassName={
-                  collapsed
-                    ? "scale-250 !translate-x-[-50%]"
-                    : "scale-250 -translate-x-11"
-                }
-                iconOnly={collapsed}
+                iconImg={panel_icon_mail}
+                iconOnly
+                className="h-12! w-12!"
               >
-                TOP 5
+                CONFIRMATION EMAIL
               </Button>
             </Link>
+          )}
 
-            {isJuryPanel && (
-              <Link to="/dashboard/validation">
-                <Button
-                  variant="btn-panel"
-                  iconImg={panel_icon_not_watched}
-                  iconClassName={
-                    collapsed ? "-translate-x-1" : "-translate-x-4"
-                  }
-                  iconOnly={collapsed}
-                >
-                  VOIR VIDÉOS NON JUGÉES
-                </Button>
-              </Link>
-            )}
+          {isJuryPanel && (
+            <Link to="/dashboard/jury/:id/movies" onClick={() => setMobileOpen(false)}>
+              <Button
+                variant="btn-panel"
+                iconImg={panel_icon_not_watched}
+                iconOnly
+                className="h-12! w-12!"
+              >
+                JUGER LES VIDÉOS
+              </Button>
+            </Link>
+          )}
 
-            {!isJuryPanel && (
-              <Link to="/dashboard/adminpanel/invitejury">
-                <Button
-                  variant="btn-panel"
-                  iconImg={panel_icon_add}
-                  iconOnly={collapsed}
-                  iconClassName={
-                    collapsed ? "-translate-x-3.5" : "-translate-x-4"
-                  }
-                >
-                  AJOUTER JURY
-                </Button>
-              </Link>
-            )}
-            {!isJuryPanel && (
-              <Link to="/dashboard/adminpanel/editsite">
-                <Button
-                  variant="btn-panel"
-                  iconImg={panel_icon_setting}
-                  iconOnly={collapsed}
-                  iconClassName={
-                    collapsed ? "-translate-x-3.5" : "-translate-x-4"
-                  }
-                >
-                  MODIFIER LE SITE
-                </Button>
-              </Link>
-            )}
+          {!isJuryPanel && (
+            <Link to="/dashboard/adminpanel/invitejury" onClick={() => setMobileOpen(false)}>
+              <Button
+                variant="btn-panel"
+                iconImg={panel_icon_add}
+                iconOnly
+                className="h-12! w-12!"
+              >
+                AJOUTER JURY
+              </Button>
+            </Link>
+          )}
+
+          {!isJuryPanel && (
+            <Link to="/dashboard/adminpanel/editsite" onClick={() => setMobileOpen(false)}>
+              <Button
+                variant="btn-panel"
+                iconImg={panel_icon_setting}
+                iconOnly
+                className="h-12! w-12!"
+              >
+                MODIFIER LE SITE
+              </Button>
+            </Link>
+          )}
+        </nav>
+      </div>
+
+      {/* Hamburger – mobile uniquement */}
+      <button
+        type="button"
+        className={`fixed top-4 left-4 z-60 lg:hidden flex flex-col gap-1.5 items-center justify-center w-10 h-10 rounded-md bg-bleu-ocean transition-opacity duration-300 ${mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        onClick={() => setMobileOpen(true)}
+        aria-label="Ouvrir le menu"
+        aria-expanded={mobileOpen}
+      >
+        <span className="block h-0.5 w-6 bg-white rounded" />
+        <span className="block h-0.5 w-6 bg-white rounded" />
+        <span className="block h-0.5 w-6 bg-white rounded" />
+      </button>
+
+      {/* ── DESKTOP : sidebar sticky classique ── */}
+      <div className="hidden lg:block">
+        <div className="sticky top-0 self-start max-h-screen h-screen">
+          <div className={containerClass}>
+            {currentVariant.bg}
+            <div className="relative z-40">
+              {/* Bouton collapse – desktop uniquement */}
+              <button
+                type="button"
+                onClick={() => setCollapsed((prev) => !prev)}
+                aria-label={collapsed ? "Ouvrir le menu" : "Fermer le menu"}
+                aria-expanded={!collapsed}
+                className="hidden lg:flex absolute -right-[25px] top-8 z-20 h-[50px] w-[25px] rounded-r-full bg-[#42cbe6] items-center justify-center pr-1.5"
+              >
+                {!collapsed ? (
+                  <span className="relative block h-4 w-40">
+                    <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 rotate-45 bg-bleu-canard" />
+                    <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 -rotate-45 bg-bleu-canard" />
+                  </span>
+                ) : (
+                  <span className="ml-1 block h-0 w-0 border-y-[7px] border-y-transparent border-l-[11px] border-l-bleu-canard" />
+                )}
+              </button>
+
+              <div className={contentClass}>
+                <Link to="/dashboard/adminpanel">
+                  <Button
+                    variant="btn-panel-home"
+                    iconImg={panel_icon_home}
+                    iconOnly={collapsed}
+                    className={collapsed ? "mb-4 ml-0" : "mb-5 ml-2"}
+                    iconClassName={collapsed ? "-translate-x-4" : "-translate-x-2"}
+                  >
+                    ACCUEIL
+                  </Button>
+                </Link>
+
+                {!isJuryPanel && (
+                  <Link to="/dashboard/adminmovies">
+                    <Button
+                      variant="btn-panel"
+                      iconImg={panel_icon_assign1}
+                      iconOnly={collapsed}
+                      iconClassName={
+                        collapsed ? "-translate-x-5" : "-translate-x-4"
+                      }
+                    >
+                      GÉRER LES VIDEOS
+                    </Button>
+                  </Link>
+                )}
+
+                {!isJuryPanel && (
+                  <Link to="/dashboard/adminpanel/confirmation-mail">
+                    <Button
+                      variant="btn-panel"
+                      iconImg={panel_icon_mail}
+                      iconOnly={collapsed}
+                      iconClassName={
+                        collapsed ? "-translate-x-4" : "-translate-x-4"
+                      }
+                    >
+                      CONFIRMATION EMAIL
+                    </Button>
+                  </Link>
+                )}
+
+                {isJuryPanel && (
+                  <Link to="/dashboard/jury/:id/movies">
+                    <Button
+                      variant="btn-panel"
+                      iconImg={panel_icon_not_watched}
+                      iconClassName={
+                        collapsed ? "-translate-x-1" : "-translate-x-4"
+                      }
+                      iconOnly={collapsed}
+                    >
+                      JUGER LES VIDÉOS
+                    </Button>
+                  </Link>
+                )}
+
+                {!isJuryPanel && (
+                  <Link to="/dashboard/adminpanel/invitejury">
+                    <Button
+                      variant="btn-panel"
+                      iconImg={panel_icon_add}
+                      iconOnly={collapsed}
+                      iconClassName={
+                        collapsed ? "-translate-x-3.5" : "-translate-x-4"
+                      }
+                    >
+                      AJOUTER JURY
+                    </Button>
+                  </Link>
+                )}
+                {!isJuryPanel && (
+                  <Link to="/dashboard/adminpanel/editsite">
+                    <Button
+                      variant="btn-panel"
+                      iconImg={panel_icon_setting}
+                      iconOnly={collapsed}
+                      iconClassName={
+                        collapsed ? "-translate-x-3.5" : "-translate-x-4"
+                      }
+                    >
+                      MODIFIER LE SITE
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

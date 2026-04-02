@@ -51,6 +51,14 @@ const Button = ({
         <div className="btn-bg-base bg-linear-to-r from-turquoise-vif to-bleu-canard" />
       ),
     },
+    // Variante 2 bis : Style bouton email admin (gradient + coins arrondis)
+    "email-admin": {
+      container:
+        "rounded-xl px-4 py-2 text-sm font-bold text-white shadow-md hover:opacity-90 transition-opacity",
+      bg: (
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-bleu-canard to-bleu-ciel rounded-xl" />
+      ),
+    },
     // Variante 3 : Gradient rouge ocre vers rouge vif - Bouton actif
     "filled-yellow": {
       container: "filled-yellow",

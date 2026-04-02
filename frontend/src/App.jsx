@@ -13,7 +13,7 @@ import FAQ from './pages/public/FAQ.jsx';
 import Auth from './pages/public/Auth.jsx';
 import Error from './pages/public/Error.jsx';
 
-// Pages Dashboard
+// Pages Dashboard Admin
 import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
 import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
@@ -22,6 +22,9 @@ import Validation from './pages/dashboard/admin/Validation.jsx';
 import Top50 from './pages/dashboard/admin/Top50.jsx';
 import Top5 from './pages/dashboard/admin/Top5.jsx';
 import Options from './pages/dashboard/admin/Options.jsx';
+import AdminEmailConfirmation from './pages/dashboard/admin/AdminEmailConfirmation.jsx';
+
+// Pages Dashboard Jury
 import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
 import JuryMovies from './pages/dashboard/jury/JuryMovies.jsx';
 import MovieDetail from './pages/dashboard/jury/MovieDetail.jsx';
@@ -47,6 +50,7 @@ function App() {
         <Route path="/dashboard/adminpanel/editsite" element={<EditSite />} />
         <Route path="/dashboard/adminpanel/invitejury" element={<InviteJury />} />
         <Route path="/dashboard/movies" element={<AdminMovies />} />
+        <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
       </Route>
 
       {/* Jury Routes avec HeaderJury */}

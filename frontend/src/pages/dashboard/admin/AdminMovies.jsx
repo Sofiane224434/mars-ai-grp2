@@ -41,11 +41,40 @@ function AdminMovies() {
 
         {/* Panneau déroulant */}
         <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
             }`}
         >
           <div className="rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
-            <div className="flex items-center justify-between gap-3">
+            {/* Mobile / tablette */}
+            <div className="lg:hidden">
+              <div className="mx-auto w-fit flex flex-col gap-2">
+                <div className="flex flex-wrap justify-center gap-2">
+                  <Filter variant="assignation"> Non assigné</Filter>
+                  <Filter variant="assignation"> Assigné</Filter>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Filter variant="approved"> Validé</Filter>
+                  <Filter variant="rejected"> Refusé</Filter>
+                  <Filter variant="review"> À revoir</Filter>
+                  <Filter variant="pending"> En attente</Filter>
+                </div>
+
+                <div className="pt-1">
+                  <Button
+                    interactive
+                    className="w-full flex items-center justify-center text-center text-sm"
+                    variant="filled-yellow"
+                    onClick={handlePlaceholder}
+                  >
+                    Supprimer les filtres
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop (inchangé) */}
+            <div className="hidden lg:flex items-center justify-between gap-3">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
                   <Filter variant="assignation"> Non assigné</Filter>
@@ -71,7 +100,7 @@ function AdminMovies() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 sm:mt-8 grid max-w-6xl gap-4 px-4 sm:px-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto mt-6 sm:mt-8 grid max-w-6xl gap-4 px-4 sm:px-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch">
         <MovieCard
           variant="admin-assign"
           status="pending"

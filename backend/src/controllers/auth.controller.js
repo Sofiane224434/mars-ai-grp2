@@ -1,50 +1,118 @@
-// controllers/auth.controller.js
-import jwt from 'jsonwebtoken';
-import User from '../models/user.model.js';
-// Génère un token JWT
-const generateToken = (user) => {
-    return jwt.sign(
-        { id: user.id, email: user.email, status: user.status },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
+import {
+  AccessTokenVersionMismatchError,
+  AuthConfigError,
+  MagicTokenExpiredError,
+  MagicTokenInvalidError,
+  UserNotFoundError,
+  exchangeMagicTokenForSession,
+  issueMagicLinkForEmail,
+  rotateUserAccessTokenVersion,
+} from "../services/magicAuth.service.js";
+import { loginSchema, requestTokenSchema } from "../schemas/auth.schema.js";
+
+const SESSION_COOKIE_NAME = "session";
+
+const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+  path: "/",
 };
-// POST /api/auth/register
-export const register = async (req, res) => {
-    try {
-        const { email, password, firstname, lastname } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ error: 'Email et mot de passe requis' });
-        }
-        const existingUser = await User.findByEmail(email);
-        if (existingUser) {
-            return res.status(409).json({ error: 'Email déjà utilisé' });
-        }
-        const user = await User.create({ email, password, firstname, lastname });
-        const token = generateToken(user);
-        res.status(201).json({ message: 'Inscription réussie', user, token });
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur serveur' });
+
+export const requestToken = async (req, res) => {
+  try {
+    const parsed = requestTokenSchema.safeParse({ body: req.body });
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: "Payload invalide",
+        details: parsed.error.flatten(),
+      });
     }
+
+    const { email } = parsed.data.body;
+    await issueMagicLinkForEmail({ email });
+
+    // Anti-énumération: toujours 200 avec message neutre
+    return res.status(200).json({
+      message:
+        "Si un compte correspond à cet email, un lien de connexion lui a été envoyé.",
+    });
+  } catch (error) {
+    if (error instanceof AuthConfigError) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    return res
+      .status(500)
+      .json({ error: "Erreur serveur lors de la demande de lien." });
+  }
 };
-// POST /api/auth/login
+
 export const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findByEmail(email);
-        if (!user || !(await User.verifyPassword(password, user.password))) {
-            return res.status(401).json({ error: 'Identifiants incorrects' });
-        }
-        const token = generateToken(user);
-        res.json({
-            user: { id: user.id, email: user.email, firstname: user.firstname, lastname: user.lastname, status: user.status },
-            token
-        });
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur serveur' });
+  try {
+    const parsed = loginSchema.safeParse({ body: req.body });
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: "Payload invalide",
+        details: parsed.error.flatten(),
+      });
     }
+
+    const { token } = parsed.data.body;
+
+    const { user, sessionToken } = await exchangeMagicTokenForSession({
+      token,
+    });
+
+    res.cookie(SESSION_COOKIE_NAME, sessionToken, SESSION_COOKIE_OPTIONS);
+
+    return res.status(200).json({
+      message: "Connexion réussie",
+      user: {
+        id: user.id,
+        email: user.email,
+        status: user.status,
+      },
+      token: sessionToken,
+    });
+  } catch (error) {
+    if (
+      error instanceof MagicTokenInvalidError ||
+      error instanceof MagicTokenExpiredError ||
+      error instanceof AccessTokenVersionMismatchError ||
+      error instanceof UserNotFoundError
+    ) {
+      return res.status(401).json({ error: error.message });
+    }
+
+    if (error instanceof AuthConfigError) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    return res
+      .status(500)
+      .json({ error: "Erreur serveur lors de la connexion." });
+  }
 };
-// GET /api/auth/me
+
 export const getProfile = async (req, res) => {
-    res.json({ user: req.user });
+  return res.status(200).json({ user: req.user });
+};
+
+export const logout = async (req, res) => {
+  try {
+    if (req.user?.id) {
+      await rotateUserAccessTokenVersion(req.user.id);
+    }
+
+    res.clearCookie(SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS);
+    return res.status(200).json({ message: "Déconnexion réussie" });
+  } catch (error) {
+    if (error instanceof AuthConfigError) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res
+      .status(500)
+      .json({ error: "Erreur serveur lors de la déconnexion." });
+  }
 };

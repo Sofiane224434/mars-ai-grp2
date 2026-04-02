@@ -15,8 +15,8 @@ import { useState, useEffect } from "react"
  * Doit correspondre à l'ordre de inputnames.
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
-export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5, getValuesFunc,
-    btntitle = "Ajouter" }) {
+export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
+    getValuesFunc, declareSelfFunc, btntitle = "Ajouter" }) {
 
     //Vérification que chaque noms soient uniques
     if (new Set(inputnames).size !== inputnames.length) {
@@ -39,6 +39,12 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
+    useEffect(() => {
+        if (declareSelfFunc) {
+            declareSelfFunc(name);
+        }
+    })
+
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
         let allvalues = [firstInput].concat(myValues)
@@ -47,7 +53,10 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
             //besoin, donc : lance une erreur.
             throw new Errror("Module : InputAdditive; oublie de groupname!");
         }
-        getValuesFunc({ [name]: allvalues });
+        if (getValuesFunc) {
+            getValuesFunc({ [name]: allvalues });
+        }
+
     }, [myValues, firstInput])
 
     function updateFirstInput(e) {

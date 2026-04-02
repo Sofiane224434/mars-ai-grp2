@@ -11,13 +11,19 @@ import { useState, useEffect } from "react"
  * @param label Le titre de l'input
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
-export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc,
+export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc, declareSelfFunc,
     btntitle = "Ajouter" }) {
 
     //Le tout premier input, séparé car il ne peut pas être supprimé ou faire parti de map
     const [firstInput, setFirstInput] = useState("");
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
+
+    useEffect(() => {
+        if (declareSelfFunc) {
+            declareSelfFunc(name);
+        }
+    }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
@@ -27,7 +33,9 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             //besoin, donc : lance une erreur.
             throw new Errror("Module : InputAdditive; oublie de groupname!");
         }
-        getValuesFunc({ [name]: allvalues });
+        if (getValuesFunc) {
+            getValuesFunc({ [name]: allvalues });
+        }
     }, [myValues, firstInput])
 
     /**

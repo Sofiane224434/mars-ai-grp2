@@ -10,14 +10,24 @@ import { useState, useEffect } from "react";
  * [<option value="...">...</option>, ...]
  */
 export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle,
-    valueother,
-    getValuesFunc
+    valueother, getValuesFunc, declareSelfFunc
 }) {
 
     const [firstInput, setFirstInput] = useState("");
     const [firstInputText, setFirstInputText] = useState("");
     const [selectValues, setSelectValues] = useState([]);
     const [textValues, setTextValues] = useState([]);
+
+    //Vérifie que options existe
+    if (!options) {
+        throw new Error(`InputAdditiveSelect ERROR : Aucunes options trouvées, veuillez 
+            préciser les options.`)
+    }
+
+    //Vérifie si les options sont un array
+    if (!Array.isArray(options)) {
+        throw new Error(`InputAdditiveSelect ERROR : Les options doivent être un array.`)
+    }
 
     //Vérifie que la première option est vide, sinon, rajoute une option vide ("")
     //Ceci est important pour que la valeur par défaut soit vide afin que l'utilisateur
@@ -26,6 +36,12 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
         let newoption = <option value={""}>...</option>;
         options = [newoption].concat(options);
     }
+
+    useEffect(() => {
+        if (declareSelfFunc) {
+            declareSelfFunc(name);
+        }
+    }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {

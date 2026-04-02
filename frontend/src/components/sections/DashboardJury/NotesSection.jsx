@@ -81,6 +81,12 @@ const NotesSection = ({ movieId }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="mb-6 flex flex-col items-center">
         <div className={`w-full mb-4 border rounded-lg p-1 ${errors.content ? 'border-brulure-despespoir' : 'border-bleu-ciel'}`}>
           <div className="text-white mb-2 px-2 pt-2 font-title">Ajouter une note personnelle :</div>
+          <div className="px-2 pb-2 text-xs text-gris-magneti flex items-center gap-1.5 italic">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 opacity-80" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+            </svg>
+            Ces notes sont privées et visibles uniquement par vous.
+          </div>
           <textarea 
             {...register("content")}
             disabled={isSubmitting}

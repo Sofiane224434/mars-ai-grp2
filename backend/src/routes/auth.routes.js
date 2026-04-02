@@ -1,8 +1,17 @@
-// routes/auth.routes.js
-import { Router } from 'express'; // Import nommé ⬅️
-import { register, login, getProfile } from '../controllers/auth.controller.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
+import { Router } from "express";
+import {
+	getProfile,
+	login,
+	logout,
+	requestToken,
+} from "../controllers/auth.controller.js";
+import { requireAuth } from "../middlewares/auth.middleware.js";
+
 const router = Router();
-// Routes protégées
-router.get('/me', authMiddleware, getProfile);
+
+router.post("/request-token", requestToken);
+router.post("/login", login);
+router.post("/logout", logout);
+router.get("/me", requireAuth(["admin", "jury"]), getProfile);
+
 export default router;

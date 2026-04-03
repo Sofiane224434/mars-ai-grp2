@@ -506,6 +506,70 @@ Exemple :
 - `aws-sdk`
 - `multer`
 - `dotenv`
+
+## ▶️ Intégration YouTube OAuth (dev)
+
+Cette branche intègre un upload vidéo en 2 étapes dans `POST /api/movies` :
+
+1. Upload du fichier vers S3 (Scaleway)
+2. Upload du même fichier vers YouTube (Data API v3)
+
+Le backend retourne ensuite les informations S3 + YouTube.
+
+### Variables d'environnement backend (YouTube)
+
+À définir dans `backend/.env` :
+
+- `YT_CLIENT_ID`
+- `YT_CLIENT_SECRET`
+- `YT_REDIRECT_URI` (local: `http://localhost:5000/api/youtube/oauth/callback`)
+- `YT_REFRESH_TOKEN`
+- `YT_UPLOAD_PRIVACY` (ex: `unlisted`)
+
+### Endpoints OAuth implémentés
+
+- `GET /api/youtube/oauth/start`
+  - Génère l'URL OAuth Google avec le scope `youtube.upload`
+  - Redirige le navigateur vers Google
+- `GET /api/youtube/oauth/callback`
+  - Reçoit le `code` OAuth
+  - Échange `code` -> `tokens`
+  - Retourne le `refreshToken` (à copier dans `backend/.env`)
+
+### Endpoints upload implémentés
+
+- `POST /api/movies`
+  - Form-data attendu: `video_file`
+  - Flux serveur:
+    - upload S3
+    - upload YouTube
+    - suppression du fichier temporaire local
+  - Réponse inclut:
+    - `s3Location`
+    - `s3Key`
+    - `youtubeVideoId`
+    - `youtubeUrl`
+    - `youtubeEmbedUrl`
+    - `youtubePrivacyStatus`
+
+### Procédure de setup équipe
+
+1. Pull de la branche + installation dépendances (`npm install` et `npm --prefix backend install`)
+2. Vérifier sur Google Cloud:
+   - Origine JS autorisée: `http://localhost:5173`
+   - Redirect URI autorisée: `http://localhost:5000/api/youtube/oauth/callback`
+3. Remplir les variables YouTube dans `backend/.env`
+4. Démarrer le backend
+5. Ouvrir `http://localhost:5000/api/youtube/oauth/start`
+6. Autoriser le compte Google/YouTube cible
+7. Copier le `refreshToken` renvoyé dans `YT_REFRESH_TOKEN`
+8. Redémarrer le backend
+
+### Notes importantes
+
+- `backend/.env` ne doit jamais être versionné.
+- Si le consentement est en mode test, ajouter les comptes Google des développeurs dans les Test users du projet OAuth.
+- L'insertion des métadonnées réalisateur en base est traitée sur une autre branche (le endpoint upload de cette branche renvoie déjà les infos utiles S3/YouTube).
   
 ---
 

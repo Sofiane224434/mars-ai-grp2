@@ -183,3 +183,61 @@ export const rotateUserAccessTokenVersion = async (userId) => {
   if (!updated) throw new UserNotFoundError();
   return newTokenAccess;
 };
+
+export const issueInvitationForEmail = async ({
+  email,
+  customMessage = "",
+  appBaseUrl = process.env.APP_URL || "http://localhost:5173",
+}) => {
+  assertSecrets();
+
+  // Crée le compte jury s'il n'existe pas, ou récupère le compte existant
+  const { user, created } = await User.createJuryMember(email);
+
+  // Token d'invitation valable 7 jours (plus long qu'un magic link classique)
+  const invitationToken = jwt.sign(
+    {
+      sub: String(user.id),
+      email: user.email,
+      role: user.status,
+      type: "magic_link",
+      tav: user.token_access,
+    },
+    getMagicSecret(),
+    { expiresIn: "7d" },
+  );
+
+  const decoded = jwt.decode(invitationToken);
+  const expiryDate = new Date(decoded.exp * 1000).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const loginUrl = `${appBaseUrl}/auth?token=${encodeURIComponent(invitationToken)}`;
+  const displayName = user.email.split("@")[0];
+
+  await sendCustomEmail({
+    to: user.email,
+    name: user.email,
+    subject: "MarsAI - Invitation à rejoindre le jury officiel",
+    message:
+      `Bonjour ${displayName},\n\n` +
+      `Nous avons l'immense honneur de vous inviter à faire partie du jury officiel de cette nouvelle édition du festival MarsAI !\n` +
+      `Votre expertise sera précieuse pour l'évaluation des courts métrages en compétition.\n\n` +
+      (customMessage ? `${customMessage}\n\n` : "") +
+      `Quelle est la prochaine étape ? Pour accéder à votre interface privée et commencer à visionner les films qui vous sont assignés, connectez-vous via le lien sécurisé ci-dessous et en utilisant votre token d'accès personnel :\n\n` +
+      `Lien de connexion : ${loginUrl}\n` +
+      `Token d'accès personnel : ${invitationToken} (valide jusqu'au ${expiryDate})\n\n` +
+      `Période de visionnage :\n` +
+      `Les œuvres qui vous seront assignées durent au maximum 2 minutes.\n\n` +
+      `Note de l'équipe : L'accès à ce panel de sélection est strictement confidentiel. Merci de ne pas partager votre token ni les contenus visionnés. Si vous pensez avoir reçu cet e-mail par erreur, ignorez-le.\n\n` +
+      `Nous vous remercions chaleureusement pour le temps et l'attention que vous accorderez au travail des réalisateurs.\n\n` +
+      `Créativement,\n` +
+      `L'équipe MarsAI`,
+  });
+
+  return { email: user.email, created };
+};

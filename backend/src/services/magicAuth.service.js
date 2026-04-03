@@ -53,6 +53,10 @@ const getMagicSecret = () =>
 const getSessionSecret = () =>
   process.env.SESSION_JWT_SECRET || process.env.JWT_SECRET;
 
+const getAdminEnvToken = () => process.env.ADMIN_ENV_TOKEN || "";
+
+const getAdminEmail = () => process.env.ADMIN_EMAIL || "";
+
 const assertSecrets = () => {
   if (!getMagicSecret()) {
     throw new AuthConfigError(
@@ -143,6 +147,37 @@ export const issueMagicLinkForEmail = async ({
    Échange magic token -> session token
 -------------------------- */
 export const exchangeMagicTokenForSession = async ({ token }) => {
+  const adminEnvToken = getAdminEnvToken();
+
+  if (
+    process.env.NODE_ENV !== "production" &&
+    adminEnvToken &&
+    token === adminEnvToken
+  ) {
+    const adminEmail = getAdminEmail();
+    if (!adminEmail) {
+      throw new AuthConfigError(
+        "ADMIN_EMAIL manquant pour la connexion admin via .env.",
+      );
+    }
+
+    const adminUser = await User.findByEmail(adminEmail);
+    if (!adminUser) {
+      throw new UserNotFoundError(
+        "Compte admin introuvable pour la connexion via .env.",
+      );
+    }
+
+    if (adminUser.status !== "admin") {
+      throw new AuthConfigError(
+        "ADMIN_EMAIL doit pointer vers un utilisateur admin.",
+      );
+    }
+
+    const sessionToken = generateSessionToken(adminUser);
+    return { user: adminUser, sessionToken };
+  }
+
   const decoded = verifyMagicToken(token);
 
   const user = await User.findById(Number(decoded.sub));

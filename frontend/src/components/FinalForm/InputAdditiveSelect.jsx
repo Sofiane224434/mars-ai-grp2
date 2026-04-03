@@ -13,8 +13,10 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
     valueother, getValuesFunc, declareSelfFunc
 }) {
 
+    //Valeurs pour le premier input
     const [firstInput, setFirstInput] = useState("");
     const [firstInputText, setFirstInputText] = useState("");
+    //Valeurs pour les inputs suplémentaires
     const [selectValues, setSelectValues] = useState([]);
     const [textValues, setTextValues] = useState([]);
 

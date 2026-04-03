@@ -17,13 +17,24 @@ export default function FinalForm() {
     const [results, setResults] = useState({});
 
     function buildResults(name) {
-        init_results[name] = "";
-        setResults(init_results);
+        console.log("buildresults for : ", name);
+        if (!init_results[name]) {
+            init_results[name] = "";
+        }
     }
+
+    // useEffect(() => {
+    //     setResults(init_results);
+    // }, [init_results])
 
     useEffect(() => {
         console.log("result debug:", results);
     }, [results])
+
+    useEffect(() => {
+        console.log("empty effect test");
+        setResults(init_results)
+    }, [])
 
     /**
      * Rend une copy indépendante d'un state react.
@@ -40,7 +51,11 @@ export default function FinalForm() {
      * @param {*} values 
      */
     function retrieveValues(values) {
-        console.log(values);
+        //console.log(values);
+        let newres = getStateCopy(results);
+        let valuekey = Object.keys(values)[0];
+        newres[valuekey] = values[valuekey];
+        setResults(newres);
     }
 
     //Options pour les InputAdditiveSelect concernants les IA
@@ -54,9 +69,32 @@ export default function FinalForm() {
         <option value={"other"}>Autre...</option>
     ];
 
+    //Options pour inputsuper classification
+    const classificationsoptions = [
+        <option value={""}>...</option>,
+        <option value={"allai"}>Génération intégrale (100% IA)</option>,
+        <option value={"hybrid"}>Production hybride (Prises de vues réelles +
+            apports IA)
+        </option>,
+    ];
+
+    const genderoptions = [
+        <option value={""}>...</option>,
+        <option value={"m"}>Monsieur</option>,
+        <option value={"f"}>Madame</option>,
+        <option value={"other"}>Autre</option>,
+    ]
+
+    const markettingoptions = [
+        <option value={""}>...</option>,
+        <option value={"bouche à oreille"}>Bouche à oreille</option>,
+        <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>,
+        <option value={"other"}>Autre (précisez)</option>
+    ]
+
     //Tous les inputs que le formulaire va ensuite utiliser.
-    const myforms = {
-        1: <div>
+    const myforms = [
+        <div>
             <InputSuper type={"text"} name={"movietitle"} getValueFunc={retrieveValues}
                 declareSelfFunc={buildResults} label={"Titre de votre film :"} required={true}
             ></InputSuper>
@@ -90,98 +128,163 @@ export default function FinalForm() {
             }
 
             <InputSuper type={"url"} name={"youtubelink"} declareSelfFunc={buildResults}
-                getValueFunc={retrieveValues} label={`Lien youtube vers cette vidéo :`}></InputSuper>
+                getValueFunc={retrieveValues} label={`Lien youtube vers cette vidéo :`}
+            ></InputSuper>
+
         </div>
 
         ,
-        2: [
-            <input name="aiscenariocheck" type="checkbox"
-                checked={results["aiscenariocheck"] || false}></input>,
-            <InputAdditiveSelect name={"aiscenario"} getValuesFunc={retrieveValues}
-                label={"Choisissez les IAs utilisées."} options={aiselectoptions}></InputAdditiveSelect>,
-            <input name="aivideocheck" type="checkbox"
-                checked={results["aivideocheck"] || false}></input>,
-            <InputAdditiveSelect name={"aivideo"} getValuesFunc={retrieveValues}
-                label={"Choisissez les IAs utilisées."} options={aiselectoptions}></InputAdditiveSelect>,
-            <input name="aipostprodcheck" type="checkbox"
-                checked={results["aipostprodcheck"] || false}></input>,
-            <InputAdditiveSelect name={"aipostprod"} getValuesFunc={retrieveValues}
-                label={"Choisissez les IAs utilisées."} options={aiselectoptions}></InputAdditiveSelect>,
-            <select name="classification" value={results["classification"] || ""}>
-                <option value={""}>...</option>
-                <option value={"allai"}>Génération intégrale (100% IA)</option>
-                <option value={"hybrid"}>Production hybride (Prises de vues réelles +
-                    apports IA)
-                </option>
-            </select>,
-            <textarea name="prompts" value={results["prompts"] || ""}></textarea>,
-        ],
-        3: [
-            <input type="file" name="movieimage"></input>,
-            <input type="file" name="moviescreenshots"></input>,
-            <input type="checkbox" name="dialoguecheck"
-                checked={results["dialoguecheck"] || false}></input>,
-            <input type="file" name="srtfile" accept=".srt"></input>
-        ],
-        4: [
-            <input type="text" name="lastname" value={results["lastname"] || ""}></input>,
-            <input type="text" name="firstname" value={results["firstname"] || ""}></input>,
-            <select name="gender" value={results["gender"] || ""}>
-                <option value={""}>...</option>
-                <option value={"m"}>Monsieur</option>
-                <option value={"f"}>Madame</option>
-                <option value={"other"}>Autre</option>
-            </select>,
+
+
+        <div>
+            <div>Vous avez utilisé l'IA pour :</div>
+
+            <InputSuper name={"aiscenariocheck"} type={"checkbox"}
+                label={"La génération du scénario"} getValueFunc={retrieveValues}
+                declareSelfFunc={buildResults}></InputSuper>
+
+            {results["aiscenariocheck"] && <InputAdditiveSelect name={"aiscenario"}
+                getValuesFunc={retrieveValues} label={"Choisissez les IAs utilisées."}
+                options={aiselectoptions}
+            ></InputAdditiveSelect>}
+
+            <InputSuper type={"checkbox"} name={"aivideocheck"}
+                label={"La génération de la vidéo"} getValueFunc={retrieveValues}
+                declareSelfFunc={buildResults}></InputSuper>
+
+            {results["aivideocheck"] && <InputAdditiveSelect name={"aivideo"} getValuesFunc={retrieveValues}
+                label={"Choisissez les IAs utilisées."} options={aiselectoptions}
+                declareSelfFunc={buildResults}
+            ></InputAdditiveSelect>}
+
+            <InputSuper type={"checkbox"} name={"aipostprodcheck"}
+                label={"La génération de la vidéo"} getValueFunc={retrieveValues}
+                declareSelfFunc={buildResults}></InputSuper>
+
+            {results["aipostprodcheck"] && <InputAdditiveSelect name={"aipostprod"}
+                getValuesFunc={retrieveValues} label={"Choisissez les IAs utilisées :"}
+                options={aiselectoptions} declareSelfFunc={buildResults}></InputAdditiveSelect>}
+
+            <InputSuper type={"select"} options={classificationsoptions}
+                label={"Choisissez la classification de votre film :"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                name={"classification"}></InputSuper>
+
+            <InputSuper name={"prompts"} type={"textarea"} max_string={500}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Prompts que vous avez utilisé pour la génération IA :"}></InputSuper>
+
+        </div>
+
+
+
+        ,
+
+        <div>
+
+            <InputSuper type={"file"} name={"thumbnail"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`La vignette de votre film (une image qui sera utilisée 
+                pour la représenter) :`} accept={"image/png, image/jpeg"}></InputSuper>
+
+            <InputSuper type={"file"} name={"moviescreenshots"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`Quelques captures d'écrans de votre film :`}
+                accept={"image/png, image/jpeg"}></InputSuper>
+
+            <InputSuper type={"checkbox"} name={"dialoguecheck"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`Ce film contient des dialogues`}></InputSuper>
+
+            {results["dialoguecheck"] && <InputSuper type={"file"} name={"srtfile"} accept={".srt"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`Veuillez renseigner un fichier sous-titre (.srt) :`}></InputSuper>}
+
+        </div>
+        ,
+
+        <div>
+            <div>
+                <InputSuper type={"text"} name={"lastname"} max_string={100}
+                    getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                    label={"Nom"}></InputSuper>
+
+                <InputSuper type={"text"} name={"firstname"} max_string={100}
+                    getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                    label={"Prénom"}></InputSuper>
+            </div>
+
+            <InputSuper name={"gender"} type={"select"} options={genderoptions}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Civilité :"}></InputSuper>
+
+            <div>Vos réseaux sociaux :</div>
             <InputAdditiveGrouped name={"socials"} inputnames={["socialname", "sociallink"]}
                 getValuesFunc={retrieveValues} labels={["Nom du réseau social", "Lien du réseau social"]}
-            ></InputAdditiveGrouped>,
-            <input name="email" type="email" value={results["email"] || ""}></input>,
-            <input name="tel" type="tel" value={results["tel"] || ""}></input>,
-            <input name="birthdate" type="date" value={results["birthdate"] || ""}></input>,
-            <input name="country" type="text" value={results["country"] || ""}></input>,
-            <input name="address" type="text" value={results["address"] || ""}></input>,
-            <input name="address2" type="text" value={results["address2"] || ""}></input>,
-            <input name="zipcode" type="text" value={results["zipcode"] || ""}></input>,
-            <input name="city" type="text" value={results["city"] || ""}></input>,
-            <select name="marketting" value={results["marketting"] || ""}>
-                <option value={""}>...</option>
-                <option value={"bouche à oreille"}>Bouche à oreille</option>
-                <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>
-                <option value={"autre"}>Autre (précisez)</option>
-            </select>,
-            <input type="text" name="markettingother" value={results["markettingother"] || ""}
-            ></input>,
-            <input type="checkbox" name="toscheck" checked={results["toscheck"] || false}></input>,
-            <input type="checkbox" name="rulescheck" checked={results["rulescheck"] || false}></input>,
-        ]
-    }
+            ></InputAdditiveGrouped>
 
-    const maxstep = Object.keys(myforms).length;
+            <InputSuper name={"email"} type={"email"} max_string={100}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Email"}></InputSuper>
 
-    // Construction de results pour avoir les valeurs possibles du formulaire
-    // useEffect(() => {
-    //     let buildobj = {};
-    //     for (let key in myinputs) {
-    //         for (let index in myinputs[key]) {
-    //             buildobj[myinputs[key][index].props.name] = "";
-    //         }
-    //     }
-    //     console.log(buildobj);
-    // }, [])
+            <InputSuper name={"tel"} type={"tel"} max_string={10}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Numéro de téléphone"} numberonly={true}></InputSuper>
 
-    // function getInputfromArray(inputname) {
-    //     for (let n in myinputs) {
-    //         for (let ind in myinputs[n]) {
-    //             if (myinputs[n][ind].props.name === inputname) {
-    //                 return myinputs[a];
-    //             }
-    //         }
-    //     }
-    // }
+            <InputSuper name={"birthdate"} type={"date"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Date de naissance"}></InputSuper>
+
+            <InputSuper name={"country"} type={"text"} max_string={100}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Pays de résidence actuel"}></InputSuper>
+
+            <InputSuper name={"address"} type={"text"} max_string={100}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Votre adresse"}></InputSuper>
+
+            <InputSuper name={"address2"} type={"text"} max_string={100}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Votre adresse ligne 2"}></InputSuper>
+
+            <InputSuper name={"zipcode"} type={"text"} max_string={10}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Code postal"}></InputSuper>
+
+            <InputSuper name={"city"} type={"text"} max_string={100}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={"Ville"}></InputSuper>
+
+            <InputSuper name={"marketting"} type={"select"} options={markettingoptions}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`Comment avez-vous connu le festival MarsAI ?`}></InputSuper>
+
+            {results["marketting"] == "other" &&
+                <InputSuper name={"markettingother"} type={"text"} max_string={200}
+                    getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                    label={"Précisez :"}></InputSuper>}
+
+            <InputSuper type={"checkbox"} name={"toscheck"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`J'accepte les conditions d'utilisation.`}></InputSuper>
+
+            <InputSuper type={"checkbox"} name={"rulescheck"}
+                getValueFunc={retrieveValues} declareSelfFunc={buildResults}
+                label={`J'accepte le règlement d'envoi de vidéos du festival 
+                MarsAI.`}></InputSuper>
+
+        </div>
+
+    ]
+
+    const maxstep = myforms.length;
 
     return (
         <form>
+            {myforms[0]}
             {myforms[1]}
+            {myforms[2]}
+            {myforms[3]}
         </form>
     )
 }

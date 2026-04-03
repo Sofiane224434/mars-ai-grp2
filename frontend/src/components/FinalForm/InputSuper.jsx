@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 
 const acceptable_types = ["text", "file", "tel", "email", "number", "select", "textarea",
-    "checkbox", "url"];
+    "checkbox", "url", "date"];
 
 /**
  * Un "Super Input" qui permet d'activer une fonction dès qu'il est sur une page.
@@ -12,11 +12,17 @@ const acceptable_types = ["text", "file", "tel", "email", "number", "select", "t
  * @returns 
  */
 export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
-    type, options = null, accept = null, min_num = null, max_num = null,
+    type, options = null, accept = null, min_numdate = null, max_numdate = null,
     min_string = null, max_string = null, placeholder = null, required = false,
+    numberonly = false, classInput = null, classContainer = null, classLabel = null
 }) {
 
-    const [value, setValue] = useState("");
+    //Style css
+    const classDefaultInput = "";
+    const classDefaultContainer = "";
+    const classDefaultLabel = "";
+
+    const [value, setValue] = useState(null);
 
     //Permet d'envoyer au parent le nom, peut construire automatiquement un tableau de données.
     useEffect(() => {
@@ -32,6 +38,8 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     }, [value])
 
     function handleChange(e) {
+        console.log(e.target);
+        console.log("e get last keystroke = ", e.nativeEvent.data);
         let typeofinput = e.target.type;
         let value = e.target.value;
         let check = e.target.checked;
@@ -42,17 +50,27 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             return;
         }
 
-        if (typeofinput == "checked") {
+        if (typeofinput == "checkbox") {
+            console.log("check changed: ", check);
             setValue(check);
+            return;
+        }
+
+        if (numberonly) {
+            const numregex = /^\d+$/;
+            if (numregex.test(e.nativeEvent.data)) {
+                setValue(value);
+            }
             return;
         }
 
         setValue(value);
     }
 
-    const input_text = <input name={name} type={"text"} max={max_num} maxLength={max_string}
-        accept={accept} min={min_num} minLength={min_string} placeholder={placeholder}
-        onChange={handleChange} required={required} value={value}></input>;
+    const input_text = <input name={name} type={"text"} max={max_numdate} maxLength={max_string}
+        accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+        onChange={handleChange} required={required} value={value}
+        className={classInput ? classInput : classDefaultInput}></input>;
 
     if (!acceptable_types.includes(type)) {
         console.warn("InputSuper " + name + " ERROR : Type non reconnu, retourne un input de type " +
@@ -60,7 +78,8 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         )
         return (
             <div>
-                {label && <div>{label}</div>}
+                {label && <div className={classLabel ? classLabel : classDefaultLabel}
+                >{label}</div>}
                 {input_text}
             </div>
         )
@@ -71,8 +90,11 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             if (Array.isArray(options)) {
                 return (
                     <div>
-                        {label && <div>{label}</div>}
-                        <select required={required} name={name} value={value}>
+                        {label && <div className={classLabel ? classLabel : classDefaultLabel}
+                        >{label}</div>}
+                        <select required={required} name={name} value={value}
+                            onChange={handleChange}
+                            className={classInput ? classInput : classDefaultInput}>
                             {options.map(op => {
                                 return (op)
                             })}
@@ -90,19 +112,22 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     if (type === "textarea") {
         return (
             <div>
-                {label && <div>{label}</div>}
+                {label && <div className={classLabel ? classLabel : classDefaultLabel}
+                >{label}</div>}
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
-                    placeholder={placeholder} required={required}></textarea>
+                    placeholder={placeholder} required={required} onChange={handleChange}
+                    className={classInput ? classInput : classDefaultInput}></textarea>
             </div>
         )
     }
 
     return (
-        <div>
-            {label && <div>{label}</div>}
-            <input name={name} type={type} max={max_num} maxLength={max_string}
-                accept={accept} min={min_num} minLength={min_string} placeholder={placeholder}
-                required={required} value={value}
+        <div className={classContainer ? classContainer : classDefaultContainer}>
+            {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+            <input name={name} type={type} max={max_numdate} maxLength={max_string}
+                accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+                required={required} value={value} onChange={handleChange}
+                className={classInput ? classInput : classDefaultInput}
             ></input>
         </div>
 

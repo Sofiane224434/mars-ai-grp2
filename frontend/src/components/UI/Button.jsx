@@ -162,6 +162,20 @@ const Button = ({
         </div>
       ),
     },
+
+    //---------------------------------------------------------------------------------------------------------
+    // Boutons Modal Email
+    //---------------------------------------------------------------------------------------------------------
+
+    // Variante 1 : Bouton Annuler - Bordure turquoise
+    "email-cancel": {
+      container: "px-5 py-2 rounded-xl border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors font-medium disabled:opacity-50 cursor-pointer",
+    },
+
+    // Variante 2 : Bouton Envoyer - Gradient bleu
+    "email-send": {
+      container: "px-5 py-2 rounded-xl bg-linear-to-r from-bleu-canard to-bleu-ciel text-white font-bold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
+    },
   };
 
   const currentVariant = variants[variant] || variants["neon-yellow"];
@@ -175,6 +189,8 @@ const Button = ({
       ? "pl-3"
       : isJuryActionVariant
         ? "pl-6 translate-y-px"
+        : ["email-cancel", "email-send"].includes(variant)
+        ? "flex items-center gap-2"
         : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")

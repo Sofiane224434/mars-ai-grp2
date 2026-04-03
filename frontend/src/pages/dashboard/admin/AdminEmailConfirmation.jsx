@@ -91,11 +91,13 @@ const AdminEmailConfirmation = () => {
       </div>
 
       {/* 🚀 La Modale isolée */}
-      <EmailTemplateModal 
-        isOpen={emailModal.isOpen} 
-        onClose={handleCloseEmailModal} 
-        movie={emailModal.movie} 
-      />
+      {emailModal.isOpen && (
+        <EmailTemplateModal 
+          isOpen={emailModal.isOpen} 
+          onClose={handleCloseEmailModal} 
+          movie={emailModal.movie} 
+        />
+      )}
 
     </div>
   );

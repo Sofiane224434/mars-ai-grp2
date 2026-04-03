@@ -7,7 +7,9 @@ const router = express.Router();
 // Stockage temporaire local avant upload S3
 const upload = multer({ dest: "uploads/" });
 
-// Upload d'un fichier vers S3
+// Upload d'un fichier video:
+// - stockage S3
+// - envoi YouTube
 router.post("/movies", upload.single("video_file"), addMovie);
 
 // Récupération d'un fichier S3 via query param

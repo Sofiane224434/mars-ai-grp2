@@ -2,11 +2,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { testConnection } from "./config/db.js"; 
+import { testConnection } from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
 import emailRoutes from './routes/email.routes.js';
 import juryRoutes from './routes/jury.routes.js';
+import adminRoutes from "./routes/admin.routes.js";
 import youtubeRoutes from './routes/youtube.routes.js';
 
 dotenv.config();
@@ -39,10 +40,10 @@ app.use(express.json());
 
 // Logger (dev) - Réintégrer le logger pour le développement
 if (process.env.NODE_ENV !== 'production') {
-    app.use((req, res, next) => {
-        console.log(`${new Date().toISOString()} | ${req.method} ${req.url}`);
-        next();
-    });
+  app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} | ${req.method} ${req.url}`);
+    next();
+  });
 }
 
 //# Routes
@@ -55,6 +56,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", movieRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/jury', juryRoutes);
+app.use("/api/admin", adminRoutes);
 // Routes OAuth YouTube (start + callback) pour initialiser le refresh token.
 app.use('/api/youtube', youtubeRoutes);
 

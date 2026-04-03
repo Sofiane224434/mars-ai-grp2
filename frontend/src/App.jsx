@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import JuryLayout from './layouts/JuryLayout.jsx';
@@ -26,6 +26,53 @@ import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
 import JuryMovies from './pages/dashboard/jury/JuryMovies.jsx';
 import MovieDetail from './pages/dashboard/jury/MovieDetail.jsx';
 
+const getStoredUser = () => {
+  try {
+    const rawUser = localStorage.getItem('user');
+    return rawUser ? JSON.parse(rawUser) : null;
+  } catch {
+    localStorage.removeItem('user');
+    return null;
+  }
+};
+
+function AdminGuard() {
+  const location = useLocation();
+  const token = localStorage.getItem('token');
+  const user = getStoredUser();
+
+  if (!token || !user) {
+    return <Navigate to="/auth" replace state={{ from: location }} />;
+  }
+
+  if (user.status !== 'admin') {
+    return <Navigate to="/error" replace />;
+  }
+
+  return <Outlet />;
+}
+
+function JuryGuard() {
+  const location = useLocation();
+  const { id } = useParams();
+  const token = localStorage.getItem('token');
+  const user = getStoredUser();
+
+  if (!token || !user) {
+    return <Navigate to="/auth" replace state={{ from: location }} />;
+  }
+
+  if (user.status !== 'jury') {
+    return <Navigate to="/error" replace />;
+  }
+
+  if (id && String(user.id) !== String(id)) {
+    return <Navigate to={`/dashboard/jury/${user.id}`} replace />;
+  }
+
+  return <Outlet />;
+}
+
 function App() {
   return (
     <Routes>
@@ -43,20 +90,24 @@ function App() {
       <Route path="/auth" element={<Auth />} />
 
       {/* Admin Panel Routes avec HeaderAdmin */}
-      <Route element={<AdminLayout />}>
-        <Route path="/dashboard/admin" element={<AdminPanel />} />
-        <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
-        <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
-        <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
-        <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
-        <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+      <Route element={<AdminGuard />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard/admin" element={<AdminPanel />} />
+          <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
+          <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
+          <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+          <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
+          <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+        </Route>
       </Route>
 
       {/* Jury Routes avec HeaderJury */}
-      <Route element={<JuryLayout />}>
-        <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
-        <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
-        <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
+      <Route element={<JuryGuard />}>
+        <Route element={<JuryLayout />}>
+          <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
+          <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
+          <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
+        </Route>
       </Route>
 
 

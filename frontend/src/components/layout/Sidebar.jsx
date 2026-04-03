@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../ui/Button";
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
 import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
@@ -36,6 +36,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
   const currentVariant = variants[variant] || variants.admin;
   const isJuryPanel = variant === "jury";
+  const { id: juryId } = useParams();
   const containerClass =
     `mt-1 relative min-h-screen transition-all duration-200 w-[245px] ${collapsed ? "lg:w-[110px]" : ""
       } ${className}`.trim();
@@ -64,7 +65,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
         {/* Items en grille 3×n */}
         <nav className="flex flex-wrap justify-center gap-3 px-4 pt-12 pb-5">
-          <Link to="/dashboard/admin" onClick={() => setMobileOpen(false)}>
+          <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"} onClick={() => setMobileOpen(false)}>
             <Button
               variant="btn-panel-home"
               iconImg={panel_icon_home}
@@ -102,7 +103,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {isJuryPanel && (
-            <Link to="/dashboard/jury/:id/movies" onClick={() => setMobileOpen(false)}>
+            <Link to={`/dashboard/jury/${juryId}/movies`} onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_not_watched}
@@ -181,7 +182,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </button>
 
               <div className={contentClass}>
-                <Link to="/dashboard/admin">
+                <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}>
                   <Button
                     variant="btn-panel-home"
                     iconImg={panel_icon_home}
@@ -224,7 +225,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                 )}
 
                 {isJuryPanel && (
-                  <Link to="/dashboard/jury/:id/movies">
+                  <Link to={`/dashboard/jury/${juryId}/movies`}>
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_not_watched}

@@ -1,35 +1,34 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 import MovieCard from '../../../components/ui/MovieCard.jsx';
 import Pagination from '../../../components/ui/Pagination.jsx';
 import Spinner from '../../../components/ui/Spinner.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
 function JuryMovies() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { id } = useParams(); // 
-  
+
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null); 
-  
+  const [error, setError] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 5; 
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
+        const token = localStorage.getItem('token');
 
         const response = await axios.get(`${API_BASE_URL}/jury/movies`, {
           // L'utilisation des headers conditionnels est très pro !
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-          withCredentials: true 
+          withCredentials: true
         });
 
         const payload = response.data;
@@ -63,7 +62,7 @@ function JuryMovies() {
       }
     };
     fetchMovies();
-  }, []); 
+  }, []);
 
   const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -86,7 +85,7 @@ function JuryMovies() {
         )}
 
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
-          
+
           {isLoading ? (
             <div className="col-span-full">
               <Spinner />
@@ -106,12 +105,12 @@ function JuryMovies() {
           )}
 
         </div>
-        
+
         {!isLoading && !error && movies.length > 0 && (
           <div className="mt-8">
-            <Pagination 
-              currentPage={currentPage} 
-              totalPages={totalPages} 
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
               onPageChange={(newPage) => setCurrentPage(newPage)}
             />
           </div>
@@ -122,7 +121,7 @@ function JuryMovies() {
             Aucun film ne vous a encore été assigné.
           </div>
         )}
-        
+
       </div>
     </>
   );

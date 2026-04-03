@@ -17,7 +17,6 @@ import { Status } from '../../../components/ui/StatusBadge.jsx';
 import useApi from '../../../hooks/useApi.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
 const voteSchema = z.object({
   statusId: z.number().int().positive("L'ID du statut est invalide.")
@@ -29,16 +28,16 @@ function MovieDetail() {
 
   // 🚀 1. INJECTION DU HOOK : Remplace 3 useState d'un seul coup !
   // On renomme astucieusement data en 'movie', et setData en 'setMovie' pour ne rien casser ailleurs.
-  const { 
-    data: movie, 
-    isLoading, 
-    error, 
-    execute: fetchMovie, 
-    setData: setMovie 
+  const {
+    data: movie,
+    isLoading,
+    error,
+    execute: fetchMovie,
+    setData: setMovie
   } = useApi();
 
   // États locaux (On les garde car ils sont spécifiques à cette page, pas à l'API GET)
-  const [isVoting, setIsVoting] = useState(false); 
+  const [isVoting, setIsVoting] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, statusId: null });
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
@@ -51,9 +50,9 @@ function MovieDetail() {
     setVideoError(false);
 
     if (movieId) {
-      const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
+      const token = localStorage.getItem('token');
       // On passe la fonction réseau à notre hook, il s'occupe du reste (try/catch, loading, etc.)
-      fetchMovie(() => 
+      fetchMovie(() =>
         axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
@@ -74,8 +73,8 @@ function MovieDetail() {
     try {
       setIsVoting(true);
       const validPayload = voteSchema.parse({ statusId: newStatusId });
-      const token = localStorage.getItem('token') || 'token_temporaire_123';
-     
+      const token = localStorage.getItem('token');
+
       await axios.put(`${API_BASE_URL}/jury/movies/${movieId}/status`, validPayload, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         withCredentials: true
@@ -83,10 +82,10 @@ function MovieDetail() {
 
       // 🚀 Grâce à l'export de setData depuis useApi, cette UI optimiste continue de fonctionner parfaitement !
       setMovie((prev) => ({ ...prev, statusId: newStatusId }));
-      
+
       toast.success("Le statut du film a été modifié avec succès !", {
-        duration: 3000, 
-        position: 'bottom-right', 
+        duration: 3000,
+        position: 'bottom-right',
         style: { background: '#1A232C', color: '#fff', border: '1px solid #4DB8B9' },
       });
 
@@ -122,7 +121,7 @@ function MovieDetail() {
     };
 
     if (statusIdMap[statusId]) return statusIdMap[statusId];
-    
+
     const normalized = String(statusLabel || '').toLowerCase().trim();
     if (['pending', 'wait', 'en attente', 'attente'].includes(normalized)) return { variant: 'pending', label: 'En attente' };
     if (['rejected', 'refuse', 'refusé'].includes(normalized)) return { variant: 'rejected', label: 'Refuse' };
@@ -156,17 +155,17 @@ function MovieDetail() {
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
-      
+
       <Toaster />
 
       <div className="max-w-4xl mx-auto flex flex-col items-center">
-        
+
         <div className="text-center mb-6 text-white">
           <h1 className="text-4xl font-bold font-title">{movie.title}</h1>
           <p className="text-gris-magneti text-sm mt-1">Par : {movie.directorName}</p>
         </div>
 
-        <VideoWrapper 
+        <VideoWrapper
           embedUrl={getYouTubeEmbedUrl(movie.videoUrl)}
           isLoaded={isVideoLoaded}
           hasError={videoError}
@@ -177,30 +176,30 @@ function MovieDetail() {
           onPrev={goPrev}
           onNext={goNext}
         />
-        
-        <div className="text-white my-8 text-center border-b border-gris-magneti/30 pb-8 w-full">
-           <div className="mb-4 flex items-center justify-center gap-2">
-             <span className="text-gris-magneti">Statut de la vidéo :</span>
-             <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
-           </div>
-           
-           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
-             <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
-               Valider
-             </Button>
-             <Button interactive variant="pending-jury" onClick={() => initiateVote(3)} disabled={isVoting || isVoteLocked}>
-               A revoir
-             </Button>
-             <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
-               Refuser
-             </Button>
-           </div>
 
-           {isVoteLocked && (
-             <p className="text-gris-magneti text-xs mt-4 italic">
-               Vous avez déjà statué sur ce film. Le vote est verrouillé.
-             </p>
-           )}
+        <div className="text-white my-8 text-center border-b border-gris-magneti/30 pb-8 w-full">
+          <div className="mb-4 flex items-center justify-center gap-2">
+            <span className="text-gris-magneti">Statut de la vidéo :</span>
+            <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
+            <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
+              Valider
+            </Button>
+            <Button interactive variant="pending-jury" onClick={() => initiateVote(3)} disabled={isVoting || isVoteLocked}>
+              A revoir
+            </Button>
+            <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
+              Refuser
+            </Button>
+          </div>
+
+          {isVoteLocked && (
+            <p className="text-gris-magneti text-xs mt-4 italic">
+              Vous avez déjà statué sur ce film. Le vote est verrouillé.
+            </p>
+          )}
         </div>
 
         <InfoPanel title="Informations sur la vidéo">
@@ -233,9 +232,9 @@ function MovieDetail() {
           <div>{movie.address2 || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Code postal :</div>
           <div>{movie.postal_code || "Non renseigné."}</div>
-           <div className="text-gris-magneti font-medium">Ville :</div>
+          <div className="text-gris-magneti font-medium">Ville :</div>
           <div>{movie.city || "Non renseigné."}</div>
-           <div className="text-gris-magneti font-medium">Pays :</div>
+          <div className="text-gris-magneti font-medium">Pays :</div>
           <div>{movie.country || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Langue parlée :</div>
           <div>{movie.director_language || "Non renseigné."}</div>
@@ -253,7 +252,7 @@ function MovieDetail() {
         confirmText="Oui, je confirme"
         cancelText="Annuler"
       >
-        Êtes-vous sûr de vouloir <span className="text-bleu-ciel font-bold text-lg uppercase tracking-wider">{statusLabels[confirmDialog.statusId]}</span> ce film ?<br/>
+        Êtes-vous sûr de vouloir <span className="text-bleu-ciel font-bold text-lg uppercase tracking-wider">{statusLabels[confirmDialog.statusId]}</span> ce film ?<br />
         <span className="text-sm mt-2 block opacity-80">Cette action bloquera les votes suivants pour ce film.</span>
       </ConfirmModal>
     </div>

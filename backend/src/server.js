@@ -2,6 +2,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { testConnection } from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
@@ -10,7 +12,9 @@ import juryRoutes from './routes/jury.routes.js';
 import adminRoutes from "./routes/admin.routes.js";
 import youtubeRoutes from './routes/youtube.routes.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

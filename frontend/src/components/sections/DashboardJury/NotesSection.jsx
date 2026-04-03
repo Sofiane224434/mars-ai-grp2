@@ -6,7 +6,6 @@ import axios from 'axios';
 import Button from '../../ui/Button.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
 // 1. Schéma de validation Zod
 const noteSchema = z.object({
@@ -32,17 +31,17 @@ const NotesSection = ({ movieId }) => {
   useEffect(() => {
     const fetchNotes = async () => {
       if (!movieId) return;
-      
+
       try {
         setIsLoading(true);
-        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
-        
+        const token = localStorage.getItem('token');
+
         // Appel GET avec le movieId en paramètre
         const response = await axios.get(`${API_BASE_URL}/jury/comments?movieId=${movieId}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
         });
-        
+
         setNotes(response.data);
       } catch (error) {
         console.error("Erreur lors du chargement des notes :", error);
@@ -57,7 +56,7 @@ const NotesSection = ({ movieId }) => {
   // 4. Soumission d'une nouvelle note
   const onSubmit = async (data) => {
     try {
-      const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
+      const token = localStorage.getItem('token');
       const payload = { movieId: parseInt(movieId, 10), content: data.content.trim() };
 
       const response = await axios.post(`${API_BASE_URL}/jury/comments`, payload, {
@@ -68,7 +67,7 @@ const NotesSection = ({ movieId }) => {
       // Ajout de la nouvelle note à l'écran sans recharger la page
       setNotes((prev) => [...prev, response.data]);
       reset(); // Vide le textarea
-      
+
     } catch (error) {
       console.error("Erreur lors de l'ajout de la note :", error);
       alert("Impossible d'ajouter la note.");
@@ -87,14 +86,14 @@ const NotesSection = ({ movieId }) => {
             </svg>
             Ces notes sont privées et visibles uniquement par vous.
           </div>
-          <textarea 
+          <textarea
             {...register("content")}
             disabled={isSubmitting}
             className="w-full bg-reglisse text-white p-3 rounded-md border-none outline-none resize-none h-24 placeholder-gris-magneti disabled:opacity-50"
             placeholder="Saisissez votre note ici..."
           />
         </div>
-        
+
         {/* Affichage de l'erreur Zod */}
         {errors.content && (
           <p className="text-brulure-despespoir text-xs w-full text-left mb-2 px-2">

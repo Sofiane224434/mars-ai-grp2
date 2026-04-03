@@ -3,13 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const DEV_TEMP_TOKEN = 'token_temporaire_123';
 
 export const useJuryMovieNavigation = (currentMovieId) => {
   const navigate = useNavigate();
   // On récupère l'ID du jury depuis l'URL (si ta route est /dashboard/jury/:id/movies/:movieId)
   // S'il n'y a pas d'ID jury dans l'URL, tu peux le retirer.
-  const { id: juryId } = useParams(); 
+  const { id: juryId } = useParams();
 
   const [movieIds, setMovieIds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +20,7 @@ export const useJuryMovieNavigation = (currentMovieId) => {
       try {
         setIsLoading(true);
         setNavigationError(null);
-        const token = localStorage.getItem('token') || DEV_TEMP_TOKEN;
+        const token = localStorage.getItem('token');
         const response = await axios.get(`${API_BASE_URL}/jury/movies`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
@@ -45,7 +44,7 @@ export const useJuryMovieNavigation = (currentMovieId) => {
           .map((movie) => Number(movie?.id))
           .filter((id) => Number.isInteger(id) && id > 0)
           .reverse();
-    
+
         setMovieIds(ids);
       } catch (error) {
         console.error("Erreur lors de la récupération du contexte de navigation", error);

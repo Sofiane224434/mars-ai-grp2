@@ -1,12 +1,12 @@
 import express from 'express';
-import { requireAuth } from '../middlewares/requireAuth.js';
+import { requireAuth } from '../middlewares/auth.middleware.js';
 
 // Import de TOUS les schémas de validation
-import { 
-  getMovieByIdSchema, 
+import {
+  getMovieByIdSchema,
   updateMovieStatusSchema,
   getJuryCommentsSchema,
-  postJuryCommentSchema 
+  postJuryCommentSchema
 } from '../schemas/jury.schema.js';
 
 // Import des contrôleurs
@@ -32,7 +32,7 @@ const validateRequest = (schema) => (req, res, next) => {
 
 // --- SÉCURITÉ GLOBALE ---
 // TOUTES les routes en dessous nécessiteront le rôle "jury"
-router.use(requireAuth('jury'));
+router.use(requireAuth(['jury']));
 
 // ==========================================
 // 🎬 ROUTES : FILMS

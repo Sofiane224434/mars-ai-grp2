@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import axios from "axios";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import panel_icon_assign1 from "../../assets/icons/panel_icon_assign1.png";
 import panel_icon_mail from "../../assets/icons/panel_icon_mail.png";
 import panel_icon_setting from "../../assets/icons/panel_icon_setting.png";
@@ -12,6 +13,8 @@ import panel_icon_not_watched from "../../assets/icons/panel_icon_not_watched.pn
 const Sidebar = ({ variant = "admin", className = "" }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const navigate = useNavigate();
   const variants = {
     admin: {
       container: "mt-6 relative max-h-screen transition-all duration-200",
@@ -37,17 +40,44 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
   const currentVariant = variants[variant] || variants.admin;
   const isJuryPanel = variant === "jury";
   const { id: juryId } = useParams();
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.post(
+        `${API_BASE_URL}/auth/logout`,
+        {},
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      console.error("Erreur lors de la deconnexion :", error);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setMobileOpen(false);
+      navigate("/auth", { replace: true });
+      setIsLoggingOut(false);
+    }
+  };
   const containerClass =
-    `mt-1 relative min-h-screen transition-all duration-200 w-[245px] ${collapsed ? "lg:w-[110px]" : ""
+    `mt-1 relative min-h-screen h-full transition-all duration-200 w-[245px] ${collapsed ? "lg:w-[110px]" : ""
       } ${className}`.trim();
-  const contentClass = `${currentVariant.content} px-2 items-center gap-0 ${collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
+  const contentClass = `${currentVariant.content} flex-1 px-2 items-center gap-0 ${collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
     }`.trim();
 
   return (
     <>
       {/* ── MOBILE : drawer qui s'ouvre par le haut ── */}
       <div
-        className={`fixed top-0 left-0 w-full z-50 bg-noir-bleute transition-transform duration-300 lg:hidden ${mobileOpen ? "translate-y-0" : "-translate-y-full"
+        className={`fixed top-0 left-0 w-full h-screen z-50 bg-noir-bleute transition-transform duration-300 lg:hidden flex flex-col ${mobileOpen ? "translate-y-0" : "-translate-y-full"
           }`}
       >
         {/* Bouton fermer */}
@@ -140,7 +170,20 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </Button>
             </Link>
           )}
+
         </nav>
+
+        <div className="mt-auto px-4 pb-6 flex justify-center">
+          <Button
+            type="button"
+            variant="email-cancel"
+            interactive
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+          </Button>
+        </div>
       </div>
 
       {/* Hamburger – mobile uniquement */}
@@ -162,7 +205,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
         <div className="sticky top-0 self-start max-h-screen h-screen">
           <div className={containerClass}>
             {currentVariant.bg}
-            <div className="relative z-40">
+            <div className="relative z-40 h-full flex flex-col">
               {/* Bouton collapse – desktop uniquement */}
               <button
                 type="button"
@@ -182,91 +225,106 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </button>
 
               <div className={contentClass}>
-                <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}>
-                  <Button
-                    variant="btn-panel-home"
-                    iconImg={panel_icon_home}
-                    iconOnly={collapsed}
-                    className={collapsed ? "mb-4 ml-0" : "mb-5 ml-2"}
-                    iconClassName={collapsed ? "-translate-x-4" : "-translate-x-2"}
-                  >
-                    ACCUEIL
-                  </Button>
-                </Link>
+                <div className="w-full flex flex-col items-center pb-28">
+                  <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}>
+                    <Button
+                      variant="btn-panel-home"
+                      iconImg={panel_icon_home}
+                      iconOnly={collapsed}
+                      className={collapsed ? "mb-4 ml-0" : "mb-5 ml-2"}
+                      iconClassName={collapsed ? "-translate-x-4" : "-translate-x-2"}
+                    >
+                      ACCUEIL
+                    </Button>
+                  </Link>
 
-                {!isJuryPanel && (
-                  <Link to="/dashboard/admin/movies">
-                    <Button
-                      variant="btn-panel"
-                      iconImg={panel_icon_assign1}
-                      iconOnly={collapsed}
-                      iconClassName={
-                        collapsed ? "-translate-x-5" : "-translate-x-4"
-                      }
-                    >
-                      GÉRER LES VIDEOS
-                    </Button>
-                  </Link>
-                )}
+                  {!isJuryPanel && (
+                    <Link to="/dashboard/admin/movies">
+                      <Button
+                        variant="btn-panel"
+                        iconImg={panel_icon_assign1}
+                        iconOnly={collapsed}
+                        iconClassName={
+                          collapsed ? "-translate-x-5" : "-translate-x-4"
+                        }
+                      >
+                        GÉRER LES VIDEOS
+                      </Button>
+                    </Link>
+                  )}
 
-                {!isJuryPanel && (
-                  <Link to="/dashboard/admin/email-confirmation">
-                    <Button
-                      variant="btn-panel"
-                      iconImg={panel_icon_mail}
-                      iconOnly={collapsed}
-                      iconClassName={
-                        collapsed ? "-translate-x-4" : "-translate-x-4"
-                      }
-                    >
-                      CONFIRMATION EMAIL
-                    </Button>
-                  </Link>
-                )}
+                  {!isJuryPanel && (
+                    <Link to="/dashboard/admin/email-confirmation">
+                      <Button
+                        variant="btn-panel"
+                        iconImg={panel_icon_mail}
+                        iconOnly={collapsed}
+                        iconClassName={
+                          collapsed ? "-translate-x-4" : "-translate-x-4"
+                        }
+                      >
+                        CONFIRMATION EMAIL
+                      </Button>
+                    </Link>
+                  )}
 
-                {isJuryPanel && (
-                  <Link to={`/dashboard/jury/${juryId}/movies`}>
-                    <Button
-                      variant="btn-panel"
-                      iconImg={panel_icon_not_watched}
-                      iconClassName={
-                        collapsed ? "-translate-x-1" : "-translate-x-4"
-                      }
-                      iconOnly={collapsed}
-                    >
-                      JUGER LES VIDÉOS
-                    </Button>
-                  </Link>
-                )}
+                  {isJuryPanel && (
+                    <Link to={`/dashboard/jury/${juryId}/movies`}>
+                      <Button
+                        variant="btn-panel"
+                        iconImg={panel_icon_not_watched}
+                        iconClassName={
+                          collapsed ? "-translate-x-1" : "-translate-x-4"
+                        }
+                        iconOnly={collapsed}
+                      >
+                        JUGER LES VIDÉOS
+                      </Button>
+                    </Link>
+                  )}
 
-                {!isJuryPanel && (
-                  <Link to="/dashboard/admin/invite-jury">
-                    <Button
-                      variant="btn-panel"
-                      iconImg={panel_icon_add}
-                      iconOnly={collapsed}
-                      iconClassName={
-                        collapsed ? "-translate-x-3.5" : "-translate-x-4"
-                      }
-                    >
-                      AJOUTER JURY
-                    </Button>
-                  </Link>
-                )}
-                {!isJuryPanel && (
-                  <Link to="/dashboard/admin/edit-site">
-                    <Button
-                      variant="btn-panel"
-                      iconImg={panel_icon_setting}
-                      iconOnly={collapsed}
-                      iconClassName={
-                        collapsed ? "-translate-x-3.5" : "-translate-x-4"
-                      }
-                    >
-                      MODIFIER LE SITE
-                    </Button>
-                  </Link>
-                )}
+                  {!isJuryPanel && (
+                    <Link to="/dashboard/admin/invite-jury">
+                      <Button
+                        variant="btn-panel"
+                        iconImg={panel_icon_add}
+                        iconOnly={collapsed}
+                        iconClassName={
+                          collapsed ? "-translate-x-3.5" : "-translate-x-4"
+                        }
+                      >
+                        AJOUTER JURY
+                      </Button>
+                    </Link>
+                  )}
+                  {!isJuryPanel && (
+                    <Link to="/dashboard/admin/edit-site">
+                      <Button
+                        variant="btn-panel"
+                        iconImg={panel_icon_setting}
+                        iconOnly={collapsed}
+                        iconClassName={
+                          collapsed ? "-translate-x-3.5" : "-translate-x-4"
+                        }
+                      >
+                        MODIFIER LE SITE
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+
+              </div>
+
+              <div className="absolute bottom-6 left-1/2 z-50 -translate-x-1/2">
+                <Button
+                  type="button"
+                  variant="email-cancel"
+                  interactive
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                >
+                  {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                </Button>
               </div>
             </div>
           </div>

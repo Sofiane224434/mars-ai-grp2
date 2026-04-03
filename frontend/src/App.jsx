@@ -12,6 +12,7 @@ import About from './pages/public/About.jsx';
 import FAQ from './pages/public/FAQ.jsx';
 import Auth from './pages/public/Auth.jsx';
 import Error from './pages/public/Error.jsx';
+import YoutubeUploadTest from './pages/public/YoutubeUploadTest.jsx';
 
 // Pages Dashboard
 import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/awards" element={<Awards />} />
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
       </Route>
 
       {/* Route Auth sans Header/Footer */}

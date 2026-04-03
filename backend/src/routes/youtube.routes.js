@@ -6,9 +6,13 @@ import {
 
 const router = Router();
 
-//génère l’URL Google OAuth avec scope youtube.upload et redirige
+// Point d'entree OAuth:
+// redirige l'utilisateur vers Google pour autoriser l'application.
 router.get('/oauth/start', startYouTubeOAuth);
-//lit le code, échange contre tokens, puis affiche le refresh token
+
+// Callback OAuth:
+// recoit le code Google, l'echange contre des tokens,
+// puis retourne le refresh token a enregistrer dans backend/.env.
 router.get('/oauth/callback', handleYouTubeOAuthCallback);
 
 export default router;

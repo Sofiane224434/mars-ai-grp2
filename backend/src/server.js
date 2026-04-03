@@ -18,8 +18,23 @@ const PORT = process.env.PORT || 5000;
 testConnection(); // Appeler la fonction de test de connexion à la BDD
 
 // Middlewares
-// Revenir à la configuration CORS spécifique pour la sécurité en dev
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// CORS dev: autorise localhost/127.0.0.1 sur n'importe quel port (Vite peut changer de port).
+// En production, utiliser FRONTEND_URL pour une origine stricte.
+const devOriginPattern = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      return callback(null, origin === process.env.FRONTEND_URL);
+    }
+
+    return callback(null, devOriginPattern.test(origin));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // Logger (dev) - Réintégrer le logger pour le développement
@@ -40,6 +55,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", movieRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/jury', juryRoutes);
+// Routes OAuth YouTube (start + callback) pour initialiser le refresh token.
 app.use('/api/youtube', youtubeRoutes);
 
 // 404 - Ajouter le middleware de gestion des routes non trouvées

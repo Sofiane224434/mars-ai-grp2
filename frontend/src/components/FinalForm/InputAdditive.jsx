@@ -10,15 +10,29 @@ import { useState, useEffect } from "react"
  * @param btntitle Le texte que devrait afficher le bouton
  * @param label Le titre de l'input
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
+ * @param classContainer Classe pour le container de ce component
+ * @param classInput Classe pour les inputs
+ * @param classLabel Classe pour le label input
+ * @param declareSelfFunc Fonction à passer provenant du parent, permet de transmettre
+ * des informations dès que ce component apparait dans le DOM
+ * @param getValuesFunc Fonction à passer provenant du parent, permet de transmettre
+ * les valeurs des inputs au parent.
  */
 export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc, declareSelfFunc,
-    btntitle = "Ajouter" }) {
+    btntitle = "Ajouter", classInput = null, classContainer = null,
+    classLabel = null }) {
 
     //Le tout premier input, séparé car il ne peut pas être supprimé ou faire parti de map
     const [firstInput, setFirstInput] = useState("");
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
+    const classDefaultInput = "form_input";
+    const classDefaultContainer = "";
+    const classDefaultLabel = "form_label";
+
+    //Si la fonction d'auto déclaration de la fonction existe, envoie au parent ses informations
+    //dès que l'élément apparait sur le DOM
     useEffect(() => {
         if (declareSelfFunc) {
             declareSelfFunc(name);
@@ -82,14 +96,17 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     }
 
     return (
-        <div>
-            <div>{label ? label : "..."}</div>
-            <input onChange={(e) => { setFirstInput(e.target.value) }} name={1} type="text" value={firstInput}></input>
+        <div className={classContainer ? classContainer : classDefaultContainer}>
+            {label && <div className={classLabel ? classLabel : classDefaultLabel}> {label} </div>}
+            <input className={classInput ? classInput : classDefaultInput}
+                onChange={(e) => { setFirstInput(e.target.value) }} name={1} type="text"
+                value={firstInput}></input>
             {/* Map des valeurs additives */}
             {myValues.map((inp, index) => {
                 return (
                     <>
-                        <input onChange={(e) => { updateValues(e, index) }} name={index} type="text"
+                        <input className={classInput ? classInput : classDefaultInput}
+                            onChange={(e) => { updateValues(e, index) }} name={index} type="text"
                             value={myValues[index]}></input>
                         <button type="button" onClick={() => { removeInput(index) }}>
                             (X) SUPPRIMER

@@ -14,13 +14,14 @@ const acceptable_types = ["text", "file", "tel", "email", "number", "select", "t
 export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     type, options = null, accept = null, min_numdate = null, max_numdate = null,
     min_string = null, max_string = null, placeholder = null, required = false,
-    numberonly = false, classInput = null, classContainer = null, classLabel = null
+    numberonly = false, classInput = null, classContainer = null, classLabel = null,
+    regex = null
 }) {
 
     //Style css
-    const classDefaultInput = "";
-    const classDefaultContainer = "";
-    const classDefaultLabel = "";
+    const classDefaultInput = type == "checkbox" ? "" : "form_input";
+    const classDefaultContainer = type == "checkbox" ? "float_left_withclear" : "";
+    const classDefaultLabel = "form_label";
 
     const [value, setValue] = useState(null);
 
@@ -67,29 +68,30 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         setValue(value);
     }
 
-    const input_text = <input name={name} type={"text"} max={max_numdate} maxLength={max_string}
-        accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
-        onChange={handleChange} required={required} value={value}
-        className={classInput ? classInput : classDefaultInput}></input>;
+    // const input_text = <input name={name} type={"text"} max={max_numdate} maxLength={max_string}
+    //     accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+    //     onChange={handleChange} required={required} value={value}
+    //     className={classInput ? classInput : classDefaultInput}></input>;
 
     if (!acceptable_types.includes(type)) {
         console.warn("InputSuper " + name + " ERROR : Type non reconnu, retourne un input de type " +
             "text à la place."
         )
-        return (
-            <div>
-                {label && <div className={classLabel ? classLabel : classDefaultLabel}
-                >{label}</div>}
-                {input_text}
-            </div>
-        )
+        type = "text";
+        // return (
+        //     <div>
+        //         {label && <div className={classLabel ? classLabel : classDefaultLabel}
+        //         >{label}</div>}
+        //         {input_text}
+        //     </div>
+        // )
     }
 
     if (type === "select") {
         if (options) {
             if (Array.isArray(options)) {
                 return (
-                    <div>
+                    <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
                         {label && <div className={classLabel ? classLabel : classDefaultLabel}
                         >{label}</div>}
                         <select required={required} name={name} value={value}
@@ -111,7 +113,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
     if (type === "textarea") {
         return (
-            <div>
+            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}
                 >{label}</div>}
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
@@ -121,8 +123,21 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         )
     }
 
+    if (type === "checkbox") {
+        return (
+            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+                <input name={name} type={type} max={max_numdate} maxLength={max_string}
+                    accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+                    required={required} value={value} onChange={handleChange}
+                    className={classInput ? classInput : classDefaultInput}
+                ></input>
+                {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+            </div>
+        )
+    }
+
     return (
-        <div className={classContainer ? classContainer : classDefaultContainer}>
+        <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
             {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
             <input name={name} type={type} max={max_numdate} maxLength={max_string}
                 accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}

@@ -5,6 +5,9 @@ import InputAdditiveSelect from "./InputAdditiveSelect";
 import InputAdditiveGrouped from "./InputAdditiveGrouped";
 import InputSuper from "./InputSuper";
 
+import StepsTrack from "../StepsTrack";
+import FormStepsButtons from "./FormStepsButtons";
+
 export default function FinalForm() {
 
     //----------------------------
@@ -15,25 +18,24 @@ export default function FinalForm() {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [results, setResults] = useState({});
+    const [errors, setErrors] = useState({});
 
     function buildResults(name) {
-        console.log("buildresults for : ", name);
+        //console.log("buildresults for : ", name);
         if (!init_results[name]) {
             init_results[name] = "";
         }
     }
 
-    // useEffect(() => {
-    //     setResults(init_results);
-    // }, [init_results])
-
+    //debugging
     useEffect(() => {
-        console.log("result debug:", results);
-    }, [results])
+        //console.log("result debug:", results, errors);
+    }, [results, errors])
 
+    //Rentre toutes les valeurs du formulaire dans le state results et errors
     useEffect(() => {
-        console.log("empty effect test");
-        setResults(init_results)
+        setResults(init_results);
+        setErrors(init_results);
     }, [])
 
     /**
@@ -94,7 +96,8 @@ export default function FinalForm() {
 
     //Tous les inputs que le formulaire va ensuite utiliser.
     const myforms = [
-        <div>
+        <div className={currentStep == 1 ? null : "hide"}>
+            <h2>Etape 1 : Fiche Film</h2>
             <InputSuper type={"text"} name={"movietitle"} getValueFunc={retrieveValues}
                 declareSelfFunc={buildResults} label={"Titre de votre film :"} required={true}
             ></InputSuper>
@@ -136,7 +139,8 @@ export default function FinalForm() {
         ,
 
 
-        <div>
+        <div className={currentStep == 2 ? "" : "hide"}>
+            <h2>Etape 1 : Déclaration d'usage de l'IA</h2>
             <div>Vous avez utilisé l'IA pour :</div>
 
             <InputSuper name={"aiscenariocheck"} type={"checkbox"}
@@ -180,7 +184,8 @@ export default function FinalForm() {
 
         ,
 
-        <div>
+        <div className={currentStep == 3 ? "" : "hide"}>
+            <h2>Etape 3 : Multimédia et accessibilité</h2>
 
             <InputSuper type={"file"} name={"thumbnail"}
                 getValueFunc={retrieveValues} declareSelfFunc={buildResults}
@@ -203,7 +208,9 @@ export default function FinalForm() {
         </div>
         ,
 
-        <div>
+        <div className={currentStep == 4 ? "" : "hide"}>
+
+            <h2>Etape 4 : Vos Informations</h2>
             <div>
                 <InputSuper type={"text"} name={"lastname"} max_string={100}
                     getValueFunc={retrieveValues} declareSelfFunc={buildResults}
@@ -279,12 +286,50 @@ export default function FinalForm() {
 
     const maxstep = myforms.length;
 
+    //-------------------------------
+    //Gestion des étapes
+    //-------------------------------
+
+    function handlestep(stepchange) {
+        console.log("stepchange!", stepchange);
+        if (currentStep <= maxstep && currentStep >= 1) {
+            setCurrentStep(stepchange);
+        }
+    }
+
+    //--------------------------
+    //Vérification du formulaire
+    //--------------------------
+
+    function verifyForm() {
+        //A besoin de vérifications par input (ex: regex, max/min string...)
+        //Et de vérifications de relations d'inputs (ex: si "valuecheck" est checked,
+        //vérifie "value", sinon pass)
+    }
+
+    let allmyinputs = [];
+
+    function getallinputs(array) {
+        //for this test, see:
+        // https://stackoverflow.com/questions/29516136/how-to-print-all-values-of-a-nested-object
+        for (let e in array) {
+            if (typeof e == "object") {
+
+            }
+        }
+    }
+
     return (
-        <form>
-            {myforms[0]}
-            {myforms[1]}
-            {myforms[2]}
-            {myforms[3]}
-        </form>
+        <div className="form_page">
+            <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
+            <form className="form_container">
+                {myforms.map(form => {
+                    return (form)
+                })}
+                <FormStepsButtons step={currentStep} maxstep={maxstep}
+                    getStepUpdate={handlestep}></FormStepsButtons>
+            </form>
+        </div>
+
     )
 }

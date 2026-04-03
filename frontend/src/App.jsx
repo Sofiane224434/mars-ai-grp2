@@ -18,7 +18,6 @@ import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
 import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
 import AdminMovies from './pages/dashboard/admin/AdminMovies.jsx';
-import Options from './pages/dashboard/admin/Options.jsx';
 import AdminEmailConfirmation from './pages/dashboard/admin/AdminEmailConfirmation.jsx';
 
 // Pages Dashboard Jury
@@ -43,13 +42,12 @@ function App() {
 
       {/* Admin Panel Routes avec HeaderAdmin */}
       <Route element={<AdminLayout />}>
-        <Route path="/dashboard/adminpanel" element={<AdminPanel />} />
-        <Route path="/dashboard/adminpanel/editsite" element={<EditSite />} />
-        <Route path="/dashboard/adminpanel/invitejury" element={<InviteJury />} />
-        <Route path="/dashboard/movies" element={<AdminMovies />} />
+        <Route path="/dashboard/admin" element={<AdminPanel />} />
+        <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
+        <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
+        <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
         <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
-        <Route path="/dashboard/adminmovies" element={<AdminMovies />} />
-        <Route path="/dashboard/adminpanel/confirmation-mail" element={<Options />} />
+        <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
       </Route>
 
       {/* Jury Routes avec HeaderJury */}

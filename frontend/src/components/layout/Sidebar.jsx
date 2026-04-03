@@ -64,7 +64,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
         {/* Items en grille 3×n */}
         <nav className="flex flex-wrap justify-center gap-3 px-4 pt-12 pb-5">
-          <Link to="/dashboard/adminpanel" onClick={() => setMobileOpen(false)}>
+          <Link to="/dashboard/admin" onClick={() => setMobileOpen(false)}>
             <Button
               variant="btn-panel-home"
               iconImg={panel_icon_home}
@@ -76,7 +76,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           </Link>
 
           {!isJuryPanel && (
-            <Link to="/dashboard/adminmovies" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_assign1}
@@ -89,7 +89,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/adminpanel/confirmation-mail" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/confirmation-mail" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_mail}
@@ -115,7 +115,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/adminpanel/invitejury" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/invitejury" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_add}
@@ -128,7 +128,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/adminpanel/editsite" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/editsite" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_setting}
@@ -181,7 +181,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </button>
 
               <div className={contentClass}>
-                <Link to="/dashboard/adminpanel">
+                <Link to="/dashboard/admin">
                   <Button
                     variant="btn-panel-home"
                     iconImg={panel_icon_home}
@@ -194,7 +194,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                 </Link>
 
                 {!isJuryPanel && (
-                  <Link to="/dashboard/adminmovies">
+                  <Link to="/dashboard/admin/movies">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_assign1}
@@ -209,7 +209,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                 )}
 
                 {!isJuryPanel && (
-                  <Link to="/dashboard/adminpanel/confirmation-mail">
+                  <Link to="/dashboard/admin/email-confirmation">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_mail}
@@ -239,7 +239,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                 )}
 
                 {!isJuryPanel && (
-                  <Link to="/dashboard/adminpanel/invitejury">
+                  <Link to="/dashboard/admin/invite-jury">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_add}
@@ -253,7 +253,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                   </Link>
                 )}
                 {!isJuryPanel && (
-                  <Link to="/dashboard/adminpanel/editsite">
+                  <Link to="/dashboard/admin/edit-site">
                     <Button
                       variant="btn-panel"
                       iconImg={panel_icon_setting}

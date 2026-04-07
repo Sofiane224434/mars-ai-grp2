@@ -4,6 +4,7 @@ import { Status } from '../../ui/StatusBadge.jsx';
 import Button from '../../ui/Button.jsx';
 
 const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
+  const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
   
   const getCardStyle = (statusId) => {
     switch(statusId) {
@@ -38,7 +39,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
         {movie.thumbnail || movie.screenshotLink ? (
           <img 
             src={movie.thumbnail || movie.screenshotLink} 
-            alt={`Vignette de ${movie.title}`} 
+            alt={`Vignette de ${movieTitle}`} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
           />
         ) : (
@@ -58,8 +59,8 @@ const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
           </Status>
         </div>
 
-        <h2 className="text-xl font-bold text-white font-title mb-1 line-clamp-1" title={movie.title}>
-          {movie.title}
+        <h2 className="text-xl font-bold text-white font-title mb-1 line-clamp-1" title={movieTitle}>
+          {movieTitle}
         </h2>
         <p className="text-sm text-gris-magneti mb-6">
           Par <span className="text-bleu-ciel font-medium">{movie.directorFirstName} {movie.directorLastName}</span>

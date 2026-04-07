@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, Outlet, useLocation, useParams } from 'react-r
 import MainLayout from './layouts/MainLayout.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import JuryLayout from './layouts/JuryLayout.jsx';
+import ScrollToTop from './components/layout/ScrollToTop.jsx';
 
 // Pages Publiques
 import Home from './pages/public/Home.jsx';
@@ -75,48 +76,52 @@ function JuryGuard() {
 
 function App() {
   return (
-    <Routes>
-      {/* Routes PUBLIQUES avec Header + Footer */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/awards" element={<Awards />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
-      </Route>
+    <>
+      <ScrollToTop />
 
-      {/* Route Auth sans Header/Footer */}
-      <Route path="/auth" element={<Auth />} />
-
-      {/* Admin Panel Routes avec HeaderAdmin */}
-      <Route element={<AdminGuard />}>
-        <Route element={<AdminLayout />}>
-          <Route path="/dashboard/admin" element={<AdminPanel />} />
-          <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
-          <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
-          <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
-          <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
-          <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+      <Routes>
+        {/* Routes PUBLIQUES avec Header + Footer */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/awards" element={<Awards />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
         </Route>
-      </Route>
 
-      {/* Jury Routes avec HeaderJury */}
-      <Route element={<JuryGuard />}>
-        <Route element={<JuryLayout />}>
-          <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
-          <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
-          <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
+        {/* Route Auth sans Header/Footer */}
+        <Route path="/auth" element={<Auth />} />
+
+        {/* Admin Panel Routes avec HeaderAdmin */}
+        <Route element={<AdminGuard />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/dashboard/admin" element={<AdminPanel />} />
+            <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
+            <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
+            <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+            <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
+            <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+          </Route>
         </Route>
-      </Route>
+
+        {/* Jury Routes avec HeaderJury */}
+        <Route element={<JuryGuard />}>
+          <Route element={<JuryLayout />}>
+            <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
+            <Route path="/dashboard/jury/:id/movies" element={<JuryMovies />} />
+            <Route path="/dashboard/jury/:id/movies/:movieId" element={<MovieDetail />} />
+          </Route>
+        </Route>
 
 
-      {/* Page d'erreur */}
-      <Route path="/error" element={<Error />} />
+        {/* Page d'erreur */}
+        <Route path="/error" element={<Error />} />
 
-      {/* Route par défaut */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* Route par défaut */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 

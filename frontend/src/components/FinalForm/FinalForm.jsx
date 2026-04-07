@@ -8,6 +8,8 @@ import InputSuper from "./InputSuper";
 import StepsTrack from "../StepsTrack";
 import FormStepsButtons from "./FormStepsButtons";
 
+import { Zod_firststep } from "./ZodSchemas";
+
 export default function FinalForm() {
 
     //----------------------------
@@ -29,8 +31,15 @@ export default function FinalForm() {
 
     //debugging
     useEffect(() => {
-        //console.log("result debug:", results, errors);
+        console.log("result & errors debug:");
+        console.log("RESULTS", results);
+        console.log("ERRORS", errors)
     }, [results, errors])
+
+    useEffect(() => {
+        console.log("I activate whenever video file changes...");
+        console.log(results["videofile"]);
+    }, [results["videofile"]])
 
     //Rentre toutes les valeurs du formulaire dans le state results et errors
     useEffect(() => {
@@ -53,8 +62,12 @@ export default function FinalForm() {
      * @param {*} values 
      */
     function retrieveValues(values) {
+        console.log("retrieveValues debug...");
+        console.log("results:", results);
         //console.log(values);
-        let newres = getStateCopy(results);
+        //let newres = getStateCopy(results);
+        let newres = { ...results };
+        console.log("newres:", newres)
         let valuekey = Object.keys(values)[0];
         newres[valuekey] = values[valuekey];
         setResults(newres);
@@ -96,7 +109,7 @@ export default function FinalForm() {
 
     //Tous les inputs que le formulaire va ensuite utiliser.
     const myforms = [
-        <div className={currentStep == 1 ? null : "hide"}>
+        <div style={{ width: "90%" }} className={currentStep == 1 ? null : "hide"}>
             <h2>Etape 1 : Fiche Film</h2>
             <InputSuper type={"text"} name={"movietitle"} getValueFunc={retrieveValues}
                 declareSelfFunc={buildResults} label={"Titre de votre film :"} required={true}
@@ -240,7 +253,8 @@ export default function FinalForm() {
 
             <InputSuper name={"birthdate"} type={"date"}
                 getValueFunc={retrieveValues} declareSelfFunc={buildResults}
-                label={"Date de naissance"}></InputSuper>
+                label={"Date de naissance"} max_numdate={new Date().toISOString().split("T")[0]}
+            ></InputSuper>
 
             <InputSuper name={"country"} type={"text"} max_string={100}
                 getValueFunc={retrieveValues} declareSelfFunc={buildResults}
@@ -293,7 +307,12 @@ export default function FinalForm() {
     function handlestep(stepchange) {
         console.log("stepchange!", stepchange);
         if (currentStep <= maxstep && currentStep >= 1) {
+            // if (results["movietitle"] == "abc") {
+            //     setCurrentStep(stepchange);
+            // }
+            verifyForm();
             setCurrentStep(stepchange);
+
         }
     }
 
@@ -305,6 +324,18 @@ export default function FinalForm() {
         //A besoin de vérifications par input (ex: regex, max/min string...)
         //Et de vérifications de relations d'inputs (ex: si "valuecheck" est checked,
         //vérifie "value", sinon pass)
+        if (currentStep == 1) {
+            let verif = Zod_firststep.safeParse(
+                {
+                    movietitle: results["movietitle"],
+                    movietitlefr: results["movietitlefr"],
+                    synopsis: results["synopsis"],
+                    movielanguage: results["movielanguage"],
+                    videofile: results["videofile"].files,
+                    ytlink: results["ytlink"],
+                })
+            console.log(verif);
+        }
     }
 
     let allmyinputs = [];
@@ -321,6 +352,7 @@ export default function FinalForm() {
 
     return (
         <div className="form_page">
+            <div>Envoyez votre vidéo</div>
             <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
             <form className="form_container">
                 {myforms.map(form => {

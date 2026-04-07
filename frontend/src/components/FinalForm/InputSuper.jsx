@@ -15,7 +15,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     type, options = null, accept = null, min_numdate = null, max_numdate = null,
     min_string = null, max_string = null, placeholder = null, required = false,
     numberonly = false, classInput = null, classContainer = null, classLabel = null,
-    regex = null
+    regex = null, formstep = null
 }) {
 
     //Style css
@@ -23,7 +23,14 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     const classDefaultContainer = type == "checkbox" ? "float_left_withclear" : "";
     const classDefaultLabel = "form_label";
 
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState("");
+    const [file, setFile] = useState("");
+
+    useEffect(() => {
+        if (type === "file") {
+            console.log(value, file);
+        }
+    }, [file, value]);
 
     //Permet d'envoyer au parent le nom, peut construire automatiquement un tableau de données.
     useEffect(() => {
@@ -39,8 +46,6 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     }, [value])
 
     function handleChange(e) {
-        console.log(e.target);
-        console.log("e get last keystroke = ", e.nativeEvent.data);
         let typeofinput = e.target.type;
         let value = e.target.value;
         let check = e.target.checked;
@@ -52,14 +57,16 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         }
 
         if (typeofinput == "checkbox") {
-            console.log("check changed: ", check);
+            //console.log("check changed: ", check);
             setValue(check);
             return;
         }
 
         if (numberonly) {
+            console.log("numberonly time...");
+            let stroke = e.nativeEvent.data;
             const numregex = /^\d+$/;
-            if (numregex.test(e.nativeEvent.data)) {
+            if (numregex.test(stroke) || stroke == null) {
                 setValue(value);
             }
             return;
@@ -132,6 +139,19 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                     className={classInput ? classInput : classDefaultInput}
                 ></input>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+            </div>
+        )
+    }
+
+    if (type === "file") {
+        return (
+            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+                {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+                <input name={name} type={type} max={max_numdate} maxLength={max_string}
+                    accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+                    required={required} value={value.value} files={value.file} onChange={handleChange}
+                    className={classInput ? classInput : classDefaultInput}
+                ></input>
             </div>
         )
     }

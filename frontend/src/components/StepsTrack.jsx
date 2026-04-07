@@ -11,16 +11,22 @@ export default function StepsTrack({ step, maxstep }) {
     const stepMap = allSteps.map(mystep => {
         if (mystep == step) {
             return (
-                <div className="step_active">{mystep}</div>
+                <>
+                    <div className="step_base step_active">{mystep}</div>
+                    {mystep < maxstep && <div className="step_line"></div>}
+                </>
             );
         } else {
             return (
-                <div className="step_inactive">{mystep}</div>
+                <>
+                    <div className="step_base step_inactive">{mystep}</div>
+                    {mystep < maxstep && <div className="step_line"></div>}
+                </>
             );
         }
     });
 
     return (
-        <div>{stepMap}</div>
+        <div className="float_left_row items-center">{stepMap}</div>
     )
 }

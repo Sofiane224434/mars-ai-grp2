@@ -16,7 +16,8 @@ import { useState, useEffect } from "react"
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
 export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
-    getValuesFunc, declareSelfFunc, btntitle = "Ajouter" }) {
+    getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput = null,
+    classContainer = null, classLabel = null, classGroup = null }) {
 
     //Vérification que chaque noms soient uniques
     if (new Set(inputnames).size !== inputnames.length) {
@@ -38,6 +39,11 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
     const [firstInput, setFirstInput] = useState(JSON.parse(JSON.stringify(init_obj)));
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
+
+    const classDefaultInput = "form_input";
+    const classDefaultContainer = "float_column";
+    const classDefaultGroup = "float_left_row";
+    const classDefaultLabel = "form_label";
 
     useEffect(() => {
         if (declareSelfFunc) {
@@ -118,15 +124,17 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
     }
 
     return (
-        <div>
-            <div>
+        <div className={classContainer ? classContainer : classDefaultContainer}>
+            <div className={classGroup ? classGroup : classDefaultGroup}>
                 {inputnames.map((n, ind) => {
                     return (
                         <div>
-                            <div>{labels ?
-                                (labels[ind] ? labels[ind] : "...") : "..."}</div>
+                            {labels && labels[ind] && <div
+                                className={classLabel ? classLabel : classDefaultLabel}
+                            > {labels[ind]} </div>}
                             <input onChange={updateFirstInput} name={n}
-                                type="text" value={firstInput[n]}></input>
+                                type="text" value={firstInput[n]}
+                                className={classInput ? classInput : classDefaultInput}></input>
                         </div>
                     )
                 })}
@@ -137,15 +145,19 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
             {myValues.map((group, index) => {
 
                 return (
-                    <>
-                        <div>{
+                    <div>
+                        <div className={classGroup ? classGroup : classDefaultGroup}>{
                             inputnames.map((inp, i) => {
                                 return (
                                     <div>
-                                        <div>{labels ?
-                                            (labels[i] ? labels[i] : "...") : "..."}</div>
-                                        <input onChange={(e) => { updateValues(e, index) }} name={inp} type="text"
-                                            value={myValues[index][inp]}></input>
+                                        {labels && labels[i] && <div
+                                            className={classLabel ? classLabel : classDefaultLabel}
+                                        > {labels[i]} </div>}
+                                        <input onChange={(e) => { updateValues(e, index) }}
+                                            name={inp} type="text"
+                                            value={myValues[index][inp]}
+                                            className={classInput ? classInput : classDefaultInput}
+                                        ></input>
                                     </div>
                                 )
                             })
@@ -153,7 +165,7 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
                         <button type="button" onClick={() => { removeInput(index) }}>
                             (X) SUPPRIMER
                         </button>
-                    </>
+                    </div>
                 )
 
 

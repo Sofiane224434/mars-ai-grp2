@@ -5,14 +5,15 @@ import { EMAIL_TEMPLATES, getDefaultTemplateId } from '../../../utils/emailTempl
 
 const EmailTemplateModal = ({ onClose, movie }) => {
   const sendTimeoutRef = useRef(null);
+  const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
   
   const initialTemplateId = movie ? getDefaultTemplateId(movie.statusId) : 'custom';
   const initialTemplate = EMAIL_TEMPLATES[initialTemplateId];
 
   // États du formulaire
   const [selectedTemplateId, setSelectedTemplateId] = useState(initialTemplateId);
-  const [subject, setSubject] = useState(movie ? initialTemplate.getSubject(movie.title) : '');
-  const [body, setBody] = useState(movie ? initialTemplate.getBody(movie.directorFirstName, movie.title) : '');
+  const [subject, setSubject] = useState(movie ? initialTemplate.getSubject(movieTitle) : '');
+  const [body, setBody] = useState(movie ? initialTemplate.getBody(movie.directorFirstName, movieTitle) : '');
   const [isSending, setIsSending] = useState(false);
   
   // État de l'alerte informative
@@ -34,29 +35,74 @@ const EmailTemplateModal = ({ onClose, movie }) => {
     
     const template = EMAIL_TEMPLATES[newTemplateId];
     if (template) {
-      setSubject(template.getSubject(movie.title));
-      setBody(template.getBody(movie.directorFirstName, movie.title));
+      setSubject(template.getSubject(movieTitle));
+      setBody(template.getBody(movie.directorFirstName, movieTitle));
     }
   };
 
-  const handleSendEmail = () => {
+ const handleSendEmail = async () => {
+    // 1. On lance le spinner
     setIsSending(true);
 
-    if (sendTimeoutRef.current) {
-      clearTimeout(sendTimeoutRef.current);
-    }
+    try {
+      const token = localStorage.getItem('token');
 
-    sendTimeoutRef.current = setTimeout(() => {
-      setIsSending(false);
+      // 2. Appel natif (fetch) vers ton routeur backend
+      const response = await fetch(`/api/admin/movies/${movie.id}/email`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        // On envoie le texte brut tel qu'il a été validé ou modifié par l'admin
+        body: JSON.stringify({
+          subject: subject,
+          body: body 
+        })
+      });
+
+      // 3. Gestion des erreurs HTTP (ex: 400 si l'email a déjà été envoyé, 502 si Brevo plante)
+      if (!response.ok) {
+        const raw = await response.text();
+        let errorMessage = "Erreur lors de la communication avec le serveur.";
+
+        if (raw) {
+          try {
+            const errorData = JSON.parse(raw);
+            errorMessage = errorData.message || errorData.error || errorMessage;
+          } catch {
+            errorMessage = raw;
+          }
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      // 4. Succès de l'opération
       toast.success(`L'email a bien été envoyé à ${movie.directorFirstName}.`, {
         id: 'email-send-success',
         duration: 4000,
         position: 'bottom-center',
         style: { background: '#1A232C', color: '#fff', border: '1px solid #4DB8B9' },
       });
-      onClose();
-      sendTimeoutRef.current = null;
-    }, 1500);
+      
+      onClose(); // On ferme la modale
+
+      // 💡 Astuce : tu pourrais déclencher ici une fonction passée en prop (ex: onEmailSent) 
+      // pour rafraîchir la liste des films et faire disparaître ce film de la liste.
+
+    } catch (error) {
+      console.error("Échec de l'envoi :", error);
+      toast.error(error.message, {
+        duration: 5000,
+        position: 'bottom-center',
+        style: { background: '#1A232C', color: '#ff4b4b', border: '1px solid #ff4b4b' },
+      });
+    } finally {
+      // 5. On arrête le spinner quoi qu'il arrive
+      setIsSending(false);
+    }
   };
 
   return (

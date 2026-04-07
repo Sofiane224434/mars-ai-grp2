@@ -6,7 +6,6 @@ import Pagination from '../../../components/ui/Pagination.jsx';
 // 🚀 Imports de nos nouveaux composants et du Mock
 import MovieAdminCard from '../../../components/sections/DashboardAdmin/MovieAdminCard.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
-import { mockReviewedMovies } from '../../../mocks/adminMoviesMock.js';
 
 const AdminEmailConfirmation = () => {
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
@@ -21,15 +20,34 @@ const AdminEmailConfirmation = () => {
   const currentMovies = reviewedMovies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   useEffect(() => {
-    // 🚀 SIMULATION DU BACKEND (On remplace Axios par une fausse Promesse)
-    // Cela nous permet de tester le loading, le hook et les données sans backend !
-    const mockApiCall = () => new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockReviewedMovies });
-      }, 1000); // 1 seconde de délai pour voir le joli Spinner
-    });
+    const apiCall = async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/admin/review', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      });
 
-    fetchMovies(mockApiCall);
+      const raw = await response.text();
+      let payload = {};
+      if (raw) {
+        try {
+          payload = JSON.parse(raw);
+        } catch {
+          payload = { message: raw };
+        }
+      }
+
+      if (!response.ok) {
+        throw new Error(payload.message || payload.error || 'Erreur lors du chargement des films.');
+      }
+
+      return payload?.data || [];
+    };
+
+    fetchMovies(apiCall);
   }, [fetchMovies]);
 
   const handleOpenEmailModal = (movie) => {

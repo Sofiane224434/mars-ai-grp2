@@ -14,7 +14,25 @@
         "description2": "Chaque film a pour thème commun : Un futur souhaitable",
         "titles3": "1 GAGNANT",
         "description3": "Un seul grand gagnant !",
-        "PodiumGraphic": "Sur une sélection de plus de 20 000 vidéos"
+        "PodiumGraphic": "Sur une sélection de plus de 20 000 vidéos",
+        "quickAccess": {
+            "title": "Explorez le festival",
+            "description": "Retrouvez rapidement les pages clés du festival pour découvrir les films, mieux comprendre MarsAI et obtenir toutes les réponses pratiques.",
+            "cards": {
+                "movies": {
+                    "description": "Découvrez les courts-métrages sélectionnés, suivez la phase en cours et retrouvez bientôt le palmarès.",
+                    "cta": "Voir les films"
+                },
+                "about": {
+                    "description": "Comprenez la vision du festival, ses objectifs et le format unique de la compétition.",
+                    "cta": "Découvrir MarsAI"
+                },
+                "faq": {
+                    "description": "Accédez en un coup d'oeil aux infos pratiques: accès, horaires, ateliers et organisation.",
+                    "cta": "Lire la FAQ"
+                }
+            }
+        }
     },
     "about": {
         "blocks": {

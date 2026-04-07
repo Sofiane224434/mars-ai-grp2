@@ -30,7 +30,25 @@
     "description2": "Each film has a common theme: A desirable future",
     "titles3": "1 WINNER",
     "description3": "One big winner!",
-    "PodiumGraphic": "From a selection of over 20,000 videos"
+    "PodiumGraphic": "From a selection of over 20,000 videos",
+    "quickAccess": {
+      "title": "Explore the festival",
+      "description": "Quickly access the key festival pages to discover the films, understand MarsAI, and find practical information.",
+      "cards": {
+        "movies": {
+          "description": "Explore selected short films, follow the current phase, and discover the winners soon.",
+          "cta": "See movies"
+        },
+        "about": {
+          "description": "Understand the festival's vision, goals, and the unique format of the competition.",
+          "cta": "Discover MarsAI"
+        },
+        "faq": {
+          "description": "Get practical information at a glance: access, schedule, workshops, and organization.",
+          "cta": "Read FAQ"
+        }
+      }
+    }
   },
   "about": {
     "blocks": {

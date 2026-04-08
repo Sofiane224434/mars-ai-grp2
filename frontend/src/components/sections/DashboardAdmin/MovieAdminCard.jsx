@@ -5,6 +5,22 @@ import Button from '../../ui/Button.jsx';
 
 const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
   const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
+  const getAdminId = () => {
+    try {
+      const rawUser = localStorage.getItem('user');
+      if (!rawUser) return null;
+      const user = JSON.parse(rawUser);
+      return user?.id ?? null;
+    } catch {
+      return null;
+    }
+  };
+
+  const adminId = getAdminId();
+  const movieId = movie?.movieID || movie?.id;
+  const detailPath = adminId
+    ? `/dashboard/admin/${adminId}/movies/${movieId}`
+    : `/dashboard/admin/movies/${movieId}`;
   
   const getCardStyle = (statusId) => {
     switch(statusId) {
@@ -35,7 +51,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
     <div className={`flex flex-col rounded-2xl overflow-hidden backdrop-blur-sm transition-all duration-300 ${cardStyle}`}>
       
       {/* Haut : Vignette (Sans le badge par-dessus) */}
-      <Link to={`/dashboard/admin/movies/${movie.id}`} className="relative aspect-video overflow-hidden group">
+      <Link to={detailPath} className="relative aspect-video overflow-hidden group">
         {movie.thumbnail || movie.screenshotLink ? (
           <img 
             src={movie.thumbnail || movie.screenshotLink} 
@@ -68,7 +84,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
 
         {/* Boutons d'action */}
         <div className="mt-auto flex flex-col sm:flex-row sm:items-stretch gap-3">
-          <Link to={`/dashboard/admin/movies/${movie.id}`} className="flex-1">
+          <Link to={detailPath} className="flex-1">
             <button className="w-full h-full min-h-10 px-4 py-2 rounded-xl border-2 border-turquoise-vif/50 text-white text-sm font-medium hover:bg-gris-magneti/20 transition-colors flex items-center justify-center">
               Voir Détails
             </button>

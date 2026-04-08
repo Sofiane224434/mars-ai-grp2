@@ -53,6 +53,72 @@ export const getMoviesForReview = async (req, res) => {
   }
 };
 
+export const getMovieByIdForAdmin = async (req, res) => {
+  try {
+    const movieId = Number(req.params.movieId);
+
+    if (!Number.isInteger(movieId) || movieId <= 0) {
+      return res.status(400).json({ success: false, message: 'ID de film invalide.' });
+    }
+
+    // L'appel au service (qui appelle notre super modèle SQL)
+    const movieData = await adminService.getMovieDetail(movieId);
+
+    if (!movieData) {
+      return res.status(404).json({ success: false, message: 'Ce film est introuvable.' });
+    }
+
+    const directorFirstName = movieData.directorFirstName || '';
+    const directorLastName = movieData.directorLastName || '';
+    const directorName = `${directorFirstName} ${directorLastName}`.trim() || 'Inconnu';
+
+    // On renvoie TOUTES les données, y compris les jurys et les IA
+    return res.status(200).json({
+      id: movieData.id,
+      title: movieData.title || 'Sans titre',
+      synopsis: movieData.synopsis || null,
+      videoUrl: movieData.videoUrl || null,
+      subtitles: movieData.subtitles || null,
+      videofile: movieData.videofile || null,
+      thumbnail: movieData.thumbnail || null,
+      screenshotLink: movieData.screenshotLink || null,
+      language: movieData.language || 'Inconnue',
+      description: movieData.description || null,
+      prompt: movieData.prompt || null,
+      classification: movieData.classification || null,
+      title_english: movieData.title_english || null,
+      synopsis_english: movieData.synopsis_english || null,
+      movie_duration: movieData.movie_duration || null,
+      createdAt: movieData.createdAt,
+      statusId: movieData.statusId || 1,
+      status: movieData.statusLabel || 'En attente',
+      directorName,
+      directorFirstName: movieData.directorFirstName || null,
+      directorLastName: movieData.directorLastName || null,
+      directorEmail: movieData.directorEmail || null,
+      date_of_birth: movieData.date_of_birth || null,
+      address: movieData.address || null,
+      address2: movieData.address2 || null,
+      postal_code: movieData.postal_code || null,
+      city: movieData.city || null,
+      country: movieData.country || null,
+      director_language: movieData.director_language || null,
+      fix_phone: movieData.fix_phone || null,
+      mobile_phone: movieData.mobile_phone || null,
+      school: movieData.school || null,
+      current_job: movieData.current_job || null,
+      gender: movieData.gender || null,
+      
+      // 🚀 LES DEUX LIGNES AJOUTÉES ICI :
+      assignedJuries: movieData.assignedJuries || [],
+      usedAis: movieData.usedAis || [],
+    });
+  } catch (error) {
+    console.error('Erreur Controller GET /admin/movies/:movieId :', error);
+    return res.status(500).json({ success: false, message: 'Erreur serveur interne.' });
+  }
+};
+
 export const sendOfficialEmail = async (req, res) => {
   try {
     // Extraction propre des données de la requête

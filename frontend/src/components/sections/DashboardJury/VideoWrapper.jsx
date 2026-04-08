@@ -39,7 +39,7 @@ const VideoWrapper = ({
 
         {/* Conteneur Iframe Vidéo */}
         <div className="relative w-full max-w-3xl aspect-video bg-reglisse rounded-xl overflow-hidden shadow-2xl border border-gris-magneti/20">
-          {!isLoaded && !hasError && (
+          {!isLoaded && !hasError && embedUrl && (
             <div className="absolute inset-0 flex items-center justify-center text-bleu-ciel animate-pulse font-title">
               Chargement de la vidéo...
             </div>

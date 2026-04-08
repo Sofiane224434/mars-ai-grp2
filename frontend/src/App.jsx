@@ -21,6 +21,7 @@ import EditSite from './pages/dashboard/admin/EditSite.jsx';
 import InviteJury from './pages/dashboard/admin/InviteJury.jsx';
 import AdminMovies from './pages/dashboard/admin/AdminMovies.jsx';
 import AdminEmailConfirmation from './pages/dashboard/admin/AdminEmailConfirmation.jsx';
+import AdminMovieDetails from './pages/dashboard/admin/AdminMovieDetails.jsx';
 
 // Pages Dashboard Jury
 import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
@@ -99,9 +100,13 @@ function App() {
             <Route path="/dashboard/admin" element={<AdminPanel />} />
             <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
             <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
-            <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
             <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
-            <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+            
+            {/* Si ta page liste des films a aussi besoin de l'ID, tu devrais modifier cette ligne : */}
+            <Route path="/dashboard/admin/:id/movies" element={<AdminMovies />} /> 
+            
+            {/* 🚀 LA NOUVELLE ROUTE AVEC L'ID ADMIN ET L'ID FILM */}
+            <Route path="/dashboard/admin/:id/movies/:movieId" element={<AdminMovieDetails />} />
           </Route>
         </Route>
 

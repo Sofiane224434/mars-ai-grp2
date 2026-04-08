@@ -7,6 +7,10 @@ export const adminService = {
     return await movieModel.getMoviesPendingReview();
   },
 
+  async getMovieDetail(movieId) {
+    return await movieModel.getMovieDetailForAdmin(movieId);
+  },
+
   // 2. Logique complexe d'envoi d'email
   async processOfficialEmail(movieId, subject, body, senderUserId) {
     if (!senderUserId) {

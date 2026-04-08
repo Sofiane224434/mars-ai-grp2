@@ -54,10 +54,7 @@ const Button = ({
     // Variante 2 bis : Style bouton email admin (gradient + coins arrondis)
     "email-admin": {
       container:
-        "rounded-xl px-4 py-2 text-sm font-bold text-white shadow-md hover:opacity-90 transition-opacity",
-      bg: (
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-bleu-canard to-bleu-ciel rounded-xl" />
-      ),
+        "rounded-xl px-4 py-2 text-sm font-bold text-white shadow-md hover:opacity-90 transition-opacity bg-linear-to-r from-bleu-canard to-bleu-ciel no-underline border-0",
     },
     // Variante 3 : Gradient rouge ocre vers rouge vif - Bouton actif
     "filled-yellow": {
@@ -228,6 +225,20 @@ const Button = ({
           </span>
         )}
       </span>
+    );
+  }
+
+  if (variant === "email-admin") {
+    return (
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        className={`relative inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-bold text-white shadow-md transition-opacity hover:opacity-90 bg-linear-to-r from-bleu-canard to-bleu-ciel no-underline border-0 appearance-none ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"} ${className}`}
+      >
+        <span className="relative z-10 pointer-events-none">{children}</span>
+      </button>
     );
   }
 

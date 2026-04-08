@@ -39,22 +39,31 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
         options = [newoption].concat(options);
     }
 
+    let declared = false;
     useEffect(() => {
-        if (declareSelfFunc) {
-            let declobj = {
-                name: name,
-                formstep: formstep
+        if (!declared) {
+            if (declareSelfFunc) {
+                let declobj = {
+                    name: name,
+                    formstep: formstep
+                }
+                declareSelfFunc(declobj);
             }
-            declareSelfFunc(declobj);
+            declared = true;
         }
+        return;
     }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
-        if (!selectValues
-            || !firstInput
-            || !firstInputText
-            || !textValues) { return; }
+        //console.log("activated additiveselect change")
+        // if (!selectValues
+        //     && !firstInput
+        //     && !firstInputText
+        //     && !textValues) { return; }
+
+        //console.log("does it continue...")
+
         let myfirstval, groupvals = [];
 
         //Décide de prendre l'input texte ou select selon si select est en mode "autre"
@@ -75,9 +84,17 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
         }
 
         let cleanvalues = [myfirstval].concat(groupvals);
+        //console.log("cleanvalue ok?", cleanvalues);
 
         //Rend les valeurs triées à la fonction du parent
-        getValuesFunc({ [name]: cleanvalues });
+        if (name) {
+            //console.log("does it think it has a name?")
+            getValuesFunc({ [name]: cleanvalues });
+        } else {
+            getValuesFunc(cleanvalues);
+            //console.log("here to check if this works...", cleanvalues);
+        }
+
     }, [selectValues, firstInput, firstInputText, textValues])
 
     const myoptionmap = options.map(inp => { return (inp) });

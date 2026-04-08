@@ -31,43 +31,35 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     const classDefaultContainer = "";
     const classDefaultLabel = "form_label";
 
+    let alldata = [firstInput].concat(myValues);
+
+    function sendalldata() {
+        getValuesFunc(alldata)
+    }
+
+    useEffect(() => {
+        if (getValuesFunc) {
+            sendalldata();
+        }
+
+    }, [alldata])
+
     //Si la fonction d'auto déclaration de la fonction existe, envoie au parent ses informations
     //dès que l'élément apparait sur le DOM
+    let declared = false;
     useEffect(() => {
-        if (declareSelfFunc) {
-            let declobj = {
-                name: name,
-                formstep: formstep
+        if (!declared) {
+            if (declareSelfFunc) {
+                let declobj = {
+                    name: name,
+                    formstep: formstep
+                }
+                declareSelfFunc(declobj);
             }
-            declareSelfFunc(declobj);
-        } s
+            declared = true;
+        }
+        return;
     }, [])
-
-    //Lorsque les valeurs changent, envoie au parent les valeurs
-    useEffect(() => {
-        if (!myValues || !firstInput) { return; }
-        let allvalues = [firstInput].concat(myValues)
-        if (name == undefined || name == null) {
-            //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
-            //besoin, donc : lance une erreur.
-            throw new Errror("Module : InputAdditive; oublie de groupname!");
-        }
-        if (getValuesFunc) {
-            getValuesFunc({ [name]: allvalues });
-        }
-    }, [myValues, firstInput])
-
-    function sendCleanValues() {
-        let allvalues = [firstInput].concat(myValues)
-        if (name == undefined || name == null) {
-            //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
-            //besoin, donc : lance une erreur.
-            throw new Errror("Module : InputAdditive; oublie de groupname!");
-        }
-        if (getValuesFunc) {
-            getValuesFunc({ [name]: allvalues });
-        }
-    }
 
     /**
      * Ajoute un input texte en plus en ajoutant un vide ("") à l'array des valeurs
@@ -87,6 +79,15 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     }
 
     /**
+     * Met à jour le premier input
+     * @param e L'événement et ses informations
+     */
+    function updateFirstInput(e) {
+        let value = e.target.value;
+        setFirstInput(value);
+    }
+
+    /**
      * Permet de mettre à jour les valeurs
      * @param {*} e event (qui contient la valeur)
      * @param {*} index Index de la valeur à modifier
@@ -100,8 +101,6 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             }
         });
         setMyValues(newval);
-
-        sendCleanValues();
     }
 
     /**
@@ -133,7 +132,9 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
                     </>
                 )
             })}
-            <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
+            {myValues.length < (addlimit - 1) &&
+                <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
+            }
         </div>
     )
 }

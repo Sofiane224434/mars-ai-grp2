@@ -40,34 +40,39 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
+    let allvalues = [firstInput].concat(myValues);
+
     const classDefaultInput = "form_input";
     const classDefaultContainer = "float_column";
     const classDefaultGroup = "float_left_row";
     const classDefaultLabel = "form_label";
 
+    let declared = false;
     useEffect(() => {
-        if (declareSelfFunc) {
-            let declobj = {
-                name: name,
-                formstep: formstep
+        if (!declared) {
+            if (declareSelfFunc) {
+                let declobj = {
+                    name: name,
+                    formstep: formstep
+                }
+                declareSelfFunc(declobj);
             }
-            declareSelfFunc(declobj);
+            declared = true;
         }
-    })
+        return;
+    }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
-        if (!myValues || !firstInput) { return; }
+        //if (!myValues || !firstInput) { return; }
         let allvalues = [firstInput].concat(myValues)
-        if (name == undefined || name == null) {
-            //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
-            //besoin, donc : lance une erreur.
-            throw new Errror("Module : InputAdditive; oublie de groupname!");
-        }
         if (getValuesFunc) {
-            getValuesFunc({ [name]: allvalues });
+            if (name == undefined || name == null) {
+                getValuesFunc(allvalues);
+            } else {
+                getValuesFunc({ [name]: allvalues });
+            }
         }
-
     }, [myValues, firstInput])
 
     function updateFirstInput(e) {
@@ -177,7 +182,8 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
 
             })}
 
-            <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
+            {myValues.length < (addlimit - 1) &&
+                <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>}
         </div>
     )
 }

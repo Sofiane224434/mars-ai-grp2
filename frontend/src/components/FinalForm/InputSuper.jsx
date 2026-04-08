@@ -9,7 +9,6 @@ const acceptable_types = ["text", "file", "tel", "email", "number", "select", "t
  * Pratique pour construire automatiquement un tableau de résultats d'un formulaire.
  * @param type Le type d'input à utiliser. Accepte :
  *  text | file | tel | email | number | select
- * @returns 
  */
 export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     type, options = null, accept = null, min_numdate = null, max_numdate = null,
@@ -34,14 +33,14 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     // }, [file, value]);
 
     //Permet d'envoyer au parent le nom, peut construire automatiquement un tableau de données.
-    let declaredself = false;
+    let declared = false;
 
     //console.log("test", name);
 
     useEffect(() => {
-        if (!declaredself) {
-            declaredself = true;
-            console.log("test declaration!!");
+        if (!declared) {
+            declared = true;
+            //console.log("test declaration!!");
             if (declareSelfFunc) {
                 let declobj = {
                     name: name,
@@ -57,19 +56,17 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 declareSelfFunc(declobj);
             }
         }
+        return;
     }, [])
 
-    // useEffect(() => {
-    //     if (!value) { return; }
-    //     if (getValueFunc) {
-
-    //         getValueFunc({ [name]: value });
-    //     }
-    // }, [value])
-
-    function updateParent(myvalue) {
+    function updateParent(result) {
         if (getValueFunc) {
-            getValueFunc({ [name]: myvalue });
+            if (name) {
+                getValueFunc({ [name]: result });
+            } else {
+                getValueFunc(result);
+            }
+
         }
     }
 
@@ -99,7 +96,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 return;
             }
         }
-        if (!result) {
+        if (result == undefined || result == null) {
             result = value;
         }
         setValue(result);

@@ -24,42 +24,69 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     const classDefaultLabel = "form_label";
 
     const [value, setValue] = useState("");
-    const [file, setFile] = useState("");
+    //const [file, setFile] = useState("");
 
-    useEffect(() => {
-        if (type === "file") {
-            console.log(value, file);
-        }
-    }, [file, value]);
+    //debug
+    // useEffect(() => {
+    //     if (type === "file") {
+    //         console.log(value, file);
+    //     }
+    // }, [file, value]);
 
     //Permet d'envoyer au parent le nom, peut construire automatiquement un tableau de données.
+    let declaredself = false;
+
+    //console.log("test", name);
+
     useEffect(() => {
-        if (declareSelfFunc) {
-            declareSelfFunc(name);
+        if (!declaredself) {
+            declaredself = true;
+            console.log("test declaration!!");
+            if (declareSelfFunc) {
+                let declobj = {
+                    name: name,
+                    min_numdate: min_numdate,
+                    max_numdate: max_numdate,
+                    min_string: min_string,
+                    max_string: max_string,
+                    required: required,
+                    numberonly: numberonly,
+                    regex: regex,
+                    formstep: formstep
+                }
+                declareSelfFunc(declobj);
+            }
         }
     }, [])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (!value) { return; }
+    //     if (getValueFunc) {
+
+    //         getValueFunc({ [name]: value });
+    //     }
+    // }, [value])
+
+    function updateParent(myvalue) {
         if (getValueFunc) {
-            getValueFunc({ [name]: value });
+            getValueFunc({ [name]: myvalue });
         }
-    }, [value])
+    }
 
     function handleChange(e) {
         let typeofinput = e.target.type;
         let value = e.target.value;
         let check = e.target.checked;
         let files = e.target.files;
+        let result;
 
         if (typeofinput == "file") {
-            setValue({ file: files[0], value: value });
-            return;
+            result = { file: files[0], value: value };
         }
 
         if (typeofinput == "checkbox") {
             //console.log("check changed: ", check);
-            setValue(check);
-            return;
+            result = check;
         }
 
         if (numberonly) {
@@ -67,12 +94,17 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             let stroke = e.nativeEvent.data;
             const numregex = /^\d+$/;
             if (numregex.test(stroke) || stroke == null) {
-                setValue(value);
+                result = value;
+            } else {
+                return;
             }
-            return;
         }
+        if (!result) {
+            result = value;
+        }
+        setValue(result);
 
-        setValue(value);
+        updateParent(result);
     }
 
     // const input_text = <input name={name} type={"text"} max={max_numdate} maxLength={max_string}

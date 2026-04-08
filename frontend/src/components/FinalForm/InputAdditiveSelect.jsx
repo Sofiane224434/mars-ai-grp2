@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
  * [<option value="...">...</option>, ...]
  */
 export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle,
-    valueother, getValuesFunc, declareSelfFunc
+    valueother, getValuesFunc, declareSelfFunc, formstep = null
 }) {
 
     //Valeurs pour le premier input
@@ -41,12 +41,20 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
 
     useEffect(() => {
         if (declareSelfFunc) {
-            declareSelfFunc(name);
+            let declobj = {
+                name: name,
+                formstep: formstep
+            }
+            declareSelfFunc(declobj);
         }
     }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
+        if (!selectValues
+            || !firstInput
+            || !firstInputText
+            || !textValues) { return; }
         let myfirstval, groupvals = [];
 
         //Décide de prendre l'input texte ou select selon si select est en mode "autre"

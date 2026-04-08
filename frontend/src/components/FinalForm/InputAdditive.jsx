@@ -20,7 +20,7 @@ import { useState, useEffect } from "react"
  */
 export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc, declareSelfFunc,
     btntitle = "Ajouter", classInput = null, classContainer = null,
-    classLabel = null }) {
+    classLabel = null, formstep = null }) {
 
     //Le tout premier input, séparé car il ne peut pas être supprimé ou faire parti de map
     const [firstInput, setFirstInput] = useState("");
@@ -35,12 +35,17 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     //dès que l'élément apparait sur le DOM
     useEffect(() => {
         if (declareSelfFunc) {
-            declareSelfFunc(name);
-        }
+            let declobj = {
+                name: name,
+                formstep: formstep
+            }
+            declareSelfFunc(declobj);
+        } s
     }, [])
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
+        if (!myValues || !firstInput) { return; }
         let allvalues = [firstInput].concat(myValues)
         if (name == undefined || name == null) {
             //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
@@ -51,6 +56,18 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             getValuesFunc({ [name]: allvalues });
         }
     }, [myValues, firstInput])
+
+    function sendCleanValues() {
+        let allvalues = [firstInput].concat(myValues)
+        if (name == undefined || name == null) {
+            //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a
+            //besoin, donc : lance une erreur.
+            throw new Errror("Module : InputAdditive; oublie de groupname!");
+        }
+        if (getValuesFunc) {
+            getValuesFunc({ [name]: allvalues });
+        }
+    }
 
     /**
      * Ajoute un input texte en plus en ajoutant un vide ("") à l'array des valeurs
@@ -83,6 +100,8 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             }
         });
         setMyValues(newval);
+
+        sendCleanValues();
     }
 
     /**

@@ -17,7 +17,7 @@ import { useState, useEffect } from "react"
  */
 export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
     getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput = null,
-    classContainer = null, classLabel = null, classGroup = null }) {
+    classContainer = null, classLabel = null, classGroup = null, formstep = null }) {
 
     //Vérification que chaque noms soient uniques
     if (new Set(inputnames).size !== inputnames.length) {
@@ -47,12 +47,17 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
 
     useEffect(() => {
         if (declareSelfFunc) {
-            declareSelfFunc(name);
+            let declobj = {
+                name: name,
+                formstep: formstep
+            }
+            declareSelfFunc(declobj);
         }
     })
 
     //Lorsque les valeurs changent, envoie au parent les valeurs
     useEffect(() => {
+        if (!myValues || !firstInput) { return; }
         let allvalues = [firstInput].concat(myValues)
         if (name == undefined || name == null) {
             //Sans name, ne peut pas renvoyer la valeur groupe dont le parent a

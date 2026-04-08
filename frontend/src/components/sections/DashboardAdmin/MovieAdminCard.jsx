@@ -5,22 +5,8 @@ import Button from '../../ui/Button.jsx';
 
 const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
   const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
-  const getAdminId = () => {
-    try {
-      const rawUser = localStorage.getItem('user');
-      if (!rawUser) return null;
-      const user = JSON.parse(rawUser);
-      return user?.id ?? null;
-    } catch {
-      return null;
-    }
-  };
-
-  const adminId = getAdminId();
   const movieId = movie?.movieID || movie?.id;
-  const detailPath = adminId
-    ? `/dashboard/admin/${adminId}/movies/${movieId}`
-    : `/dashboard/admin/movies/${movieId}`;
+  const detailPath = `/dashboard/admin/movies/${movieId}`;
   
   const getCardStyle = (statusId) => {
     switch(statusId) {

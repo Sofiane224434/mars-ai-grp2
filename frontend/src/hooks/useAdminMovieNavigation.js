@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Ajout de useParams
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const useAdminMovieNavigation = (currentMovieId) => {
   const navigate = useNavigate();
-  // 🚀 On récupère l'ID de l'admin depuis l'URL
-  const { id: adminId } = useParams(); 
 
   const [movieIds, setMovieIds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,22 +49,14 @@ export const useAdminMovieNavigation = (currentMovieId) => {
   const goPrev = () => {
     if (canPrev) {
       const prevId = movieIds[currentIndex - 1];
-      // 🚀 On inclut dynamiquement l'adminId dans l'URL de redirection
-      const url = adminId 
-        ? `/dashboard/admin/${adminId}/movies/${prevId}` 
-        : `/dashboard/admin/movies/${prevId}`;
-      navigate(url);
+      navigate(`/dashboard/admin/movies/${prevId}`);
     }
   };
 
   const goNext = () => {
     if (canNext) {
       const nextId = movieIds[currentIndex + 1];
-      // 🚀 Même chose ici
-      const url = adminId 
-        ? `/dashboard/admin/${adminId}/movies/${nextId}` 
-        : `/dashboard/admin/movies/${nextId}`;
-      navigate(url);
+      navigate(`/dashboard/admin/movies/${nextId}`);
     }
   };
 

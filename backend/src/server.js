@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { testConnection } from "./config/db.js";
@@ -18,6 +19,9 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const frontendDistPath = path.resolve(__dirname, "../../frontend/dist");
+const frontendIndexPath = path.join(frontendDistPath, "index.html");
+const canServeFrontend = process.env.NODE_ENV === "production" && fs.existsSync(frontendIndexPath);
 
 // Connexion BDD
 testConnection(); // Appeler la fonction de test de connexion à la BDD
@@ -64,8 +68,26 @@ app.use("/api/admin", adminRoutes);
 // Routes OAuth YouTube (start + callback) pour initialiser le refresh token.
 app.use('/api/youtube', youtubeRoutes);
 
-// 404 - Ajouter le middleware de gestion des routes non trouvées
-app.use((req, res) => res.status(404).json({ error: 'Route non trouvée' }));
+// Servir les assets front en production (si le build existe).
+if (canServeFrontend) {
+  app.use(express.static(frontendDistPath));
+}
+
+// 404 API explicite: on garde une réponse JSON pour les routes backend inconnues.
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Route API non trouvée' });
+});
+
+// Fallback SPA: renvoie index.html pour les routes web sans extension de fichier.
+app.use((req, res) => {
+  const hasFileExtension = path.extname(req.path) !== '';
+
+  if (canServeFrontend && !hasFileExtension) {
+    return res.sendFile(frontendIndexPath);
+  }
+
+  return res.status(404).json({ error: 'Route non trouvée' });
+});
 
 app.listen(PORT, () => {
   // Rendre le message de démarrage cohérent avec l'ancienne version

@@ -118,8 +118,8 @@ function App() {
         {/* Page d'erreur */}
         <Route path="/error" element={<Error />} />
 
-        {/* Route par défaut */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Route 404 */}
+        <Route path="*" element={<Error />} />
       </Routes>
     </>
   );

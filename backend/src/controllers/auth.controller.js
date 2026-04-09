@@ -101,12 +101,31 @@ export const getProfile = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    let reissuedMagicLink = false;
+
     if (req.user?.id) {
       await rotateUserAccessTokenVersion(req.user.id);
+
+      if (req.user.status === "jury" && req.user.email) {
+        try {
+          const { sent } = await issueMagicLinkForEmail({ email: req.user.email });
+          reissuedMagicLink = Boolean(sent);
+        } catch (emailError) {
+          console.error(
+            "Erreur lors de l'envoi automatique du nouveau token jury à la déconnexion :",
+            emailError,
+          );
+        }
+      }
     }
 
     res.clearCookie(SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS);
-    return res.status(200).json({ message: "Déconnexion réussie" });
+    return res.status(200).json({
+      message: reissuedMagicLink
+        ? "Déconnexion réussie. Un nouveau lien de connexion a été envoyé par e-mail."
+        : "Déconnexion réussie",
+      reissuedMagicLink,
+    });
   } catch (error) {
     if (error instanceof AuthConfigError) {
       return res.status(500).json({ error: error.message });

@@ -108,14 +108,22 @@ export const getMovieByIdForAdmin = async (req, res) => {
       school: movieData.school || null,
       current_job: movieData.current_job || null,
       gender: movieData.gender || null,
-      
-      // 🚀 LES DEUX LIGNES AJOUTÉES ICI :
       assignedJuries: movieData.assignedJuries || [],
       usedAis: movieData.usedAis || [],
     });
   } catch (error) {
     console.error('Erreur Controller GET /admin/movies/:movieId :', error);
     return res.status(500).json({ success: false, message: 'Erreur serveur interne.' });
+  }
+};
+
+export const getAllMoviesForAdmin = async (req, res) => {
+  try {
+    const movies = await adminService.getAllMovies();
+    return res.status(200).json(movies);
+  } catch (error) {
+    console.error("Erreur Controller GET /admin/movies :", error);
+    return res.status(500).json({ success: false, message: "Erreur serveur interne lors de la récupération des films." });
   }
 };
 

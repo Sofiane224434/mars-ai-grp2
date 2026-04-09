@@ -1,22 +1,112 @@
-// pages/dashboard/admin/AdminMovies.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import useApi from '../../../hooks/useApi.js';
+
 import MovieCard from "../../../components/ui/MovieCard.jsx";
 import Filter from "../../../components/ui/Filter.jsx";
 import Button from "../../../components/ui/Button.jsx";
+import Spinner from "../../../components/ui/Spinner.jsx";
 
 function AdminMovies() {
+  const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
+  
+  // État des filtres
+  const [selectedFilters, setSelectedFilters] = useState({
+    assignation: [],
+    status: [],
+  });
+
+  // Connexion API conservée pour afficher tes vrais films
+  const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    
+    fetchMovies(() => 
+      axios.get(`${API_BASE_URL}/admin/movies`, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
+      })
+    );
+  }, [fetchMovies]);
+
+  // Handlers pour les filtres
+  const handleFilterChange = (filterType, filterValue, isChecked) => {
+    setSelectedFilters(prev => {
+      const current = prev[filterType] || [];
+      return {
+        ...prev,
+        [filterType]: isChecked
+          ? [...current, filterValue]
+          : current.filter(f => f !== filterValue)
+      };
+    });
+  };
+
+  const handleClearFilters = () => {
+    setSelectedFilters({
+      assignation: [],
+      status: [],
+    });
+  };
+
+  // Filtrage des films
+  const getFilteredMovies = () => {
+    if (!movies || movies.length === 0) return [];
+    
+    return movies.filter(movie => {
+      // Filtre assignation
+      if (selectedFilters.assignation.length > 0) {
+        const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
+        const isAssigned = selectedFilters.assignation.includes('assigned');
+        const isNotAssigned = selectedFilters.assignation.includes('unassigned');
+        
+        if (isAssigned && !hasJury) return false;
+        if (isNotAssigned && hasJury) return false;
+      }
+      
+      // Filtre status
+      if (selectedFilters.status.length > 0) {
+        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
+        const movieStatus = statusMap[movie.statusId] || 'pending';
+        if (!selectedFilters.status.includes(movieStatus)) return false;
+      }
+      
+      return true;
+    });
+  };
+
+  const displayMovies = getFilteredMovies();
 
   const handlePlaceholder = () => {
     // Placeholder until admin actions are connected to backend.
+    console.log("Action non connectée pour le moment.");
   };
 
-  return (
-    <div className="min-h-screen bg-gris-anthracite pt-20 lg:pt-16">
-      <h1 className="text-center text-3xl sm:text-5xl text-white mb-8 sm:mb-16 px-4">Tous les Films</h1>
+  if (isLoading) {
+    return <div className="min-h-screen background-gradient-black flex items-center justify-center"><Spinner text="Chargement des films..." fullScreen={true} /></div>;
+  }
 
-      <div className="mx-auto max-w-6xl mb-3 px-4 sm:px-10">
-        {/* Barre toggle */}
+  if (error) {
+    return <div className="min-h-screen background-gradient-black flex items-center justify-center text-center text-brulure-despespoir">{error}</div>;
+  }
+
+  return (
+    <div className="min-h-screen background-gradient-black pt-20 lg:pt-16 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        
+        <div className="mb-10 text-center sm:text-left">
+          <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
+            Tous les Films
+          </h1>
+        </div>
+
+        <div className="mb-6">
+        {/* Barre toggle d'origine */}
         <div className="mb-2">
           <button
             type="button"
@@ -39,25 +129,62 @@ function AdminMovies() {
           </button>
         </div>
 
-        {/* Panneau déroulant */}
+        {/* Panneau déroulant d'origine */}
         <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
-            }`}
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
+          }`}
         >
           <div className="rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
             {/* Mobile / tablette */}
             <div className="lg:hidden">
               <div className="mx-auto w-fit flex flex-col gap-2">
                 <div className="flex flex-wrap justify-center gap-2">
-                  <Filter variant="assignation"> Non assigné</Filter>
-                  <Filter variant="assignation"> Assigné</Filter>
+                  <Filter 
+                    variant="assignation"
+                    checked={selectedFilters.assignation.includes('unassigned')}
+                    onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
+                  >
+                    Non assigné
+                  </Filter>
+                  <Filter 
+                    variant="assignation"
+                    checked={selectedFilters.assignation.includes('assigned')}
+                    onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
+                  >
+                    Assigné
+                  </Filter>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                  <Filter variant="approved"> Validé</Filter>
-                  <Filter variant="rejected"> Refusé</Filter>
-                  <Filter variant="review"> À revoir</Filter>
-                  <Filter variant="pending"> En attente</Filter>
+                  <Filter 
+                    variant="approved"
+                    checked={selectedFilters.status.includes('approved')}
+                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                  >
+                    Validé
+                  </Filter>
+                  <Filter 
+                    variant="rejected"
+                    checked={selectedFilters.status.includes('rejected')}
+                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                  >
+                    Refusé
+                  </Filter>
+                  <Filter 
+                    variant="review"
+                    checked={selectedFilters.status.includes('review')}
+                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                  >
+                    À revoir
+                  </Filter>
+                  <Filter 
+                    variant="pending"
+                    checked={selectedFilters.status.includes('pending')}
+                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                  >
+                    En attente
+                  </Filter>
                 </div>
 
                 <div className="pt-1">
@@ -65,7 +192,7 @@ function AdminMovies() {
                     interactive
                     className="w-full flex items-center justify-center text-center text-sm"
                     variant="filled-yellow"
-                    onClick={handlePlaceholder}
+                    onClick={handleClearFilters}
                   >
                     Supprimer les filtres
                   </Button>
@@ -73,108 +200,97 @@ function AdminMovies() {
               </div>
             </div>
 
-            {/* Desktop (inchangé) */}
+            {/* Desktop */}
             <div className="hidden lg:flex items-center justify-between gap-3">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
-                  <Filter variant="assignation"> Non assigné</Filter>
-                  <Filter variant="assignation"> Assigné</Filter>
+                  <Filter 
+                    variant="assignation"
+                    checked={selectedFilters.assignation.includes('unassigned')}
+                    onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
+                  >
+                    Non assigné
+                  </Filter>
+                  <Filter 
+                    variant="assignation"
+                    checked={selectedFilters.assignation.includes('assigned')}
+                    onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
+                  >
+                    Assigné
+                  </Filter>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Filter variant="approved"> Validé</Filter>
-                  <Filter variant="rejected"> Refusé</Filter>
-                  <Filter variant="review"> À revoir</Filter>
-                  <Filter variant="pending"> En attente</Filter>
+                  <Filter 
+                    variant="approved"
+                    checked={selectedFilters.status.includes('approved')}
+                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                  >
+                    Validé
+                  </Filter>
+                  <Filter 
+                    variant="rejected"
+                    checked={selectedFilters.status.includes('rejected')}
+                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                  >
+                    Refusé
+                  </Filter>
+                  <Filter 
+                    variant="review"
+                    checked={selectedFilters.status.includes('review')}
+                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                  >
+                    À revoir
+                  </Filter>
+                  <Filter 
+                    variant="pending"
+                    checked={selectedFilters.status.includes('pending')}
+                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                  >
+                    En attente
+                  </Filter>
                 </div>
               </div>
               <Button
                 interactive
                 className="shrink-0 self-center flex items-center justify-center text-center text-sm"
                 variant="filled-yellow"
-                onClick={handlePlaceholder}
+                onClick={handleClearFilters}
               >
                 Supprimer les filtres
               </Button>
             </div>
           </div>
         </div>
-      </div>
+        </div>
 
-      <div className="mx-auto mt-6 sm:mt-8 grid max-w-6xl gap-4 px-4 sm:px-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch">
-        <MovieCard
-          variant="admin-assign"
-          status="pending"
-          title="Titre de la video"
-          directorName="Nom Prénom"
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
+        {/* Grille des films connectée à l'API */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch pb-12">
+          {displayMovies.length > 0 ? (
+            displayMovies.map((movie) => {
+              const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
+              const mapStatus = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
+              const statusStr = mapStatus[movie.statusId] || 'pending';
 
-        <MovieCard
-          variant="admin-assigned"
-          status="rejected"
-          title="Titre de la video"
-          directorName="Nom Prenom"
-          assignedJurors={[
-            "Jury nom prénom",
-            "Jury nom prénom",
-            "Jury nom prénom",
-          ]}
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
-        <MovieCard
-          variant="admin-assigned"
-          status="rejected"
-          title="Titre de la video"
-          directorName="Nom Prénom"
-          assignedJurors={[
-            "Jury nom prénom",
-            "Jury nom prénom",
-            "Jury nom prénom",
-          ]}
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
-        <MovieCard
-          variant="admin-assigned"
-          status="rejected"
-          title="Titre de la video"
-          directorName="Nom Prénom"
-          assignedJurors={[
-            "Jury nom prénom",
-            "Jury nom prénom",
-            "Jury nom prénom",
-          ]}
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
-        <MovieCard
-          variant="admin-assigned"
-          status="rejected"
-          title="Titre de la video"
-          directorName="Nom Prénom"
-          assignedJurors={[
-            "Jury nom prénom",
-            "Jury nom prénom",
-            "Jury nom prénom",
-          ]}
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
-        <MovieCard
-          variant="admin-assigned"
-          status="rejected"
-          title="Titre de la video"
-          directorName="Nom Prénom"
-          assignedJurors={[
-            "Jury nom prénom",
-            "Jury nom prénom",
-            "Jury nom prénom",
-          ]}
-          onAssign={handlePlaceholder}
-          onMoreInfo={handlePlaceholder}
-        />
+              return (
+                <MovieCard
+                  key={movie.id}
+                  variant={hasJury ? "admin-assigned" : "admin-assign"}
+                  status={statusStr}
+                  title={movie.title}
+                  directorName={movie.directorName}
+                  thumbnailSrc={movie.thumbnail || movie.screenshotLink}
+                  assignedJurors={hasJury ? movie.assignedJuries.map(j => j.name || j.email) : []}
+                  onAssign={handlePlaceholder}
+                  onMoreInfo={() => navigate(`/dashboard/admin/movies/${movie.id}`)}
+                />
+              );
+            })
+          ) : (
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10 text-gris-magneti italic">
+              Aucun film trouvé.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

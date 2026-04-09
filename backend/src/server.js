@@ -50,6 +50,12 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+// Tolere un prefixe mal forme (/api}/... ou /api%7D/...) et le corrige.
+app.use((req, res, next) => {
+  req.url = req.url.replace(/^\/api(?:%7D|})\/?/i, '/api/');
+  next();
+});
+
 //# Routes
 // Mettre à jour la route racine pour une réponse JSON plus cohérente pour une API
 app.get("/", (req, res) => {

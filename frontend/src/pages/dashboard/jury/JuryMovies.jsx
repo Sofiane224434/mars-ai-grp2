@@ -98,6 +98,7 @@ function JuryMovies() {
                 status={movie.status}
                 title={movie.title}
                 directorName={movie.directorName}
+                thumbnailSrc={movie.thumbnail}
                 onJudge={() => console.log("Vote rapide désactivé")} // 👈 CORRIGÉ : On évite l'erreur ReferenceError
                 onMoreInfo={() => handleMoreInfo(movie.id)} // 👈 CORRIGÉ : On branche la vraie fonction !
               />

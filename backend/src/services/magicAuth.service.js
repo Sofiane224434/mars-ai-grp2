@@ -44,7 +44,7 @@ export class AccessTokenVersionMismatchError extends Error {
 /* -------------------------
    Helpers config
 -------------------------- */
-const MAGIC_LINK_EXPIRES_IN = process.env.MAGIC_LINK_EXPIRES_IN || "15m";
+const MAGIC_LINK_EXPIRES_IN = process.env.MAGIC_LINK_EXPIRES_IN || "1d";
 const SESSION_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 const getMagicSecret = () =>

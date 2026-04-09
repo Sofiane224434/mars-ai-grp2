@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Status } from '../../ui/StatusBadge.jsx';
 import Button from '../../ui/Button.jsx';
 
+const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
+
+// Fallback SVG si l'image ne charge pas
+const FALLBACK_SVG = (
+  <svg
+    className="aspect-video w-full object-cover"
+    viewBox="0 0 400 225"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    <rect width="400" height="225" fill="#2a2a3a" />
+    <rect x="1" y="1" width="398" height="223" fill="none" stroke="#444" strokeWidth="2" />
+    <circle cx="200" cy="112.5" r="40" fill="#555" opacity="0.5" />
+    <path d="M170 100 L170 125 L230 112.5 Z" fill="#666" opacity="0.7" />
+  </svg>
+);
+
 const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
+  const [imageError, setImageError] = useState(false);
+  
   const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
   const movieId = movie?.movieID || movie?.id;
   const detailPath = `/dashboard/admin/movies/${movieId}`;
@@ -38,16 +57,16 @@ const MovieAdminCard = ({ movie, onOpenEmailModal }) => {
       
       {/* Haut : Vignette (Sans le badge par-dessus) */}
       <Link to={detailPath} className="relative aspect-video overflow-hidden group">
-        {movie.thumbnail || movie.screenshotLink ? (
+        {imageError ? (
+          FALLBACK_SVG
+        ) : (
           <img 
-            src={movie.thumbnail || movie.screenshotLink} 
+            src={movie.thumbnail || movie.screenshotLink || DEFAULT_THUMBNAIL}
             alt={`Vignette de ${movieTitle}`} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+            onError={() => setImageError(true)}
+            onLoad={() => setImageError(false)}
           />
-        ) : (
-          <div className="w-full h-full bg-black/50 flex items-center justify-center text-gris-magneti italic">
-            Aucune image
-          </div>
         )}
       </Link>
 

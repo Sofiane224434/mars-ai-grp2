@@ -139,5 +139,52 @@ export const movieModel = {
       VALUES (?, ?, ?, ?, NOW())
     `;
     return await query(sql, [subject, body, userId, movieId]);
+  },
+
+  // Récupérer tous les films pour le dashboard admin
+  async getAllAdminMovies() {
+    const sql = `
+      SELECT
+        m.id,
+        m.title_original AS title,
+        m.thumbnail,
+        m.status AS statusId,
+        m.created_at AS createdAt,
+        dp.firstname AS directorFirstName,
+        dp.lastname AS directorLastName,
+        (
+          SELECT JSON_ARRAYAGG(JSON_OBJECT('id', u.id, 'name', u.email))
+          FROM users_movies um
+          JOIN users u ON um.user_id = u.id
+          WHERE um.movie_id = m.id AND u.status = 'jury'
+        ) AS assignedJuriesRaw
+      FROM movies m
+      LEFT JOIN director_profile dp ON m.id = dp.movie_id
+      ORDER BY m.id DESC
+    `;
+    
+    const rows = await query(sql);
+
+    // On formate proprement les données à la sortie de la base
+    return rows.map(row => {
+      // Selon le driver MySQL utilisé, le JSON ressort en string ou déjà parsé
+      let parsedJuries = [];
+      if (row.assignedJuriesRaw) {
+        parsedJuries = typeof row.assignedJuriesRaw === 'string' 
+          ? JSON.parse(row.assignedJuriesRaw) 
+          : row.assignedJuriesRaw;
+      }
+
+      return {
+        id: row.id,
+        title: row.title || 'Sans titre',
+        thumbnail: row.thumbnail,
+        statusId: row.statusId,
+        createdAt: row.createdAt,
+        directorName: `${row.directorFirstName || ''} ${row.directorLastName || ''}`.trim() || 'Inconnu',
+        assignedJuries: parsedJuries
+      };
+    });
   }
 };
+

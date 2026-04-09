@@ -96,13 +96,16 @@ function AdminMovies() {
   }
 
   return (
-    <div className="min-h-screen background-gradient-black pt-20 lg:pt-16 p-4 md:p-8">
+    <div className="min-h-screen background-gradient-black pt-12 lg:pt-8 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         
         <div className="mb-10 text-center sm:text-left">
           <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
             Tous les Films
           </h1>
+          <p className="text-gris-magneti">
+            Liste des films du festival avec leur statut et leur assignation jury.
+          </p>
         </div>
 
         <div className="mb-6">

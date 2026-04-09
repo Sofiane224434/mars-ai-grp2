@@ -227,7 +227,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </button>
 
               <div className={contentClass}>
-                <div className="w-full flex flex-col items-center pb-28">
+                <div className={`w-full flex flex-col items-center pb-28 ${collapsed ? "gap-3" : ""}`}>
                   <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}>
                     <Button
                       variant="btn-panel-home"
@@ -318,15 +318,29 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </div>
 
               <div className="absolute bottom-6 left-1/2 z-50 -translate-x-1/2">
-                <Button
-                  type="button"
-                  variant="email-cancel"
-                  interactive
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                >
-                  {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
-                </Button>
+                {collapsed ? (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                    aria-label="Déconnexion"
+                    className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                  </button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="email-cancel"
+                    interactive
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                  >
+                    {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                  </Button>
+                )}
               </div>
             </div>
           </div>

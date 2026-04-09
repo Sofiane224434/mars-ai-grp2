@@ -133,7 +133,7 @@ const AdminEmailConfirmation = () => {
   }
 
   return (
-    <div className="min-h-screen background-gradient-black p-4 md:p-8">
+    <div className="min-h-screen background-gradient-black px-4 pb-4 pt-20 sm:pt-4 md:px-8 md:pb-8">
       <div className="max-w-7xl mx-auto">
         
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">

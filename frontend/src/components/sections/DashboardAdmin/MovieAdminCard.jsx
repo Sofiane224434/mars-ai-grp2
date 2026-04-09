@@ -49,7 +49,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
   return (
     <div className={`flex backdrop-blur-sm transition-all duration-300 ${cardStyle} ${
       layout === 'list' 
-        ? 'flex-col sm:flex-row items-start sm:items-center p-3 gap-4 sm:gap-6 rounded-xl w-full' 
+        ? 'flex-col md:flex-row items-start md:items-center p-3 gap-4 md:gap-6 rounded-xl w-full overflow-hidden' 
         : 'flex-col rounded-2xl overflow-hidden'
     }`}>
       
@@ -58,7 +58,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
         to={detailPath} 
         className={`relative shrink-0 group overflow-hidden ${
           layout === 'list' 
-            ? 'w-full sm:w-32 md:w-40 aspect-video rounded-lg' 
+            ? 'w-full md:w-40 aspect-video rounded-lg' 
             : 'w-full aspect-video'
         }`}
       >
@@ -76,7 +76,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
       {/* 2. LE CONTENU PRINCIPAL */}
       <div className={`flex grow ${
         layout === 'list' 
-          ? 'flex-col sm:flex-row sm:items-center justify-between gap-4 w-full' 
+          ? 'flex-col md:flex-row md:items-center justify-between gap-4 w-full min-w-0' 
           : 'flex-col p-5'
       }`}>
         
@@ -90,13 +90,13 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
             </div>
           )}
 
-          <h2 className={`font-bold text-white font-title line-clamp-1 ${
-            layout === 'list' ? 'text-lg' : 'text-xl mb-1'
+          <h2 className={`font-bold text-white font-title ${
+            layout === 'list' ? 'text-lg leading-tight whitespace-normal wrap-break-word' : 'text-xl mb-1 line-clamp-1'
           }`} title={movieTitle}>
             {movieTitle}
           </h2>
           
-          <p className={`text-sm text-gris-magneti ${layout === 'list' ? '' : 'mb-6'}`}>
+          <p className={`text-sm text-gris-magneti ${layout === 'list' ? 'whitespace-normal wrap-break-word' : 'mb-6'}`}>
             Par <span className="text-bleu-ciel font-medium">{movie.directorFirstName} {movie.directorLastName}</span>
           </p>
           
@@ -112,7 +112,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
 
         {/* 3. LE STATUT (Visible en ligne sur Desktop en mode Liste) */}
         {layout === 'list' && (
-          <div className="hidden sm:flex shrink-0 w-32 justify-center">
+          <div className="hidden md:flex shrink-0 w-32 justify-center">
             <Status variant={statusInfo.variant}>
               <span className="font-bold tracking-wider text-xs">{statusInfo.label}</span>
             </Status>
@@ -122,10 +122,10 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
         {/* 4. LES BOUTONS : Repoussés à droite en mode Liste */}
         <div className={`flex gap-3 shrink-0 ${
           layout === 'list' 
-            ? 'flex-row items-center sm:ml-auto w-full sm:w-auto' 
+            ? 'flex-col md:flex-row items-stretch md:items-center md:ml-auto w-full md:w-auto min-w-0' 
             : 'mt-auto flex-col sm:flex-row sm:items-stretch'
         }`}>
-          <Link to={detailPath} className={layout === 'grid' ? 'flex-1' : ''}>
+          <Link to={detailPath} className={layout === 'grid' ? 'flex-1' : 'w-full md:w-auto'}>
             <button className={`w-full h-full rounded-xl border-2 border-turquoise-vif/50 text-white text-sm font-medium hover:bg-gris-magneti/20 transition-colors flex items-center justify-center whitespace-nowrap ${
               layout === 'list' ? 'px-4 py-2 min-h-9' : 'px-4 py-2 min-h-10'
             }`}>
@@ -133,7 +133,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
             </button>
           </Link>
           
-          <div className={layout === 'grid' ? 'flex-1' : ''}>
+          <div className={layout === 'grid' ? 'flex-1' : 'w-full md:w-auto'}>
             <Button
               interactive
               variant="email-admin"

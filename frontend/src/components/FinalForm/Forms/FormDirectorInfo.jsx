@@ -53,18 +53,29 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     }, [alldata])
 
     const genderoptions = [
-        <option value={""}>...</option>,
+        <option disabled selected value={""}>Sélectionnez...</option>,
         <option value={"m"}>Monsieur</option>,
         <option value={"f"}>Madame</option>,
         <option value={"other"}>Autre</option>,
     ]
 
     const markettingoptions = [
-        <option value={""}>...</option>,
+        <option disabled selected value={""}>Sélectionnez...</option>,
         <option value={"bouche à oreille"}>Bouche à oreille</option>,
         <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>,
+        <option value={"news"}>Via un journal</option>,
+        <option value={"école"}>Via mon école</option>,
+        <option value={"panneau"}>Via un panneau ou un prospectus</option>,
         <option value={"other"}>Autre (précisez)</option>
     ]
+
+    function verify() {
+
+    }
+
+    function goback() {
+
+    }
 
     return (
         <div style={hide ? { display: "none" } : null} className={classContainer}>
@@ -140,6 +151,9 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 getValueFunc={setRulesCheck}
                 label={`J'accepte le règlement d'envoi de vidéos du festival 
                         MarsAI.`}></InputSuper>
+
+            <button type="button" onClick={goback}>{">"} Précédent</button>
+            <button type="button" onClick={verify}>Suivant {">"}</button>
 
         </div>
     )

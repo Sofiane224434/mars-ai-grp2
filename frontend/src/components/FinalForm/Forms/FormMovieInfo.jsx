@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import InputSuper from "../InputSuper";
 import InputAdditive from "../InputAdditive";
 
+import { verifyInputText } from "../VerifyInputFuncs";
+
+import { z } from "zod";
+
 /**
  * Premier formulaire : Fiche Film
  * @param hide Si ce formulaire doit être caché ou non 
@@ -12,7 +16,8 @@ import InputAdditive from "../InputAdditive";
  * @param classLabel Classe à appliquer aux labels (optionnel)
  */
 export default function FormMovieInfo({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label"
+    classInput = "form_input", classContainer = null, classLabel = "form_label",
+    stepfunc, currentstep
 }) {
 
     const [movietitle, setMovieTitle] = useState("");
@@ -53,9 +58,74 @@ export default function FormMovieInfo({ hide = false, getFunction,
         }
     }
 
-    useEffect(() => {
-        sendData();
-    }, [alldata])
+    // useEffect(() => {
+    //     sendData();
+    // }, [alldata])
+
+    const ytregex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/img;
+
+    function clearAllErrors() {
+        setErrorMovieTitle("");
+        setErrorMovieTitlefr("");
+        setErrorSynopsis("");
+        setErrorSynopsisEng("");
+        setErrorMovieLanguage("");
+        setErrorMovieVideo("");
+        setErrorSoundbankCheck("");
+        setErrorSoundbankData("");
+        setErrorYtLink("");
+    }
+
+    function verify() {
+
+        clearAllErrors();
+
+        let error = false;
+
+        let baseverification = [
+            verifyInputText({
+                value: movietitle, required: true, max_length: 100,
+                errorSetFunction: setErrorMovieTitle
+            }),
+            verifyInputText({
+                value: movietitlefr, max_length: 100,
+                errorSetFunction: setErrorMovieTitlefr
+            }),
+            verifyInputText({
+                value: synopsis, max_length: 300, required: true,
+                errorSetFunction: setErrorSynopsis
+            }),
+            verifyInputText({
+                value: movielanguage, max_length: 100,
+                errorSetFunction: setErrorMovieLanguage
+            }),
+            verifyInputText({
+                value: ytlink, required: true, regex: ytregex,
+                errorSetFunction: setErrorYtLink
+            })
+        ]
+
+        if (baseverification.includes(false)) {
+            error = true;
+        }
+
+        if (soundbankCheck) {
+            //Vérifier si la première valeur n'est pas vide..
+        }
+
+        if (!error) {
+            if (stepfunc) {
+                stepfunc(currentstep + 1);
+                sendData();
+            }
+        }
+
+        //return true;
+
+    }
+
+    // let testschema = z.url({ hostname: /^www\.youtube\.com$/ });
+    // console.log(testschema.safeParse("https://www.youtube.com/embed/DFYRQ_zQ-gk?autoplay=1"));
 
     return (
         <div style={hide ? { display: "none" } : null} className={classContainer}>
@@ -63,22 +133,28 @@ export default function FormMovieInfo({ hide = false, getFunction,
             <h2>Etape 1 : Fiche Film</h2>
 
             <InputSuper label={"Titre du film"} type={"text"}
-                getValueFunc={setMovieTitle}></InputSuper>
+                getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
+                max_string={100}></InputSuper>
 
             <InputSuper label={`Titre du film traduit en français (si possible)`}
-                type={"text"} getValueFunc={setMovieTitlefr}></InputSuper>
+                type={"text"} getValueFunc={setMovieTitlefr}
+                errormessage={errorMovieTitlefr} max_string={100}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsis}
-                max_string={300} label={`Synopsis (résumé) de votre film :`}></InputSuper>
+                max_string={300} label={`Synopsis (résumé) de votre film :`}
+                errormessage={errorSynopsis}></InputSuper>
 
             <InputSuper type={"text"} label={`Langue de votre film (si a un dialogue ou du texte)`}
-                getValueFunc={setMovieLanguage} max_string={100}></InputSuper>
+                getValueFunc={setMovieLanguage} max_string={100}
+                errormessage={errorMovieLanguage}></InputSuper>
 
             <InputSuper type={"file"} accept={"video/mp4,video/x-m4v,video/mov"}
-                getValueFunc={setMovieVideo} required={true}></InputSuper>
+                getValueFunc={setMovieVideo} required={true}
+                errormessage={errorMovieVideo}></InputSuper>
 
             <InputSuper type={"checkbox"} label={`Cete vidéo possède de la musique et/ou utilise 
-            une banque son.`} getValueFunc={setSoundbankCheck}></InputSuper>
+            une banque son.`} getValueFunc={setSoundbankCheck}
+                errormessage={errorSoundbankCheck}></InputSuper>
 
             {
                 soundbankCheck &&
@@ -89,7 +165,10 @@ export default function FormMovieInfo({ hide = false, getFunction,
             }
 
             <InputSuper type={"url"} getValueFunc={setYTlink}
-                label={`Lien youtube vers cette vidéo :`}></InputSuper>
+                label={`Lien youtube vers cette vidéo :`}
+                errormessage={errorYtLink}></InputSuper>
+
+            <button type="button" onClick={verify}>Suivant {">"}</button>
 
         </div>
     )

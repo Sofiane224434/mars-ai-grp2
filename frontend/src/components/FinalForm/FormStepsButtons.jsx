@@ -6,8 +6,8 @@ export default function FormStepsButtons({ step, maxstep, verificationFunction,
 
     //const [currentStep, setCurrentStep] = useState(step);
 
-    const NextBtn = <button type="button" onClick={increaseStep}>Suivant</button>
-    const PrevBtn = <button type="button" onClick={decreaseStep}>Précédent</button>
+    const NextBtn = <button type="button" onClick={increaseStep}>Suivant {">"}</button>
+    const PrevBtn = <button type="button" onClick={decreaseStep}>{"<"} Précédent</button>
     const SubmitBtn = <button type="submit">Envoyer</button>
 
     //Gestion d'erreurs pour être sûr d'avoir toutes les fonctions et params nécessaires

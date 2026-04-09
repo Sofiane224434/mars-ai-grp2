@@ -35,7 +35,7 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
     //Ceci est important pour que la valeur par défaut soit vide afin que l'utilisateur
     //n'oublie pas de faire son choix.
     if (options[0].props.value != "") {
-        let newoption = <option value={""}>...</option>;
+        let newoption = <option disabled selected value={""}>Sélectionnez...</option>;
         options = [newoption].concat(options);
     }
 

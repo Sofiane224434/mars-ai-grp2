@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import InputSuper from "../InputSuper";
 import InputAdditiveSelect from "../InputAdditiveSelect";
 
+import { verifyInputText } from "../VerifyInputFuncs";
+
 export default function FormAIUse({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label"
+    classInput = "form_input", classContainer = null, classLabel = "form_label",
+    stepfunc, currentstep
 }) {
 
     const [aiscenarioCheck, setAiScenarioCheck] = useState(false);
@@ -16,6 +19,10 @@ export default function FormAIUse({ hide = false, getFunction,
     //note:must also have the other values (should be handled by the additive component)
     const [classification, setClassification] = useState("");
     const [prompts, setPrompts] = useState("");
+
+    const [errorAiCheck, setErrorAiCheck] = useState("");
+    const [errorClassification, setErrorClassification] = useState("");
+    const [errorPrompts, setErrorPrompts] = useState("");
 
     let alldata = {
         aiscenarioCheck: aiscenarioCheck,
@@ -34,13 +41,12 @@ export default function FormAIUse({ hide = false, getFunction,
         }
     }
 
-    useEffect(() => {
-        sendData();
-    }, [alldata])
+    // useEffect(() => {
+    //     sendData();
+    // }, [alldata])
 
     //Options pour inputadditiveselect des ia possibles
     const aiselectoptions = [
-        <option value="">...</option>,
         <option value={"gemini"}>Google (Gemini)</option>,
         <option value={"midjourney"}>Midjourney</option>,
         <option value={"chatGPT"}>OpenAI (ChatGPT)</option>,
@@ -51,15 +57,54 @@ export default function FormAIUse({ hide = false, getFunction,
 
     //Options pour inputsuper classification
     const classificationsoptions = [
-        <option value={""}>...</option>,
         <option value={"allai"}>Génération intégrale (100% IA)</option>,
         <option value={"hybrid"}>Production hybride (Prises de vues réelles +
             apports IA)
         </option>,
     ];
 
-    function checkVal(val) {
-        console.log(val)
+    function clearallerrors() {
+        setErrorAiCheck("");
+        setErrorClassification("");
+        setErrorPrompts("");
+    }
+
+    function verify() {
+
+        clearallerrors();
+
+        let error = false;
+
+        if (!aiscenarioCheck && !aivideoCheck && !aipostprodCheck) {
+            setErrorAiCheck("Vous devez en sélectionner au moins un.")
+            error = true;
+        }
+
+        let verification = [
+            verifyInputText({
+                value: prompts, max_length: 500, required: true,
+                errorSetFunction: setErrorPrompts
+            }),
+            verifyInputText({
+                value: classification, required: true,
+                errorSetFunction: setErrorClassification
+            })
+        ]
+
+        if (verification.includes(false)) {
+            error = true;
+        }
+
+        if (!error) {
+            if (stepfunc) {
+                sendData();
+                stepfunc(currentstep + 1);
+            }
+        }
+    }
+
+    function goback() {
+        stepfunc(currentstep - 1);
     }
 
     return (
@@ -92,14 +137,23 @@ export default function FormAIUse({ hide = false, getFunction,
                 getValuesFunc={setAiPostprodData} label={"Choisissez les IAs utilisées :"}
                 options={aiselectoptions} valueother={"other"}></InputAdditiveSelect>}
 
+            {errorAiCheck && <div>{errorAiCheck}</div>}
+
             <InputSuper type={"select"} options={classificationsoptions}
                 label={"Choisissez la classification de votre film :"}
                 getValueFunc={setClassification}
             ></InputSuper>
 
+            {errorClassification && <div>{errorClassification}</div>}
+
             <InputSuper type={"textarea"} max_string={500} getValueFunc={setPrompts}
                 label={"Prompts que vous avez utilisé pour la génération IA :"}
             ></InputSuper>
+
+            {errorPrompts && <div>{errorPrompts}</div>}
+
+            <button type="button" onClick={goback}>{">"} Précédent</button>
+            <button type="button" onClick={verify}>Suivant {">"}</button>
 
         </div>
     )

@@ -55,6 +55,30 @@
     display: none;
 }
 
+.inputlengthui {
+    font-size: small;
+}
+
+.inputlengthui_regular {
+    color: var(--color_yellow);
+}
+
+.inputlengthui_close {
+    color: orange;
+}
+
+.inputlengthui_error {
+    color: red;
+}
+
+.form_bigtitle {
+    background: linear-gradient(180deg, var(--color_darkrust) 0%, var(--color_verydarkrust) 100%);
+    color: var(--color_yellow);
+    width: 100%;
+    font-size: 30px;
+    text-align: center;
+}
+
 .form_page {
     background-color: #803110;
     display: flex;
@@ -95,7 +119,9 @@
     border: 3px solid #FDFF6B;
 }
 
-.form_input_error {}
+.form_input_error {
+    border: 3px solid #ff0f0f;
+}
 
 .form_label {
     color: #FDFF6B;

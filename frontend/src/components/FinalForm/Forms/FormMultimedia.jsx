@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import InputSuper from "../InputSuper";
 
 export default function FormMultimedia({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label"
+    classInput = "form_input", classContainer = null, classLabel = "form_label",
+    stepfunc, currentstep
 }) {
 
     const [thumbnail, setThumbnail] = useState({ file: "", value: "" });
@@ -31,6 +32,14 @@ export default function FormMultimedia({ hide = false, getFunction,
     useEffect(() => {
         sendData();
     }, [alldata])
+
+    function goback() {
+        stepfunc(currentstep - 1);
+    }
+
+    function verify() {
+
+    }
 
     return (
         <div style={hide ? { display: "none" } : null} className={classContainer}>
@@ -63,6 +72,9 @@ export default function FormMultimedia({ hide = false, getFunction,
                 getValueFunc={setSrtData}
                 label={`Veuillez renseigner un fichier sous-titre (.srt) :`}
             ></InputSuper>}
+
+            <button type="button" onClick={goback}>{">"} Précédent</button>
+            <button type="button" onClick={verify}>Suivant {">"}</button>
 
         </div>
     )

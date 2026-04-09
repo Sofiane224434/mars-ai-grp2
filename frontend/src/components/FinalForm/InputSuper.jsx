@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 
+import InputLengthUI from "./InputLengthUI";
+
 
 const acceptable_types = ["text", "file", "tel", "email", "number", "select", "textarea",
     "checkbox", "url", "date"];
@@ -14,7 +16,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     type, options = null, accept = null, min_numdate = null, max_numdate = null,
     min_string = null, max_string = null, placeholder = null, required = false,
     numberonly = false, classInput = null, classContainer = null, classLabel = null,
-    regex = null, formstep = null
+    regex = null, formstep = null, errormessage = null
 }) {
 
     //Style css
@@ -123,6 +125,19 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         // )
     }
 
+    //Vérifie que la première option est vide si options est utilisé, 
+    //sinon, rajoute une option vide ("")
+    //Ceci est important pour que la valeur par défaut soit vide afin que l'utilisateur
+    //n'oublie pas de faire son choix.
+    if (options) {
+        if (Array.isArray(options)) {
+            if (options[0].props.value != "") {
+                let newoption = <option disabled selected value={""}>Sélectionnez...</option>;
+                options = [newoption].concat(options);
+            }
+        }
+    }
+
     if (type === "select") {
         if (options) {
             if (Array.isArray(options)) {
@@ -137,6 +152,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                                 return (op)
                             })}
                         </select>
+                        {errormessage && <div>{errormessage}</div>}
                     </div>
                 )
             } else {
@@ -155,6 +171,9 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
                     placeholder={placeholder} required={required} onChange={handleChange}
                     className={classInput ? classInput : classDefaultInput}></textarea>
+                {max_string && <InputLengthUI currentlength={value.length}
+                    maxlength={max_string}></InputLengthUI>}
+                {errormessage && <div>{errormessage}</div>}
             </div>
         )
     }
@@ -168,6 +187,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                     className={classInput ? classInput : classDefaultInput}
                 ></input>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+                {errormessage && <div>{errormessage}</div>}
             </div>
         )
     }
@@ -181,6 +201,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                     required={required} value={value.value} files={value.file} onChange={handleChange}
                     className={classInput ? classInput : classDefaultInput}
                 ></input>
+                {errormessage && <div>{errormessage}</div>}
             </div>
         )
     }
@@ -193,6 +214,9 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 required={required} value={value} onChange={handleChange}
                 className={classInput ? classInput : classDefaultInput}
             ></input>
+            {max_string && <InputLengthUI currentlength={value.length}
+                maxlength={max_string}></InputLengthUI>}
+            {errormessage && <div>{errormessage}</div>}
         </div>
 
     )

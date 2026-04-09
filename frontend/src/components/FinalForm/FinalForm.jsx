@@ -14,44 +14,58 @@ export default function FinalForm() {
 
     const [formMovieInfo, setFormMovieInfo] = useState({});
     const [formAIUse, setFormAIUse] = useState({});
+    const [formMultimedia, setFormMultimedia] = useState({});
+    const [formDirectorInfo, setFormDirectorInfo] = useState({});
 
     const myforms = [
-        <FormMovieInfo hide={currentStep == 1 ? false : true} getFunction={tester}></FormMovieInfo>,
-        <FormAIUse hide={currentStep == 2 ? false : true} getFunction={tester}></FormAIUse>,
-        <FormMultimedia hide={currentStep == 3 ? false : true} getFunction={tester}></FormMultimedia>,
-        <FormDirectorInfo hide={currentStep == 4 ? false : true} getFunction={tester}></FormDirectorInfo>
+        <FormMovieInfo hide={currentStep == 1 ? false : true}
+            getFunction={setFormMovieInfo} stepfunc={handlestep} currentstep={currentStep}></FormMovieInfo>,
+        <FormAIUse hide={currentStep == 2 ? false : true} getFunction={setFormAIUse}
+            stepfunc={handlestep} currentstep={currentStep}></FormAIUse>,
+        <FormMultimedia hide={currentStep == 3 ? false : true}
+            getFunction={tester} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
+        <FormDirectorInfo hide={currentStep == 4 ? false : true}
+            getFunction={tester}></FormDirectorInfo>
     ]
 
     const maxstep = myforms.length;
 
-    function tester(values) {
-        console.log(values);
+    function tester() {
+        //
     }
+
+    function getMovieInfo(result) {
+        setFormMovieInfo(result);
+    }
+
+    useEffect(() => {
+        console.log("ALL my forms info!");
+        console.log(formMovieInfo, formAIUse, formMultimedia, formDirectorInfo);
+    }, [currentStep])
 
     //-------------------------------
     //Gestion des étapes
     //-------------------------------
 
     function handlestep(stepchange) {
-        console.log("stepchange!", stepchange);
+        //console.log("stepchange!", stepchange);
         if (currentStep <= maxstep && currentStep >= 1) {
-            // if (results["movietitle"] == "abc") {
-            //     setCurrentStep(stepchange);
-            // }
-            //verifyForm();
-            setCurrentStep(stepchange);
+            if (stepchange) {
+                setCurrentStep(stepchange);
+            }
+
         }
     }
 
     return (
         <div className="form_page">
-            <div>Envoyez votre vidéo</div>
+            <div className="form_bigtitle">Envoyez votre vidéo</div>
             <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
             <form className="form_container">
                 {myforms.map(form => { return form }
                 )}
-                <FormStepsButtons step={currentStep} maxstep={maxstep}
-                    getStepUpdate={handlestep}></FormStepsButtons>
+                {/* <FormStepsButtons step={currentStep} maxstep={maxstep}
+                    getStepUpdate={handlestep}></FormStepsButtons> */}
             </form>
         </div>
     )

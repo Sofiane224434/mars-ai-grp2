@@ -75,44 +75,46 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
   return (
     <>
-      {/* ── MOBILE : drawer qui s'ouvre par le haut ── */}
+      {/* ── MOBILE : barre déroulante légère du haut ── */}
       <div
-        className={`fixed top-0 left-0 w-full h-screen z-50 bg-noir-bleute transition-transform duration-300 lg:hidden flex flex-col ${mobileOpen ? "translate-y-0" : "-translate-y-full"
+        className={`fixed top-0 left-0 right-0 max-h-80 z-50 bg-noir-bleute transition-all duration-300 lg:hidden overflow-hidden ${mobileOpen ? "translate-y-0 shadow-lg" : "-translate-y-full pointer-events-none"
           }`}
       >
-        {/* Bouton fermer */}
-        <button
-          type="button"
-          className="absolute top-2 right-2 z-10 h-9 w-9 flex items-center justify-center rounded-full border border-white/30 bg-noir-bleute/90 text-white shadow-sm transition-colors hover:bg-bleu-ocean/85"
-          onClick={() => setMobileOpen(false)}
-          aria-label="Fermer le menu"
-        >
-          <span className="relative block h-3.5 w-3.5">
-            <span className="absolute left-1/2 top-1/2 h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded bg-white" />
-            <span className="absolute left-1/2 top-1/2 h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded bg-white" />
-          </span>
-        </button>
+        {/* En-tête fixe avec bouton fermer */}
+        <div className="flex items-center justify-end px-3 pt-2 pb-1 shrink-0">
+          <button
+            type="button"
+            className="h-8 w-8 flex items-center justify-center rounded-full border border-white/40 bg-noir-bleute/80 text-white hover:bg-bleu-ocean/70 transition-colors"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Fermer le menu"
+          >
+            <span className="relative block h-3 w-3">
+              <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded bg-white" />
+              <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded bg-white" />
+            </span>
+          </button>
+        </div>
 
-        {/* Items en grille 3×n */}
-        <nav className="flex flex-wrap justify-center gap-3 px-4 pt-12 pb-5">
-          <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"} onClick={() => setMobileOpen(false)}>
+        {/* Contenu du menu */}
+        <nav className="flex flex-wrap justify-center gap-2 px-3 pb-3 overflow-y-auto max-h-64">
+          <Link to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}>
             <Button
               variant="btn-panel-home"
               iconImg={panel_icon_home}
               iconOnly
-              className="h-12! w-12!"
+              className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
             >
               ACCUEIL
             </Button>
           </Link>
 
           {!isJuryPanel && (
-            <Link to="/dashboard/admin/movies" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/movies">
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_assign1}
                 iconOnly
-                className="h-12! w-12!"
+                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
               >
                 GÉRER LES VIDEOS
               </Button>
@@ -120,12 +122,12 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/admin/confirmation-mail" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/email-confirmation">
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_mail}
                 iconOnly
-                className="h-12! w-12!"
+                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
               >
                 CONFIRMATION EMAIL
               </Button>
@@ -133,12 +135,12 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {isJuryPanel && (
-            <Link to={`/dashboard/jury/${juryId}/movies`} onClick={() => setMobileOpen(false)}>
+            <Link to={`/dashboard/jury/${juryId}/movies`}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_not_watched}
                 iconOnly
-                className="h-12! w-12!"
+                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
               >
                 JUGER LES VIDÉOS
               </Button>
@@ -146,12 +148,12 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/admin/invitejury" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/invite-jury">
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_add}
                 iconOnly
-                className="h-12! w-12!"
+                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
               >
                 AJOUTER JURY
               </Button>
@@ -159,37 +161,37 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           )}
 
           {!isJuryPanel && (
-            <Link to="/dashboard/admin/editsite" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/edit-site">
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_setting}
                 iconOnly
-                className="h-12! w-12!"
+                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
               >
                 MODIFIER LE SITE
               </Button>
             </Link>
           )}
 
-        </nav>
+          <div className="w-full border-t border-noir-bleute" />
 
-        <div className="mt-auto px-4 pb-6 flex justify-center">
           <Button
             type="button"
             variant="email-cancel"
             interactive
+            className="w-11/12 max-w-xs justify-center text-sm"
             onClick={handleLogout}
             disabled={isLoggingOut}
           >
             {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
           </Button>
-        </div>
+        </nav>
       </div>
 
       {/* Hamburger – mobile uniquement */}
       <button
         type="button"
-        className={`fixed top-4 left-4 z-60 lg:hidden flex flex-col gap-1.5 items-center justify-center w-10 h-10 rounded-md bg-bleu-ocean transition-opacity duration-300 ${mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`fixed top-4 left-4 z-40 lg:hidden flex flex-col gap-1.5 items-center justify-center w-10 h-10 rounded-md bg-bleu-ocean transition-all duration-300 ${mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         onClick={() => setMobileOpen(true)}
         aria-label="Ouvrir le menu"

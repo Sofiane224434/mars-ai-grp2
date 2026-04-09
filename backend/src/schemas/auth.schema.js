@@ -19,5 +19,7 @@ export const inviteJurySchema = z.object({
             .min(1, "Au moins un email est requis")
             .max(50, "Maximum 50 invitations par appel"),
         message: z.string().max(2000, "Message trop long").optional().default(""),
+        subject: z.string().trim().max(200, "Objet trop long").optional().default(""),
+        body: z.string().max(10000, "Contenu trop long").optional().default(""),
     }),
 });

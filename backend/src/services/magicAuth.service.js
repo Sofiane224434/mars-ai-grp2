@@ -219,9 +219,38 @@ export const rotateUserAccessTokenVersion = async (userId) => {
   return newTokenAccess;
 };
 
+const defaultInvitationSubject =
+  "MarsAI - Invitation à rejoindre le jury officiel";
+
+const defaultInvitationBody = ({ displayName, customMessage = "" }) =>
+  `Bonjour ${displayName},\n\n` +
+  `Nous avons l'immense honneur de vous inviter à faire partie du jury officiel de cette nouvelle édition du festival MarsAI !\n` +
+  `Votre expertise sera précieuse pour l'évaluation des courts métrages en compétition.\n\n` +
+  (customMessage ? `${customMessage}\n\n` : "") +
+  `Quelle est la prochaine étape ? Pour accéder à votre interface privée et commencer à visionner les films qui vous sont assignés, connectez-vous via le lien sécurisé ci-dessous et en utilisant votre token d'accès personnel :\n\n` +
+  `Lien de connexion : {{loginUrl}}\n` +
+  `Token d'accès personnel : {{invitationToken}} (valide jusqu'au {{expiryDate}})\n\n` +
+  `Période de visionnage :\n` +
+  `Les œuvres qui vous seront assignées durent au maximum 2 minutes.\n\n` +
+  `Note de l'équipe : L'accès à ce panel de sélection est strictement confidentiel. Merci de ne pas partager votre token ni les contenus visionnés. Si vous pensez avoir reçu cet e-mail par erreur, ignorez-le.\n\n` +
+  `Nous vous remercions chaleureusement pour le temps et l'attention que vous accorderez au travail des réalisateurs.\n\n` +
+  `Créativement,\n` +
+  `L'équipe MarsAI`;
+
+const replaceTemplateVariables = (template, variables) => {
+  if (!template) return "";
+
+  return Object.entries(variables).reduce((content, [key, value]) => {
+    const safeValue = value == null ? "" : String(value);
+    return content.replaceAll(`{{${key}}}`, safeValue);
+  }, template);
+};
+
 export const issueInvitationForEmail = async ({
   email,
   customMessage = "",
+  customSubject = "",
+  customBody = "",
   appBaseUrl = process.env.APP_URL || "http://localhost:5173",
 }) => {
   assertSecrets();
@@ -253,25 +282,28 @@ export const issueInvitationForEmail = async ({
 
   const loginUrl = `${appBaseUrl}/auth?token=${encodeURIComponent(invitationToken)}`;
   const displayName = user.email.split("@")[0];
+  const templateVariables = {
+    displayName,
+    loginUrl,
+    invitationToken,
+    expiryDate,
+    email: user.email,
+  };
+
+  const subject = replaceTemplateVariables(
+    customSubject || defaultInvitationSubject,
+    templateVariables,
+  );
+  const message = replaceTemplateVariables(
+    customBody || defaultInvitationBody({ displayName, customMessage }),
+    templateVariables,
+  );
 
   await sendCustomEmail({
     to: user.email,
     name: user.email,
-    subject: "MarsAI - Invitation à rejoindre le jury officiel",
-    message:
-      `Bonjour ${displayName},\n\n` +
-      `Nous avons l'immense honneur de vous inviter à faire partie du jury officiel de cette nouvelle édition du festival MarsAI !\n` +
-      `Votre expertise sera précieuse pour l'évaluation des courts métrages en compétition.\n\n` +
-      (customMessage ? `${customMessage}\n\n` : "") +
-      `Quelle est la prochaine étape ? Pour accéder à votre interface privée et commencer à visionner les films qui vous sont assignés, connectez-vous via le lien sécurisé ci-dessous et en utilisant votre token d'accès personnel :\n\n` +
-      `Lien de connexion : ${loginUrl}\n` +
-      `Token d'accès personnel : ${invitationToken} (valide jusqu'au ${expiryDate})\n\n` +
-      `Période de visionnage :\n` +
-      `Les œuvres qui vous seront assignées durent au maximum 2 minutes.\n\n` +
-      `Note de l'équipe : L'accès à ce panel de sélection est strictement confidentiel. Merci de ne pas partager votre token ni les contenus visionnés. Si vous pensez avoir reçu cet e-mail par erreur, ignorez-le.\n\n` +
-      `Nous vous remercions chaleureusement pour le temps et l'attention que vous accorderez au travail des réalisateurs.\n\n` +
-      `Créativement,\n` +
-      `L'équipe MarsAI`,
+    subject,
+    message,
   });
 
   return { email: user.email, created };

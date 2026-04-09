@@ -8,12 +8,17 @@ import Button from '../../../components/ui/Button.jsx';
 // 🚀 Imports de nos nouveaux composants et du Mock
 import MovieAdminCard from '../../../components/sections/DashboardAdmin/MovieAdminCard.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
+// 🚀 AJOUT 1 : Import de l'interrupteur
+import ToggleSwitch from '../../../components/ui/ToggleSwitch.jsx';
 
 const AdminEmailConfirmation = () => {
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
   const [emailModal, setEmailModal] = useState({ isOpen: false, movie: null });
   const [currentPage, setCurrentPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  
+  // 🚀 AJOUT 2 : La mémoire pour l'interrupteur (par défaut en mode liste pour des emails, c'est souvent plus lisible)
+  const [viewMode, setViewMode] = useState('list'); 
   
   // État des filtres
   const [selectedFilters, setSelectedFilters] = useState({
@@ -131,13 +136,21 @@ const AdminEmailConfirmation = () => {
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         
-        <div className="mb-10 text-center sm:text-left">
-          <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
-            Confirmations des emails
-          </h1>
-          <p className="text-gris-magneti">
-            Liste des films évalués par le jury en attente d'une communication officielle.
-          </p>
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between text-center sm:text-left">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
+              Confirmations des emails
+            </h1>
+            <p className="text-gris-magneti">
+              Liste des films évalués par le jury en attente d'une communication officielle.
+            </p>
+          </div>
+          <div className="sm:pt-1 sm:shrink-0">
+            <ToggleSwitch 
+              isListMode={viewMode === 'list'} 
+              onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')} 
+            />
+          </div>
         </div>
 
         {/* Barre toggle des filtres */}
@@ -296,13 +309,18 @@ const AdminEmailConfirmation = () => {
           </div>
         </div>
 
+        {/* 🚀 AJOUT 4 : Le conteneur dynamique qui change de forme selon viewMode */}
         {currentMovies.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* 🚀 On boucle simplement sur notre composant isolé */}
+          <div className={
+            viewMode === 'grid'
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-10"
+              : "flex flex-col gap-4 px-4 sm:px-10"
+          }>
             {currentMovies.map((movie) => (
               <MovieAdminCard 
                 key={movie.id} 
-                movie={movie} 
+                movie={movie}
+                layout={viewMode} // 🚀 AJOUT 5 : On transmet la disposition à la carte !
                 onOpenEmailModal={handleOpenEmailModal} 
               />
             ))}
@@ -323,7 +341,7 @@ const AdminEmailConfirmation = () => {
 
       </div>
 
-      {/* 🚀 La Modale isolée */}
+      {/* La Modale isolée */}
       {emailModal.isOpen && (
         <EmailTemplateModal 
           isOpen={emailModal.isOpen} 

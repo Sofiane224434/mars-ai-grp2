@@ -61,13 +61,17 @@ function MovieCard({
 
   return (
     <article className="flex h-full w-full max-w-96 flex-col rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-3 text-white shadow-lg sm:p-4">
-      <h3 className="font-title text-2xl leading-tight sm:text-3xl">{title}</h3>
-      <p className="text-lg sm:text-xl">Par : {directorName}</p>
+      <div className="min-h-20 sm:min-h-24">
+        <h3 className="font-title text-2xl leading-tight sm:text-3xl line-clamp-2 min-h-12">
+          {title}
+        </h3>
+        <p className="text-lg sm:text-xl line-clamp-1 min-h-6 mt-0">Par : {directorName}</p>
+      </div>
 
       <button
         type="button"
         onClick={onThumbnailClick}
-        className="mt-2 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+        className="mt-0 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
       >
         {imageError ? (
           FALLBACK_SVG
@@ -84,7 +88,7 @@ function MovieCard({
 
       {showStatus && (
         <div className="mt-2 flex items-center gap-2">
-          <span className="text-xl sm:text-2xl">Statut :</span>
+          <span className="text-base sm:text-lg">Statut :</span>
           <Status
             variant={STATUS_VARIANT[status] || "pending"}
             className="px-2 py-0.5"
@@ -97,14 +101,9 @@ function MovieCard({
       <div className="flex flex-col flex-1">
         {isAdmin && (
           <>
-            <p className="mt-2 text-xl leading-snug sm:text-2xl">
-              {showAssignedJurors && hasAssignedJurors
-                ? "Video assignée à :"
-                : "Cette video n'est pas assignée à un jury"}
-            </p>
-
-            {showAssignedJurors && hasAssignedJurors && (
-              <div className="mt-2 flex flex-wrap gap-2">
+            {showAssignedJurors && hasAssignedJurors ? (
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <p className="text-base sm:text-lg leading-snug">Vidéo assignée à :</p>
                 {uniqueAssignedJurors.map((juryName) => (
                   <span
                     key={juryName}
@@ -114,6 +113,10 @@ function MovieCard({
                   </span>
                 ))}
               </div>
+            ) : (
+              <p className="mt-2 text-lg leading-snug sm:text-xl">
+                Cette vidéo n'est pas assignée à un jury
+              </p>
             )}
           </>
         )}
@@ -133,7 +136,7 @@ function MovieCard({
           </Button>
         )}
 
-        <p className="my-3 text-lg leading-snug sm:text-xl line-clamp-2 min-h-[2.75rem]">
+        <p className="my-3 text-lg leading-snug sm:text-xl line-clamp-2 min-h-11">
           {description}
         </p>
 
@@ -142,7 +145,7 @@ function MovieCard({
             interactive
             variant="filled-yellow"
             onClick={onMoreInfo}
-            className="h-10 w-full rounded-full px-8 text-base font-semibold text-center flex items-center justify-center"
+            className="h-14! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight"
           >
             Voir plus d&apos;informations
           </Button>

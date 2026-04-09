@@ -107,7 +107,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
           </Link>
 
           {!isJuryPanel && (
-            <Link to="/dashboard/admin" onClick={() => setMobileOpen(false)}>
+            <Link to="/dashboard/admin/movies" onClick={() => setMobileOpen(false)}>
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_assign1}

@@ -2,7 +2,12 @@ import { movieModel } from '../models/movieModel.js';
 import { sendCustomEmail } from './email.service.js'; // Import de ton service
 
 export const adminService = {
-  // 1. Logique pour récupérer la liste
+  // Récupérer absolument TOUS les films pour le dashboard
+  async getAllMovies() {
+    return await movieModel.getAllAdminMovies();
+  },
+
+  // 1. Logique pour récupérer la liste des films à revoir (Review)
   async getReviewList() {
     return await movieModel.getMoviesPendingReview();
   },

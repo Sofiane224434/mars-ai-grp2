@@ -101,12 +101,8 @@ function App() {
             <Route path="/dashboard/admin/edit-site" element={<EditSite />} />
             <Route path="/dashboard/admin/invite-jury" element={<InviteJury />} />
             <Route path="/dashboard/admin/email-confirmation" element={<AdminEmailConfirmation />} />
-            
-            {/* Si ta page liste des films a aussi besoin de l'ID, tu devrais modifier cette ligne : */}
-            <Route path="/dashboard/admin/:id/movies" element={<AdminMovies />} /> 
-            
-            {/* 🚀 LA NOUVELLE ROUTE AVEC L'ID ADMIN ET L'ID FILM */}
-            <Route path="/dashboard/admin/:id/movies/:movieId" element={<AdminMovieDetails />} />
+            <Route path="/dashboard/admin/movies" element={<AdminMovies />} />
+            <Route path="/dashboard/admin/movies/:movieId" element={<AdminMovieDetails />} />
           </Route>
         </Route>
 

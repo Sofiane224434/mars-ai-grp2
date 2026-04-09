@@ -1,5 +1,6 @@
 import Button from "./Button.jsx";
 import { Status } from "./StatusBadge.jsx";
+import { useState } from "react";
 
 const STATUS_VARIANT = {
   pending: "pending",
@@ -15,6 +16,23 @@ const STATUS_LABEL = {
   rejected: "Refusé",
 };
 
+const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
+
+// Fallback SVG si l'image ne charge pas
+const FALLBACK_SVG = (
+  <svg
+    className="aspect-video w-full object-cover"
+    viewBox="0 0 400 225"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    <rect width="400" height="225" fill="#2a2a3a" />
+    <rect x="1" y="1" width="398" height="223" fill="none" stroke="#444" strokeWidth="2" />
+    <circle cx="200" cy="112.5" r="40" fill="#555" opacity="0.5" />
+    <path d="M170 100 L170 125 L230 112.5 Z" fill="#666" opacity="0.7" />
+  </svg>
+);
+
 function MovieCard({
   variant = "basic",
   title = "Titre de la video",
@@ -27,6 +45,8 @@ function MovieCard({
   onAssign,
   onMoreInfo,
 }) {
+  const [imageError, setImageError] = useState(false);
+  
   const isAdmin = variant === "admin-assign" || variant === "admin-assigned";
   const showAssignedJurors = variant === "admin-assigned";
   const isJuryPending = variant === "jury-pending";
@@ -49,16 +69,16 @@ function MovieCard({
         onClick={onThumbnailClick}
         className="mt-2 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
       >
-        {thumbnailSrc ? (
+        {imageError ? (
+          FALLBACK_SVG
+        ) : (
           <img
-            src={thumbnailSrc}
+            src={thumbnailSrc || DEFAULT_THUMBNAIL}
             alt={`Miniature de ${title}`}
             className="aspect-video w-full object-cover"
+            onError={() => setImageError(true)}
+            onLoad={() => setImageError(false)}
           />
-        ) : (
-          <div className="relative aspect-video w-full">
-            <span className="absolute left-1/2 top-1/2 h-0 w-0 -translate-x-1/2 -translate-y-1/2 border-b-32 border-l-52 border-t-32 border-b-transparent border-l-white/75 border-t-transparent" />
-          </div>
         )}
       </button>
 

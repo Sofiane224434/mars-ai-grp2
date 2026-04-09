@@ -25,7 +25,7 @@ export default function FinalForm() {
         <FormMultimedia hide={currentStep == 3 ? false : true}
             getFunction={tester} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
         <FormDirectorInfo hide={currentStep == 4 ? false : true}
-            getFunction={tester}></FormDirectorInfo>
+            getFunction={tester} currentstep={currentStep} stepfunc={handlestep}></FormDirectorInfo>
     ]
 
     const maxstep = myforms.length;

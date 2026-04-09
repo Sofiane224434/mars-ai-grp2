@@ -14,6 +14,9 @@ export default function FormMultimedia({ hide = false, getFunction,
     const [screenshot2, setScreenshot2] = useState({ file: "", value: "" });
     const [screenshot3, setScreenshot3] = useState({ file: "", value: "" });
 
+    const [errorThumbnail, setErrorThumbnail] = useState("");
+    const [errorScreenshot, setErrorScreenshot] = useState("");
+
     let alldata = {
         thumbnail: thumbnail,
         srtCheck: srtCheck,
@@ -38,6 +41,12 @@ export default function FormMultimedia({ hide = false, getFunction,
     }
 
     function verify() {
+
+        let error = false;
+
+        if (!error) {
+            stepfunc(currentstep + 1);
+        }
 
     }
 

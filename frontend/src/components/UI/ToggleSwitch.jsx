@@ -23,7 +23,7 @@ const ToggleSwitch = ({ isListMode, onToggle }) => {
       {/* La pastille qui glisse (le bouton rouge de ton image) */}
       <span
         className={`
-          pointer-events-none relative inline-block h-8 w-10 transform rounded-lg bg-bleu-ciel shadow-lg transition duration-300 ease-in-out flex items-center justify-center
+          pointer-events-none relative inline-flex h-8 w-10 transform items-center justify-center rounded-lg bg-bleu-ciel shadow-lg transition duration-300 ease-in-out
           ${isListMode ? 'translate-x-[2.3rem]' : 'translate-x-1'}
         `}
       >

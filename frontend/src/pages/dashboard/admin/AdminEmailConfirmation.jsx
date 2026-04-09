@@ -136,7 +136,7 @@ const AdminEmailConfirmation = () => {
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between text-center sm:text-left">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
               Confirmations des emails
@@ -145,7 +145,7 @@ const AdminEmailConfirmation = () => {
               Liste des films évalués par le jury en attente d'une communication officielle.
             </p>
           </div>
-          <div className="sm:pt-1 sm:shrink-0">
+          <div className="sm:shrink-0">
             <ToggleSwitch 
               isListMode={viewMode === 'list'} 
               onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')} 

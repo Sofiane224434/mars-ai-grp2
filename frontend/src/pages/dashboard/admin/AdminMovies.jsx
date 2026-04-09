@@ -8,10 +8,15 @@ import MovieCard from "../../../components/ui/MovieCard.jsx";
 import Filter from "../../../components/ui/Filter.jsx";
 import Button from "../../../components/ui/Button.jsx";
 import Spinner from "../../../components/ui/Spinner.jsx";
+// 🚀 AJOUT 1 : Import de l'interrupteur
+import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 
 function AdminMovies() {
   const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
+  
+  // 🚀 AJOUT 2 : La mémoire pour le mode de vue (on le met en 'grid' par défaut pour cette page)
+  const [viewMode, setViewMode] = useState('grid');
   
   // État des filtres
   const [selectedFilters, setSelectedFilters] = useState({
@@ -98,176 +103,183 @@ function AdminMovies() {
   return (
     <div className="min-h-screen background-gradient-black pt-12 lg:pt-8 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        
-        <div className="mb-10 text-center sm:text-left">
-          <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
-            Tous les Films
-          </h1>
-          <p className="text-gris-magneti">
-            Liste des films du festival avec leur statut et leur assignation jury.
-          </p>
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between text-center sm:text-left">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
+              Tous les Films
+            </h1>
+            <p className="text-gris-magneti">
+              Liste des films du festival avec leur statut et leur assignation jury.
+            </p>
+          </div>
+          <div className="sm:shrink-0 sm:pt-1">
+            <ToggleSwitch
+              isListMode={viewMode === 'list'}
+              onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')}
+            />
+          </div>
         </div>
 
         <div className="mb-6">
-        {/* Barre toggle d'origine */}
-        <div className="mb-2">
-          <button
-            type="button"
-            onClick={() => setFiltersOpen((prev) => !prev)}
-            className="flex items-center gap-2 rounded-lg border border-white/20 bg-gris-steelix px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gris-magneti"
-          >
-            <span>Filtres</span>
-            <svg
-              className={`h-4 w-4 transition-transform duration-200 ${filtersOpen ? "rotate-180" : ""}`}
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+          <div className="mb-2">
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((prev) => !prev)}
+              className="flex items-center gap-2 rounded-lg border border-white/20 bg-gris-steelix px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gris-magneti"
             >
-              <path
-                fillRule="evenodd"
-                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Panneau déroulant d'origine */}
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
-            {/* Mobile / tablette */}
-            <div className="lg:hidden">
-              <div className="mx-auto w-fit flex flex-col gap-2">
-                <div className="flex flex-wrap justify-center gap-2">
-                  <Filter 
-                    variant="assignation"
-                    checked={selectedFilters.assignation.includes('unassigned')}
-                    onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
-                  >
-                    Non assigné
-                  </Filter>
-                  <Filter 
-                    variant="assignation"
-                    checked={selectedFilters.assignation.includes('assigned')}
-                    onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
-                  >
-                    Assigné
-                  </Filter>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <Filter 
-                    variant="approved"
-                    checked={selectedFilters.status.includes('approved')}
-                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
-                  >
-                    Validé
-                  </Filter>
-                  <Filter 
-                    variant="rejected"
-                    checked={selectedFilters.status.includes('rejected')}
-                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
-                  >
-                    Refusé
-                  </Filter>
-                  <Filter 
-                    variant="review"
-                    checked={selectedFilters.status.includes('review')}
-                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
-                  >
-                    À revoir
-                  </Filter>
-                  <Filter 
-                    variant="pending"
-                    checked={selectedFilters.status.includes('pending')}
-                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
-                  >
-                    En attente
-                  </Filter>
-                </div>
-
-                <div className="pt-1">
-                  <Button
-                    interactive
-                    className="w-full flex items-center justify-center text-center text-sm"
-                    variant="filled-yellow"
-                    onClick={handleClearFilters}
-                  >
-                    Supprimer les filtres
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Desktop */}
-            <div className="hidden lg:flex items-center justify-between gap-3">
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-wrap gap-2">
-                  <Filter 
-                    variant="assignation"
-                    checked={selectedFilters.assignation.includes('unassigned')}
-                    onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
-                  >
-                    Non assigné
-                  </Filter>
-                  <Filter 
-                    variant="assignation"
-                    checked={selectedFilters.assignation.includes('assigned')}
-                    onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
-                  >
-                    Assigné
-                  </Filter>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Filter 
-                    variant="approved"
-                    checked={selectedFilters.status.includes('approved')}
-                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
-                  >
-                    Validé
-                  </Filter>
-                  <Filter 
-                    variant="rejected"
-                    checked={selectedFilters.status.includes('rejected')}
-                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
-                  >
-                    Refusé
-                  </Filter>
-                  <Filter 
-                    variant="review"
-                    checked={selectedFilters.status.includes('review')}
-                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
-                  >
-                    À revoir
-                  </Filter>
-                  <Filter 
-                    variant="pending"
-                    checked={selectedFilters.status.includes('pending')}
-                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
-                  >
-                    En attente
-                  </Filter>
-                </div>
-              </div>
-              <Button
-                interactive
-                className="shrink-0 self-center flex items-center justify-center text-center text-sm"
-                variant="filled-yellow"
-                onClick={handleClearFilters}
+              <span>Filtres</span>
+              <svg
+                className={`h-4 w-4 transition-transform duration-200 ${filtersOpen ? "rotate-180" : ""}`}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
               >
-                Supprimer les filtres
-              </Button>
+                <path
+                  fillRule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
+              <div className="lg:hidden">
+                <div className="mx-auto w-fit flex flex-col gap-2">
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <Filter
+                      variant="assignation"
+                      checked={selectedFilters.assignation.includes('unassigned')}
+                      onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
+                    >
+                      Non assigné
+                    </Filter>
+                    <Filter
+                      variant="assignation"
+                      checked={selectedFilters.assignation.includes('assigned')}
+                      onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
+                    >
+                      Assigné
+                    </Filter>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <Filter
+                      variant="approved"
+                      checked={selectedFilters.status.includes('approved')}
+                      onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                    >
+                      Validé
+                    </Filter>
+                    <Filter
+                      variant="rejected"
+                      checked={selectedFilters.status.includes('rejected')}
+                      onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                    >
+                      Refusé
+                    </Filter>
+                    <Filter
+                      variant="review"
+                      checked={selectedFilters.status.includes('review')}
+                      onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                    >
+                      À revoir
+                    </Filter>
+                    <Filter
+                      variant="pending"
+                      checked={selectedFilters.status.includes('pending')}
+                      onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                    >
+                      En attente
+                    </Filter>
+                  </div>
+
+                  <div className="pt-1">
+                    <Button
+                      interactive
+                      className="w-full flex items-center justify-center text-center text-sm"
+                      variant="filled-yellow"
+                      onClick={handleClearFilters}
+                    >
+                      Supprimer les filtres
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden lg:flex items-center justify-between gap-3">
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <Filter
+                      variant="assignation"
+                      checked={selectedFilters.assignation.includes('unassigned')}
+                      onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
+                    >
+                      Non assigné
+                    </Filter>
+                    <Filter
+                      variant="assignation"
+                      checked={selectedFilters.assignation.includes('assigned')}
+                      onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
+                    >
+                      Assigné
+                    </Filter>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Filter
+                      variant="approved"
+                      checked={selectedFilters.status.includes('approved')}
+                      onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                    >
+                      Validé
+                    </Filter>
+                    <Filter
+                      variant="rejected"
+                      checked={selectedFilters.status.includes('rejected')}
+                      onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                    >
+                      Refusé
+                    </Filter>
+                    <Filter
+                      variant="review"
+                      checked={selectedFilters.status.includes('review')}
+                      onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                    >
+                      À revoir
+                    </Filter>
+                    <Filter
+                      variant="pending"
+                      checked={selectedFilters.status.includes('pending')}
+                      onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                    >
+                      En attente
+                    </Filter>
+                  </div>
+                </div>
+                <Button
+                  interactive
+                  className="shrink-0 self-center flex items-center justify-center text-center text-sm"
+                  variant="filled-yellow"
+                  onClick={handleClearFilters}
+                >
+                  Supprimer les filtres
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-        </div>
 
-        {/* Grille des films connectée à l'API */}
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch pb-12">
+        {/* 🚀 AJOUT 4 : Le conteneur dynamique de la grille/liste */}
+        <div className={
+          viewMode === 'grid' 
+            ? "grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch pb-12"
+            : "flex flex-col gap-4 max-w-4xl mx-auto pb-12 w-full"
+        }>
           {displayMovies.length > 0 ? (
             displayMovies.map((movie) => {
               const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
@@ -277,6 +289,7 @@ function AdminMovies() {
               return (
                 <MovieCard
                   key={movie.id}
+                  layout={viewMode} // 🚀 AJOUT 5 : On passe la prop à ta MovieCard
                   variant={hasJury ? "admin-assigned" : "admin-assign"}
                   status={statusStr}
                   title={movie.title}

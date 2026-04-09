@@ -35,6 +35,7 @@ const FALLBACK_SVG = (
 
 function MovieCard({
   variant = "basic",
+  layout = "grid",
   title = "Titre de la video",
   directorName = "Nom Prénom",
   description = "Une description raccourcie de la video. Texte texte. Plus de description...",
@@ -59,6 +60,111 @@ function MovieCard({
   )];
   const hasAssignedJurors = uniqueAssignedJurors.length > 0;
 
+  
+  const actionButtonsBlock = (
+    <div className="mt-auto flex flex-col pt-3 w-full">
+      {isAdmin && (
+        <Button
+          interactive
+          variant="gradient-blue"
+          onClick={onAssign}
+          className="h-10 w-full rounded-full text-base font-semibold"
+        >
+          {showAssignedJurors && hasAssignedJurors
+            ? "Modifier le jury"
+            : "Assigner à un jury"}
+        </Button>
+      )}
+
+      <p className="my-3 text-lg leading-snug sm:text-xl line-clamp-2 min-h-11">
+        {description}
+      </p>
+
+      {(isAdmin || isJuryPending || isJuryReviewed) && (
+        <Button
+          interactive
+          variant="filled-yellow"
+          onClick={onMoreInfo}
+          className="h-14! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight"
+        >
+          Voir plus d&apos;informations
+        </Button>
+      )}
+    </div>
+  );
+
+  // ==========================================
+  //AFFICHAGE EN LISTE
+  // ==========================================
+  if (layout === "list") {
+    return (
+      <article className="flex w-full flex-col md:flex-row rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-4 text-white shadow-lg gap-6 items-start md:items-center">
+        
+        {/* 1. Miniature (Gauche) */}
+        <button
+          type="button"
+          onClick={onThumbnailClick}
+          className="block w-full md:w-64 shrink-0 overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+        >
+          {imageError ? FALLBACK_SVG : (
+            <img
+              src={thumbnailSrc || DEFAULT_THUMBNAIL}
+              alt={`Miniature de ${title}`}
+              className="aspect-video w-full object-cover"
+              onError={() => setImageError(true)}
+              onLoad={() => setImageError(false)}
+            />
+          )}
+        </button>
+
+        {/* 2. Infos (Centre) */}
+        <div className="flex flex-col flex-1 min-w-0">
+          <h3 className="font-title text-2xl leading-tight sm:text-3xl line-clamp-2">
+            {title}
+          </h3>
+          <p className="text-lg sm:text-xl line-clamp-1">Par : {directorName}</p>
+
+          {showStatus && (
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-base sm:text-lg">Statut :</span>
+              <Status variant={STATUS_VARIANT[status] || "pending"} className="px-2 py-0.5">
+                {STATUS_LABEL[status] || STATUS_LABEL.pending}
+              </Status>
+            </div>
+          )}
+
+          <div className="flex flex-col flex-1 mt-2">
+            {isAdmin && (
+              <>
+                {showAssignedJurors && hasAssignedJurors ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <p className="text-base sm:text-lg leading-snug">Assignée à :</p>
+                    {uniqueAssignedJurors.map((juryName) => (
+                      <span key={juryName} className="rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white">
+                        {juryName}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-2 text-lg leading-snug sm:text-xl">Cette vidéo n'est pas assignée</p>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* 3. Boutons (Droite) -> On injecte TON code ici, encadré pour la liste */}
+        <div className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-6">
+          {actionButtonsBlock}
+        </div>
+
+      </article>
+    );
+  }
+
+  // ==========================================
+  // LOGIQUE PAR DÉFAUT : AFFICHAGE EN GRILLE )
+  // ==========================================
   return (
     <article className="flex h-full w-full max-w-96 flex-col rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-3 text-white shadow-lg sm:p-4">
       <div className="min-h-20 sm:min-h-24">
@@ -122,35 +228,9 @@ function MovieCard({
         )}
       </div>
 
-      <div className="mt-auto flex flex-col pt-3">
-        {isAdmin && (
-          <Button
-            interactive
-            variant="gradient-blue"
-            onClick={onAssign}
-            className="h-10 w-full rounded-full text-base font-semibold"
-          >
-            {showAssignedJurors && hasAssignedJurors
-              ? "Modifier le jury"
-              : "Assigner à un jury"}
-          </Button>
-        )}
-
-        <p className="my-3 text-lg leading-snug sm:text-xl line-clamp-2 min-h-11">
-          {description}
-        </p>
-
-        {(isAdmin || isJuryPending || isJuryReviewed) && (
-          <Button
-            interactive
-            variant="filled-yellow"
-            onClick={onMoreInfo}
-            className="h-14! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight"
-          >
-            Voir plus d&apos;informations
-          </Button>
-        )}
-      </div>
+      {/* On injecte TON code ici aussi, tout en bas de la carte ! */}
+      {actionButtonsBlock}
+      
     </article>
   );
 }

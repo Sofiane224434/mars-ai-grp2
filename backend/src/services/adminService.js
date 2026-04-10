@@ -1,13 +1,53 @@
 import { movieModel } from '../models/movieModel.js';
-import { sendCustomEmail } from './email.service.js'; // Import de ton service
+import { adminModel } from '../models/adminModel.js'; 
+import { sendCustomEmail } from './email.service.js';
 
 export const adminService = {
-  // Récupérer absolument TOUS les films pour le dashboard
+
+  async getDashboardStats() {
+    
+    const [totalMovies, statusCounts, juryProgress, emailsPending] = await Promise.all([
+      adminModel.countTotalMovies(),
+      adminModel.countMoviesByStatus(),
+      adminModel.getJuryProgress(),
+      adminModel.countPendingEmails()
+    ]);
+
+    const statusMap = { 
+      1: 'pending',     
+      2: 'rejected',    
+      3: 'review',      
+      4: 'approved'     
+    };
+
+    const defaultStats = { pending: 0, approved: 0, review: 0, rejected: 0 };
+
+    const moviesByStatus = Array.isArray(statusCounts) 
+      ? statusCounts.reduce((acc, row) => {
+          const key = statusMap[row.status] || statusMap[row.statusId]; 
+          if (key) {
+            acc[key] = Number(row.count);
+          }
+          return acc;
+        }, { ...defaultStats }) 
+      : defaultStats;
+
+    return {
+      totalMovies: Number(totalMovies || 0),
+      moviesByStatus,
+      juryProgress: {
+        totalAssigned: Number(juryProgress?.totalAssigned || 0),
+        totalEvaluated: Number(juryProgress?.totalEvaluated || 0)
+      },
+      emailsPending: Number(emailsPending || 0)
+    };
+  },
+
+ 
   async getAllMovies() {
     return await movieModel.getAllAdminMovies();
   },
 
-  // 1. Logique pour récupérer la liste des films à revoir (Review)
   async getReviewList() {
     return await movieModel.getMoviesPendingReview();
   },
@@ -16,7 +56,6 @@ export const adminService = {
     return await movieModel.getMovieDetailForAdmin(movieId);
   },
 
-  // 2. Logique complexe d'envoi d'email
   async processOfficialEmail(movieId, subject, body, senderUserId) {
     if (!senderUserId) {
       const err = new Error("Session invalide: utilisateur introuvable.");
@@ -24,7 +63,6 @@ export const adminService = {
       throw err;
     }
 
-    // A. Vérification en base
     const movie = await movieModel.getMovieWithDirectorInfo(movieId);
     
     if (!movie) {
@@ -39,8 +77,6 @@ export const adminService = {
       throw err;
     }
 
-    // B. Appel à ton service d'email (email.service.js)
-    // On passe les paramètres attendus par ta fonction sendCustomEmail
     await sendCustomEmail({
       to: movie.email,
       name: `${movie.firstname} ${movie.lastname}`,
@@ -48,7 +84,6 @@ export const adminService = {
       message: body
     });
 
-    // C. Validation finale en base
     await movieModel.logOfficialEmail({
       movieId,
       userId: senderUserId,

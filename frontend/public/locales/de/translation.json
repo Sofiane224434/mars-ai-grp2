@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "movies": "Filme",
+    "about": "Über",
+    "faq": "FAQ",
+    "participate": "Mitmachen"
+  },
+  "home": {
+    "HeroSection": "Der Mensch im Mittelpunkt der KI",
+    "titles1": "1 MINUTE",
+    "description1": "Jeder Film dauert höchstens 1 Minute",
+    "titles2": "1 THEMA",
+    "description2": "Allen Filmen ist ein gemeinsames Thema gemein: Eine erstrebenswerte Zukunft",
+    "titles3": "1 GEWINNER",
+    "description3": "Nur ein einziger großer Gewinner!",
+    "PodiumGraphic": "Aus einer Auswahl von über 20.000 Videos",
+    "quickAccess": {
+      "title": "Entdecken Sie das Festival",
+      "description": "Hier finden Sie schnell die wichtigsten Seiten des Festivals, um die Filme zu entdecken, MarsAI besser kennenzulernen und alle praktischen Informationen zu erhalten.",
+      "cards": {
+        "movies": {
+          "description": "Entdecken Sie die ausgewählten Kurzfilme, verfolgen Sie die aktuelle Phase und sehen Sie sich bald die Gewinnerliste an.",
+          "cta": "Filme ansehen"
+        },
+        "about": {
+          "description": "Machen Sie sich mit der Vision des Festivals, seinen Zielen und dem einzigartigen Format des Wettbewerbs vertraut.",
+          "cta": "MarsAI entdecken"
+        },
+        "faq": {
+          "description": "Hier finden Sie auf einen Blick alle praktischen Informationen: Anfahrt, Öffnungszeiten, Workshops und Ablauf.",
+          "cta": "FAQ lesen"
+        }
+      }
+    }
+  },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "Was ist MarsAI?",
+        "text": "Ein Festival mit <strong>1-minütigen Kurzfilmen,</strong> die von <strong>KI</strong> erstellt wurden\n\n<strong>Kostenlose</strong> Vorträge und Workshops\n\n<strong>Erfahrungsaustausch </strong>mit<strong> KI-Experten</strong> für Fachleute und die breite Öffentlichkeit\n\n<strong>2 Festivaltage in Marseille</strong> im Herzen der KI"
+      },
+      "block2": {
+        "title": "Ziel des Festivals",
+        "text": "Den Menschen in den Mittelpunkt der Schaffung KI-generierter Werke stellen\n\nDie Kreativität der Teilnehmer durch ein <strong>sehr kurzes Format</strong> herausfordern\n\nDie Leistungsfähigkeit der KI für ein bestimmtes Thema nutzen: <strong>Stellen Sie sich wünschenswerte Zukunftsszenarien vor</strong>"
+      },
+      "block3": {
+        "title": "Auswahlformat",
+        "text": "2-monatiger <strong>Aufruf zur Einreichung</strong> <strong>von Projekten</strong>\n\n<strong>50 einminütige Kurzfilme,</strong> die für den offiziellen Wettbewerb ausgewählt werden\n\nOnline-Veröffentlichung der Werke (Web und soziale Netzwerke)\n\n<strong>Vorführung in Kinos</strong> und <strong>auf</strong> Filmfestivals"
+      },
+      "block4": {
+        "title": "Der Ort",
+        "subtitle": "Die Plattform",
+        "text": "<strong>4.000 m² Fläche</strong> im Zentrum von Marseille für die Veranstaltung"
+      }
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen (FAQ) – MarsAi-Festival",
+    "disclaimer": "Vielleicht finden Sie die Antwort auf Ihre Frage weiter unten! ",
+    "informations-title": "Praktische Informationen:",
+    "informations-content": "Wo und wann findet das MarsAi-Festival statt? Das Festival dauert zwei Tage, am Freitag, den 5. Juni, und am Sonntag, den 7. Juni. Die Veranstaltung findet im Dock des Suds (12 Rue Urbain V, 13002 Marseille) statt. Die Tore öffnen um 10:00 Uhr und schließen um 19:00 Uhr.",
+    "question1": "Wie komme ich dorthin?",
+    "answer1-1": "Mit öffentlichen Verkehrsmitteln: U-Bahn-Linie 2 (Haltestelle Désirée Clary) oder Straßenbahn T2/T3 (Haltestelle Arenc Le Silo).",
+    "answer1-2": "Mit dem Auto: In unmittelbarer Nähe befinden sich gebührenpflichtige öffentliche Parkplätze (Indigo Quai d'Arenc, Espercieux).",
+    "answer1-3": "Für den sanften Verkehr: Auf dem Vorplatz steht ein Abstellplatz für Fahrräder und Roller zur Verfügung.",
+    "answer1-4": "Ist der Veranstaltungsort für Menschen mit eingeschränkter Mobilität zugänglich? Ja, das Dock des Suds ist ebenerdig und vollständig barrierefrei. Im Gebäude stehen behindertengerechte Sanitäranlagen zur Verfügung.",
+    "access-title": "🎟️ Zugang und Anmeldung 🎟️",
+    "question2": "Muss ich ein Ticket kaufen oder reservieren? ",
+    "answer2": "Nein, der Eintritt zum MarsAi-Festival ist völlig kostenlos und es sind keine Eintrittskarten erforderlich. Sie können jederzeit vorbeikommen, wann immer Sie möchten.",
+    "question3": "Gibt es eine maximale Belegung?",
+    "answer3": "Der Eintritt ist frei, hängt jedoch von der Kapazität des Dock des Suds ab. Bei sehr großem Andrang kann aus Sicherheitsgründen am Eingang eine Warteschlange gebildet werden.",
+    "programation-title": "🤖 Programm und Workshops 🤖 ",
+    "question4": "An wen richtet sich das MarsAi-Festival?",
+    "answer4": "Das Festival richtet sich an alle! Egal, ob Sie in der Tech-Branche tätig sind, studieren oder einfach nur neugierig auf die neuesten Entwicklungen im Bereich der künstlichen Intelligenz sind – hier finden Sie Vorträge und Vorführungen, die genau auf Ihr Niveau zugeschnitten sind.",
+    "question5": "Muss man sich für die praktischen Workshops im Voraus anmelden?",
+    "answer5": " Der allgemeine Eintritt ist frei, für bestimmte Workshops ist jedoch eine Anmeldung vor Ort am Festivaltag am Empfang erforderlich. Die Plätze werden in der Reihenfolge der Ankunft vergeben."
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "Sprache ändern",
+      "french": "Deutsch",
+      "english": "Englisch",
+      "spanish": "Spanisch",
+      "arabic": "Arabisch",
+      "portuguese": "Portugiesisch",
+      "mandarin": "Mandarin",
+      "german": "Deutsch",
+      "hindi": "Hindi",
+      "russian": "Russisch",
+      "japanese": "Japanisch"
+    }
+  },
+  "footer": {
+    "collaborator": "In Zusammenarbeit mit",
+    "textcontact": "Bleiben Sie in Kontakt",
+    "newsletter": "Anmeldung zum Newsletter",
+    "emailplaceholder": "Ihre E-Mail-Adresse",
+    "subscribe": "Newsletter abonnieren",
+    "rights": "Alle Rechte vorbehalten"
+  },
+  "movies": {
+    "empty-title": "Bald erhältlich",
+    "empty-description": "Die 50 von der Jury ausgewählten Filme werden nach Abschluss der Bewerbungsphase hier veröffentlicht. Schauen Sie bald wieder vorbei!",
+    "current-phase-label": "Aktuelle Phase",
+    "current-phase": "Einreichung der Bewerbungen"
+  },
+  "countdown": {
+    "nextSelection": "Nächste Auswahl",
+    "days": "Tage",
+    "hours": "Öffnungszeiten",
+    "minutes": "Protokoll",
+    "seconds": "Sekunden",
+    "top50": "Top 50",
+    "participate": "Mitmachen"
+  }
+}

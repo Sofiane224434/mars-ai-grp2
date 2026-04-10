@@ -4,11 +4,8 @@ import Spinner from '../../../components/ui/Spinner.jsx';
 import Pagination from '../../../components/ui/Pagination.jsx';
 import Filter from '../../../components/ui/Filter.jsx';
 import Button from '../../../components/ui/Button.jsx';
-
-// 🚀 Imports de nos nouveaux composants et du Mock
 import MovieAdminCard from '../../../components/sections/DashboardAdmin/MovieAdminCard.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
-// 🚀 AJOUT 1 : Import de l'interrupteur
 import ToggleSwitch from '../../../components/ui/ToggleSwitch.jsx';
 
 const AdminEmailConfirmation = () => {
@@ -17,7 +14,6 @@ const AdminEmailConfirmation = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
   
-  // 🚀 AJOUT 2 : La mémoire pour l'interrupteur (par défaut en mode liste pour des emails, c'est souvent plus lisible)
   const [viewMode, setViewMode] = useState('list'); 
   
   // État des filtres

@@ -267,7 +267,7 @@ function AdminMovieDetails() {
           <div className="text-gris-magneti font-medium">Email :</div>
           <div>{movie.directorEmail || movie.email || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Né le :</div>
-          <div>{movie.date_of_birth || "01/01/1990"}</div>
+          <div>{movie.date_of_birth ? new Date(movie.date_of_birth).toLocaleDateString('fr-FR') : "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Adresse :</div>
           <div>{movie.address || "Non renseigné."}</div>
 

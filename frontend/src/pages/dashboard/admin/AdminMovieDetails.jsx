@@ -237,15 +237,13 @@ function AdminMovieDetails() {
             </>
           )}
 
-          <div className="sm:col-span-2 mt-4 flex justify-center">
-            <Button
-              interactive
-              variant="filled-yellow"
-              className="w-full sm:w-auto sm:min-w-44 px-4 sm:px-3 py-2 sm:py-1.5! text-center whitespace-normal"
+          <div className="col-span-1 sm:col-span-2 mt-4 flex justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full bg-jaune-souffre text-ocre-rouge font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => setShowMoreInfo((prev) => !prev)}
             >
-              <span className="w-full inline-flex items-center justify-center gap-1.5 sm:gap-1 text-sm sm:text-sm">
-                <span>{showMoreInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
+              <span>{showMoreInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
                 {showMoreInfo ? (
                   <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -255,8 +253,7 @@ function AdminMovieDetails() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 )}
-              </span>
-            </Button>
+            </button>
           </div>
         </InfoPanel>
 
@@ -297,15 +294,13 @@ function AdminMovieDetails() {
             </>
           )}
 
-          <div className="sm:col-span-2 mt-4 flex justify-center">
-            <Button
-              interactive
-              variant="filled-yellow"
-              className="w-full sm:w-auto sm:min-w-44 px-4 sm:px-3 py-2 sm:py-1.5! text-center whitespace-normal"
+          <div className="col-span-1 sm:col-span-2 mt-4 flex justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full bg-jaune-souffre text-ocre-rouge font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => setShowMoreDirectorInfo((prev) => !prev)}
             >
-              <span className="w-full inline-flex items-center justify-center gap-1.5 sm:gap-1 text-sm sm:text-sm">
-                <span>{showMoreDirectorInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
+              <span>{showMoreDirectorInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
                 {showMoreDirectorInfo ? (
                   <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -315,8 +310,7 @@ function AdminMovieDetails() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 )}
-              </span>
-            </Button>
+            </button>
           </div>
         </InfoPanel>
 

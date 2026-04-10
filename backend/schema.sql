@@ -396,7 +396,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users_movies`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_movieid_movies_idx` (`movie_id`),
+  ADD UNIQUE KEY `uniq_movie_single_jury` (`movie_id`),
   ADD KEY `fk_teamid_team_idx` (`user_id`);
 
 --

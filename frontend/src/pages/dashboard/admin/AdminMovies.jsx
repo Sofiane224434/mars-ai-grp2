@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,16 +8,18 @@ import MovieCard from "../../../components/ui/MovieCard.jsx";
 import Filter from "../../../components/ui/Filter.jsx";
 import Button from "../../../components/ui/Button.jsx";
 import Spinner from "../../../components/ui/Spinner.jsx";
+import JuryAssignmentModal from "../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx";
 // 🚀 AJOUT 1 : Import de l'interrupteur
 import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 
 function AdminMovies() {
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const [filtersOpen, setFiltersOpen] = useState(false);
-  
+
   // 🚀 AJOUT 2 : La mémoire pour le mode de vue (on le met en 'grid' par défaut pour cette page)
   const [viewMode, setViewMode] = useState('grid');
-  
+
   // État des filtres
   const [selectedFilters, setSelectedFilters] = useState({
     assignation: [],
@@ -26,18 +28,100 @@ function AdminMovies() {
 
   // Connexion API conservée pour afficher tes vrais films
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
+  const [juryOptions, setJuryOptions] = useState([]);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedJuryId, setSelectedJuryId] = useState('');
+  const [assignError, setAssignError] = useState('');
+  const [isAssigning, setIsAssigning] = useState(false);
+
+  const getAuthConfig = () => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    };
+  };
+
+  const loadMovies = useCallback(async () => {
+    await fetchMovies(() => axios.get(`${API_BASE_URL}/admin/movies`, getAuthConfig()));
+  }, [API_BASE_URL, fetchMovies]);
+
+  const loadJuryOptions = useCallback(async () => {
+    const response = await axios.get(`${API_BASE_URL}/movies/juries`, getAuthConfig());
+    const juries = response?.data?.data || [];
+    setJuryOptions(Array.isArray(juries) ? juries : []);
+  }, [API_BASE_URL]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-    
-    fetchMovies(() => 
-      axios.get(`${API_BASE_URL}/admin/movies`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true
-      })
-    );
-  }, [fetchMovies]);
+    const loadAdminData = async () => {
+      try {
+        await Promise.all([loadMovies(), loadJuryOptions()]);
+      } catch (loadError) {
+        console.error('Erreur de chargement admin movies/juries:', loadError);
+      }
+    };
+
+    loadAdminData();
+  }, [loadJuryOptions, loadMovies]);
+
+  const openAssignModal = (movie) => {
+    setSelectedMovie(movie);
+    setAssignError('');
+
+    const currentJuryId = Array.isArray(movie?.assignedJuries) && movie.assignedJuries.length > 0
+      ? String(movie.assignedJuries[0]?.id || '')
+      : '';
+
+    setSelectedJuryId(currentJuryId);
+    setIsAssignModalOpen(true);
+  };
+
+  const closeAssignModal = () => {
+    setIsAssignModalOpen(false);
+    setSelectedMovie(null);
+    setSelectedJuryId('');
+    setAssignError('');
+  };
+
+  const handleAssignMovie = async () => {
+    if (!selectedMovie?.id) {
+      setAssignError('Film invalide.');
+      return;
+    }
+
+    if (!selectedJuryId) {
+      setAssignError('Sélectionne un jury.');
+      return;
+    }
+
+    setIsAssigning(true);
+    setAssignError('');
+
+    try {
+      await axios.post(
+        `${API_BASE_URL}/movies/assign`,
+        {
+          movieId: Number(selectedMovie.id),
+          juryId: Number(selectedJuryId),
+        },
+        getAuthConfig()
+      );
+
+      await Promise.all([loadMovies(), loadJuryOptions()]);
+      closeAssignModal();
+    } catch (requestError) {
+      const zodFirstIssue = requestError?.response?.data?.erreurs?.[0]?.message;
+      const message =
+        requestError?.response?.data?.message ||
+        requestError?.response?.data?.error ||
+        zodFirstIssue ||
+        'Erreur lors de l\'assignation du jury.';
+      setAssignError(message);
+    } finally {
+      setIsAssigning(false);
+    }
+  };
 
   // Handlers pour les filtres
   const handleFilterChange = (filterType, filterValue, isChecked) => {
@@ -62,35 +146,30 @@ function AdminMovies() {
   // Filtrage des films
   const getFilteredMovies = () => {
     if (!movies || movies.length === 0) return [];
-    
+
     return movies.filter(movie => {
       // Filtre assignation
       if (selectedFilters.assignation.length > 0) {
         const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
         const isAssigned = selectedFilters.assignation.includes('assigned');
         const isNotAssigned = selectedFilters.assignation.includes('unassigned');
-        
+
         if (isAssigned && !hasJury) return false;
         if (isNotAssigned && hasJury) return false;
       }
-      
+
       // Filtre status
       if (selectedFilters.status.length > 0) {
         const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
         const movieStatus = statusMap[movie.statusId] || 'pending';
         if (!selectedFilters.status.includes(movieStatus)) return false;
       }
-      
+
       return true;
     });
   };
 
   const displayMovies = getFilteredMovies();
-
-  const handlePlaceholder = () => {
-    // Placeholder until admin actions are connected to backend.
-    console.log("Action non connectée pour le moment.");
-  };
 
   if (isLoading) {
     return <div className="min-h-screen background-gradient-black flex items-center justify-center"><Spinner text="Chargement des films..." fullScreen={true} /></div>;
@@ -144,9 +223,8 @@ function AdminMovies() {
           </div>
 
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
               <div className="lg:hidden">
@@ -276,7 +354,7 @@ function AdminMovies() {
 
         {/* 🚀 AJOUT 4 : Le conteneur dynamique de la grille/liste */}
         <div className={
-          viewMode === 'grid' 
+          viewMode === 'grid'
             ? "grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center lg:justify-items-stretch pb-12"
             : "flex flex-col gap-4 max-w-4xl mx-auto pb-12 w-full"
         }>
@@ -296,7 +374,7 @@ function AdminMovies() {
                   directorName={movie.directorName}
                   thumbnailSrc={movie.thumbnail || movie.screenshotLink}
                   assignedJurors={hasJury ? movie.assignedJuries.map(j => j.name || j.email) : []}
-                  onAssign={handlePlaceholder}
+                  onAssign={() => openAssignModal(movie)}
                   onMoreInfo={() => navigate(`/dashboard/admin/movies/${movie.id}`)}
                 />
               );
@@ -308,6 +386,18 @@ function AdminMovies() {
           )}
         </div>
       </div>
+
+      <JuryAssignmentModal
+        isOpen={isAssignModalOpen}
+        selectedMovie={selectedMovie}
+        juryOptions={juryOptions}
+        selectedJuryId={selectedJuryId}
+        onSelectJury={setSelectedJuryId}
+        assignError={assignError}
+        isAssigning={isAssigning}
+        onClose={closeAssignModal}
+        onConfirm={handleAssignMovie}
+      />
     </div>
   );
 }

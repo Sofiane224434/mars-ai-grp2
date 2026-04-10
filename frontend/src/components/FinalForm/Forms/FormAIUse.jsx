@@ -137,20 +137,16 @@ export default function FormAIUse({ hide = false, getFunction,
                 getValuesFunc={setAiPostprodData} label={"Choisissez les IAs utilisées :"}
                 options={aiselectoptions} valueother={"other"}></InputAdditiveSelect>}
 
-            {errorAiCheck && <div>{errorAiCheck}</div>}
+            {errorAiCheck && <div className="form_error_message">{errorAiCheck}</div>}
 
             <InputSuper type={"select"} options={classificationsoptions}
                 label={"Choisissez la classification de votre film :"}
                 getValueFunc={setClassification}
-            ></InputSuper>
-
-            {errorClassification && <div>{errorClassification}</div>}
+                errormessage={errorClassification}></InputSuper>
 
             <InputSuper type={"textarea"} max_string={500} getValueFunc={setPrompts}
                 label={"Prompts que vous avez utilisé pour la génération IA :"}
-            ></InputSuper>
-
-            {errorPrompts && <div>{errorPrompts}</div>}
+                errormessage={errorPrompts}></InputSuper>
 
             <button type="button" onClick={goback}>{">"} Précédent</button>
             <button type="button" onClick={verify}>Suivant {">"}</button>

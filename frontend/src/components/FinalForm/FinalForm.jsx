@@ -23,15 +23,24 @@ export default function FinalForm() {
         <FormAIUse hide={currentStep == 2 ? false : true} getFunction={setFormAIUse}
             stepfunc={handlestep} currentstep={currentStep}></FormAIUse>,
         <FormMultimedia hide={currentStep == 3 ? false : true}
-            getFunction={tester} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
+            getFunction={setFormMultimedia} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
         <FormDirectorInfo hide={currentStep == 4 ? false : true}
-            getFunction={tester} currentstep={currentStep} stepfunc={handlestep}></FormDirectorInfo>
+            sendfunc={sendtoback} currentstep={currentStep} stepfunc={handlestep}></FormDirectorInfo>
     ]
 
     const maxstep = myforms.length;
 
+    let allvalues = [formMovieInfo, formMultimedia, formAIUse, formDirectorInfo];
+
     function tester() {
         //
+    }
+
+    function sendtoback(lastvalues) {
+        setFormDirectorInfo(lastvalues);
+        console.log("Successfully filled form");
+        console.log(formMovieInfo, formMultimedia, formAIUse, lastvalues);
+        //Should redirect to another page confirming form sent
     }
 
     function getMovieInfo(result) {

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import InputSuper from "../InputSuper";
 import InputAdditive from "../InputAdditive";
 
-import { verifyInputText } from "../VerifyInputFuncs";
+import { verifyInputText, verifyVideo } from "../VerifyInputFuncs";
 
 import { z } from "zod";
 
@@ -102,8 +102,12 @@ export default function FormMovieInfo({ hide = false, getFunction,
             verifyInputText({
                 value: ytlink, required: true, regex: ytregex,
                 errorSetFunction: setErrorYtLink
+            }),
+            verifyVideo({
+                file: movievideo.file, maxsize: 50000000, required: true,
+                errorSetFunction: setErrorMovieVideo
             })
-        ]
+        ];
 
         if (baseverification.includes(false)) {
             error = true;

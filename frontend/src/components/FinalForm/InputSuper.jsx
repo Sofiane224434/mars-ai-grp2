@@ -24,20 +24,25 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     const classDefaultContainer = type == "checkbox" ? "float_left_withclear" : "";
     const classDefaultLabel = "form_label";
 
+    let classUseInput, classUseContainer, classUseLabel;
+
+    if (classInput) {
+        classUseInput = classInput;
+    } else {
+        classUseInput = classDefaultInput;
+    }
+    if (errormessage) {
+        if (classInput) {
+            classUseInput = classinput + " form_input_error";
+        } else {
+            classUseInput = classDefaultInput + " form_input_error";
+        }
+    }
+
+
     const [value, setValue] = useState("");
-    //const [file, setFile] = useState("");
 
-    //debug
-    // useEffect(() => {
-    //     if (type === "file") {
-    //         console.log(value, file);
-    //     }
-    // }, [file, value]);
-
-    //Permet d'envoyer au parent le nom, peut construire automatiquement un tableau de données.
     let declared = false;
-
-    //console.log("test", name);
 
     useEffect(() => {
         if (!declared) {
@@ -106,23 +111,11 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         updateParent(result);
     }
 
-    // const input_text = <input name={name} type={"text"} max={max_numdate} maxLength={max_string}
-    //     accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
-    //     onChange={handleChange} required={required} value={value}
-    //     className={classInput ? classInput : classDefaultInput}></input>;
-
     if (!acceptable_types.includes(type)) {
-        console.warn("InputSuper " + name + " ERROR : Type non reconnu, retourne un input de type " +
+        console.warn("InputSuper ERROR : Type non reconnu, retourne un input de type " +
             "text à la place."
         )
         type = "text";
-        // return (
-        //     <div>
-        //         {label && <div className={classLabel ? classLabel : classDefaultLabel}
-        //         >{label}</div>}
-        //         {input_text}
-        //     </div>
-        // )
     }
 
     //Vérifie que la première option est vide si options est utilisé, 
@@ -147,12 +140,12 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                         >{label}</div>}
                         <select required={required} name={name} value={value}
                             onChange={handleChange}
-                            className={classInput ? classInput : classDefaultInput}>
+                            className={classUseInput}>
                             {options.map(op => {
                                 return (op)
                             })}
                         </select>
-                        {errormessage && <div>{errormessage}</div>}
+                        {errormessage && <div className="form_error_message">{errormessage}</div>}
                     </div>
                 )
             } else {
@@ -170,10 +163,10 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 >{label}</div>}
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
                     placeholder={placeholder} required={required} onChange={handleChange}
-                    className={classInput ? classInput : classDefaultInput}></textarea>
+                    className={classUseInput}></textarea>
                 {max_string && <InputLengthUI currentlength={value.length}
                     maxlength={max_string}></InputLengthUI>}
-                {errormessage && <div>{errormessage}</div>}
+                {errormessage && <div className="form_error_message">{errormessage}</div>}
             </div>
         )
     }
@@ -184,10 +177,10 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                 <input name={name} type={type} max={max_numdate} maxLength={max_string}
                     accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
                     required={required} value={value} onChange={handleChange}
-                    className={classInput ? classInput : classDefaultInput}
+                    className={classUseInput}
                 ></input>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
-                {errormessage && <div>{errormessage}</div>}
+                {errormessage && <div className="form_error_message">{errormessage}</div>}
             </div>
         )
     }
@@ -201,7 +194,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                     required={required} value={value.value} files={value.file} onChange={handleChange}
                     className={classInput ? classInput : classDefaultInput}
                 ></input>
-                {errormessage && <div>{errormessage}</div>}
+                {errormessage && <div className="form_error_message">{errormessage}</div>}
             </div>
         )
     }
@@ -212,11 +205,11 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             <input name={name} type={type} max={max_numdate} maxLength={max_string}
                 accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
                 required={required} value={value} onChange={handleChange}
-                className={classInput ? classInput : classDefaultInput}
+                className={classUseInput}
             ></input>
             {max_string && <InputLengthUI currentlength={value.length}
                 maxlength={max_string}></InputLengthUI>}
-            {errormessage && <div>{errormessage}</div>}
+            {errormessage && <div className="form_error_message">{errormessage}</div>}
         </div>
 
     )

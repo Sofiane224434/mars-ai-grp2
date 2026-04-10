@@ -23,14 +23,22 @@ async function fetchAPI(endpoint, options = {}) {
         throw error;
     }
 }
-export const authService = {
-    register: (userData) => fetchAPI('/auth/register', {
+
+// export const authService = {
+//     register: (userData) => fetchAPI('/auth/register', {
+//         method: 'POST',
+//         body: JSON.stringify(userData)
+//     }),
+//     login: (email, password) => fetchAPI('/auth/login', {
+//         method: 'POST',
+//         body: JSON.stringify({ email, password })
+//     }),
+//     getProfile: () => fetchAPI('/auth/me')
+// }
+
+export const movieService = {
+    savedate: (moviedata) => fetchAPI('/movie', {
         method: 'POST',
-        body: JSON.stringify(userData)
-    }),
-    login: (email, password) => fetchAPI('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password })
-    }),
-    getProfile: () => fetchAPI('/auth/me')
+        body: JSON.stringify(moviedata)
+    })
 }

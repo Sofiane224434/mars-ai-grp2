@@ -7,7 +7,8 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'marsai',
     waitForConnections: true,
-    connectionLimit: 10
+    connectionLimit: 10,
+    namedPlaceholders: true
 });
 // Fonction utilitaire pour les requêtes
 export async function query(sql, params = []) {

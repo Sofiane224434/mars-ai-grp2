@@ -1,17 +1,27 @@
- const StatCard = ({ title, value, color }) => {
+import { Link } from 'react-router-dom';
 
-  return (
+const StatCard = ({ title, value, color, to }) => {
 
-    <div className={`bg-gris-steelix p-6 rounded-lg shadow-md border-3 ${color}`}>
+  const cardClassName = `bg-gris-steelix p-6 rounded-lg shadow-md border-3 ${color}`;
 
-     <h3 className="text-turquoise-vif text-m text-center font-bold uppercase">{title}</h3>
-
-<p className="text-3xl text-center font-bold text-yellow-300 mt-2">{value}</p>
-
-    </div>
-
+  const content = (
+    <>
+      <h3 className="text-turquoise-vif text-m text-center font-bold uppercase">{title}</h3>
+      <p className="text-3xl text-center font-bold text-yellow-300 mt-2">{value}</p>
+    </>
   );
 
-}; 
+  return (
+    to ? (
+      <Link to={to} className={`${cardClassName} block transition-transform hover:-translate-y-0.5`}>
+        {content}
+      </Link>
+    ) : (
+      <div className={cardClassName}>
+        {content}
+      </div>
+    )
+  );
+};
 
 export default StatCard;

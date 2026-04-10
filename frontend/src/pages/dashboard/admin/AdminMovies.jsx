@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import useApi from '../../../hooks/useApi.js';
@@ -11,8 +11,12 @@ import Spinner from "../../../components/ui/Spinner.jsx";
 // 🚀 AJOUT 1 : Import de l'interrupteur
 import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 
+const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending'];
+const ALLOWED_ASSIGNATIONS = ['assigned', 'unassigned'];
+
 function AdminMovies() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filtersOpen, setFiltersOpen] = useState(false);
   
   // 🚀 AJOUT 2 : La mémoire pour le mode de vue (on le met en 'grid' par défaut pour cette page)
@@ -26,6 +30,37 @@ function AdminMovies() {
 
   // Connexion API conservée pour afficher tes vrais films
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
+
+  useEffect(() => {
+    const statusFromQuery = searchParams.get('status');
+    const assignationFromQuery = searchParams.get('assignation');
+    const parsedStatuses = statusFromQuery
+      ? statusFromQuery
+          .split(',')
+          .map((status) => status.trim())
+          .filter((status) => ALLOWED_STATUSES.includes(status))
+      : [];
+    const parsedAssignations = assignationFromQuery
+      ? assignationFromQuery
+          .split(',')
+          .map((value) => value.trim())
+          .filter((value) => ALLOWED_ASSIGNATIONS.includes(value))
+      : [];
+
+    setSelectedFilters((prev) => {
+      const sameLength = prev.status.length === parsedStatuses.length;
+      const sameValues = sameLength && prev.status.every((status, index) => status === parsedStatuses[index]);
+      const sameAssignationLength = prev.assignation.length === parsedAssignations.length;
+      const sameAssignationValues = sameAssignationLength && prev.assignation.every((value, index) => value === parsedAssignations[index]);
+
+      if (sameValues && sameAssignationValues) return prev;
+      return { ...prev, status: parsedStatuses, assignation: parsedAssignations };
+    });
+
+    if (parsedStatuses.length > 0 || parsedAssignations.length > 0) {
+      setFiltersOpen(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -43,16 +78,43 @@ function AdminMovies() {
   const handleFilterChange = (filterType, filterValue, isChecked) => {
     setSelectedFilters(prev => {
       const current = prev[filterType] || [];
+      const nextValues = isChecked
+        ? [...current, filterValue]
+        : current.filter(f => f !== filterValue);
+
+      if (filterType === 'status') {
+        const nextParams = new URLSearchParams(searchParams);
+        if (nextValues.length > 0) {
+          nextParams.set('status', nextValues.join(','));
+        } else {
+          nextParams.delete('status');
+        }
+        setSearchParams(nextParams, { replace: true });
+      }
+
+      if (filterType === 'assignation') {
+        const nextParams = new URLSearchParams(searchParams);
+        if (nextValues.length > 0) {
+          nextParams.set('assignation', nextValues.join(','));
+        } else {
+          nextParams.delete('assignation');
+        }
+        setSearchParams(nextParams, { replace: true });
+      }
+
       return {
         ...prev,
-        [filterType]: isChecked
-          ? [...current, filterValue]
-          : current.filter(f => f !== filterValue)
+        [filterType]: nextValues
       };
     });
   };
 
   const handleClearFilters = () => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('status');
+    nextParams.delete('assignation');
+    setSearchParams(nextParams, { replace: true });
+
     setSelectedFilters({
       assignation: [],
       status: [],

@@ -75,14 +75,14 @@ function AdminMovieDetails() {
 
   // Styles pour les badges IA
   const getAiCategoryStyle = (category) => {
-    switch(category) {
-      case 'script': 
+    switch (category) {
+      case 'script':
         return { label: 'Scénario', classes: 'bg-purple-900/40 text-purple-300 border-purple-500/50' };
-      case 'movie': 
+      case 'movie':
         return { label: 'Génération', classes: 'bg-blue-900/40 text-blue-300 border-blue-500/50' };
-      case 'postprod': 
+      case 'postprod':
         return { label: 'Post-Prod', classes: 'bg-emerald-900/40 text-emerald-300 border-emerald-500/50' };
-      default: 
+      default:
         return { label: category, classes: 'bg-gray-800 text-gray-300 border-gray-600' };
     }
   };
@@ -106,9 +106,9 @@ function AdminMovieDetails() {
   }
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
-  
+
   // Assignations et IA
-  const assignedJuries = movie.assignedJuries || []; 
+  const assignedJuries = movie.assignedJuries || [];
   const usedAis = movie.usedAis || [];
 
   return (
@@ -136,7 +136,7 @@ function AdminMovieDetails() {
 
         {/* SECTION STATUT & ASSIGNATION */}
         <div className="text-white my-8 text-center border-b border-gris-magneti/30 pb-8 w-full flex flex-col items-center gap-4">
-          
+
           {/* Ligne 1 : Statut de la vidéo */}
           <div className="flex items-center justify-center gap-2">
             <span className="text-white font-medium">Statut de la vidéo :</span>
@@ -204,7 +204,7 @@ function AdminMovieDetails() {
           ) : (
             <div className="text-gris-magneti italic">Aucun outil IA renseigné pour ce film.</div>
           )}
-          
+
           <div className="text-gris-magneti font-medium">Prompt principal :</div>
           <div className="whitespace-pre-wrap wrap-break-word">{movie.prompt || "Non renseigné."}</div>
         </InfoPanel>
@@ -244,21 +244,21 @@ function AdminMovieDetails() {
               onClick={() => setShowMoreInfo((prev) => !prev)}
             >
               <span>{showMoreInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
-                {showMoreInfo ? (
-                  <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                  </svg>
-                ) : (
-                  <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                )}
+              {showMoreInfo ? (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
             </button>
           </div>
         </InfoPanel>
 
         <InfoPanel title="Informations sur le réalisateur">
-             <div className="text-gris-magneti font-medium">Civilité :</div>
+          <div className="text-gris-magneti font-medium">Civilité :</div>
           <div>{movie.gender || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Nom :</div>
           <div>{movie.directorLastName}</div>
@@ -301,15 +301,15 @@ function AdminMovieDetails() {
               onClick={() => setShowMoreDirectorInfo((prev) => !prev)}
             >
               <span>{showMoreDirectorInfo ? 'Masquer les infos' : 'Plus d\'infos'}</span>
-                {showMoreDirectorInfo ? (
-                  <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                  </svg>
-                ) : (
-                  <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                )}
+              {showMoreDirectorInfo ? (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
             </button>
           </div>
         </InfoPanel>

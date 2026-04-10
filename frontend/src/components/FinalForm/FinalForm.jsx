@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
 import FormAIUse from "./Forms/FormAIUse";
@@ -11,6 +12,9 @@ import FormStepsButtons from "./FormStepsButtons";
 export default function FinalForm() {
 
     const [currentStep, setCurrentStep] = useState(1);
+
+    const { createMovie } = useMovie();
+    const [loading, setLoading] = useState(false);
 
     const [formMovieInfo, setFormMovieInfo] = useState({});
     const [formAIUse, setFormAIUse] = useState({});
@@ -36,17 +40,34 @@ export default function FinalForm() {
         //
     }
 
-    function sendtoback(lastvalues) {
+    async function sendtoback(lastvalues) {
+        e.preventDefault();
+        setLoading(true);
+
         setFormDirectorInfo(lastvalues);
         console.log("Successfully filled form");
         console.log(formMovieInfo, formMultimedia, formAIUse, lastvalues);
+
+        try {
+            const moviedata = {
+                movieInfo: formMovieInfo,
+                movieMultimedia: formMultimedia,
+                movieAIuse: formAIUse,
+                movieDirectorProfile: lastvalues
+            }
+
+            await createMovie(moviedata);
+
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+
         //Should redirect to another page confirming form sent
     }
 
-    function getMovieInfo(result) {
-        setFormMovieInfo(result);
-    }
-
+    //debugging
     useEffect(() => {
         console.log("ALL my forms info!");
         console.log(formMovieInfo, formAIUse, formMultimedia, formDirectorInfo);

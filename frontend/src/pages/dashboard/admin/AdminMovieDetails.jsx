@@ -75,13 +75,17 @@ function AdminMovieDetails() {
 
   // Styles pour les badges IA
   const getAiCategoryStyle = (category) => {
+    const normalizedCategory = String(category || '').toLowerCase().trim();
+
+    if (['hybride', 'hybrid'].includes(normalizedCategory)) {
+      return { label: 'Hybride', classes: 'bg-amber-900/40 text-amber-300 border-amber-500/50' };
+    }
+
+    if (['100% ia', '100%ia', '100 % ia', '100% d\'ia', '100% d ia'].includes(normalizedCategory)) {
+      return { label: '100% IA', classes: 'bg-cyan-900/40 text-cyan-300 border-cyan-500/50' };
+    }
+
     switch (category) {
-      case 'script':
-        return { label: 'Scénario', classes: 'bg-purple-900/40 text-purple-300 border-purple-500/50' };
-      case 'movie':
-        return { label: 'Génération', classes: 'bg-blue-900/40 text-blue-300 border-blue-500/50' };
-      case 'postprod':
-        return { label: 'Post-Prod', classes: 'bg-emerald-900/40 text-emerald-300 border-emerald-500/50' };
       default:
         return { label: category, classes: 'bg-gray-800 text-gray-300 border-gray-600' };
     }

@@ -62,11 +62,14 @@ export const getMovieDetailById = async (movieId, userId) => {
     SELECT
       m.id,
       m.title_original AS title,
+      m.title_english,
       m.synopsis_original AS synopsis,
+      m.synopsis_english,
       m.youtube_url AS videoUrl,
       m.subtitles,
       m.videofile,
       m.thumbnail,
+      m.classification,
       (
         SELECT sc.link
         FROM screenshots sc
@@ -75,18 +78,28 @@ export const getMovieDetailById = async (movieId, userId) => {
         LIMIT 1
       ) AS screenshotLink,
       m.language,
+      m.description,
+      m.prompt,
       (
         SELECT GROUP_CONCAT(DISTINCT al.ai_name ORDER BY al.ai_name SEPARATOR ', ')
         FROM used_ai ua
         LEFT JOIN ai_list al ON al.id = ua.ai_name
         WHERE ua.movie_id = m.id
       ) AS aiTools,
+      m.movie_duration,
+      (
+        SELECT JSON_ARRAYAGG(JSON_OBJECT('ai_name', al.ai_name, 'category', ua.category))
+        FROM used_ai ua
+        LEFT JOIN ai_list al ON al.id = ua.ai_name
+        WHERE ua.movie_id = m.id
+      ) AS usedAisRaw,
       m.status AS statusId,
       s.status AS statusLabel,
       m.created_at AS createdAt,
       dp.firstname AS directorFirstName,
       dp.lastname AS directorLastName,
       dp.email AS directorEmail,
+      dp.gender,
       dp.date_of_birth,
       dp.address,
       dp.address2,
@@ -94,6 +107,16 @@ export const getMovieDetailById = async (movieId, userId) => {
       dp.city,
       dp.country,
       dp.director_language,
+      dp.fix_phone,
+      dp.mobile_phone,
+      dp.school,
+      dp.current_job,
+      (
+        SELECT JSON_ARRAYAGG(JSON_OBJECT('id', u.id, 'name', u.email))
+        FROM users_movies um2
+        JOIN users u ON u.id = um2.user_id
+        WHERE um2.movie_id = m.id AND u.status = 'jury'
+      ) AS assignedJuriesRaw,
       um.user_id AS isAssigned
     FROM movies m
     LEFT JOIN users_movies um ON m.id = um.movie_id AND um.user_id = ?
@@ -106,6 +129,23 @@ export const getMovieDetailById = async (movieId, userId) => {
   const rows = await query(sql, [userId, movieId]);
   
   // Retourne la ligne si le film existe, sinon undefined
-  return rows.length > 0 ? rows[0] : null;
+  const row = rows.length > 0 ? rows[0] : null;
+  if (!row) return null;
+
+  let usedAis = [];
+  if (row.usedAisRaw) {
+    usedAis = typeof row.usedAisRaw === 'string' ? JSON.parse(row.usedAisRaw) : row.usedAisRaw;
+  }
+
+  let assignedJuries = [];
+  if (row.assignedJuriesRaw) {
+    assignedJuries = typeof row.assignedJuriesRaw === 'string' ? JSON.parse(row.assignedJuriesRaw) : row.assignedJuriesRaw;
+  }
+
+  return {
+    ...row,
+    usedAis,
+    assignedJuries,
+  };
 };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import useApi from '../../../hooks/useApi.js';
@@ -70,7 +70,6 @@ function AdminMovies() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
   const getAuthConfig = () => {
     const token = localStorage.getItem('token');
     return {
@@ -463,6 +462,6 @@ function AdminMovies() {
       />
     </div>
   );
-}
+};
 
 export default AdminMovies;

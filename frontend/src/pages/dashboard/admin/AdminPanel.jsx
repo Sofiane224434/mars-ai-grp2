@@ -5,6 +5,10 @@ import axios from 'axios';
 import useApi from '../../../hooks/useApi';
 import StatCard from './StatCard';
 import Spinner from '../../../components/ui/Spinner';
+import Button from '../../../components/ui/Button';
+import panel_icon_assign1 from '../../../assets/icons/panel_icon_assign1.png';
+import panel_icon_mail from '../../../assets/icons/panel_icon_mail.png';
+import panel_icon_add from '../../../assets/icons/panel_icon_add.png';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -59,13 +63,16 @@ const AdminPanel = () => {
           <div className="mx-auto max-w-2xl rounded-xl border border-brulure-despespoir/60 bg-brulure-despespoir/10 p-6 text-center">
             <p className="text-sm text-white/90">Impossible de charger les statistiques.</p>
             <p className="mt-2 text-xs text-gris-magneti">{error}</p>
-            <button
-              type="button"
-              onClick={fetchStats}
-              className="mt-4 rounded-lg bg-bleu-canard px-4 py-2 text-sm font-semibold text-white transition hover:bg-bleu-ciel"
-            >
-              Réessayer
-            </button>
+            <div className="mt-4 flex justify-center">
+              <Button
+                interactive
+                variant="email-admin"
+                type="button"
+                onClick={fetchStats}
+              >
+                Réessayer
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-12">
@@ -97,21 +104,34 @@ const AdminPanel = () => {
             <div>
               <h2 className="text-xl font-bold text-white mb-6">Actions rapides</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Link to="/dashboard/admin/movies" className="bg-indigo-600 text-white p-4 rounded-lg text-center hover:bg-indigo-700 transition font-medium">
-                  Assignation 🎬
+                <Link to="/dashboard/admin/movies" className="flex justify-center">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_assign1}
+                    className="w-full max-w-55"
+                  >
+                    Assignation
+                  </Button>
                 </Link>
 
-                <Link to="/dashboard/admin/email-confirmation" className="bg-white text-indigo-600 border border-indigo-200 p-4 rounded-lg text-center hover:bg-indigo-50 transition font-medium flex items-center justify-center gap-2">
-                  Confirmation email 📩
-                  {statsData.emailsPending > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                      {statsData.emailsPending}
-                    </span>
-                  )}
+                <Link to="/dashboard/admin/email-confirmation" className="flex justify-center">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_mail}
+                    className="w-full max-w-55"
+                  >
+                    Confirmation email ({statsData.emailsPending || 0})
+                  </Button>
                 </Link>
 
-                <Link to="/dashboard/admin/invite-jury" className="bg-white text-gray-700 border border-gray-200 p-4 rounded-lg text-center hover:bg-gray-50 transition font-medium">
-                  Inviter un jury 👤
+                <Link to="/dashboard/admin/invite-jury" className="flex justify-center">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_add}
+                    className="w-full max-w-55"
+                  >
+                    Inviter un jury
+                  </Button>
                 </Link>
               </div>
             </div>

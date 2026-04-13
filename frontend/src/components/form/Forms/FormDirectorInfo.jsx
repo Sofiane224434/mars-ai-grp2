@@ -6,7 +6,6 @@ import InputAdditiveGrouped from "../InputAdditiveGrouped";
 import { verifyAge, verifyInputText, verifyInputDate } from "../VerifyInputFuncs";
 
 export default function FormDirectorInfo({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label",
     currentstep, sendfunc
 }) {
 

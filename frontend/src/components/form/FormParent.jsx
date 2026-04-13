@@ -87,10 +87,10 @@ export default function FormParent() {
     }
 
     return (
-        <div className="form_page">
-            <div className="form_bigtitle">Envoyez votre vidéo</div>
+        <div className="flex flex-col items-center gap-2.5 bg-brun-brule">
+            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule text-center text-[30px] text-jaune-souffre">Envoyez votre vidéo</div>
             <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
-            <form className="form_container">
+            <form className="mb-5 flex w-[90%] flex-col items-center gap-2.5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-[15px] text-jaune-souffre">
                 {myforms.map(form => { return form }
                 )}
                 {/* <FormStepsButtons step={currentStep} maxstep={maxstep}

@@ -5,7 +5,6 @@ import InputSuper from "../InputSuper";
 import { verifyImage } from "../VerifyInputFuncs";
 
 export default function FormMultimedia({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label",
     stepfunc, currentstep
 }) {
 
@@ -120,7 +119,7 @@ export default function FormMultimedia({ hide = false, getFunction,
                 getValueFunc={setScreenshot3}
                 accept={"image/png, image/jpeg"}></InputSuper>
 
-            {errorAllScreenshot && <div className="form_error_message">
+            {errorAllScreenshot && <div className="clear-both text-red-500">
                 {errorAllScreenshot}</div>}
 
             <InputSuper type={"checkbox"}

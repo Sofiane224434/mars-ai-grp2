@@ -11,12 +11,8 @@ import { z } from "zod";
  * Premier formulaire : Fiche Film
  * @param hide Si ce formulaire doit être caché ou non 
  * @param getFunction La fonction qui permettra de faire passer des informations à un parent
- * @param classInput Classe à appliquer aux inputs (optionnel)
- * @param classContainer Classe à appliquer au container de ce formulaire (optionnel)
- * @param classLabel Classe à appliquer aux labels (optionnel)
  */
 export default function FormMovieInfo({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label",
     stepfunc, currentstep
 }) {
 

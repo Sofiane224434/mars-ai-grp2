@@ -19,17 +19,17 @@ import { useState, useEffect } from "react"
  * les valeurs des inputs au parent.
  */
 export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc, declareSelfFunc,
-    btntitle = "Ajouter", classInput = null, classContainer = null,
-    classLabel = null, formstep = null }) {
+    btntitle = "Ajouter", classInput, classContainer,
+    classLabel, formstep = null }) {
 
     //Le tout premier input, séparé car il ne peut pas être supprimé ou faire parti de map
     const [firstInput, setFirstInput] = useState("");
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
-    const classDefaultInput = "form_input";
-    const classDefaultContainer = "";
-    const classDefaultLabel = "form_label";
+    const classDefaultInput = "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = "clear-both";
+    const classDefaultLabel = "text-jaune-souffre";
 
     let alldata = [firstInput].concat(myValues);
 

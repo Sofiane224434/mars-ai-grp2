@@ -15,16 +15,21 @@ const acceptable_types = ["text", "file", "tel", "email", "number", "select", "t
 export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     type, options = null, accept = null, min_numdate = null, max_numdate = null,
     min_string = null, max_string = null, placeholder = null, required = false,
-    numberonly = false, classInput = null, classContainer = null, classLabel = null,
+    numberonly = false, classInput, classContainer, classLabel,
     regex = null, formstep = null, errormessage = null
 }) {
 
     //Style css
-    const classDefaultInput = type == "checkbox" ? "" : "form_input";
-    const classDefaultContainer = type == "checkbox" ? "float_left_withclear" : "";
-    const classDefaultLabel = "form_label";
+    const classDefaultInput = type == "checkbox"
+        ? ""
+        : "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = type == "checkbox" ? "flex float-left items-center gap-[5px] overflow-hidden" : "";
+    const classDefaultLabel = "text-jaune-souffre";
+    const classBaseContainer = "clear-both";
+    const classErrorMessage = "clear-both text-red-500";
+    const classInputError = "border-red-500 focus:border-red-500";
 
-    let classUseInput, classUseContainer, classUseLabel;
+    let classUseInput;
 
     if (classInput) {
         classUseInput = classInput;
@@ -33,9 +38,9 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     }
     if (errormessage) {
         if (classInput) {
-            classUseInput = classinput + " form_input_error";
+            classUseInput = `${classInput} ${classInputError}`;
         } else {
-            classUseInput = classDefaultInput + " form_input_error";
+            classUseInput = `${classDefaultInput} ${classInputError}`;
         }
     }
 
@@ -135,7 +140,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         if (options) {
             if (Array.isArray(options)) {
                 return (
-                    <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+                    <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
                         {label && <div className={classLabel ? classLabel : classDefaultLabel}
                         >{label}</div>}
                         <select required={required} name={name} value={value}
@@ -145,7 +150,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                                 return (op)
                             })}
                         </select>
-                        {errormessage && <div className="form_error_message">{errormessage}</div>}
+                        {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
                     </div>
                 )
             } else {
@@ -158,7 +163,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
     if (type === "textarea") {
         return (
-            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+            <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}
                 >{label}</div>}
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
@@ -166,41 +171,41 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                     className={classUseInput}></textarea>
                 {max_string && <InputLengthUI currentlength={value.length}
                     maxlength={max_string}></InputLengthUI>}
-                {errormessage && <div className="form_error_message">{errormessage}</div>}
+                {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
         )
     }
 
     if (type === "checkbox") {
         return (
-            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+            <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
                 <input name={name} type={type} max={max_numdate} maxLength={max_string}
                     accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
                     required={required} value={value} onChange={handleChange}
                     className={classUseInput}
                 ></input>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
-                {errormessage && <div className="form_error_message">{errormessage}</div>}
+                {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
         )
     }
 
     if (type === "file") {
         return (
-            <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+            <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
                 <input name={name} type={type} max={max_numdate} maxLength={max_string}
                     accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
                     required={required} value={value.value} files={value.file} onChange={handleChange}
                     className={classInput ? classInput : classDefaultInput}
                 ></input>
-                {errormessage && <div className="form_error_message">{errormessage}</div>}
+                {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
         )
     }
 
     return (
-        <div style={{ clear: "both" }} className={classContainer ? classContainer : classDefaultContainer}>
+        <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
             {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
             <input name={name} type={type} max={max_numdate} maxLength={max_string}
                 accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
@@ -209,7 +214,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             ></input>
             {max_string && <InputLengthUI currentlength={value.length}
                 maxlength={max_string}></InputLengthUI>}
-            {errormessage && <div className="form_error_message">{errormessage}</div>}
+            {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
         </div>
 
     )

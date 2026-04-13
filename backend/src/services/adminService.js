@@ -39,7 +39,8 @@ export const adminService = {
         totalAssigned: Number(juryProgress?.totalAssigned || 0),
         totalEvaluated: Number(juryProgress?.totalEvaluated || 0)
       },
-      emailsPending: Number(emailsPending || 0)
+      emailsPending: Number(emailsPending || 0),
+      updatedAt: new Date().toISOString()
     };
   },
 

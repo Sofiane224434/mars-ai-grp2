@@ -41,13 +41,17 @@ function MovieDetail() {
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, statusId: null });
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
+  const [showMoreDirectorInfo, setShowMoreDirectorInfo] = useState(false);
 
   const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider" };
 
   // 🚀 2. LE USEEFFECT NETTOYÉ : Il ne contient plus que la logique d'appel, zéro gestion d'état !
   useEffect(() => {
-    setIsVideoLoaded(false);
-    setVideoError(false);
+    queueMicrotask(() => {
+      setIsVideoLoaded(false);
+      setVideoError(false);
+    });
 
     if (movieId) {
       const token = localStorage.getItem('token');
@@ -152,6 +156,24 @@ function MovieDetail() {
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
   const isVoteLocked = movie.statusId !== 1;
+  const usedAis = movie.usedAis || [];
+
+  const getAiCategoryStyle = (category) => {
+    const normalizedCategory = String(category || '').toLowerCase().trim();
+
+    if (['hybride', 'hybrid'].includes(normalizedCategory)) {
+      return { label: 'Hybride', classes: 'bg-amber-900/40 text-amber-300 border-amber-500/50' };
+    }
+
+    if (['100% ia', '100%ia', '100 % ia', '100% d\'ia', '100% d ia'].includes(normalizedCategory)) {
+      return { label: '100% IA', classes: 'bg-cyan-900/40 text-cyan-300 border-cyan-500/50' };
+    }
+
+    switch (category) {
+      default:
+        return { label: category || 'IA', classes: 'bg-gray-800 text-gray-300 border-gray-600' };
+    }
+  };
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
@@ -205,19 +227,79 @@ function MovieDetail() {
         <InfoPanel title="Informations sur la vidéo">
           <div className="text-gris-magneti font-medium">Synopsis :</div>
           <div>{movie.synopsis || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Envoyé le :</div>
-          <div>{movie.createdAt || "01/01/2026"}</div>
-          <div className="text-gris-magneti font-medium">Langue :</div>
-          <div>{movie.language || "Français"}</div>
-          <div className="text-gris-magneti font-medium">Fichier vidéo (S3) :</div>
-          <div>{movie.videofile || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Sous-titres :</div>
-          <div>{movie.subtitles || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Screenshot :</div>
-          <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Synopsis anglais :</div>
+          <div>{movie.synopsis_english || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Description :</div>
+          <div className="whitespace-pre-wrap">{movie.description || "Non renseigné."}</div>
+          <div className="text-gris-magneti font-medium">Prompt principal :</div>
+          <div className="whitespace-pre-wrap wrap-break-word">{movie.prompt || "Non renseigné."}</div>
+
+          {showMoreInfo && (
+            <>
+              <div className="text-gris-magneti font-medium">Titre anglais :</div>
+              <div>{movie.title_english || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Classification :</div>
+              <div>{movie.classification || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Langue :</div>
+              <div>{movie.language || "Français"}</div>
+              <div className="text-gris-magneti font-medium">Fichier vidéo (S3) :</div>
+              <div>{movie.videofile || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Sous-titres :</div>
+              <div>{movie.subtitles || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Screenshot :</div>
+              <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Envoyé le :</div>
+              <div>{movie.createdAt || "01/01/2026"}</div>
+            </>
+          )}
+
+          <div className="col-span-1 sm:col-span-2 mt-4 flex justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full bg-jaune-souffre text-ocre-rouge font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setShowMoreInfo((prev) => !prev)}
+            >
+              <span>{showMoreInfo ? 'Masquer les infos' : 'Plus d\'informations'}</span>
+              {showMoreInfo ? (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </InfoPanel>
+
+        <InfoPanel title="Outils IA Utilisés">
+          <div className="text-gris-magneti font-medium">Outils IA :</div>
+          {usedAis.length > 0 ? (
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {usedAis.map((ai, index) => {
+                const style = getAiCategoryStyle(ai.category);
+                return (
+                  <div
+                    key={index}
+                    className={`w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2 px-3 py-2 rounded-md border ${style.classes}`}
+                  >
+                    <span className="font-bold text-sm wrap-break-word">{ai.ai_name || 'Outil IA'}</span>
+                    <span className="text-xs opacity-75 border-l border-current pl-2 ml-1 shrink-0">
+                      {style.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-gris-magneti italic">Aucun outil IA renseigné pour ce film.</div>
+          )}
         </InfoPanel>
 
         <InfoPanel title="Informations sur le réalisateur">
+          <div className="text-gris-magneti font-medium">Civilité :</div>
+          <div>{movie.gender || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Nom :</div>
           <div>{movie.directorLastName}</div>
           <div className="text-gris-magneti font-medium">Prénom :</div>
@@ -228,16 +310,48 @@ function MovieDetail() {
           <div>{movie.date_of_birth || "Non renseigné."}</div>
           <div className="text-gris-magneti font-medium">Adresse :</div>
           <div>{movie.address || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Adresse 2 :</div>
-          <div>{movie.address2 || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Code postal :</div>
-          <div>{movie.postal_code || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Ville :</div>
-          <div>{movie.city || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Pays :</div>
-          <div>{movie.country || "Non renseigné."}</div>
-          <div className="text-gris-magneti font-medium">Langue parlée :</div>
-          <div>{movie.director_language || "Non renseigné."}</div>
+
+          {showMoreDirectorInfo && (
+            <>
+              <div className="text-gris-magneti font-medium">Adresse 2 :</div>
+              <div>{movie.address2 || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Code postal :</div>
+              <div>{movie.postal_code || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Ville :</div>
+              <div>{movie.city || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Pays :</div>
+              <div>{movie.country || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Langue parlée :</div>
+              <div>{movie.director_language || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Téléphone fixe :</div>
+              <div>{movie.fix_phone || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Téléphone mobile :</div>
+              <div>{movie.mobile_phone || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Ecole fréquentée :</div>
+              <div>{movie.school || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Métier actuel :</div>
+              <div>{movie.current_job || "Non renseigné."}</div>
+            </>
+          )}
+
+          <div className="col-span-1 sm:col-span-2 mt-4 flex justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full bg-jaune-souffre text-ocre-rouge font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setShowMoreDirectorInfo((prev) => !prev)}
+            >
+              <span>{showMoreDirectorInfo ? 'Masquer les infos' : 'Plus d\'informations'}</span>
+              {showMoreDirectorInfo ? (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="h-3.5 w-3.5 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </button>
+          </div>
         </InfoPanel>
 
         <NotesSection movieId={movie.id} />

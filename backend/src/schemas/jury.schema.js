@@ -47,13 +47,19 @@ export const updateMovieStatusSchema = z.object({
 export const movieDetailResponseSchema = z.object({
     id: movieIdSchema,
     title: z.string().min(1, 'Le titre est obligatoire.'),
+    title_english: z.string().nullable(),
     synopsis: z.string().nullable(),
+    synopsis_english: z.string().nullable(),
     videoUrl: z.string().url('L\'URL de la video est invalide.').nullable(),
     subtitles: z.string().nullable(),
     videofile: z.string().nullable(),
     thumbnail: z.string().nullable(),
+    classification: z.string().nullable(),
     screenshotLink: z.string().nullable(),
     language: z.string().min(1, 'La langue est obligatoire.'),
+    description: z.string().nullable(),
+    prompt: z.string().nullable(),
+    movie_duration: z.union([z.string(), z.number()]).nullable(),
     createdAt: z.union([z.string(), z.date()]),
     aiTools: z.string().nullable(),
     statusId: responseStatusIdSchema,
@@ -62,13 +68,20 @@ export const movieDetailResponseSchema = z.object({
     directorFirstName: z.string().nullable(),
     directorLastName: z.string().nullable(),
     directorEmail: z.string().nullable(),
+    gender: z.string().nullable(),
     date_of_birth: z.union([z.string(), z.date()]).nullable(),
     address: z.string().nullable(),
     address2: z.string().nullable(),
     postal_code: z.union([z.string(), z.number()]).nullable(),
     city: z.string().nullable(),
     country: z.string().nullable(),
-    director_language: z.string().nullable()
+    director_language: z.string().nullable(),
+    fix_phone: z.string().nullable(),
+    mobile_phone: z.string().nullable(),
+    school: z.string().nullable(),
+    current_job: z.string().nullable(),
+    usedAis: z.array(z.object({ ai_name: z.string().nullable(), category: z.string().nullable() })).default([]),
+    assignedJuries: z.array(z.object({ id: z.number().int(), name: z.string() })).default([])
 });
 
 

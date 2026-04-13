@@ -104,7 +104,14 @@ export const getMovieById = async (req, res) => {
       screenshotLink: movieData.screenshotLink || null,
       language: movieData.language || 'Inconnue',
       createdAt: movieData.createdAt,
+      description: movieData.description || null,
+      prompt: movieData.prompt || null,
+      classification: movieData.classification || null,
+      title_english: movieData.title_english || null,
+      synopsis_english: movieData.synopsis_english || null,
+      movie_duration: movieData.movie_duration || null,
       aiTools: movieData.aiTools || null,
+      usedAis: movieData.usedAis || [],
 
       statusId: movieData.statusId || 1,
       status: movieData.statusLabel || 'En attente',
@@ -119,7 +126,13 @@ export const getMovieById = async (req, res) => {
       postal_code: movieData.postal_code || null,
       city: movieData.city || null,
       country: movieData.country || null,
-      director_language: movieData.director_language || null
+      director_language: movieData.director_language || null,
+      fix_phone: movieData.fix_phone || null,
+      mobile_phone: movieData.mobile_phone || null,
+      school: movieData.school || null,
+      current_job: movieData.current_job || null,
+      gender: movieData.gender || null,
+      assignedJuries: movieData.assignedJuries || []
     };
 
     const validatedResponse = movieDetailResponseSchema.parse(formattedResponse);

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
 import InputSuper from "../InputSuper";
+import { Button } from "../../ui/Button";
 import InputAdditiveGrouped from "../InputAdditiveGrouped";
 
 import { verifyAge, verifyInputText, verifyInputDate } from "../VerifyInputFuncs";
 
 export default function FormDirectorInfo({ hide = false, getFunction,
-    currentstep, sendfunc
+    currentstep, sendfunc, stepfunc
 }) {
 
     const [firstname, setFirstname] = useState("");
@@ -207,9 +208,9 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     }
 
     return (
-        <div style={hide ? { display: "none" } : null} className={classContainer}>
+        <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
 
-            <h2>Etape 4 : Vos Informations</h2>
+            <h2 className="text-2xl font-bold">Etape 4 : Vos Informations</h2>
             <div>
                 <InputSuper type={"text"} max_string={100}
                     getValueFunc={setLastname}
@@ -288,8 +289,10 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 label={`J'accepte le règlement d'envoi de vidéos du festival 
                         MarsAI.`} errormessage={errorRulesCheck}></InputSuper>
 
-            <button type="button" onClick={goback}>{">"} Précédent</button>
-            <button type="button" onClick={verify}>ENVOYER</button>
+            <div className="mt-4 flex w-full items-center justify-center gap-4">
+                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} Précédent</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>ENVOYER</Button>
+            </div>
 
         </div>
     )

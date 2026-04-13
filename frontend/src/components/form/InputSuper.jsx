@@ -21,12 +21,12 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
     //Style css
     const classDefaultInput = type == "checkbox"
-        ? ""
-        : "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
-    const classDefaultContainer = type == "checkbox" ? "flex float-left items-center gap-[5px] overflow-hidden" : "";
+        ? "h-5 w-5 shrink-0 cursor-pointer appearance-none rounded border-2 border-jaune-souffre bg-noir-bleute checked:bg-jaune-souffre checked:border-jaune-souffre transition"
+        : "w-full resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = type == "checkbox" ? "flex items-center gap-2.5 py-1" : "";
     const classDefaultLabel = "text-jaune-souffre";
-    const classBaseContainer = "clear-both";
-    const classErrorMessage = "clear-both text-red-500";
+    const classBaseContainer = "w-full";
+    const classErrorMessage = "text-red-500";
     const classInputError = "border-red-500 focus:border-red-500";
 
     let classUseInput;
@@ -178,13 +178,15 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
     if (type === "checkbox") {
         return (
-            <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
-                <input name={name} type={type} max={max_numdate} maxLength={max_string}
-                    accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
-                    required={required} value={value} onChange={handleChange}
-                    className={classUseInput}
-                ></input>
-                {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+            <div className={`${classBaseContainer}`.trim()}>
+                <div className={`${classContainer ? classContainer : classDefaultContainer}`.trim()}>
+                    <input name={name} type={type} max={max_numdate} maxLength={max_string}
+                        accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+                        required={required} value={value} onChange={handleChange}
+                        className={classUseInput}
+                    ></input>
+                    {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+                </div>
                 {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
         )

@@ -42,10 +42,12 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
 
     let allvalues = [firstInput].concat(myValues);
 
-    const classDefaultInput = "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
-    const classDefaultContainer = "clear-both flex flex-col";
-    const classDefaultGroup = "flex float-left flex-row gap-2";
+    const classDefaultInput = "w-full resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = "w-full flex flex-col gap-3";
+    const classDefaultGroup = "flex flex-col gap-2 sm:flex-row sm:gap-3";
     const classDefaultLabel = "text-jaune-souffre";
+    const btnAddClass = "mt-1 cursor-pointer rounded-full border-2 border-jaune-souffre px-4 py-1.5 text-sm font-semibold text-jaune-souffre transition hover:bg-jaune-souffre hover:text-noir-bleute self-start";
+    const btnRemoveClass = "shrink-0 cursor-pointer rounded-full border-2 border-red-500 px-3 py-1 text-sm font-semibold text-red-500 transition hover:bg-red-500 hover:text-white";
 
     let declared = false;
     useEffect(() => {
@@ -135,19 +137,22 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
 
     return (
         <div className={classContainer ? classContainer : classDefaultContainer}>
-            <div className={classGroup ? classGroup : classDefaultGroup}>
-                {inputnames.map((n, ind) => {
-                    return (
-                        <div>
-                            {labels && labels[ind] && <div
-                                className={classLabel ? classLabel : classDefaultLabel}
-                            > {labels[ind]} </div>}
-                            <input onChange={updateFirstInput} name={n}
-                                type="text" value={firstInput[n]}
-                                className={classInput ? classInput : classDefaultInput}></input>
-                        </div>
-                    )
-                })}
+            <div className="flex items-center gap-2">
+                <div className={`flex-1 ${classGroup ? classGroup : classDefaultGroup}`}>
+                    {inputnames.map((n, ind) => {
+                        return (
+                            <div key={n} className="flex-1">
+                                {labels && labels[ind] && <div
+                                    className={classLabel ? classLabel : classDefaultLabel}
+                                > {labels[ind]} </div>}
+                                <input onChange={updateFirstInput} name={n}
+                                    type="text" value={firstInput[n]}
+                                    className={classInput ? classInput : classDefaultInput}></input>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className="invisible shrink-0 rounded-full border-2 px-3 py-1 text-sm">✕</div>
             </div>
 
             {/* Map des valeurs additives */}
@@ -155,16 +160,14 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
             {myValues.map((group, index) => {
 
                 return (
-                    <div>
-                        <div className={classGroup ? classGroup : classDefaultGroup}>{
+                    <div key={index} className="flex items-center gap-2">
+                        <div className={`flex-1 ${classGroup ? classGroup : classDefaultGroup}`}>{
                             inputnames.map((inp, i) => {
                                 return (
-                                    <div>
-                                        {labels && labels[i] && <div
-                                            className={classLabel ? classLabel : classDefaultLabel}
-                                        > {labels[i]} </div>}
+                                    <div key={inp} className="flex-1">
                                         <input onChange={(e) => { updateValues(e, index) }}
                                             name={inp} type="text"
+                                            placeholder={labels && labels[i] ? labels[i] : ""}
                                             value={myValues[index][inp]}
                                             className={classInput ? classInput : classDefaultInput}
                                         ></input>
@@ -172,8 +175,9 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
                                 )
                             })
                         }</div>
-                        <button type="button" onClick={() => { removeInput(index) }}>
-                            (X) SUPPRIMER
+                        <button type="button" onClick={() => { removeInput(index) }}
+                            className={btnRemoveClass}>
+                            ✕
                         </button>
                     </div>
                 )
@@ -183,7 +187,7 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
             })}
 
             {myValues.length < (addlimit - 1) &&
-                <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>}
+                <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : "Ajouter"}</button>}
         </div>
     )
 }

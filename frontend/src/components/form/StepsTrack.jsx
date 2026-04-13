@@ -27,6 +27,6 @@ export default function StepsTrack({ step, maxstep }) {
     });
 
     return (
-        <div className="flex float-left flex-row items-center">{stepMap}</div>
+        <div className="flex flex-row items-center justify-center">{stepMap}</div>
     )
 }

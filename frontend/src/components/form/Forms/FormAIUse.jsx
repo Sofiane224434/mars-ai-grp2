@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import InputSuper from "../InputSuper";
+import { Button } from "../../ui/Button";
 import InputAdditiveSelect from "../InputAdditiveSelect";
 
 import { verifyInputText } from "../VerifyInputFuncs";
@@ -107,8 +108,8 @@ export default function FormAIUse({ hide = false, getFunction,
     }
 
     return (
-        <div style={hide ? { display: "none" } : null} className={classContainer}>
-            <h2>Etape 2 : Déclaration d'usage de l'IA</h2>
+        <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold">Etape 2 : Déclaration d'usage de l'IA</h2>
             <div>Vous avez utilisé l'IA pour :</div>
 
             <InputSuper type={"checkbox"}
@@ -147,8 +148,10 @@ export default function FormAIUse({ hide = false, getFunction,
                 label={"Prompts que vous avez utilisé pour la génération IA :"}
                 errormessage={errorPrompts}></InputSuper>
 
-            <button type="button" onClick={goback}>{">"} Précédent</button>
-            <button type="button" onClick={verify}>Suivant {">"}</button>
+            <div className="mt-4 flex w-full items-center justify-center gap-4">
+                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} Précédent</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>Suivant {">"}</Button>
+            </div>
 
         </div>
     )

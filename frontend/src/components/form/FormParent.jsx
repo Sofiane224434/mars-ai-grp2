@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 //import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
@@ -11,6 +11,7 @@ import StepsTrack from "./StepsTrack";
 export default function FormParent() {
 
     const [currentStep, setCurrentStep] = useState(1);
+    const formTopRef = useRef(null);
 
     //const { createMovie } = useMovie();
     const [loading, setLoading] = useState(false);
@@ -21,13 +22,13 @@ export default function FormParent() {
     const [formDirectorInfo, setFormDirectorInfo] = useState({});
 
     const myforms = [
-        <FormMovieInfo hide={currentStep == 1 ? false : true}
+        <FormMovieInfo key="step-1" hide={currentStep == 1 ? false : true}
             getFunction={setFormMovieInfo} stepfunc={handlestep} currentstep={currentStep}></FormMovieInfo>,
-        <FormAIUse hide={currentStep == 2 ? false : true} getFunction={setFormAIUse}
+        <FormAIUse key="step-2" hide={currentStep == 2 ? false : true} getFunction={setFormAIUse}
             stepfunc={handlestep} currentstep={currentStep}></FormAIUse>,
-        <FormMultimedia hide={currentStep == 3 ? false : true}
+        <FormMultimedia key="step-3" hide={currentStep == 3 ? false : true}
             getFunction={setFormMultimedia} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
-        <FormDirectorInfo hide={currentStep == 4 ? false : true}
+        <FormDirectorInfo key="step-4" hide={currentStep == 4 ? false : true}
             sendfunc={sendtoback} currentstep={currentStep} stepfunc={handlestep}></FormDirectorInfo>
     ]
 
@@ -81,16 +82,17 @@ export default function FormParent() {
         if (currentStep <= maxstep && currentStep >= 1) {
             if (stepchange) {
                 setCurrentStep(stepchange);
+                formTopRef.current?.scrollIntoView({ behavior: "smooth" });
             }
 
         }
     }
 
     return (
-        <div className="flex flex-col items-center gap-2.5 bg-brun-brule">
-            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule text-center text-[30px] text-jaune-souffre">Envoyez votre vidéo</div>
+        <div ref={formTopRef} className="flex flex-col items-center gap-6 bg-brun-brule pb-10">
+            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule py-6 text-center text-4xl font-bold text-jaune-souffre">Envoyez votre vidéo</div>
             <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
-            <form className="mb-5 flex w-[90%] flex-col items-center gap-2.5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-[15px] text-jaune-souffre">
+            <form className="flex w-[90%] flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-jaune-souffre">
                 {myforms.map(form => { return form }
                 )}
                 {/* <FormStepsButtons step={currentStep} maxstep={maxstep}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import InputSuper from "../InputSuper";
+import { Button } from "../../ui/Button";
 
 import { verifyImage } from "../VerifyInputFuncs";
 
@@ -95,8 +96,8 @@ export default function FormMultimedia({ hide = false, getFunction,
     }
 
     return (
-        <div style={hide ? { display: "none" } : null} className={classContainer}>
-            <h2>Etape 3 : Multimédia et accessibilité</h2>
+        <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold">Etape 3 : Multimédia et accessibilité</h2>
 
             <InputSuper type={"file"}
                 getValueFunc={setThumbnail}
@@ -131,8 +132,10 @@ export default function FormMultimedia({ hide = false, getFunction,
                 label={`Veuillez renseigner un fichier sous-titre (.srt) :`}
             ></InputSuper>}
 
-            <button type="button" onClick={goback}>{">"} Précédent</button>
-            <button type="button" onClick={verify}>Suivant {">"}</button>
+            <div className="mt-4 flex w-full items-center justify-center gap-4">
+                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} Précédent</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>Suivant {">"}</Button>
+            </div>
 
         </div>
     )

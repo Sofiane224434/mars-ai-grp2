@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useMovie from "../../hooks/useMovie";
+//import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
 import FormAIUse from "./Forms/FormAIUse";
@@ -12,7 +12,7 @@ export default function FormParent() {
 
     const [currentStep, setCurrentStep] = useState(1);
 
-    const { createMovie } = useMovie();
+    //const { createMovie } = useMovie();
     const [loading, setLoading] = useState(false);
 
     const [formMovieInfo, setFormMovieInfo] = useState({});

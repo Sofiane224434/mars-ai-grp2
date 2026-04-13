@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useApi from '../../../hooks/useApi';
 import StatCard from './StatCard';
+import Spinner from '../../../components/ui/Spinner';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -53,9 +54,7 @@ const AdminPanel = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-white animate-pulse text-center p-10">
-            Chargement des données en cours... ⏳
-          </div>
+          <Spinner text="Chargement des données en cours... ⏳" />
         ) : error ? (
           <div className="mx-auto max-w-2xl rounded-xl border border-brulure-despespoir/60 bg-brulure-despespoir/10 p-6 text-center">
             <p className="text-sm text-white/90">Impossible de charger les statistiques.</p>

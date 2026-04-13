@@ -90,6 +90,10 @@
         "newsletter": "Inscription à la newsletter",
         "emailplaceholder": "Votre adresse e-mail",
         "subscribe": "S'inscrire à la newsletter",
+        "newsletterLoading": "Inscription en cours...",
+        "newsletterSubscribeSuccess": "Inscription confirmée. Merci !",
+        "newsletterSubscribeError": "Impossible de vous inscrire pour le moment.",
+        "newsletterInvalidEmail": "Merci de saisir une adresse e-mail valide.",
         "rights": "Tous droits réservés"
     },
     "movies": {

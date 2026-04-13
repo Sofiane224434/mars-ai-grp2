@@ -20,6 +20,10 @@
     "newsletter": "Newsletter subscription",
     "emailplaceholder": "Your e-mail address",
     "subscribe": "Subscribe to our newsletter",
+    "newsletterLoading": "Subscribing...",
+    "newsletterSubscribeSuccess": "Subscription confirmed. Thank you!",
+    "newsletterSubscribeError": "Unable to subscribe right now.",
+    "newsletterInvalidEmail": "Please enter a valid email address.",
     "rights": "All rights reserved"
   },
   "home": {

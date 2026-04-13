@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../ui/Button";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -11,6 +12,53 @@ import TwitterIcon from "../../assets/icons/Icons-twiter.svg?react";
 // components/Footer.jsx
 function Footer() {
     const { t } = useTranslation();
+    const [newsletterEmail, setNewsletterEmail] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [newsletterFeedback, setNewsletterFeedback] = useState({ type: "", message: "" });
+
+    const handleNewsletterSubmit = async (event) => {
+        event.preventDefault();
+        if (isSubmitting) return;
+
+        const email = newsletterEmail.trim();
+        if (!email) {
+            setNewsletterFeedback({ type: "error", message: t("footer.newsletterInvalidEmail") });
+            return;
+        }
+
+        setIsSubmitting(true);
+        setNewsletterFeedback({ type: "", message: "" });
+
+        try {
+            const response = await fetch("/api/newsletter/subscribe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data?.error || t("footer.newsletterSubscribeError"));
+            }
+
+            setNewsletterEmail("");
+            setNewsletterFeedback({
+                type: "success",
+                message: t("footer.newsletterSubscribeSuccess"),
+            });
+        } catch (error) {
+            setNewsletterFeedback({
+                type: "error",
+                message: error.message || t("footer.newsletterSubscribeError"),
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <footer className="bg-noir-bleute text-white py-6 sm:py-8 lg:py-10 mt-auto">
             <div className="container mx-auto px-4 text-center">
@@ -71,13 +119,30 @@ function Footer() {
                             </a>
                         </div>
                         <p className="text-sm sm:text-base">{t('footer.newsletter')}</p>
-                        <form className="flex flex-col items-stretch sm:items-center gap-2 mt-2 w-full sm:w-72 lg:w-64">
+                        <form className="flex flex-col items-stretch sm:items-center gap-2 mt-2 w-full sm:w-72 lg:w-64" onSubmit={handleNewsletterSubmit}>
                             <input
                                 type="email"
+                                value={newsletterEmail}
+                                onChange={(event) => setNewsletterEmail(event.target.value)}
+                                required
                                 placeholder={t('footer.emailplaceholder')}
                                 className="w-full px-3 sm:px-4 py-2 rounded-md border border-gray-300 bg-white text-noir-bleute placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-jaune-souffre transition"
                             />
-                            <Button variant="square-yellow" className="w-full">{t('footer.subscribe')}</Button>
+                            <Button
+                                variant="square-yellow"
+                                interactive
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full"
+                            >
+                                {isSubmitting ? t('footer.newsletterLoading') : t('footer.subscribe')}
+                            </Button>
+
+                            {newsletterFeedback.message && (
+                                <p className={`text-xs ${newsletterFeedback.type === "success" ? "text-green-300" : "text-red-300"}`}>
+                                    {newsletterFeedback.message}
+                                </p>
+                            )}
                         </form>
                     </div>
                 </div>

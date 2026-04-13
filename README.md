@@ -582,6 +582,7 @@ Le backend retourne ensuite les informations S3 + YouTube.
 | `npm start` | Lance le serveur en mode production | Production |
 | `npm run dev` | Lance le serveur avec nodemon (hot reload) | Développement |
 | `npm test` | Exécute les tests | Test |
+| `npm run sync:newsletter-unsubscribed` | Synchronise les désinscriptions Brevo vers la table `newsletter` locale | Maintenance |
 
 ### Frontend (`cd frontend`)
 

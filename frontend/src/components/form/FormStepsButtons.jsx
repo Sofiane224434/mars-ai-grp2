@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Button } from "../ui/Button"
 
 export default function FormStepsButtons({ step, maxstep, verificationFunction,
     submitFunction, getStepUpdate
@@ -6,9 +7,10 @@ export default function FormStepsButtons({ step, maxstep, verificationFunction,
 
     //const [currentStep, setCurrentStep] = useState(step);
 
-    const NextBtn = <button type="button" onClick={increaseStep}>Suivant {">"}</button>
-    const PrevBtn = <button type="button" onClick={decreaseStep}>{"<"} Précédent</button>
-    const SubmitBtn = <button type="submit">Envoyer</button>
+    const btnClass = "appearance-none [&_.btn-bg-base]:h-full [&_.btn-bg-base]:top-0 [&_.btn-bg-base]:rounded-full"
+    const NextBtn = <Button variant="filled-yellow" interactive type="button" onClick={increaseStep} className={btnClass}>Suivant {">"}</Button>
+    const PrevBtn = <Button variant="filled-yellow" interactive type="button" onClick={decreaseStep} className={btnClass}>{"<"} Précédent</Button>
+    const SubmitBtn = <Button variant="filled-yellow" interactive type="submit" className={btnClass}>Envoyer</Button>
 
     //Gestion d'erreurs pour être sûr d'avoir toutes les fonctions et params nécessaires
     if (!step) {

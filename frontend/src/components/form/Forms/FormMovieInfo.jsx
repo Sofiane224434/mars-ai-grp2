@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import InputSuper from "../InputSuper";
 import InputAdditive from "../InputAdditive";
+import { Button } from "../../ui/Button";
 
 import { verifyInputText, verifyVideo } from "../VerifyInputFuncs";
 
@@ -128,9 +129,9 @@ export default function FormMovieInfo({ hide = false, getFunction,
     // console.log(testschema.safeParse("https://www.youtube.com/embed/DFYRQ_zQ-gk?autoplay=1"));
 
     return (
-        <div style={hide ? { display: "none" } : null} className={classContainer}>
+        <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
 
-            <h2>Etape 1 : Fiche Film</h2>
+            <h2 className="text-2xl font-bold">Etape 1 : Fiche Film</h2>
 
             <InputSuper label={"Titre du film"} type={"text"}
                 getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
@@ -160,7 +161,8 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 soundbankCheck &&
                 <InputAdditive btntitle="AJOUTER UNE SOUNDBANK/MUSIQUE"
                     getValuesFunc={setSoundbankData} label={"Veuillez informer les soundbanks ou " +
-                        "musiques utilisés."} addlimit={100}>
+                        "musiques utilisés."} addlimit={100}
+                    classContainer="ml-7 flex w-full flex-col gap-2 border-l-2 border-jaune-souffre/30 pl-4">
                 </InputAdditive>
             }
 
@@ -168,7 +170,9 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 label={`Lien youtube vers cette vidéo :`}
                 errormessage={errorYtLink}></InputSuper>
 
-            <button type="button" onClick={verify}>Suivant {">"}</button>
+            <div className="mt-4 flex w-full items-center justify-center gap-4">
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>Suivant {">"}</Button>
+            </div>
 
         </div>
     )

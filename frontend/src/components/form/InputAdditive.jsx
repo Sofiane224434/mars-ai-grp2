@@ -27,8 +27,8 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     //Les valeurs supplémentaires
     const [myValues, setMyValues] = useState([]);
 
-    const classDefaultInput = "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
-    const classDefaultContainer = "clear-both";
+    const classDefaultInput = "w-full resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = "w-full";
     const classDefaultLabel = "text-jaune-souffre";
 
     let alldata = [firstInput].concat(myValues);
@@ -113,6 +113,9 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
         setMyValues(newvals);
     }
 
+    const btnAddClass = "mt-2 cursor-pointer rounded-full border-2 border-jaune-souffre px-4 py-1.5 text-sm font-semibold text-jaune-souffre transition hover:bg-jaune-souffre hover:text-noir-bleute";
+    const btnRemoveClass = "ml-2 cursor-pointer rounded-full border-2 border-red-500 px-3 py-1 text-sm font-semibold text-red-500 transition hover:bg-red-500 hover:text-white";
+
     return (
         <div className={classContainer ? classContainer : classDefaultContainer}>
             {label && <div className={classLabel ? classLabel : classDefaultLabel}> {label} </div>}
@@ -122,18 +125,19 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             {/* Map des valeurs additives */}
             {myValues.map((inp, index) => {
                 return (
-                    <>
+                    <div key={index} className="flex items-center gap-2">
                         <input className={classInput ? classInput : classDefaultInput}
                             onChange={(e) => { updateValues(e, index) }} name={index} type="text"
                             value={myValues[index]}></input>
-                        <button type="button" onClick={() => { removeInput(index) }}>
-                            (X) SUPPRIMER
+                        <button type="button" onClick={() => { removeInput(index) }}
+                            className={btnRemoveClass}>
+                            ✕
                         </button>
-                    </>
+                    </div>
                 )
             })}
             {myValues.length < (addlimit - 1) &&
-                <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
+                <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : "Ajouter"}</button>
             }
         </div>
     )

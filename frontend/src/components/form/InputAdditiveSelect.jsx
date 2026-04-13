@@ -195,34 +195,42 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
         removeTextInput(index);
     }
 
+    const selectClass = "w-full rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const textInputClass = "mt-1 w-full rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const btnAddClass = "mt-2 cursor-pointer rounded-full border-2 border-jaune-souffre px-4 py-1.5 text-sm font-semibold text-jaune-souffre transition hover:bg-jaune-souffre hover:text-noir-bleute";
+    const btnRemoveClass = "ml-2 cursor-pointer rounded-full border-2 border-red-500 px-3 py-1 text-sm font-semibold text-red-500 transition hover:bg-red-500 hover:text-white";
+
     return (
-        <div>
-            <div>
-                {label ? <div>{label}</div> : ""}
-                <select onChange={(e) => { setFirstInput(e.target.value) }}>
+        <div className="ml-7 flex w-full flex-col gap-2 border-l-2 border-jaune-souffre/30 pl-4">
+            <div className="flex flex-col gap-1">
+                {label ? <div className="text-sm text-jaune-souffre">{label}</div> : ""}
+                <select onChange={(e) => { setFirstInput(e.target.value) }} className={selectClass}>
                     {myoptionmap}
                 </select>
-                {checkforOther(firstInput) && <input type="text"
-                    onChange={(e) => { setFirstInputText(e.target.value) }}></input>}
+                {checkforOther(firstInput) && <input type="text" placeholder="Précisez..."
+                    onChange={(e) => { setFirstInputText(e.target.value) }} className={textInputClass}></input>}
             </div>
 
             {selectValues.map((inp, index) => {
                 return (
-                    <div>
-                        <select onChange={(e) => { updateSelectValues(e, index) }} name={index}
-                            value={selectValues[index]}>
-                            {myoptionmap}
-                        </select>
-                        {checkforOther(selectValues[index]) && <input type="text"
-                            onChange={(e) => { updateTextValues(e, index) }}></input>}
-                        <button type="button" onClick={() => { removeBothInput(index) }}>
-                            (X) SUPPRIMER
-                        </button>
+                    <div key={index} className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                            <select onChange={(e) => { updateSelectValues(e, index) }} name={index}
+                                value={selectValues[index]} className={selectClass}>
+                                {myoptionmap}
+                            </select>
+                            <button type="button" onClick={() => { removeBothInput(index) }}
+                                className={btnRemoveClass}>
+                                ✕
+                            </button>
+                        </div>
+                        {checkforOther(selectValues[index]) && <input type="text" placeholder="Précisez..."
+                            onChange={(e) => { updateTextValues(e, index) }} className={textInputClass}></input>}
                     </div>
                 )
             })}
 
-            <button type="button" onClick={addInput}>(+){btntitle ? btntitle : "Ajouter"}</button>
+            <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : "Ajouter"}</button>
         </div>
     )
 }

@@ -13,6 +13,7 @@ const StatCard = ({
   animate = false,
   suffix = '',
   progress = null,
+  progressLabel = '',
   centerNumber = false,
 }) => {
 
@@ -87,13 +88,18 @@ const StatCard = ({
             {displayValue}{suffix}
           </p>
           {normalizedProgress !== null && (
-            <div className="mt-3">
-              <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div className="mt-3 flex items-center gap-3">
+              <div className="h-1.5 flex-1 rounded-full bg-white/10 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-linear-to-r from-turquoise-vif via-bleu-ciel to-jaune-souffre transition-[width] duration-700 ease-out"
                   style={{ width: `${animatedProgress}%` }}
                 />
               </div>
+              {progressLabel ? (
+                <span className="shrink-0 text-xs font-semibold text-gris-magneti/95 tabular-nums">
+                  {progressLabel}
+                </span>
+              ) : null}
             </div>
           )}
         </div>

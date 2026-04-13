@@ -42,8 +42,7 @@ export const useJuryMovieNavigation = (currentMovieId) => {
         // On extrait uniquement un tableau d'IDs [1, 5, 12, 45]
         const ids = normalizedMovies
           .map((movie) => Number(movie?.id))
-          .filter((id) => Number.isInteger(id) && id > 0)
-          .reverse();
+          .filter((id) => Number.isInteger(id) && id > 0);
 
         setMovieIds(ids);
       } catch (error) {

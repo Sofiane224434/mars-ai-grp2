@@ -6,18 +6,32 @@ export const getAssignedMoviesByUser = async (userId) => {
     SELECT
       m.id,
       m.title_original,
+      m.title_original AS title,
       m.title_english,
       m.language,
       m.classification,
+      m.thumbnail,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
       m.status AS statusId,
       s.status AS statusLabel,
+      s.status AS status,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName,
       m.created_at,
       m.updated_at
     FROM users_movies um
     INNER JOIN movies m ON m.id = um.movie_id
     LEFT JOIN status s ON s.id = m.status
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
     WHERE um.user_id = ?
-    ORDER BY m.updated_at DESC, m.id DESC
+    ORDER BY m.id ASC
   `;
 
   return await query(sql, [userId]);

@@ -21,7 +21,7 @@ i18n
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
         fallbackLng: 'en',
-        supportedLngs: ['en', 'fr'],
+        supportedLngs: ['en', 'fr', 'es', 'ar', 'pt', 'zh', 'de', 'hi', 'ru', 'ja'],
         nonExplicitSupportedLngs: true,
         load: 'languageOnly',
         debug: true,

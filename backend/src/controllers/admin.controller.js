@@ -1,7 +1,7 @@
 import { issueInvitationForEmail } from "../services/magicAuth.service.js";
 import { inviteJurySchema } from "../schemas/auth.schema.js";
 import { adminService } from '../services/adminService.js';
-import { z } from "zod";
+import { success, z } from "zod";
 
 export const inviteJury = async (req, res) => {
   // 1. Validation du body avec Zod
@@ -132,6 +132,50 @@ export const getAllMoviesForAdmin = async (req, res) => {
   }
 };
 
+export const assignMovieToJuries = async (req, res) => {
+  try {
+    const { movieId, juryId } = req.body;
+    const assignment = await adminService.assignMovie(movieId, juryId);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Assignation du jury effectuée avec succès.',
+      data: assignment,
+    });
+  } catch (error) {
+    if (error.code === 'MOVIE_NOT_FOUND') {
+      return res.status(404).json({ success: false, message: error.message });
+    }
+
+    if (error.code === 'INVALID_JURY_ID') {
+      return res.status(422).json({
+        success: false,
+        message: error.message,
+        invalidJuryId: error.invalidJuryId || null,
+      });
+    }
+
+    console.error('Erreur Controller POST /movies/assign :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Erreur serveur interne lors de l\'assignation des jurys.',
+    });
+  }
+};
+
+export const getJuryAssignmentOptions = async (req, res) => {
+  try {
+    const juries = await adminService.getJuryOptions();
+    return res.status(200).json({ success: true, data: juries });
+  } catch (error) {
+    console.error('Erreur Controller GET /movies/juries :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Erreur serveur interne lors de la récupération des jurys.',
+    });
+  }
+};
+
 export const sendOfficialEmail = async (req, res) => {
   try {
     // Extraction propre des données de la requête
@@ -154,3 +198,23 @@ export const sendOfficialEmail = async (req, res) => {
     });
   }
 };
+
+  export const getAdminStats = async (req, res) => {
+    try {
+      // On appelle la logique métier (le Service)
+      const statsData = await adminService.getDashboardStats();
+
+      // On renvoie le JSON avec la structure EXACTE
+      return res.status(200).json({
+        success: true,
+        data: statsData
+      });
+    } catch (error) {
+      console.error("Erreur Controller GET /admin/stats :", error);
+      return res.status(500).json({
+        success: false,
+        message: "Erreur serveur interne lors du calcul des statistiques."
+      });
+    }
+  };
+

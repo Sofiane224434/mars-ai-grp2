@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Página inicial",
+    "movies": "Filmes",
+    "about": "Sobre",
+    "faq": "Perguntas frequentes",
+    "participate": "Participar"
+  },
+  "home": {
+    "HeroSection": "O ser humano no centro da IA",
+    "titles1": "1 MINUTO",
+    "description1": "Cada vídeo tem uma duração máxima de 1 minuto",
+    "titles2": "1 TEMA",
+    "description2": "Todos os filmes têm um tema comum: um futuro desejável",
+    "titles3": "1 VENCEDOR",
+    "description3": "Um único grande vencedor!",
+    "PodiumGraphic": "De uma seleção de mais de 20 000 vídeos",
+    "quickAccess": {
+      "title": "Explore o festival",
+      "description": "Aceda rapidamente às páginas principais do festival para descobrir os filmes, compreender melhor o MarsAI e obter todas as informações práticas.",
+      "cards": {
+        "movies": {
+          "description": "Descubra os curtas-metragens selecionados, acompanhe a fase atual e fique atento ao anúncio dos vencedores, que será feito em breve.",
+          "cta": "Ver os filmes"
+        },
+        "about": {
+          "description": "Compreenda a visão do festival, os seus objetivos e o formato único do concurso.",
+          "cta": "Conheça a MarsAI"
+        },
+        "faq": {
+          "description": "Aceda rapidamente às informações práticas: acesso, horários, workshops e organização.",
+          "cta": "Ler as perguntas frequentes"
+        }
+      }
+    }
+  },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "O que é o MarsAI?",
+        "text": "Um festival de <strong>curtas-metragens de 1 minuto</strong> realizados por <strong>IA</strong>\n\nConferências e workshops <strong>gratuitos</strong>\n\n<strong>Partilha de experiências de especialistas em IA</strong> para profissionais e para o público em geral\n\n<strong>2 dias de festival em Marselha,</strong> no coração da IA"
+      },
+      "block2": {
+        "title": "Objetivo do festival",
+        "text": "Colocar o ser humano no centro da criação de obras geradas por IA\n\nDesafiar a criatividade dos participantes através de um <strong>formato muito curto</strong>\n\nAproveitar o potencial da IA em torno de um tema: <strong>Imagine futuros desejáveis</strong>"
+      },
+      "block3": {
+        "title": "Formato da seleção",
+        "text": "<strong>Convite à apresentação</strong> de <strong>projetos</strong> com duração de 2 meses\n\n<strong>50 curtas-metragens de um minuto</strong> selecionadas para a competição oficial\n\nDivulgação online das obras (web e redes sociais)\n\n<strong>Exibição em salas de cinema</strong> e festivais de cinema"
+      },
+      "block4": {
+        "title": "O local",
+        "subtitle": "A plataforma",
+        "text": "<strong>4 000 m² de espaço</strong> no centro de Marselha, para acolher o evento"
+      }
+    }
+  },
+  "faq": {
+    "title": "Perguntas Frequentes (FAQ) - Festival MarsAi",
+    "disclaimer": "Talvez a resposta à sua pergunta se encontre abaixo! ",
+    "informations-title": "Informações práticas:",
+    "informations-content": "Onde e quando se realiza o festival MarsAi? O festival decorrerá durante dois dias, sexta-feira, 5 de junho, e domingo, 7 de junho. O evento terá lugar no Dock des Suds (12 Rue Urbain V, 13002 Marselha). As portas abrem às 10h00 e fecham às 19h00.",
+    "question1": "Como posso chegar lá?",
+    "answer1-1": "De transportes públicos: Metro, linha 2 (paragem Désirée Clary) ou elétrico T2/T3 (paragem Arenc Le Silo).",
+    "answer1-2": "De carro: Existem parques de estacionamento públicos pagos (Indigo Quai d'Arenc, Espercieux) nas imediações.",
+    "answer1-3": "Transporte sustentável: Está disponível um espaço para estacionar bicicletas e trotinetas no pátio.",
+    "answer1-4": "O local é acessível a pessoas com mobilidade reduzida (PMR)? Sim, o Dock des Suds é um edifício de um único piso e totalmente acessível. Existem casas de banho adaptadas disponíveis no interior do edifício",
+    "access-title": "🎟️ Acesso e inscrição 🎟️",
+    "question2": "Devo comprar ou reservar um bilhete? ",
+    "answer2": "Não, o acesso ao festival MarsAi é totalmente gratuito e não é necessário bilhete. Pode vir quando quiser.",
+    "question3": "Existe um limite máximo?",
+    "answer3": "A entrada é gratuita, mas está sujeita à capacidade do Dock des Suds. Em caso de grande afluência, poderá ser criada uma fila de espera à entrada por motivos de segurança.",
+    "programation-title": "🤖 Programação e Oficinas 🤖 ",
+    "question4": "A quem se destina o festival MarsAi?",
+    "answer4": "O festival foi concebido para todos! Quer seja um profissional da área da tecnologia, um estudante ou simplesmente alguém curioso por descobrir os últimos avanços em inteligência artificial, encontrará palestras e demonstrações adequadas ao seu nível.",
+    "question5": "É necessário inscrever-se com antecedência para os workshops práticos?",
+    "answer5": " A entrada geral é gratuita, mas algumas oficinas específicas exigem inscrição no local, na receção do festival, no próprio dia. Os lugares são atribuídos por ordem de chegada."
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "Alterar o idioma",
+      "french": "Português",
+      "english": "Inglês",
+      "spanish": "Espanhol",
+      "arabic": "Árabe",
+      "portuguese": "Português",
+      "mandarin": "Mandarim",
+      "german": "Alemão",
+      "hindi": "Hindi",
+      "russian": "Russo",
+      "japanese": "Japonês"
+    }
+  },
+  "footer": {
+    "collaborator": "Em colaboração com",
+    "textcontact": "Mantenha-se em contacto",
+    "newsletter": "Inscrição na newsletter",
+    "emailplaceholder": "O seu endereço de e-mail",
+    "subscribe": "Inscrever-se na newsletter",
+    "rights": "Todos os direitos reservados"
+  },
+  "movies": {
+    "empty-title": "Em breve disponível",
+    "empty-description": "Os 50 filmes selecionados pelo júri serão publicados aqui após o encerramento do período de candidaturas. Volte em breve!",
+    "current-phase-label": "Fase atual",
+    "current-phase": "Apresentação das candidaturas"
+  },
+  "countdown": {
+    "nextSelection": "Próxima seleção",
+    "days": "Dias",
+    "hours": "Horário",
+    "minutes": "Ata",
+    "seconds": "Segundos",
+    "top50": "Top 50",
+    "participate": "Participar"
+  }
+}

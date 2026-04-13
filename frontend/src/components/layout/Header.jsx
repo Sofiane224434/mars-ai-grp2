@@ -6,13 +6,24 @@ import MarsLogo from '../../assets/icons/Marsai.svg?react';
 import LanguageIcon from '../../assets/icons/language-svgrepo-com.svg?react';
 import Navbar from './Navbar';
 
+const LANGUAGES = [
+    { code: 'fr', labelKey: 'header.language.french' },
+    { code: 'en', labelKey: 'header.language.english' },
+    { code: 'es', labelKey: 'header.language.spanish' },
+    { code: 'ar', labelKey: 'header.language.arabic' },
+    { code: 'pt', labelKey: 'header.language.portuguese' },
+    { code: 'zh', labelKey: 'header.language.mandarin' },
+    { code: 'de', labelKey: 'header.language.german' },
+    { code: 'hi', labelKey: 'header.language.hindi' },
+    { code: 'ru', labelKey: 'header.language.russian' },
+    { code: 'ja', labelKey: 'header.language.japanese' },
+];
+
 function Header() {
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const { i18n, t } = useTranslation();
 
-    const activeLanguage = (i18n.resolvedLanguage || i18n.language || 'en').toLowerCase().startsWith('fr')
-        ? 'fr'
-        : 'en';
+    const activeLanguage = (i18n.resolvedLanguage || i18n.language || 'en').toLowerCase().split('-')[0];
 
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
@@ -43,21 +54,17 @@ function Header() {
                         </button>
 
                         {isLanguageOpen && (
-                            <div className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-hidden z-20">
-                                <button
-                                    type="button"
-                                    onClick={() => changeLanguage('fr')}
-                                    className={`block w-full px-4 py-2 text-left text-sm hover:bg-reglisse transition ${activeLanguage === 'fr' ? 'text-jaune-souffre' : 'text-white'}`}
-                                >
-                                    {t('header.language.french')}
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => changeLanguage('en')}
-                                    className={`block w-full px-4 py-2 text-left text-sm hover:bg-reglisse transition ${activeLanguage === 'en' ? 'text-jaune-souffre' : 'text-white'}`}
-                                >
-                                    {t('header.language.english')}
-                                </button>
+                            <div className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-y-auto z-20 min-w-36 max-h-56">
+                                {LANGUAGES.map(({ code, labelKey }) => (
+                                    <button
+                                        key={code}
+                                        type="button"
+                                        onClick={() => changeLanguage(code)}
+                                        className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-reglisse transition ${activeLanguage === code ? 'text-jaune-souffre' : 'text-white'}`}
+                                    >
+                                        {t(labelKey)}
+                                    </button>
+                                ))}
                             </div>
                         )}
                     </div>

@@ -81,7 +81,15 @@
             "language": {
                 "change": "Changer la langue",
                 "french": "Français",
-                "english": "Anglais"
+                "english": "Anglais",
+                "spanish": "Espagnol",
+                "arabic": "Arabe",
+                "portuguese": "Portugais",
+                "mandarin": "Mandarin",
+                "german": "Allemand",
+                "hindi": "Hindi",
+                "russian": "Russe",
+                "japanese": "Japonais"
             }
         },
         "footer": {
@@ -101,5 +109,14 @@
         "empty-description": "Les 50 films sélectionnés par le jury seront affichés ici à l'issue de la phase de candidature. Revenez prochainement !",
         "current-phase-label": "Phase actuelle",
         "current-phase": "Dépôt des candidatures"
+    },
+    "countdown": {
+        "nextSelection": "Prochaine sélection",
+        "days": "Jours",
+        "hours": "Heures",
+        "minutes": "Minutes",
+        "seconds": "Secondes",
+        "top50": "Top 50",
+        "participate": "Participer"
     }
 }

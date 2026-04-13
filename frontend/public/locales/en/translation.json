@@ -1,15 +1,8 @@
 {
-  "header": {
-    "title": "MarsAi",
-    "language": {
-      "french": "French",
-      "english": "English",
-      "change": "Change language"
-    }
-  },
   "nav": {
     "home": "Home",
-    "about": "About us",
+    "movies": "Movies",
+    "about": "About",
     "faq": "FAQ",
     "participate": "Participate",
     "movies": "Movies"
@@ -25,31 +18,32 @@
     "newsletterSubscribeError": "Unable to subscribe right now.",
     "newsletterInvalidEmail": "Please enter a valid email address.",
     "rights": "All rights reserved"
+    "participate": "Join"
   },
   "home": {
     "HeroSection": "People at the heart of AI",
     "titles1": "1 MINUTE",
-    "description1": "Each film lasts a maximum of 1 minute",
-    "titles2": "1 THEME",
-    "description2": "Each film has a common theme: A desirable future",
+    "description1": "Each video is no longer than 1 minute",
+    "titles2": "1 TOPIC",
+    "description2": "Each film shares a common theme: A desirable future",
     "titles3": "1 WINNER",
-    "description3": "One big winner!",
+    "description3": "Just one big winner!",
     "PodiumGraphic": "From a selection of over 20,000 videos",
     "quickAccess": {
       "title": "Explore the festival",
-      "description": "Quickly access the key festival pages to discover the films, understand MarsAI, and find practical information.",
+      "description": "Quickly find the festival’s key pages to explore the films, learn more about MarsAI, and get all the practical information you need.",
       "cards": {
         "movies": {
-          "description": "Explore selected short films, follow the current phase, and discover the winners soon.",
-          "cta": "See movies"
+          "description": "Check out the selected short films, follow the current round, and stay tuned for the winners.",
+          "cta": "Watch the movies"
         },
         "about": {
-          "description": "Understand the festival's vision, goals, and the unique format of the competition.",
+          "description": "Understand the festival’s vision, its goals, and the competition’s unique format.",
           "cta": "Discover MarsAI"
         },
         "faq": {
-          "description": "Get practical information at a glance: access, schedule, workshops, and organization.",
-          "cta": "Read FAQ"
+          "description": "Get quick access to practical information: directions, hours, workshops, and event details.",
+          "cta": "Read the FAQ"
         }
       }
     }
@@ -58,48 +52,81 @@
     "blocks": {
       "block1": {
         "title": "What is MarsAI?",
-        "text": "A festival of <strong>1-minute short films</strong> made with <strong>AI</strong>\n\nFree <strong>conferences and workshops</strong>\n\n<strong>Experience sharing with AI experts</strong> for professionals and the general public\n\n<strong>2 days of festival in Marseille</strong>, at the heart of AI"
+        "text": "A festival of <strong>1-minute short films</strong> created by <strong>AI</strong>\n\n<strong>Free</strong> talks and workshops\n\n<strong>AI experts sharing their insights</strong> with professionals and the general public\n\n<strong>A 2-day festival in Marseille</strong> at the heart of AI"
       },
       "block2": {
-        "title": "Festival objective",
-        "text": "Put people at the heart of creating AI-generated works\n\nChallenge participants' creativity through a <strong>very short format</strong>\n\nLeverage the power of AI around one theme: <strong>Imagine desirable futures</strong>"
+        "title": "Purpose of the festival",
+        "text": "Putting people at the heart of AI-generated art\n\nChallenging participants’ creativity through a <strong>very short-form format</strong>\n\nHarnessing the power of AI around a theme: <strong>Imagine desirable futures</strong>"
       },
       "block3": {
         "title": "Selection format",
-        "text": "<strong>2-month open call</strong>\n\n<strong>50 one-minute short films</strong> selected for the official competition\n\nOnline distribution of works (web and social networks)\n\n<strong>Screenings in cinemas</strong> and film festivals"
+        "text": "2-Month <strong>Call for Submissions</strong>\n\n<strong>50 one-minute short films</strong> selected for the official competition\n\nOnline distribution of the films (web and social media)\n\n<strong>Screening in theaters</strong> and at film festivals"
       },
       "block4": {
-        "title": "Venue",
-        "subtitle": "La Plateforme",
-        "text": "<strong>4,000 m2 of spaces</strong> in central Marseille to host the event"
+        "title": "The venue",
+        "subtitle": "The platform",
+        "text": "<strong>4,000 square meters of space</strong> in downtown Marseille to host the event"
       }
     }
   },
   "faq": {
-    "informations-title": "Practical information:",
-    "informations-content": "When and where does the MarsAi festival take place? The festival will take place over two days, Friday June 5 and Sunday June 7. The event takes place at the Dock des Suds (12 Rue Urbain V, 13002 Marseille). Doors open at 10:00 and close at 19:00.",
-    "question1": "How can I get there?",
-    "answer1-1": "Public transport: Metro line 2 (Désirée Clary stop) or Tramway T2/T3 (Arenc Le Silo stop).",
-    "answer1-2": "By car: Public pay parking lots (Indigo Quai d'Arenc, Espercieux) are located in the immediate vicinity.",
-    "answer1-3": "Soft mobility: A parking area for bicycles and scooters is available on the forecourt.",
-    "answer1-4": "Is the site accessible to people with reduced mobility (PRM)? Yes, Dock des Suds is on one level and fully accessible. Adapted sanitary facilities are available within the building.",
-    "access-title": "🎟️ Access and Registration",
-    "question2": "Do I need to buy or reserve a ticket?",
-    "answer2": "No, access to the MarsAi festival is entirely free and ticket-free. You can come at any time you like.",
-    "question3": "Is there a maximum gauge?",
-    "answer3": "Admission is free, but subject to the capacity of the Dock des Suds. In the event of very large crowds, a queue may be set up at the entrance for safety reasons.",
-    "programation-title": "🤖 Programming and Workshops 🤖",
-    "question4": "Who is the MarsAi festival for?",
-    "answer4": "The festival has something for everyone! Whether you're a tech professional, a student, or simply curious to discover the latest advances in artificial intelligence, you'll find conferences and demonstrations adapted to your level.",
+    "title": "Frequently Asked Questions (FAQ) - MarsAi Festival",
+    "disclaimer": "You might find the answer to your question below! ",
+    "informations-title": "Practical Information:",
+    "informations-content": "Where and when is the MarsAi Festival taking place? The festival will run for two days, on Friday, June 5, and Sunday, June 7. The event will be held at the Dock des Suds (12 Rue Urbain V, 13002 Marseille). Doors open at 10:00 a.m. and close at 7:00 p.m.",
+    "question1": "How do I get there?",
+    "answer1-1": "By public transportation: Metro Line 2 (Désirée Clary station) or Tram T2/T3 (Arenc Le Silo station).",
+    "answer1-2": "By car: Paid public parking lots (Indigo Quai d'Arenc, Espercieux) are located right nearby.",
+    "answer1-3": "For non-motorized transportation: A parking area for bicycles and scooters is available on the plaza.",
+    "answer1-4": "Is the site accessible to people with limited mobility? Yes, the Dock des Suds is a single-level facility and fully accessible. Accessible restrooms are available inside the building.",
+    "access-title": "🎟️ Access and Registration 🎟️",
+    "question2": "Should I buy or reserve a ticket? ",
+    "answer2": "No, admission to the MarsAi festival is completely free and no ticket is required. You are welcome to come whenever you like.",
+    "question3": "Is there a maximum capacity?",
+    "answer3": "Admission is free, but subject to the capacity of the Dock des Suds. In the event of very high attendance, a line may be formed at the entrance for safety reasons.",
+    "programation-title": "🤖 Program and Workshops 🤖 ",
+    "question4": "Who is the MarsAi Festival for?",
+    "answer4": "The festival is designed for everyone! Whether you're a tech professional, a student, or simply curious about the latest advancements in artificial intelligence, you'll find talks and demonstrations tailored to your level.",
     "question5": "Do I need to register in advance for the hands-on workshops?",
-    "answer5": " General admission is free, but some specific workshops require on-site registration at the festival reception on the day. Places are allocated on a first-come, first-served basis.",
-    "disclaimer": "The answer to your question may be found below!",
-    "title": "Frequently Asked Questions (FAQ) - MarsAi Festival"
+    "answer5": " General admission is free, but registration is required for certain workshops; please sign up on-site at the festival reception desk on the day of the event. Spots are assigned on a first-come, first-served basis."
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "Change language",
+      "french": "English",
+      "english": "English",
+      "spanish": "Spanish",
+      "arabic": "Arabic",
+      "portuguese": "Portuguese",
+      "mandarin": "Mandarin",
+      "german": "German",
+      "hindi": "Hindi",
+      "russian": "Russian",
+      "japanese": "Japanese"
+    }
+  },
+  "footer": {
+    "collaborator": "In collaboration with",
+    "textcontact": "Stay in touch",
+    "newsletter": "Subscribe to the newsletter",
+    "emailplaceholder": "Your email address",
+    "subscribe": "Sign up for the newsletter",
+    "rights": "All rights reserved"
   },
   "movies": {
     "empty-title": "Coming soon",
-    "empty-description": "The 50 films selected by the jury will be displayed here at the end of the submission phase. Check back soon!",
+    "empty-description": "The 50 films selected by the jury will be posted here once the submission period has ended. Check back soon!",
     "current-phase-label": "Current phase",
-    "current-phase": "Submission period"
+    "current-phase": "Submission of Applications"
+  },
+  "countdown": {
+    "nextSelection": "Next selection",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "top50": "Top 50",
+    "participate": "Join"
   }
 }

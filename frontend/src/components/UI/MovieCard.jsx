@@ -47,7 +47,7 @@ function MovieCard({
   onMoreInfo,
 }) {
   const [imageError, setImageError] = useState(false);
-  
+
   const isAdmin = variant === "admin-assign" || variant === "admin-assigned";
   const showAssignedJurors = variant === "admin-assigned";
   const isJuryPending = variant === "jury-pending";
@@ -60,7 +60,7 @@ function MovieCard({
   )];
   const hasAssignedJurors = uniqueAssignedJurors.length > 0;
 
-  
+
   const actionButtonsBlock = (
     <div className="mt-auto flex flex-col pt-3 w-full">
       {isAdmin && (
@@ -85,7 +85,7 @@ function MovieCard({
           interactive
           variant="filled-yellow"
           onClick={onMoreInfo}
-          className="h-14! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight"
+          className="h-12! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight [&_.btn-bg-base]:h-full [&_.btn-bg-base]:top-0 [&_.btn-bg-base]:rounded-full"
         >
           Voir plus d&apos;informations
         </Button>
@@ -99,7 +99,7 @@ function MovieCard({
   if (layout === "list") {
     return (
       <article className="flex w-full flex-col md:flex-row rounded-3xl border border-noir-bleute/80 bg-gris-steelix p-4 text-white shadow-lg gap-6 items-start md:items-center">
-        
+
         {/* 1. Miniature (Gauche) */}
         <button
           type="button"
@@ -230,7 +230,7 @@ function MovieCard({
 
       {/* On injecte TON code ici aussi, tout en bas de la carte ! */}
       {actionButtonsBlock}
-      
+
     </article>
   );
 }

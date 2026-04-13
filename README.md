@@ -439,6 +439,29 @@ VITE_API_URL=http://localhost:5000
 | POST    | `/api/movies`                         | Upload fichier vers S3 (`video_file`)     | Public*    |
 | GET     | `/api/movies/images?key=<s3Key>`      | Lecture d’un fichier depuis S3            | Public*    |
 
+### Administration (Pilotage)
+
+| Méthode | Endpoint                    | Description                                                                 | Protection |
+|---------|-----------------------------|-----------------------------------------------------------------------------|------------|
+| GET     | `/api/movies`               | Liste complète des films avec statut d'évaluation et jurys assignés       | 🔒 Admin   |
+| GET     | `/api/movies/juries`        | Liste des jurys (email) avec leur nombre de films déjà assignés           | 🔒 Admin   |
+| POST    | `/api/movies/assign`        | Assigner un film à un seul jury (relation 1:1 logique métier)             | 🔒 Admin   |
+
+Exemple de body pour l'assignation :
+
+```json
+{
+  "movieId": 12,
+  "juryId": 4
+}
+```
+
+Validation appliquée (Zod stricte) :
+
+- `movieId` requis, entier positif
+- `juryId` requis, entier positif
+- rejet des clés inattendues dans le body
+
 ### Réponses API
 
 #### Succès (200/201)

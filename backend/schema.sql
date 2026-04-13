@@ -147,7 +147,7 @@ CREATE TABLE `movies` (
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `title_english` varchar(255) NOT NULL,
-  `synospsis_english` longtext NOT NULL,
+  `synopsis_english` longtext NOT NULL,
   `youtube_url` varchar(255) NOT NULL,
   `movie_duration` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -156,7 +156,7 @@ CREATE TABLE `movies` (
 -- Dumping data for table `movies`
 --
 
-INSERT INTO `movies` (`id`, `title_original`, `subtitles`, `videofile`, `language`, `description`, `prompt`, `status`, `synopsis_original`, `classification`, `thumbnail`, `created_at`, `updated_at`, `title_english`, `synospsis_english`, `youtube_url`, `movie_duration`) VALUES
+INSERT INTO `movies` (`id`, `title_original`, `subtitles`, `videofile`, `language`, `description`, `prompt`, `status`, `synopsis_original`, `classification`, `thumbnail`, `created_at`, `updated_at`, `title_english`, `synopsis_english`, `youtube_url`, `movie_duration`) VALUES
 (1, 'Le Premier Film', 'soustitres.srt', 'film_01.mp4', 'fr', 'Description factice pour le test de notre API.', 'Un prompt généré par IA.', 3, 'Un synopsis en français.', 'Tout public', 'thumb_01.jpg', '2026-03-26 14:11:38', '2026-03-26 14:11:38', 'The First Movie', 'An English synopsis.', 'https://youtube.com/watch?v=test', '00:15:00'),
 (2, 'L\'Éveil de Mars', 'fr', 'mars_eveil.mp4', 'Français', 'Documentaire fiction.', 'Cinematic shot of Mars...', 1, 'L\'humanité pose le pied sur Mars et découvre un secret enfoui.', 'Tout public', 'thumb1.jpg', '2026-04-02 08:02:31', '2026-04-02 08:02:31', 'Mars Awakening', 'Humanity steps on Mars.', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '00:15:00'),
 (3, 'Cyberpunk 2099', 'en', 'cyber_2099.mp4', 'Anglais', 'Action sci-fi.', 'Neon city cyberpunk style...', 1, 'Dans une ville au néon, une détective traque une IA dévoyée.', '12+', 'thumb2.jpg', '2026-04-02 08:02:31', '2026-04-02 08:02:31', 'Cyberpunk 2099', 'In a neon city...', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '00:08:30'),

@@ -19,6 +19,9 @@ const AdminPanel = () => {
   const totalAssigned = statsData.juryProgress?.totalAssigned || 0;
   const totalEvaluated = statsData.juryProgress?.totalEvaluated || 0;
   const totalUnassigned = Math.max(totalMovies - totalAssigned, 0);
+  const assignmentRate = totalMovies > 0
+    ? Math.round((totalAssigned / totalMovies) * 100)
+    : 0;
   const juryProgressRate = totalAssigned > 0
     ? Math.round((totalEvaluated / totalAssigned) * 100)
     : 0;
@@ -78,9 +81,10 @@ const AdminPanel = () => {
         ) : (
           <div className="space-y-12">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <StatCard title="Total films" value={totalMovies} color="border-bleu-ciel" to="/dashboard/admin/movies" variant="pro" updatedAt={lastUpdatedAt} />
-              <StatCard title="Non assignés" value={totalUnassigned} color="border-fauve" to="/dashboard/admin/movies?assignation=unassigned" variant="pro" updatedAt={lastUpdatedAt} />
-              <StatCard title="Email en attente" value={statsData.emailsPending} color="border-brulure-despespoir" to="/dashboard/admin/email-confirmation" variant="pro" updatedAt={lastUpdatedAt} />
+              <StatCard title="Total films" value={totalMovies} color="border-bleu-ciel" to="/dashboard/admin/movies" variant="pro" updatedAt={lastUpdatedAt} animate />
+              <StatCard title="Non assignés" value={totalUnassigned} color="border-fauve" to="/dashboard/admin/movies?assignation=unassigned" variant="pro" updatedAt={lastUpdatedAt} animate />
+              <StatCard title="Email en attente" value={statsData.emailsPending} color="border-brulure-despespoir" to="/dashboard/admin/email-confirmation" variant="pro" updatedAt={lastUpdatedAt} animate />
+              <StatCard title="Taux d'assignation" value={assignmentRate} suffix="%" progress={assignmentRate} color="border-jaune-souffre" to="/dashboard/admin/movies?assignation=assigned" variant="pro" updatedAt={lastUpdatedAt} animate />
             </div>
 
             <div>
@@ -89,17 +93,17 @@ const AdminPanel = () => {
                 <StatCard title="Validés" value={statsData.moviesByStatus?.approved || 0} color="border-vert-picollo" to="/dashboard/admin/movies?status=approved" />
                 <StatCard title="À revoir" value={statsData.moviesByStatus?.review || 0} color="border-orange-genial" to="/dashboard/admin/movies?status=review" />
                 <StatCard title="Refusés" value={statsData.moviesByStatus?.rejected || 0} color="border-brulure-despespoir" to="/dashboard/admin/movies?status=rejected" />
-                <StatCard title="En attente" value={statsData.moviesByStatus?.pending || 0} color="border-gris-magneti" to="/dashboard/admin/movies?status=pending" />
+                <StatCard title="En attente" value={statsData.moviesByStatus?.pending || 0} color="border-bleu-ciel" to="/dashboard/admin/movies?status=pending" variant="pro" updatedAt={lastUpdatedAt} animate centerNumber />
               </div>
             </div>
 
             <div>
               <h2 className="text-xl font-bold text-white mb-6">Assignation jury</h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard title="Assignés" value={totalAssigned} color="border-bleu-ciel" to="/dashboard/admin/movies?assignation=assigned" />
-                <StatCard title="Non assignés" value={totalUnassigned} color="border-fauve" to="/dashboard/admin/movies?assignation=unassigned" />
-                <StatCard title="Films évalués" value={totalEvaluated} color="border-bleu-canard" />
-                <StatCard title="Taux d'évaluation" value={`${juryProgressRate}%`} color="border-vert-insecateur" />
+                <StatCard title="Assignés" value={totalAssigned} color="border-bleu-ciel" to="/dashboard/admin/movies?assignation=assigned" centerNumber />
+                <StatCard title="Non assignés" value={totalUnassigned} color="border-fauve" to="/dashboard/admin/movies?assignation=unassigned" centerNumber />
+                <StatCard title="Films évalués" value={totalEvaluated} color="border-bleu-canard" centerNumber />
+                <StatCard title="Taux d'évaluation" value={juryProgressRate} suffix="%" progress={juryProgressRate} color="border-vert-insecateur" variant="pro" updatedAt={lastUpdatedAt} animate />
               </div>
             </div>
 

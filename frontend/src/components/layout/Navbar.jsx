@@ -8,6 +8,8 @@ function Navbar({ isRounded = false }) {
   //Pour ouvrir ou fermer le menu hamburger
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const faqLabel = t('nav.faq');
+  const faqButtonClass = faqLabel.length > 12 ? 'text-sm leading-tight px-2 whitespace-normal' : '';
 
   // Style de la barre selon si elle est arrondie ou non (variant isRounded exemple utilisation:  <Navbar  isRounded />)
   const navbarStyle = isRounded
@@ -43,9 +45,11 @@ function Navbar({ isRounded = false }) {
             <Button variant="neon-yellow">{t('nav.about')}</Button>
           </Link>
           <Link to="/faq">
-            <Button variant="neon-yellow">{t('nav.faq')}</Button>
+            <Button variant="neon-yellow" className={faqButtonClass}>{faqLabel}</Button>
           </Link>
-          <Button variant="gradient-blue">{t('nav.participate')}</Button>
+          <Link to="/formdirector">
+            <Button variant="gradient-blue">{t('nav.participate')}</Button>
+          </Link>
 
         </div>
       </div>
@@ -63,7 +67,7 @@ function Navbar({ isRounded = false }) {
             <Button variant="neon-yellow" className="w-full">{t('nav.about')}</Button>
           </Link>
           <Link to="/faq" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center border-t border-white/10 my-2">
-            <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
+            <Button variant="neon-yellow" className={`w-full ${faqButtonClass}`}>{faqLabel}</Button>
           </Link>
           <div className="w-[80%] max-w-70 flex justify-center">
             <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>

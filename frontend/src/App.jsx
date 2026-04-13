@@ -14,6 +14,7 @@ import FAQ from './pages/public/FAQ.jsx';
 import Auth from './pages/public/Auth.jsx';
 import Error from './pages/public/Error.jsx';
 import YoutubeUploadTest from './pages/public/YoutubeUploadTest.jsx';
+import Formdirector from './pages/public/Formdirector.jsx';
 
 // Pages Dashboard Admin
 import AdminPanel from './pages/dashboard/admin/AdminPanel.jsx';
@@ -88,6 +89,7 @@ function App() {
           <Route path="/awards" element={<Awards />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/formdirector" element={<Formdirector />} />
           <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
         </Route>
 

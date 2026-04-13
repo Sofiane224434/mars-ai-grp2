@@ -1,4 +1,4 @@
-import { query } from "../config/db.js";
+import pool, { query } from "../config/db.js";
 
 export const movieModel = {
   // 1. Récupérer la liste d'attente
@@ -32,7 +32,7 @@ export const movieModel = {
     return await query(sql);
   },
 
- async getMovieDetailForAdmin(movieId) {
+  async getMovieDetailForAdmin(movieId) {
     // 1. Récupérer les informations principales du film et du réalisateur
     const sqlMovie = `
       SELECT
@@ -155,6 +155,7 @@ export const movieModel = {
         m.title_original AS title,
         m.thumbnail,
         m.status AS statusId,
+        s.status AS statusCode,
         m.created_at AS createdAt,
         dp.firstname AS directorFirstName,
         dp.lastname AS directorLastName,
@@ -165,10 +166,11 @@ export const movieModel = {
           WHERE um.movie_id = m.id AND u.status = 'jury'
         ) AS assignedJuriesRaw
       FROM movies m
+      LEFT JOIN status s ON s.id = m.status
       LEFT JOIN director_profile dp ON m.id = dp.movie_id
       ORDER BY m.id DESC
     `;
-    
+
     const rows = await query(sql);
 
     // On formate proprement les données à la sortie de la base
@@ -176,8 +178,8 @@ export const movieModel = {
       // Selon le driver MySQL utilisé, le JSON ressort en string ou déjà parsé
       let parsedJuries = [];
       if (row.assignedJuriesRaw) {
-        parsedJuries = typeof row.assignedJuriesRaw === 'string' 
-          ? JSON.parse(row.assignedJuriesRaw) 
+        parsedJuries = typeof row.assignedJuriesRaw === 'string'
+          ? JSON.parse(row.assignedJuriesRaw)
           : row.assignedJuriesRaw;
       }
 
@@ -186,11 +188,113 @@ export const movieModel = {
         title: row.title || 'Sans titre',
         thumbnail: row.thumbnail,
         statusId: row.statusId,
+        evaluationStatus: this.mapEvaluationStatus(row.statusCode),
         createdAt: row.createdAt,
         directorName: `${row.directorFirstName || ''} ${row.directorLastName || ''}`.trim() || 'Inconnu',
         assignedJuries: parsedJuries
       };
     });
+  },
+
+  mapEvaluationStatus(statusCode) {
+    const normalized = String(statusCode || '').toLowerCase();
+    const STATUS_MAP = {
+      review: 'en cours d\'évaluation',
+      approved: 'validée',
+      pending: 'à revoir',
+      rejected: 'refusée',
+    };
+
+    return STATUS_MAP[normalized] || 'en cours d\'évaluation';
+  },
+
+  async assignMovieToJury(movieId, juryId) {
+    const connection = await pool.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      const [movieRows] = await connection.execute(
+        'SELECT id FROM movies WHERE id = ? LIMIT 1',
+        [movieId]
+      );
+
+      if (!movieRows.length) {
+        const error = new Error('Film introuvable.');
+        error.code = 'MOVIE_NOT_FOUND';
+        throw error;
+      }
+
+      const [juryRows] = await connection.execute(
+        `SELECT id FROM users WHERE status = 'jury' AND id = ? LIMIT 1`,
+        [juryId]
+      );
+
+      if (!juryRows.length) {
+        const error = new Error('juryId invalide.');
+        error.code = 'INVALID_JURY_ID';
+        error.invalidJuryId = juryId;
+        throw error;
+      }
+
+      const [currentAssignmentRows] = await connection.execute(
+        'SELECT user_id FROM users_movies WHERE movie_id = ?',
+        [movieId]
+      );
+
+      const currentJuryIds = currentAssignmentRows.map((row) => Number(row.user_id));
+      const hasSingleSameAssignment =
+        currentJuryIds.length === 1 && currentJuryIds[0] === Number(juryId);
+
+      let action = 'created';
+
+      if (hasSingleSameAssignment) {
+        action = 'unchanged';
+      } else {
+        action = currentJuryIds.length === 0 ? 'created' : 'reassigned';
+
+        // Normalise les anciennes donnees pour garantir 1 film = 1 jury.
+        await connection.execute('DELETE FROM users_movies WHERE movie_id = ?', [movieId]);
+        await connection.execute(
+          'INSERT INTO users_movies (movie_id, user_id) VALUES (?, ?)',
+          [movieId, juryId]
+        );
+      }
+
+      await connection.commit();
+
+      return {
+        movieId,
+        assignedJuryId: Number(juryId),
+        action,
+      };
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  async getJuryAssignmentOptions() {
+    const sql = `
+      SELECT
+        u.id,
+        u.email,
+        COUNT(um.movie_id) AS assignedMoviesCount
+      FROM users u
+      LEFT JOIN users_movies um ON um.user_id = u.id
+      WHERE u.status = 'jury'
+      GROUP BY u.id, u.email
+      ORDER BY assignedMoviesCount ASC, u.email ASC
+    `;
+
+    const rows = await query(sql);
+    return rows.map((row) => ({
+      id: Number(row.id),
+      email: row.email,
+      assignedMoviesCount: Number(row.assignedMoviesCount || 0),
+    }));
   }
 };
 

@@ -49,6 +49,15 @@ export const adminService = {
     return await movieModel.getAllAdminMovies();
   },
 
+  async assignMovie(movieId, juryId) {
+    return await movieModel.assignMovieToJury(movieId, juryId);
+  },
+
+  async getJuryOptions() {
+    return await movieModel.getJuryAssignmentOptions();
+  },
+
+  // 1. Logique pour récupérer la liste des films à revoir (Review)
   async getReviewList() {
     return await movieModel.getMoviesPendingReview();
   },
@@ -65,7 +74,7 @@ export const adminService = {
     }
 
     const movie = await movieModel.getMovieWithDirectorInfo(movieId);
-    
+
     if (!movie) {
       const err = new Error("Film introuvable.");
       err.statusCode = 404;
@@ -91,7 +100,7 @@ export const adminService = {
       subject,
       body,
     });
-    
+
     return { success: true, message: "Email envoyé et horodaté." };
   }
 };

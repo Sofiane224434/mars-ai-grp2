@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Button from '../../../ui/Button';
 
 const CountdownTimer = ({ targetDate }) => {
+  const { t } = useTranslation();
   // 1. Initialisation pure : On démarre à zéro pour garantir un premier rendu stable
   const [timeLeft, setTimeLeft] = useState({ jours: 0, heures: 0, minutes: 0, secondes: 0 });
 
   // 2. Toute la logique "impure" (liée au temps) est isolée dans le useEffect
   useEffect(() => {
     // On verrouille la date cible une fois le composant monté
-    const endTime = targetDate 
-      ? new Date(targetDate).getTime() 
+    const endTime = targetDate
+      ? new Date(targetDate).getTime()
       : Date.now() + (12 * 86400000) + (8 * 3600000) + (45 * 60000);
 
     // Fonction de mise à jour locale au useEffect
@@ -44,18 +47,18 @@ const CountdownTimer = ({ targetDate }) => {
 
   return (
     <div className="bg-gris-anthracite flex flex-col items-center w-full">
-      <h2 className='text-white m-10 text-4xl '>PROCHAINE SELECTION</h2>
-      
+      <h2 className='text-white m-10 text-4xl '>{t('countdown.nextSelection')}</h2>
+
       {/* BOÎTE DU COMPTE À REBOURS */}
       <div className="bg-[#1e2124]/80 backdrop-blur-md border border-white/5 rounded-xl px-8 py-6 flex gap-6 md:gap-10 shadow-2xl">
-        
+
         {/* Bloc Jours */}
         <div className="flex flex-col items-center">
           <span className="text-yellow-400 font-bold text-2xl md:text-3xl tracking-widest tabular-nums">
             {formatNumber(timeLeft.jours)}
           </span>
           <span className="text-gray-400 text-[10px] md:text-xs mt-2 uppercase font-semibold tracking-wider">
-            Jours
+            {t('countdown.days')}
           </span>
         </div>
 
@@ -65,7 +68,7 @@ const CountdownTimer = ({ targetDate }) => {
             {formatNumber(timeLeft.heures)}
           </span>
           <span className="text-gray-400 text-[10px] md:text-xs mt-2 uppercase font-semibold tracking-wider">
-            Heures
+            {t('countdown.hours')}
           </span>
         </div>
 
@@ -75,7 +78,7 @@ const CountdownTimer = ({ targetDate }) => {
             {formatNumber(timeLeft.minutes)}
           </span>
           <span className="text-gray-400 text-[10px] md:text-xs mt-2 uppercase font-semibold tracking-wider">
-            Minutes
+            {t('countdown.minutes')}
           </span>
         </div>
 
@@ -85,7 +88,7 @@ const CountdownTimer = ({ targetDate }) => {
             {formatNumber(timeLeft.secondes)}
           </span>
           <span className="text-gray-400 text-[10px] md:text-xs mt-2 uppercase font-semibold tracking-wider">
-            Secondes
+            {t('countdown.seconds')}
           </span>
         </div>
 
@@ -93,10 +96,11 @@ const CountdownTimer = ({ targetDate }) => {
 
       {/* TITRE TOP 50 avec dégradé de texte */}
       <h3 className="mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-linear-to-r from-yellow-400 via-green-400 to-cyan-400 drop-shadow-sm">
-        Top 50
+        {t('countdown.top50')}
       </h3>
-      
-      <Button variant='gradient-blue' className='px-60 py-15 text-3xl m-4'>PARTICIPER</Button>
+      <Link to="/formdirector">
+        <Button variant='gradient-blue' className='px-60 py-15 text-3xl m-4'>{t('countdown.participate')}</Button>
+      </Link>
     </div>
   );
 };

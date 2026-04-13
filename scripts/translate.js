@@ -9,6 +9,14 @@ const SOURCE_FILE = path.join(LOCALES_DIR, 'fr', 'translation.json');
 const CACHE_FILE = path.join(__dirname, '.translate-cache.json');
 const TARGETS = {
     en: 'EN-US',
+    es: 'ES',
+    ar: 'AR',
+    pt: 'PT-PT',
+    zh: 'ZH',
+    de: 'DE',
+    hi: 'HI',
+    ru: 'RU',
+    ja: 'JA',
 };
 const WATCH_MODE = process.argv.includes('--watch');
 
@@ -112,7 +120,10 @@ async function translateLanguage(translator, lang, deeplLang, sourceMap, previou
         const translated = await translator.translateText(
             prepared.map((item) => item.text),
             'fr',
-            deeplLang
+            deeplLang,
+            {
+                tagHandling: 'html',
+            }
         );
 
         prepared.forEach((item, index) => {

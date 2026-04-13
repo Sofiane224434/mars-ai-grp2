@@ -4,6 +4,20 @@
     "movies": "Movies",
     "about": "About",
     "faq": "FAQ",
+    "participate": "Participate",
+    "movies": "Movies"
+  },
+  "footer": {
+    "collaborator": "In collaboration with",
+    "textcontact": "Stay in touch",
+    "newsletter": "Newsletter subscription",
+    "emailplaceholder": "Your e-mail address",
+    "subscribe": "Subscribe to our newsletter",
+    "newsletterLoading": "Subscribing...",
+    "newsletterSubscribeSuccess": "Subscription confirmed. Thank you!",
+    "newsletterSubscribeError": "Unable to subscribe right now.",
+    "newsletterInvalidEmail": "Please enter a valid email address.",
+    "rights": "All rights reserved"
     "participate": "Join"
   },
   "home": {

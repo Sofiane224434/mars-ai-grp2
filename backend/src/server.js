@@ -12,6 +12,7 @@ import emailRoutes from './routes/email.routes.js';
 import juryRoutes from './routes/jury.routes.js';
 import adminRoutes from "./routes/admin.routes.js";
 import youtubeRoutes from './routes/youtube.routes.js';
+import newsletterRoutes from "./routes/newsletter.routes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +74,7 @@ app.use('/api/jury', juryRoutes);
 app.use("/api/admin", adminRoutes);
 // Routes OAuth YouTube (start + callback) pour initialiser le refresh token.
 app.use('/api/youtube', youtubeRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 // Servir les assets front en production (si le build existe).
 if (canServeFrontend) {

@@ -7,9 +7,8 @@ import FormMultimedia from "./Forms/FormMultimedia";
 import FormDirectorInfo from "./Forms/FormDirectorInfo";
 
 import StepsTrack from "./StepsTrack";
-import FormStepsButtons from "./FormStepsButtons";
 
-export default function FinalForm() {
+export default function FormParent() {
 
     const [currentStep, setCurrentStep] = useState(1);
 

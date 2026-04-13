@@ -1,0 +1,3 @@
+INSERT INTO director_profile (address, address2, city, country, current_job, date_of_birth, director_language, email, firstname, fix_phone, gender, lastname, marketting, mobile_phone, movie_id, postal_code, school) VALUES (:address, :address2, :city, :country, :current_job, :date_of_birth, :director_language, :email, :firstname, :fix_phone, :gender, :lastname, :marketting, :mobile_phone, :movie_id, :postal_code, :school)
+
+[address, address2, city, country, current_job, date_of_birth, director_language, email, firstname, fix_phone, gender, lastname, marketting, mobile_phone, movie_id, postal_code, school]

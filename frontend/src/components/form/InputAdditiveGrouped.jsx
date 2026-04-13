@@ -16,8 +16,8 @@ import { useState, useEffect } from "react"
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
 export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
-    getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput = null,
-    classContainer = null, classLabel = null, classGroup = null, formstep = null }) {
+    getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput,
+    classContainer, classLabel, classGroup, formstep = null }) {
 
     //Vérification que chaque noms soient uniques
     if (new Set(inputnames).size !== inputnames.length) {
@@ -42,10 +42,10 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
 
     let allvalues = [firstInput].concat(myValues);
 
-    const classDefaultInput = "form_input";
-    const classDefaultContainer = "float_column";
-    const classDefaultGroup = "float_left_row";
-    const classDefaultLabel = "form_label";
+    const classDefaultInput = "my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
+    const classDefaultContainer = "clear-both flex flex-col";
+    const classDefaultGroup = "flex float-left flex-row gap-2";
+    const classDefaultLabel = "text-jaune-souffre";
 
     let declared = false;
     useEffect(() => {

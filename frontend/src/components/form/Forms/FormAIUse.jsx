@@ -6,7 +6,6 @@ import InputAdditiveSelect from "../InputAdditiveSelect";
 import { verifyInputText } from "../VerifyInputFuncs";
 
 export default function FormAIUse({ hide = false, getFunction,
-    classInput = "form_input", classContainer = null, classLabel = "form_label",
     stepfunc, currentstep
 }) {
 
@@ -137,7 +136,7 @@ export default function FormAIUse({ hide = false, getFunction,
                 getValuesFunc={setAiPostprodData} label={"Choisissez les IAs utilisées :"}
                 options={aiselectoptions} valueother={"other"}></InputAdditiveSelect>}
 
-            {errorAiCheck && <div className="form_error_message">{errorAiCheck}</div>}
+            {errorAiCheck && <div className="clear-both text-red-500">{errorAiCheck}</div>}
 
             <InputSuper type={"select"} options={classificationsoptions}
                 label={"Choisissez la classification de votre film :"}

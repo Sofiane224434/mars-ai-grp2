@@ -13,7 +13,13 @@ export const movieModel = {
         d.lastname AS directorLastName,
         d.email
       FROM movies m
-      LEFT JOIN director_profile d ON m.id = d.movie_id
+      LEFT JOIN director_profile d ON d.id = (
+        SELECT dp.id
+        FROM director_profile dp
+        WHERE dp.movie_id = m.id
+        ORDER BY dp.id ASC
+        LIMIT 1
+      )
       WHERE m.status IN (2, 3, 4)
         AND NOT EXISTS (
           SELECT 1

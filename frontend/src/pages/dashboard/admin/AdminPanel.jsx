@@ -71,6 +71,7 @@ const AdminPanel = () => {
           <div className="space-y-12">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               <StatCard title="Total Films" value={totalMovies} color="border-blue-500" to="/dashboard/admin/movies" />
+              <StatCard title="Email en attente " value={statsData.emailsPending} color="border-red-500" to="/dashboard/admin/email-confirmation" />
             </div>
 
             <div>

@@ -80,7 +80,7 @@ const AdminEmailConfirmation = () => {
   useEffect(() => {
     const apiCall = async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/admin/review', {
+      const response = await fetch('/api/admin/movies/review', {
         method: 'GET',
         credentials: 'include',
         headers: {

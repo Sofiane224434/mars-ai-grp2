@@ -13,7 +13,7 @@ const router = Router();
 
 router.use(requireAuth("admin"));
 router.get("/stats", requireAuth("admin"), getAdminStats);
-router.get("/review", requireAuth("admin"), getMoviesForReview);
+router.get("/movies/review", requireAuth("admin"), getMoviesForReview);
 router.get('/movies', requireAuth('admin'), getAllMoviesForAdmin);// Récupérer tous les films
 router.get("/movies/:movieId", requireAuth("admin"), getMovieByIdForAdmin);
 router.post("/jury/invite", requireAuth("admin"), inviteJury);

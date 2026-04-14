@@ -1,16 +1,18 @@
 import { movieModel } from '../models/movieModel.js';
 import { adminModel } from '../models/adminModel.js'; 
 import { sendCustomEmail } from './email.service.js';
+import { getNewsPublicCampaignStats } from './brevoCampaign.service.js';
 
 export const adminService = {
 
   async getDashboardStats() {
     
-    const [totalMovies, statusCounts, juryProgress, emailsPending] = await Promise.all([
+    const [totalMovies, statusCounts, juryProgress, emailsPending, newsPublicCampaign] = await Promise.all([
       adminModel.countTotalMovies(),
       adminModel.countMoviesByStatus(),
       adminModel.getJuryProgress(),
-      adminModel.countPendingEmails()
+      adminModel.countPendingEmails(),
+      getNewsPublicCampaignStats(),
     ]);
 
     const statusMap = { 
@@ -40,6 +42,7 @@ export const adminService = {
         totalEvaluated: Number(juryProgress?.totalEvaluated || 0)
       },
       emailsPending: Number(emailsPending || 0),
+      newsPublicCampaign,
       updatedAt: new Date().toISOString()
     };
   },

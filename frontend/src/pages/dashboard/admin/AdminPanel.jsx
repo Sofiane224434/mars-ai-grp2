@@ -18,6 +18,9 @@ const AdminPanel = () => {
   const totalMovies = statsData.totalMovies || 0;
   const totalAssigned = statsData.juryProgress?.totalAssigned || 0;
   const totalEvaluated = statsData.juryProgress?.totalEvaluated || 0;
+  const newsPublicCampaign = statsData.newsPublicCampaign || {};
+  const campaignMetrics = newsPublicCampaign.metrics || {};
+  const campaignAvailable = Boolean(newsPublicCampaign.available);
   const totalUnassigned = Math.max(totalMovies - totalAssigned, 0);
   const assignmentRate = totalMovies > 0
     ? Math.round((totalAssigned / totalMovies) * 100)
@@ -25,6 +28,8 @@ const AdminPanel = () => {
   const juryProgressRate = totalAssigned > 0
     ? Math.round((totalEvaluated / totalAssigned) * 100)
     : 0;
+
+  const formatPercent = (value) => `${Number(value || 0).toFixed(2)}%`;
 
   const fetchStats = useCallback(async () => {
     const token = localStorage.getItem('token');
@@ -104,6 +109,49 @@ const AdminPanel = () => {
                 <StatCard title="Non assignés" value={totalUnassigned} color="border-fauve" to="/dashboard/admin/movies?assignation=unassigned" centerNumber />
                 <StatCard title="Films évalués" value={totalEvaluated} color="border-bleu-canard" centerNumber />
                 <StatCard title="Taux d'évaluation" value={juryProgressRate} suffix="%" progress={juryProgressRate} color="border-vert-insecateur" variant="pro" updatedAt={lastUpdatedAt} animate />
+              </div>
+
+              <div className="mt-8">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-lg font-bold text-white">Performance campagne News Public</h3>
+                  <p className="text-xs uppercase tracking-[0.12em] text-gris-magneti">
+                    Source: Brevo
+                  </p>
+                </div>
+
+                {!campaignAvailable ? (
+                  <div className="rounded-xl border border-white/15 bg-white/5 p-4 text-sm text-gris-magneti">
+                    Statistiques indisponibles pour le moment.
+                    {newsPublicCampaign.message ? (
+                      <p className="mt-2 text-xs text-white/70">{newsPublicCampaign.message}</p>
+                    ) : null}
+                  </div>
+                ) : (
+                  <div className="overflow-hidden rounded-xl border border-white/15 bg-white/5">
+                    <div className="grid grid-cols-1 divide-y divide-white/10 md:grid-cols-4 md:divide-x md:divide-y-0">
+                      <div className="p-4">
+                        <p className="text-sm text-gris-magneti">Délivrés</p>
+                        <p className="mt-2 text-4xl font-bold text-white tabular-nums">{campaignMetrics.delivered || 0}</p>
+                        <p className="mt-2 text-xs text-gris-magneti">Taux de livraison: {formatPercent(campaignMetrics.deliveryRate)}</p>
+                      </div>
+                      <div className="p-4">
+                        <p className="text-sm text-gris-magneti">Ouvertures</p>
+                        <p className="mt-2 text-4xl font-bold text-white tabular-nums">{campaignMetrics.opens || 0}</p>
+                        <p className="mt-2 text-xs text-gris-magneti">Taux d'ouverture: {formatPercent(campaignMetrics.openRate)}</p>
+                      </div>
+                      <div className="p-4">
+                        <p className="text-sm text-gris-magneti">Clics</p>
+                        <p className="mt-2 text-4xl font-bold text-white tabular-nums">{campaignMetrics.clicks || 0}</p>
+                        <p className="mt-2 text-xs text-gris-magneti">Click-through rate: {formatPercent(campaignMetrics.clickRate)}</p>
+                      </div>
+                      <div className="p-4">
+                        <p className="text-sm text-gris-magneti">Désinscriptions</p>
+                        <p className="mt-2 text-4xl font-bold text-white tabular-nums">{campaignMetrics.unsubscriptions || 0}</p>
+                        <p className="mt-2 text-xs text-gris-magneti">Taux de désinscription: {formatPercent(campaignMetrics.unsubscriptionRate)}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

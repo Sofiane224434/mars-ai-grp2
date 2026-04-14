@@ -90,9 +90,9 @@ function App() {
           <Route path="/awards" element={<Awards />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/participate" element={<Formdirector />} />
           <Route path="/rgpd" element={<Rgpd />} />
           <Route path="/politique-confidentialite" element={<Rgpd />} />
-          <Route path="/formdirector" element={<Formdirector />} />
           <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
         </Route>
 

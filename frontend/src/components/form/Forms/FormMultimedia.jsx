@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
 import { Button } from "../../ui/Button";
@@ -8,6 +9,8 @@ import { verifyImage } from "../VerifyInputFuncs";
 export default function FormMultimedia({ hide = false, getFunction,
     stepfunc, currentstep
 }) {
+
+    const { t } = useTranslation();
 
     const [thumbnail, setThumbnail] = useState({ file: "", value: "" });
     const [srtCheck, setSrtCheck] = useState(false);
@@ -83,7 +86,7 @@ export default function FormMultimedia({ hide = false, getFunction,
 
         if (!screenshot1.file && !screenshot2.file && !screenshot3.file) {
             error = true;
-            setErrorAllScreenshot("Vous devez renseigner au moins un screenshot.")
+            setErrorAllScreenshot(t("form.step3.errorAtLeastOneScreenshot"))
         }
 
         if (!error) {
@@ -97,19 +100,18 @@ export default function FormMultimedia({ hide = false, getFunction,
 
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">Etape 3 : Multimédia et accessibilité</h2>
+            <h2 className="text-2xl font-bold">{t("form.step3.title")}</h2>
 
             <InputSuper type={"file"}
                 getValueFunc={setThumbnail}
-                label={`La vignette de votre film (une image qui sera utilisée 
-                        pour la représenter) :`} accept={"image/png, image/jpeg"}
+                label={t("form.step3.thumbnail")} accept={"image/png, image/jpeg"}
                 errormessage={errorThumbnail}
             ></InputSuper>
 
 
             <InputSuper type={"file"}
                 getValueFunc={setScreenshot1}
-                label={`Quelques captures d'écrans de votre film :`}
+                label={t("form.step3.screenshots")}
                 accept={"image/png, image/jpeg"}></InputSuper>
 
             <InputSuper type={"file"}
@@ -125,16 +127,16 @@ export default function FormMultimedia({ hide = false, getFunction,
 
             <InputSuper type={"checkbox"}
                 getValueFunc={setSrtCheck}
-                label={`Ce film contient des dialogues`}></InputSuper>
+                label={t("form.step3.dialogueCheck")}></InputSuper>
 
             {srtCheck && <InputSuper type={"file"} accept={".srt"}
                 getValueFunc={setSrtData}
-                label={`Veuillez renseigner un fichier sous-titre (.srt) :`}
+                label={t("form.step3.srtLabel")}
             ></InputSuper>}
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
-                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} Précédent</Button>
-                <Button variant="filled-yellow" interactive type="button" onClick={verify}>Suivant {">"}</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} {t("form.previous")}</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>{t("form.next")} {">"}</Button>
             </div>
 
         </div>

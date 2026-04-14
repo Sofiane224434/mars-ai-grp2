@@ -1,5 +1,6 @@
 import { hostname, z } from "zod";
 import { da } from "zod/v4/locales";
+import i18n from "../../i18n";
 
 /**
  * Fonction qui vérifie une valeure texte.
@@ -25,12 +26,10 @@ export function verifyInputText({ value, required = false, regex = null, max_len
     }
 
     const error_messages = {
-        required: `Veuillez remplir ce champ.`,
-        regex: `Format de ce champ est invalide.`,
-        max_len: `Texte trop long, doit avoir moins de ` + max_length +
-            " caratères.",
-        min_length: `Texte trop court, doit avoir au moins ` + min_length +
-            " caratères.",
+        required: i18n.t("form.validation.required"),
+        regex: i18n.t("form.validation.invalidFormat"),
+        max_len: i18n.t("form.validation.textTooLong", { max: max_length }),
+        min_length: i18n.t("form.validation.textTooShort", { min: min_length }),
     }
 
     let currentmessage = null;
@@ -110,10 +109,10 @@ export function verifyInputNumber({ value, min = null, max = null, required = fa
     errorSetFunction }) {
 
     const error_messages = {
-        nan: `Erreur : ceci n'est pas un nombre.`,
-        required: `Veuillez remplir ce champ.`,
-        min: `Nombre doit être supérieur à : ` + min + ".",
-        max: `Nombre doit être inférieur à : ` + max + ".",
+        nan: i18n.t("form.validation.notANumber"),
+        required: i18n.t("form.validation.required"),
+        min: i18n.t("form.validation.numberTooSmall", { min }),
+        max: i18n.t("form.validation.numberTooLarge", { max }),
     }
 
     let currentmessage = null;
@@ -162,10 +161,10 @@ export function verifyInputDate({ value, min_date = null, max_date = null, requi
 }) {
 
     const error_messages = {
-        notdate: `Format invalide, doit être une date (année-mois-jour)`,
-        required: `Veuillez remplir ce champ.`,
-        max_date: `La date ne doit pas dépasser ` + max_date + ".",
-        min_date: `La date doit être supérieure à ` + min_date + "."
+        notdate: i18n.t("form.validation.invalidDate"),
+        required: i18n.t("form.validation.required"),
+        max_date: i18n.t("form.validation.dateTooLate", { max: max_date }),
+        min_date: i18n.t("form.validation.dateTooEarly", { min: min_date })
     }
 
     //Vérifie si la date est sous le bon format (YYYY-MM-DD)
@@ -260,13 +259,11 @@ export function verifyVideo({ file, maxsize = null, minsize = null, required = f
 }) {
 
     const error_messages = {
-        required: `Vous devez renseigner un fichier vidéo.`,
-        nofile: `Aucun fichier n'a été trouvé.`,
-        notvideo: `Le fichier doit être sous format vidéo (.mp4 ou .mov).`,
-        maxsize: `Le fichier est trop lourd, il doit faire moins de ` +
-            (Math.floor(maxsize / 1000000)) + " mo.",
-        minsize: `Le fichier est trop léger, il dois faire au moins ` +
-            (Math.floor(maxsize / 1000000)) + " mo."
+        required: i18n.t("form.validation.videoRequired"),
+        nofile: i18n.t("form.validation.noFile"),
+        notvideo: i18n.t("form.validation.notVideo"),
+        maxsize: i18n.t("form.validation.fileTooLarge", { max: Math.floor(maxsize / 1000000) }),
+        minsize: i18n.t("form.validation.fileTooSmall", { min: Math.floor(minsize / 1000000) })
     }
 
     let currentmessage = null;
@@ -326,12 +323,10 @@ export function verifyImage({ file, maxsize = null, minsize = null, required = f
 }) {
 
     const error_messages = {
-        nofile: `Aucun fichier n'a été trouvé.`,
-        notimage: `Le fichier doit être sous format image (.png / .jpeg / .jpg).`,
-        maxsize: `Le fichier est trop lourd, il doit faire moins de ` +
-            (Math.floor(maxsize / 1000000)) + " mo.",
-        minsize: `Le fichier est trop léger, il dois faire au moins ` +
-            (Math.floor(maxsize / 1000000)) + " mo."
+        nofile: i18n.t("form.validation.noFile"),
+        notimage: i18n.t("form.validation.notImage"),
+        maxsize: i18n.t("form.validation.fileTooLarge", { max: Math.floor(maxsize / 1000000) }),
+        minsize: i18n.t("form.validation.fileTooSmall", { min: Math.floor(minsize / 1000000) })
     }
 
     let currentmessage = null;

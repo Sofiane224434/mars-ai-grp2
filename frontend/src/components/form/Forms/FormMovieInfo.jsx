@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
 import InputAdditive from "../InputAdditive";
@@ -16,6 +17,8 @@ import { z } from "zod";
 export default function FormMovieInfo({ hide = false, getFunction,
     stepfunc, currentstep
 }) {
+
+    const { t } = useTranslation();
 
     const [movietitle, setMovieTitle] = useState("");
     const [movietitlefr, setMovieTitlefr] = useState("");
@@ -131,21 +134,21 @@ export default function FormMovieInfo({ hide = false, getFunction,
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
 
-            <h2 className="text-2xl font-bold">Etape 1 : Fiche Film</h2>
+            <h2 className="text-2xl font-bold">{t("form.step1.title")}</h2>
 
-            <InputSuper label={"Titre du film"} type={"text"}
+            <InputSuper label={t("form.step1.movieTitle")} type={"text"}
                 getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
                 max_string={100}></InputSuper>
 
-            <InputSuper label={`Titre du film traduit en français (si possible)`}
+            <InputSuper label={t("form.step1.movieTitleFr")}
                 type={"text"} getValueFunc={setMovieTitlefr}
                 errormessage={errorMovieTitlefr} max_string={100}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsis}
-                max_string={300} label={`Synopsis (résumé) de votre film :`}
+                max_string={300} label={t("form.step1.synopsis")}
                 errormessage={errorSynopsis}></InputSuper>
 
-            <InputSuper type={"text"} label={`Langue de votre film (si a un dialogue ou du texte)`}
+            <InputSuper type={"text"} label={t("form.step1.movieLanguage")}
                 getValueFunc={setMovieLanguage} max_string={100}
                 errormessage={errorMovieLanguage}></InputSuper>
 
@@ -153,25 +156,23 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 getValueFunc={setMovieVideo} required={true}
                 errormessage={errorMovieVideo}></InputSuper>
 
-            <InputSuper type={"checkbox"} label={`Cete vidéo possède de la musique et/ou utilise 
-            une banque son.`} getValueFunc={setSoundbankCheck}
+            <InputSuper type={"checkbox"} label={t("form.step1.soundbankCheck")} getValueFunc={setSoundbankCheck}
                 errormessage={errorSoundbankCheck}></InputSuper>
 
             {
                 soundbankCheck &&
-                <InputAdditive btntitle="AJOUTER UNE SOUNDBANK/MUSIQUE"
-                    getValuesFunc={setSoundbankData} label={"Veuillez informer les soundbanks ou " +
-                        "musiques utilisés."} addlimit={100}
+                <InputAdditive btntitle={t("form.step1.soundbankAdd")}
+                    getValuesFunc={setSoundbankData} label={t("form.step1.soundbankLabel")} addlimit={100}
                     classContainer="ml-7 flex w-full flex-col gap-2 border-l-2 border-jaune-souffre/30 pl-4">
                 </InputAdditive>
             }
 
             <InputSuper type={"url"} getValueFunc={setYTlink}
-                label={`Lien youtube vers cette vidéo :`}
+                label={t("form.step1.ytLink")}
                 errormessage={errorYtLink}></InputSuper>
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
-                <Button variant="filled-yellow" interactive type="button" onClick={verify}>Suivant {">"}</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>{t("form.next")} {">"}  </Button>
             </div>
 
         </div>

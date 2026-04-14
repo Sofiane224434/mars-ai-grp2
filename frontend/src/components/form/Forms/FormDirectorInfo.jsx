@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
 import { Button } from "../../ui/Button";
@@ -9,6 +10,8 @@ import { verifyAge, verifyInputText, verifyInputDate } from "../VerifyInputFuncs
 export default function FormDirectorInfo({ hide = false, getFunction,
     currentstep, sendfunc, stepfunc
 }) {
+
+    const { t } = useTranslation();
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -69,20 +72,20 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     }
 
     const genderoptions = [
-        <option disabled selected value={""}>Sélectionnez...</option>,
-        <option value={"m"}>Monsieur</option>,
-        <option value={"f"}>Madame</option>,
-        <option value={"other"}>Autre</option>,
+        <option disabled selected value={""}>{t("form.select")}</option>,
+        <option value={"m"}>{t("form.step4.genderMale")}</option>,
+        <option value={"f"}>{t("form.step4.genderFemale")}</option>,
+        <option value={"other"}>{t("form.step4.genderOther")}</option>,
     ]
 
     const markettingoptions = [
-        <option disabled selected value={""}>Sélectionnez...</option>,
-        <option value={"bouche à oreille"}>Bouche à oreille</option>,
-        <option value={"réseaux sociaux"}>Sur les réseaux sociaux</option>,
-        <option value={"news"}>Via un journal</option>,
-        <option value={"école"}>Via mon école</option>,
-        <option value={"panneau"}>Via un panneau ou un prospectus</option>,
-        <option value={"other"}>Autre (précisez)</option>
+        <option disabled selected value={""}>{t("form.select")}</option>,
+        <option value={"bouche à oreille"}>{t("form.step4.marketingWordOfMouth")}</option>,
+        <option value={"réseaux sociaux"}>{t("form.step4.marketingSocialMedia")}</option>,
+        <option value={"news"}>{t("form.step4.marketingNews")}</option>,
+        <option value={"école"}>{t("form.step4.marketingSchool")}</option>,
+        <option value={"panneau"}>{t("form.step4.marketingPoster")}</option>,
+        <option value={"other"}>{t("form.step4.marketingOther")}</option>
     ]
 
     function clearAllErrors() {
@@ -169,19 +172,18 @@ export default function FormDirectorInfo({ hide = false, getFunction,
 
         if (!tosCheck) {
             error = true;
-            setErrorTosCheck("Vous devez accepter les conditions d'utilisation.");
+            setErrorTosCheck(t("form.step4.errorTos"));
         }
 
         if (!rulesCheck) {
             error = true;
-            setErrorRulesCheck(`Vous devez accepter le réglement du festival.`)
+            setErrorRulesCheck(t("form.step4.errorRules"))
         }
 
         if (!verifyAge(birthdate)) {
             error = true;
             if (!errorBirthdate) {
-                setErrorBirthdate(`Vous devez avoir au moins 18 ans pour pouvoir 
-                    participer.`)
+                setErrorBirthdate(t("form.step4.errorAge"))
             }
         }
 
@@ -210,88 +212,87 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
 
-            <h2 className="text-2xl font-bold">Etape 4 : Vos Informations</h2>
+            <h2 className="text-2xl font-bold">{t("form.step4.title")}</h2>
             <div>
                 <InputSuper type={"text"} max_string={100}
                     getValueFunc={setLastname}
-                    label={"Nom"} errormessage={errorLastname}></InputSuper>
+                    label={t("form.step4.lastName")} errormessage={errorLastname}></InputSuper>
 
                 <InputSuper type={"text"} max_string={100}
                     getValueFunc={setFirstname}
-                    label={"Prénom"} errormessage={errorFirstname}></InputSuper>
+                    label={t("form.step4.firstName")} errormessage={errorFirstname}></InputSuper>
             </div>
 
             <InputSuper type={"select"} options={genderoptions}
                 getValueFunc={setGender}
-                label={"Civilité :"} errormessage={errorGender}></InputSuper>
+                label={t("form.step4.gender")} errormessage={errorGender}></InputSuper>
 
-            <div>Vos réseaux sociaux :</div>
+            <div>{t("form.step4.socials")}</div>
             <InputAdditiveGrouped inputnames={["socialname", "sociallink"]}
-                getValuesFunc={setSocials} labels={["Nom du réseau social",
-                    "Lien du réseau social"]} addlimit={6}></InputAdditiveGrouped>
+                getValuesFunc={setSocials} labels={[t("form.step4.socialName"),
+                t("form.step4.socialLink")]} addlimit={6}></InputAdditiveGrouped>
 
             <InputSuper type={"email"} max_string={100}
                 getValueFunc={setEmail}
-                label={"Email"} errormessage={errorEmail}></InputSuper>
+                label={t("form.step4.email")} errormessage={errorEmail}></InputSuper>
 
             <InputSuper type={"tel"} max_string={10}
                 getValueFunc={setTel}
-                label={"Numéro de téléphone"} numberonly={true}
+                label={t("form.step4.phone")} numberonly={true}
                 errormessage={errorTel}></InputSuper>
 
             <InputSuper type={"date"}
                 getValueFunc={setBirthdate}
-                label={"Date de naissance"} max_numdate={new Date().toISOString().split("T")[0]}
+                label={t("form.step4.birthdate")} max_numdate={new Date().toISOString().split("T")[0]}
                 errormessage={errorBirthdate}
             ></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setCountry}
-                label={"Pays de résidence actuel"}
+                label={t("form.step4.country")}
                 errormessage={errorCountry}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setAddress}
-                label={"Votre adresse"} errormessage={errorAddress}></InputSuper>
+                label={t("form.step4.address")} errormessage={errorAddress}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setAddress2}
-                label={"Votre adresse ligne 2"}
+                label={t("form.step4.address2")}
                 errormessage={errorAddress2}></InputSuper>
 
             <InputSuper type={"text"} max_string={10}
                 getValueFunc={setPostalCode}
-                label={"Code postal"} errormessage={errorPostalcode}></InputSuper>
+                label={t("form.step4.postalCode")} errormessage={errorPostalcode}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
-                getValueFunc={setCity} label={"Ville"}></InputSuper>
+                getValueFunc={setCity} label={t("form.step4.city")}></InputSuper>
             {errorCity && <div>{errorCity}</div>}
 
             <InputSuper type={"select"} options={markettingoptions}
                 getValueFunc={setMarketting}
-                label={`Comment avez-vous connu le festival MarsAI ?`}
+                label={t("form.step4.marketingLabel")}
                 errormessage={errorMarketting}
             ></InputSuper>
 
             {marketting == "other" &&
                 <InputSuper type={"text"} max_string={200}
                     getValueFunc={setMarkettingOther}
-                    label={"Précisez :"} errormessage={markettingOther}></InputSuper>}
+                    label={t("form.step4.specifyLabel")} errormessage={markettingOther}></InputSuper>}
 
             <InputSuper type={"checkbox"}
                 getValueFunc={setTosCheck}
-                label={`J'accepte les conditions d'utilisation.`}
+                label={t("form.step4.tosCheck")}
                 errormessage={errorTosCheck}
             ></InputSuper>
 
             <InputSuper type={"checkbox"}
                 getValueFunc={setRulesCheck}
-                label={`J'accepte le règlement d'envoi de vidéos du festival 
-                        MarsAI.`} errormessage={errorRulesCheck}></InputSuper>
+                label={t("form.step4.rulesCheck")} errormessage={errorRulesCheck}></InputSuper>
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
-                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} Précédent</Button>
-                <Button variant="filled-yellow" interactive type="button" onClick={verify}>ENVOYER</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} {t("form.previous")}</Button>
+                <Button variant="filled-yellow" interactive type="button" onClick={verify}>{t("form.submit")}</Button>
             </div>
 
         </div>

@@ -98,7 +98,7 @@ const CountdownTimer = ({ targetDate }) => {
       <h3 className="mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-clip-text text-transparent bg-linear-to-r from-yellow-400 via-green-400 to-cyan-400 drop-shadow-sm">
         {t('countdown.top50')}
       </h3>
-      <Link to="/formdirector">
+      <Link to="/participate">
         <Button variant='gradient-blue' className='px-60 py-15 text-3xl m-4'>{t('countdown.participate')}</Button>
       </Link>
     </div>

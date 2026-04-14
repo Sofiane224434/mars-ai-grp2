@@ -93,7 +93,7 @@ function Footer() {
                         <Link to="/faq" className="w-full sm:w-72 lg:w-72 mx-auto">
                             <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
                         </Link>
-                        <Link to="/formdirector">
+                        <Link to="/participate">
                             <div className="w-full sm:w-72 lg:w-72 mx-auto">
                                 <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
                             </div>

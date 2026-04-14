@@ -47,7 +47,7 @@ function Navbar({ isRounded = false }) {
           <Link to="/faq">
             <Button variant="neon-yellow" className={faqButtonClass}>{faqLabel}</Button>
           </Link>
-          <Link to="/formdirector">
+          <Link to="/participate">
             <Button variant="gradient-blue">{t('nav.participate')}</Button>
           </Link>
 

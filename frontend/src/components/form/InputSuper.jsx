@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 import InputLengthUI from "./InputLengthUI";
 
@@ -18,6 +19,8 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     numberonly = false, classInput, classContainer, classLabel,
     regex = null, formstep = null, errormessage = null
 }) {
+
+    const { t } = useTranslation();
 
     //Style css
     const classDefaultInput = type == "checkbox"
@@ -130,7 +133,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     if (options) {
         if (Array.isArray(options)) {
             if (options[0].props.value != "") {
-                let newoption = <option disabled selected value={""}>Sélectionnez...</option>;
+                let newoption = <option disabled selected value={""}>{t("form.select")}</option>;
                 options = [newoption].concat(options);
             }
         }

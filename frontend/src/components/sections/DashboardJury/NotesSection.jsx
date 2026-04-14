@@ -17,6 +17,7 @@ const noteSchema = z.object({
 const NotesSection = ({ movieId }) => {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [visibility, setVisibility] = useState('private');
 
   // 2. Initialisation de React Hook Form
   const { register, handleSubmit, reset, formState: { errors, isSubmitting }, watch } = useForm({
@@ -57,7 +58,11 @@ const NotesSection = ({ movieId }) => {
   const onSubmit = async (data) => {
     try {
       const token = localStorage.getItem('token');
-      const payload = { movieId: parseInt(movieId, 10), content: data.content.trim() };
+      const payload = {
+        movieId: parseInt(movieId, 10),
+        content: data.content.trim(),
+        isPrivate: visibility === 'private' ? 1 : 0,
+      };
 
       const response = await axios.post(`${API_BASE_URL}/jury/comments`, payload, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
@@ -76,25 +81,45 @@ const NotesSection = ({ movieId }) => {
 
   return (
     <div className="w-full mt-4">
-      {/* Zone de formulaire */}
       <form onSubmit={handleSubmit(onSubmit)} className="mb-6 flex flex-col items-center">
-        <div className={`w-full mb-4 border rounded-lg p-1 ${errors.content ? 'border-brulure-despespoir' : 'border-bleu-ciel'}`}>
-          <div className="text-white mb-2 px-2 pt-2 font-title">Ajouter une note personnelle :</div>
-          <div className="px-2 pb-2 text-xs text-gris-magneti flex items-center gap-1.5 italic">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 opacity-80" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-            </svg>
-            Ces notes sont privées et visibles uniquement par vous.
+        <div className={`w-full mb-4 rounded-2xl border p-4 ${errors.content ? 'border-brulure-despespoir/70' : 'border-bleu-ciel/20'} bg-reglisse/90 shadow-[0_12px_30px_rgba(0,0,0,0.18)]`}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="text-white mb-1 font-title">Ajouter une note</div>
+              <div className="text-xs text-gris-magneti flex items-center gap-1.5 italic">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 opacity-80" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                </svg>
+                Choisissez si elle reste privée ou visible par l&apos;admin.
+              </div>
+            </div>
+
+            <div className="flex rounded-full border border-bleu-ciel/20 bg-noir-bleute/40 p-1">
+              <button
+                type="button"
+                onClick={() => setVisibility('private')}
+                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${visibility === 'private' ? 'bg-bleu-canard text-white shadow-md' : 'text-gris-magneti hover:text-white'}`}
+              >
+                Privée
+              </button>
+              <button
+                type="button"
+                onClick={() => setVisibility('public')}
+                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${visibility === 'public' ? 'bg-vert-picollo text-noir-bleute shadow-md' : 'text-gris-magneti hover:text-white'}`}
+              >
+                Publique
+              </button>
+            </div>
           </div>
+
           <textarea
             {...register("content")}
             disabled={isSubmitting}
-            className="w-full bg-reglisse text-white p-3 rounded-md border-none outline-none resize-none h-24 placeholder-gris-magneti disabled:opacity-50"
+            className="mt-4 w-full min-h-24 resize-none rounded-xl border border-white/8 bg-noir-bleute/40 p-3 text-white outline-none placeholder-gris-magneti disabled:opacity-50"
             placeholder="Saisissez votre note ici..."
           />
         </div>
 
-        {/* Affichage de l'erreur Zod */}
         {errors.content && (
           <p className="text-brulure-despespoir text-xs w-full text-left mb-2 px-2">
             {errors.content.message}
@@ -111,15 +136,22 @@ const NotesSection = ({ movieId }) => {
         </Button>
       </form>
 
-      {/* Liste des anciennes notes */}
-      <div className="text-white mb-3 text-lg font-title w-full text-left">Vos notes personnelles :</div>
+      <div className="text-white mb-3 text-lg font-title w-full text-left">Vos notes :</div>
       <div className="flex flex-col gap-3 w-full">
         {isLoading ? (
           <div className="text-bleu-ciel text-sm animate-pulse">Chargement de vos notes...</div>
         ) : notes && notes.length > 0 ? (
           notes.map((note, index) => (
-            <div key={note.id || index} className="bg-bleu-canard text-white p-4 rounded-xl shadow-md">
-              <p className="text-sm whitespace-pre-wrap">{note.content}</p>
+            <div key={note.id || index} className="rounded-2xl border border-bleu-ciel/12 bg-gradient-to-br from-bleu-canard/25 via-reglisse to-noir-bleute p-4 text-white shadow-[0_10px_24px_rgba(0,0,0,0.16)]">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.14em] ${note.isPrivate ? 'bg-white/5 text-bleu-ciel border border-white/10' : 'bg-vert-picollo/15 text-vert-picollo border border-vert-picollo/20'}`}>
+                  {note.isPrivate ? 'Privée' : 'Publique'}
+                </span>
+                <span className="text-[11px] text-gris-magneti/90">
+                  {note.isPrivate ? 'Visible uniquement par vous' : 'Visible par l’admin'}
+                </span>
+              </div>
+              <p className="text-sm whitespace-pre-wrap leading-6">{note.content}</p>
             </div>
           ))
         ) : (

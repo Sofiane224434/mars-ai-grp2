@@ -107,11 +107,26 @@ export const movieModel = {
     `;
     const usedAis = await query(sqlAis, [movieId]);
 
+    const sqlPublicComments = `
+      SELECT
+        c.id,
+        c.comment AS content,
+        c.movie_id AS movieId,
+        c.isprivate AS isPrivate,
+        u.email AS authorEmail
+      FROM comments c
+      LEFT JOIN users u ON u.id = c.user_id
+      WHERE c.movie_id = ? AND COALESCE(c.isprivate, 1) = 0
+      ORDER BY c.id ASC
+    `;
+    const publicComments = await query(sqlPublicComments, [movieId]);
+
     // 4. On assemble l'objet final comme ton frontend l'attend
     return {
       ...movie,
       assignedJuries: assignedJuries,
-      usedAis: usedAis
+      usedAis: usedAis,
+      publicComments
     };
   },
 

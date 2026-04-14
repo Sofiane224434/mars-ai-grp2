@@ -25,7 +25,8 @@ export const getJuryComments = async (req, res) => {
 export const postJuryComment = async (req, res) => {
   try {
     const juryId = req.user.id; // Issu de ton token JWT
-    const { movieId, content } = req.body;
+    const { movieId, content, isPrivate = 1 } = req.body;
+    const normalizedIsPrivate = Number(isPrivate) !== 0;
 
     // Validation des données entrantes
     if (!movieId || !content || content.trim() === '') {
@@ -33,7 +34,7 @@ export const postJuryComment = async (req, res) => {
     }
 
     // Sauvegarde en base de données
-    const newComment = await createComment(movieId, juryId, content.trim());
+    const newComment = await createComment(movieId, juryId, content.trim(), normalizedIsPrivate);
     
     // Code 201 (Created) : Standard REST pour une création réussie
     return res.status(201).json(newComment);

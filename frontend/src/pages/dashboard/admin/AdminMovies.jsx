@@ -9,14 +9,16 @@ import Filter from "../../../components/ui/Filter.jsx";
 import Button from "../../../components/ui/Button.jsx";
 import Spinner from "../../../components/ui/Spinner.jsx";
 import JuryAssignmentModal from "../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx";
+import useFestivalPhase from "../../../hooks/useFestivalPhase.js";
 // 🚀 AJOUT 1 : Import de l'interrupteur
 import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 
-const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending'];
+const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending', 'top50'];
 const ALLOWED_ASSIGNATIONS = ['assigned', 'unassigned'];
 
 function AdminMovies() {
   const navigate = useNavigate();
+  const { currentPhase } = useFestivalPhase();
   const [searchParams, setSearchParams] = useSearchParams();
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -44,15 +46,15 @@ function AdminMovies() {
     const assignationFromQuery = searchParams.get('assignation');
     const parsedStatuses = statusFromQuery
       ? statusFromQuery
-          .split(',')
-          .map((status) => status.trim())
-          .filter((status) => ALLOWED_STATUSES.includes(status))
+        .split(',')
+        .map((status) => status.trim())
+        .filter((status) => ALLOWED_STATUSES.includes(status))
       : [];
     const parsedAssignations = assignationFromQuery
       ? assignationFromQuery
-          .split(',')
-          .map((value) => value.trim())
-          .filter((value) => ALLOWED_ASSIGNATIONS.includes(value))
+        .split(',')
+        .map((value) => value.trim())
+        .filter((value) => ALLOWED_ASSIGNATIONS.includes(value))
       : [];
 
     setSelectedFilters((prev) => {
@@ -222,7 +224,7 @@ function AdminMovies() {
 
       // Filtre status
       if (selectedFilters.status.length > 0) {
-        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
+        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved', 5: 'top50', 6: 'top5' };
         const movieStatus = statusMap[movie.statusId] || 'pending';
         if (!selectedFilters.status.includes(movieStatus)) return false;
       }
@@ -310,6 +312,13 @@ function AdminMovies() {
 
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     <Filter
+                      variant="top50"
+                      checked={selectedFilters.status.includes('top50')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
+                    >
+                      Top 50
+                    </Filter>
+                    <Filter
                       variant="approved"
                       checked={selectedFilters.status.includes('approved')}
                       onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
@@ -372,6 +381,13 @@ function AdminMovies() {
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     <Filter
+                      variant="top50"
+                      checked={selectedFilters.status.includes('top50')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
+                    >
+                      Top 50
+                    </Filter>
+                    <Filter
                       variant="approved"
                       checked={selectedFilters.status.includes('approved')}
                       onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
@@ -423,14 +439,17 @@ function AdminMovies() {
           {displayMovies.length > 0 ? (
             displayMovies.map((movie) => {
               const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
-              const mapStatus = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
-              const statusStr = mapStatus[movie.statusId] || 'pending';
+              const mapStatus = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved', 5: 'top50', 6: 'top5' };
+              const statusStr = (currentPhase === 1 && !hasJury)
+                ? 'pending'
+                : (mapStatus[movie.statusId] || 'pending');
 
               return (
                 <MovieCard
                   key={movie.id}
                   layout={viewMode} // 🚀 AJOUT 5 : On passe la prop à ta MovieCard
                   variant={hasJury ? "admin-assigned" : "admin-assign"}
+                  showAdminAssignmentControls={currentPhase === 0}
                   status={statusStr}
                   title={movie.title}
                   directorName={movie.directorName}

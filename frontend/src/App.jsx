@@ -29,6 +29,7 @@ import AdminMovieDetails from './pages/dashboard/admin/AdminMovieDetails.jsx';
 import JuryPanel from './pages/dashboard/jury/JuryPanel.jsx';
 import JuryMovies from './pages/dashboard/jury/JuryMovies.jsx';
 import MovieDetail from './pages/dashboard/jury/MovieDetail.jsx';
+import useFestivalPhase from './hooks/useFestivalPhase.js';
 
 const getStoredUser = () => {
   try {
@@ -78,6 +79,8 @@ function JuryGuard() {
 }
 
 function App() {
+  const { isSubmissionPhase } = useFestivalPhase();
+
   return (
     <>
       <ScrollToTop />
@@ -90,7 +93,7 @@ function App() {
           <Route path="/awards" element={<Awards />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/participate" element={<Formdirector />} />
+          <Route path="/participate" element={isSubmissionPhase ? <Formdirector /> : <Navigate to="/" replace />} />
           <Route path="/rgpd" element={<Rgpd />} />
           <Route path="/politique-confidentialite" element={<Rgpd />} />
           <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />

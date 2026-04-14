@@ -15,6 +15,7 @@ import { Status } from '../../../components/ui/StatusBadge.jsx';
 
 // 🚀 NOUVEL IMPORT : Ton Custom Hook
 import useApi from '../../../hooks/useApi.js';
+import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -24,6 +25,8 @@ const voteSchema = z.object({
 
 function MovieDetail() {
   const { movieId } = useParams();
+  const { currentPhase } = useFestivalPhase();
+  const isJudgmentPhase = currentPhase === 1;
   const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
 
   // 🚀 1. INJECTION DU HOOK : Remplace 3 useState d'un seul coup !
@@ -44,7 +47,7 @@ function MovieDetail() {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [showMoreDirectorInfo, setShowMoreDirectorInfo] = useState(false);
 
-  const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider" };
+  const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider", 5: "Top 50" };
 
   // 🚀 2. LE USEEFFECT NETTOYÉ : Il ne contient plus que la logique d'appel, zéro gestion d'état !
   useEffect(() => {
@@ -58,12 +61,15 @@ function MovieDetail() {
       // On passe la fonction réseau à notre hook, il s'occupe du reste (try/catch, loading, etc.)
       fetchMovie(() =>
         axios.get(`${API_BASE_URL}/jury/movies/${movieId}`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          headers: token ? {
+            Authorization: `Bearer ${token}`,
+            'x-festival-phase-index': String(currentPhase),
+          } : undefined,
           withCredentials: true
         })
       );
     }
-  }, [movieId, fetchMovie]);
+  }, [movieId, fetchMovie, currentPhase]);
 
 
   const initiateVote = (newStatusId) => {
@@ -80,7 +86,10 @@ function MovieDetail() {
       const token = localStorage.getItem('token');
 
       await axios.put(`${API_BASE_URL}/jury/movies/${movieId}/status`, validPayload, {
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        headers: token ? {
+          Authorization: `Bearer ${token}`,
+          'x-festival-phase-index': String(currentPhase),
+        } : undefined,
         withCredentials: true
       });
 
@@ -100,6 +109,8 @@ function MovieDetail() {
         console.error("Erreur API lors du vote :", err);
         if (err.response?.status === 401) {
           toast.error("Votre session a expiré. Veuillez vous reconnecter.", { duration: 4000, position: 'bottom-right' });
+        } else if (err.response?.status === 409) {
+          toast.error(err.response?.data?.message || "Limite Top 50 atteinte (50 films max).", { duration: 4000, position: 'bottom-right' });
         } else {
           toast.error("Une erreur est survenue lors de l'enregistrement.", { duration: 4000, position: 'bottom-right' });
         }
@@ -122,7 +133,12 @@ function MovieDetail() {
       2: { variant: 'rejected', label: 'Refuse' },
       3: { variant: 'review', label: 'A revoir' },
       4: { variant: 'approved', label: 'Valide' },
+      5: { variant: 'top50', label: 'Top 50' },
     };
+
+    if (isJudgmentPhase && statusId === 4) {
+      return { variant: 'pending', label: 'En attente' };
+    }
 
     if (statusIdMap[statusId]) return statusIdMap[statusId];
 
@@ -130,7 +146,12 @@ function MovieDetail() {
     if (['pending', 'wait', 'en attente', 'attente'].includes(normalized)) return { variant: 'pending', label: 'En attente' };
     if (['rejected', 'refuse', 'refusé'].includes(normalized)) return { variant: 'rejected', label: 'Refuse' };
     if (['review', 'a revoir', 'à revoir'].includes(normalized)) return { variant: 'review', label: 'A revoir' };
-    if (['approved', 'valid', 'valide', 'approuve', 'approuvé'].includes(normalized)) return { variant: 'approved', label: 'Valide' };
+    if (['approved', 'valid', 'valide', 'approuve', 'approuvé'].includes(normalized)) {
+      return isJudgmentPhase
+        ? { variant: 'pending', label: 'En attente' }
+        : { variant: 'approved', label: 'Valide' };
+    }
+    if (['top50', 'top 50'].includes(normalized)) return { variant: 'top50', label: 'Top 50' };
 
     return { variant: 'pending', label: statusLabel || 'En attente' };
   };
@@ -155,7 +176,9 @@ function MovieDetail() {
   }
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
-  const isVoteLocked = movie.statusId !== 1;
+  const isVoteLocked = isJudgmentPhase ? ![4, 5].includes(movie.statusId) : ![1, 4].includes(movie.statusId);
+  const canPromoteTop50 = isJudgmentPhase ? movie.statusId === 4 : movie.statusId === 4;
+  const canRemoveTop50 = isJudgmentPhase && movie.statusId === 5;
   const usedAis = movie.usedAis || [];
 
   const getAiCategoryStyle = (category) => {
@@ -206,18 +229,46 @@ function MovieDetail() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
-            <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
-              Valider
-            </Button>
-            <Button interactive variant="pending-jury" onClick={() => initiateVote(3)} disabled={isVoting || isVoteLocked}>
-              A revoir
-            </Button>
-            <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
-              Refuser
-            </Button>
+            {!isJudgmentPhase && (
+              <>
+                <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
+                  Valider
+                </Button>
+                <Button interactive variant="pending-jury" onClick={() => initiateVote(3)} disabled={isVoting || isVoteLocked}>
+                  A revoir
+                </Button>
+              </>
+            )}
+            {!isJudgmentPhase && (
+              <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
+                Refuser
+              </Button>
+            )}
+            {isJudgmentPhase ? (
+              <Button
+                interactive
+                variant={canRemoveTop50 ? 'rejected-jury' : 'approved-jury'}
+                onClick={() => initiateVote(canRemoveTop50 ? 4 : 5)}
+                disabled={isVoting || (!canPromoteTop50 && !canRemoveTop50)}
+              >
+                {canRemoveTop50 ? 'Retirer Top 50' : 'Top 50'}
+              </Button>
+            ) : null}
           </div>
 
-          {isVoteLocked && (
+          {!isJudgmentPhase && movie.statusId === 4 && (
+            <p className="text-gris-magneti text-xs mt-4 italic">
+              Film validé : vous pouvez le passer en Top 50 si vous le souhaitez.
+            </p>
+          )}
+
+          {isJudgmentPhase && (
+            <p className="text-gris-magneti text-xs mt-4 italic">
+              Phase de jugement : utilisez le bouton Top 50 pour ajouter ou retirer un film du Top 50. Le statut "Validé" est affiché comme "En attente".
+            </p>
+          )}
+
+          {!isJudgmentPhase && isVoteLocked && movie.statusId !== 4 && (
             <p className="text-gris-magneti text-xs mt-4 italic">
               Vous avez déjà statué sur ce film. Le vote est verrouillé.
             </p>

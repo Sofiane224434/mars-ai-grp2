@@ -7,6 +7,7 @@ const STATUS_VARIANT = {
   approved: "approved",
   review: "review",
   rejected: "rejected",
+  top50: "top50",
 };
 
 const STATUS_LABEL = {
@@ -14,6 +15,7 @@ const STATUS_LABEL = {
   approved: "Validé",
   review: "À revoir",
   rejected: "Refusé",
+  top50: "Top 50",
 };
 
 const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
@@ -45,6 +47,7 @@ function MovieCard({
   onThumbnailClick,
   onAssign,
   onMoreInfo,
+  showAdminAssignmentControls = true,
 }) {
   const [imageError, setImageError] = useState(false);
 
@@ -63,7 +66,7 @@ function MovieCard({
 
   const actionButtonsBlock = (
     <div className="mt-auto flex flex-col pt-3 w-full">
-      {isAdmin && (
+      {isAdmin && showAdminAssignmentControls && (
         <Button
           interactive
           variant="gradient-blue"
@@ -134,7 +137,7 @@ function MovieCard({
           )}
 
           <div className="flex flex-col flex-1 mt-2">
-            {isAdmin && (
+            {isAdmin && showAdminAssignmentControls && (
               <>
                 {showAssignedJurors && hasAssignedJurors ? (
                   <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -205,7 +208,7 @@ function MovieCard({
       )}
 
       <div className="flex flex-col flex-1">
-        {isAdmin && (
+        {isAdmin && showAdminAssignmentControls && (
           <>
             {showAssignedJurors && hasAssignedJurors ? (
               <div className="mt-2 flex flex-wrap items-center gap-2">

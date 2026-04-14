@@ -1,10 +1,23 @@
 import * as JuryMovieModel from '../models/juryMovie.model.js';
 import { movieDetailResponseSchema } from '../schemas/jury.schema.js';
 
+const TOP50_STATUS_ID = 5;
+const TOP50_MAX_COUNT = 50;
+
+const getPhaseIndexFromRequest = (req) => {
+  const rawPhase = req.headers['x-festival-phase-index'];
+  const parsed = Number.parseInt(String(rawPhase ?? ''), 10);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const isJudgmentPhase = (req) => getPhaseIndexFromRequest(req) === 1;
+
 export const getAssignedMovies = async (req, res) => {
   try {
     const userId = req.user.id;
-    const movies = await JuryMovieModel.getAssignedMoviesByUser(userId);
+    const movies = isJudgmentPhase(req)
+      ? await JuryMovieModel.getAllMoviesForJudgmentPhase()
+      : await JuryMovieModel.getAssignedMoviesByUser(userId);
 
     return res.status(200).json({
       success: true,
@@ -32,12 +45,36 @@ export const validateMovieStatus = async (req, res) => {
       });
     }
 
-    const isAssigned = await JuryMovieModel.isMovieAssignedToUser(movieId, userId);
-    if (!isAssigned) {
-      return res.status(403).json({
+    if (!isJudgmentPhase(req)) {
+      const isAssigned = await JuryMovieModel.isMovieAssignedToUser(movieId, userId);
+      if (!isAssigned) {
+        return res.status(403).json({
+          success: false,
+          message: "Ce film n'est pas assigne a ce membre du jury."
+        });
+      }
+    }
+
+    const currentStatusId = await JuryMovieModel.getMovieStatusById(movieId);
+    if (currentStatusId === null) {
+      return res.status(404).json({
         success: false,
-        message: "Ce film n'est pas assigne a ce membre du jury."
+        message: 'Film introuvable.'
       });
+    }
+
+    if (
+      isJudgmentPhase(req)
+      && statusId === TOP50_STATUS_ID
+      && currentStatusId !== TOP50_STATUS_ID
+    ) {
+      const currentTop50Count = await JuryMovieModel.countMoviesByStatus(TOP50_STATUS_ID);
+      if (currentTop50Count >= TOP50_MAX_COUNT) {
+        return res.status(409).json({
+          success: false,
+          message: 'Limite atteinte : le Top 50 contient deja 50 films.'
+        });
+      }
     }
 
     const updateResult = await JuryMovieModel.updateMovieStatus(movieId, statusId);
@@ -56,9 +93,9 @@ export const validateMovieStatus = async (req, res) => {
 
   } catch (error) {
     console.error('Erreur lors de la validation par le jury :', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: "Une erreur est survenue lors de l'enregistrement de la décision." 
+    return res.status(500).json({
+      success: false,
+      message: "Une erreur est survenue lors de l'enregistrement de la décision."
     });
   }
 };
@@ -81,10 +118,10 @@ export const getMovieById = async (req, res) => {
       return res.status(404).json({ message: "Ce film est introuvable." });
     }
 
-    if (!movieData.isAssigned) {
+    if (!isJudgmentPhase(req) && !movieData.isAssigned) {
       // Le film existe, mais le LEFT JOIN n'a rien trouvé pour CE juré
-      return res.status(403).json({ 
-        message: "Accès interdit : ce film ne fait pas partie de votre sélection." 
+      return res.status(403).json({
+        message: "Accès interdit : ce film ne fait pas partie de votre sélection."
       });
     }
 

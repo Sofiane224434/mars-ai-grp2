@@ -9,11 +9,28 @@ import Button from "../../../components/ui/Button.jsx";
 import Spinner from "../../../components/ui/Spinner.jsx";
 import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 import Pagination from '../../../components/ui/Pagination.jsx';
+import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending'];
+const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending', 'top50'];
 
 function JuryMovies() {
+  const { currentPhase } = useFestivalPhase();
+  const isJudgmentPhase = currentPhase === 1;
+  const allowedStatusesForPhase = isJudgmentPhase
+    ? ['pending', 'top50']
+    : ALLOWED_STATUSES;
+
+  const normalizeStatusForPhase = (movie) => {
+    const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved', 5: 'top50', 6: 'top5' };
+    const rawStatus = statusMap[movie.statusId] || String(movie.status || 'pending').toLowerCase();
+
+    if (isJudgmentPhase && rawStatus === 'approved') {
+      return 'pending';
+    }
+
+    return ['en attente', 'wait'].includes(rawStatus) ? 'pending' : rawStatus;
+  };
   const navigate = useNavigate();
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +38,7 @@ function JuryMovies() {
   // 1. États pour l'UI (Filtres et Mode d'affichage)
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
-  
+
   // 2. État pour la Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 6; // Changé à 6 pour mieux coller à une grille de 2 ou 3 colonnes
@@ -40,11 +57,30 @@ function JuryMovies() {
     const statusFromQuery = searchParams.get('status');
     return statusFromQuery
       ? statusFromQuery
-          .split(',')
-          .map((status) => status.trim())
-          .filter((status) => ALLOWED_STATUSES.includes(status))
+        .split(',')
+        .map((status) => status.trim())
+        .filter((status) => allowedStatusesForPhase.includes(status))
       : [];
-  }, [searchParams]);
+  }, [allowedStatusesForPhase, searchParams]);
+
+  useEffect(() => {
+    if (!searchParams.get('status')) {
+      return;
+    }
+
+    const nextStatuses = selectedStatuses.filter((status) => allowedStatusesForPhase.includes(status));
+    if (nextStatuses.length === selectedStatuses.length) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams);
+    if (nextStatuses.length > 0) {
+      nextParams.set('status', nextStatuses.join(','));
+    } else {
+      nextParams.delete('status');
+    }
+    setSearchParams(nextParams, { replace: true });
+  }, [allowedStatusesForPhase, searchParams, selectedStatuses, setSearchParams]);
 
   // --- CHARGEMENT DES DONNÉES ---
   useEffect(() => {
@@ -56,7 +92,10 @@ function JuryMovies() {
 
     fetchMovies(() =>
       axios.get(`${API_BASE_URL}/jury/movies`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'x-festival-phase-index': String(currentPhase),
+        },
         withCredentials: true,
       })
     ).catch((err) => {
@@ -64,7 +103,7 @@ function JuryMovies() {
         navigate('/auth');
       }
     });
-  }, [fetchMovies, navigate]);
+  }, [currentPhase, fetchMovies, navigate]);
 
   // --- GESTION DES FILTRES ---
   const handleFilterChange = (filterValue, isChecked) => {
@@ -96,13 +135,10 @@ function JuryMovies() {
 
     return movies.filter(movie => {
       if (selectedStatuses.length > 0) {
-        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
-        // Tolérance si le back renvoie un ID ou directement le string
-        const movieStatus = statusMap[movie.statusId] || String(movie.status || 'pending').toLowerCase();
-        
-        // On vérifie si le statut normalisé est dans nos filtres
-        const normalizedMovieStatus = ['en attente', 'wait'].includes(movieStatus) ? 'pending' : movieStatus;
-        if (!selectedStatuses.includes(normalizedMovieStatus)) return false;
+        const normalizedMovieStatus = normalizeStatusForPhase(movie);
+        if (!selectedStatuses.includes(normalizedMovieStatus)) {
+          return false;
+        }
       }
       return true;
     });
@@ -126,7 +162,7 @@ function JuryMovies() {
   return (
     <div className="min-h-screen bg-linear-to-b from-noir-bleute to-gris-anthracite pt-12 lg:pt-8 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* EN-TÊTE ET TOGGLE */}
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between text-center sm:text-left">
           <div>
@@ -134,7 +170,9 @@ function JuryMovies() {
               Mes films à évaluer
             </h1>
             <p className="text-gris-magneti">
-              Retrouvez ici la liste des films qui vous ont été assignés.
+              {isJudgmentPhase
+                ? 'Retrouvez ici les films validés et les films du Top 50 pour le jugement final.'
+                : 'Retrouvez ici la liste des films qui vous ont été assignés.'}
             </p>
           </div>
           <div className="sm:shrink-0 sm:pt-1 flex justify-center">
@@ -166,15 +204,24 @@ function JuryMovies() {
                 <Filter variant="pending" checked={selectedStatuses.includes('pending')} onChange={(c) => handleFilterChange('pending', c)}>
                   En attente
                 </Filter>
-                <Filter variant="approved" checked={selectedStatuses.includes('approved')} onChange={(c) => handleFilterChange('approved', c)}>
-                  Validé
+                {!isJudgmentPhase && (
+                  <Filter variant="approved" checked={selectedStatuses.includes('approved')} onChange={(c) => handleFilterChange('approved', c)}>
+                    Validé
+                  </Filter>
+                )}
+                <Filter variant="top50" checked={selectedStatuses.includes('top50')} onChange={(c) => handleFilterChange('top50', c)}>
+                  Top 50
                 </Filter>
-                <Filter variant="review" checked={selectedStatuses.includes('review')} onChange={(c) => handleFilterChange('review', c)}>
-                  À revoir
-                </Filter>
-                <Filter variant="rejected" checked={selectedStatuses.includes('rejected')} onChange={(c) => handleFilterChange('rejected', c)}>
-                  Refusé
-                </Filter>
+                {!isJudgmentPhase && (
+                  <Filter variant="review" checked={selectedStatuses.includes('review')} onChange={(c) => handleFilterChange('review', c)}>
+                    À revoir
+                  </Filter>
+                )}
+                {!isJudgmentPhase && (
+                  <Filter variant="rejected" checked={selectedStatuses.includes('rejected')} onChange={(c) => handleFilterChange('rejected', c)}>
+                    Refusé
+                  </Filter>
+                )}
               </div>
               <Button interactive className="shrink-0 self-center text-sm" variant="filled-yellow" onClick={handleClearFilters}>
                 Supprimer les filtres
@@ -191,11 +238,10 @@ function JuryMovies() {
         }>
           {currentMoviesToDisplay.length > 0 ? (
             currentMoviesToDisplay.map((movie) => {
-              const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
-              const statusStr = statusMap[movie.statusId] || 'pending';
-              
-              // Détermine la variante de la carte (si 'pending' -> à évaluer, sinon -> déjà évalué)
-              const cardVariant = statusStr === 'pending' ? 'jury-pending' : 'jury-reviewed';
+              const statusStr = normalizeStatusForPhase(movie);
+
+              // En phase de jugement, tous les films sont à évaluer en mode Top50/Refusé.
+              const cardVariant = isJudgmentPhase ? 'jury-pending' : (statusStr === 'pending' ? 'jury-pending' : 'jury-reviewed');
 
               return (
                 <MovieCard
@@ -212,7 +258,7 @@ function JuryMovies() {
             })
           ) : (
             <div className="col-span-full text-center py-12 text-gray-400 text-lg">
-              {movies.length === 0 ? "Aucun film ne vous a encore été assigné." : "Aucun film ne correspond à vos filtres."}
+              {movies.length === 0 ? (isJudgmentPhase ? "Aucun film disponible pour la phase de jugement." : "Aucun film ne vous a encore été assigné.") : "Aucun film ne correspond à vos filtres."}
             </div>
           )}
         </div>

@@ -8,10 +8,12 @@ import YoutubeIcon from "../../assets/icons/Icon-youtube.svg?react";
 import FacebookIcon from "../../assets/icons/Icons-facebook.svg?react";
 import LinkedinIcon from "../../assets/icons/Icons-lin.svg?react";
 import TwitterIcon from "../../assets/icons/Icons-twiter.svg?react";
+import useFestivalPhase from "../../hooks/useFestivalPhase.js";
 
 // components/Footer.jsx
 function Footer() {
     const { t } = useTranslation();
+    const { isSubmissionPhase } = useFestivalPhase();
     const [newsletterEmail, setNewsletterEmail] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [newsletterFeedback, setNewsletterFeedback] = useState({ type: "", message: "" });
@@ -93,11 +95,13 @@ function Footer() {
                         <Link to="/faq" className="w-full sm:w-72 lg:w-72 mx-auto">
                             <Button variant="neon-yellow" className="w-full">{t('nav.faq')}</Button>
                         </Link>
-                        <Link to="/participate">
-                            <div className="w-full sm:w-72 lg:w-72 mx-auto">
-                                <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
-                            </div>
-                        </Link>
+                        {isSubmissionPhase && (
+                            <Link to="/participate">
+                                <div className="w-full sm:w-72 lg:w-72 mx-auto">
+                                    <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
+                                </div>
+                            </Link>
+                        )}
                     </div>
 
                     {/* Contact & Newsletter Section */}

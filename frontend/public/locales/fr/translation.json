@@ -183,7 +183,10 @@
         "empty-title": "Bientôt disponible",
         "empty-description": "Les 50 films sélectionnés par le jury seront affichés ici à l'issue de la phase de candidature. Revenez prochainement !",
         "current-phase-label": "Phase actuelle",
-        "current-phase": "Dépôt des candidatures"
+        "current-phase": "Dépôt des candidatures",
+        "phase-judgment": "Jugement pour le top 50",
+        "phase-top50": "Sélection du top 50",
+        "phase-top5": "Sélection du top 5"
     },
     "countdown": {
         "nextSelection": "Prochaine sélection",

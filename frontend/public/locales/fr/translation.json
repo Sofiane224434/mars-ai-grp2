@@ -102,7 +102,82 @@
         "newsletterSubscribeSuccess": "Inscription confirmée. Merci !",
         "newsletterSubscribeError": "Impossible de vous inscrire pour le moment.",
         "newsletterInvalidEmail": "Merci de saisir une adresse e-mail valide.",
+        "rgpd": "Politique de confidentialité (RGPD)",
         "rights": "Tous droits réservés"
+    },
+    "rgpd": {
+        "badge": "RGPD",
+        "pageTitle": "Politique de confidentialité et mentions légales",
+        "intro": "Cette page explique comment MarsAI collecte, utilise, protège et conserve les données personnelles des visiteurs, réalisateurs et membres du jury.",
+        "summaryAriaLabel": "Sommaire RGPD",
+        "summaryTitle": "Sommaire",
+        "backToTop": "Retour en haut de page",
+        "backHome": "Retour à l'accueil",
+        "sections": [
+            {
+                "id": "editeur",
+                "title": "1. Mentions légales",
+                "paragraphs": [
+                    "Le site MarsAI est édité pour l'organisation du festival MarsAI. Les informations diffusées sur cette plateforme ont pour objectif de faciliter la participation au festival, la communication avec les utilisateurs et la diffusion des contenus liés aux films."
+                ]
+            },
+            {
+                "id": "donnees-collectees",
+                "title": "2. Données collectées (principe de minimisation)",
+                "paragraphs": [
+                    "Nous appliquons un principe de minimisation: seules les données strictement nécessaires sont demandées pour les parcours essentiels."
+                ],
+                "bullets": [
+                    "Données requises pour les interactions de base: nom, prénom et email.",
+                    "Pour les dépôts de films, des informations complémentaires peuvent être nécessaires au traitement de la candidature.",
+                    "Aucune collecte de données de ciblage publicitaire n'est effectuée sur le site."
+                ]
+            },
+            {
+                "id": "finalites",
+                "title": "3. Finalités du traitement",
+                "bullets": [
+                    "Gestion des inscriptions et de la relation utilisateur (newsletter, notifications).",
+                    "Gestion des candidatures réalisateurs et du suivi du festival.",
+                    "Gestion des accès jury/admin et sécurisation des sessions."
+                ]
+            },
+            {
+                "id": "hebergement",
+                "title": "4. Hébergement et stockage sécurisé",
+                "paragraphs": [
+                    "Le site et ses services sont hébergés sur des infrastructures sécurisées. Les vidéos déposées peuvent être stockées sur un stockage objet de type Bucket S3 avec contrôle des accès.",
+                    "Des mesures techniques et organisationnelles sont mises en oeuvre pour limiter les accès non autorisés, pertes ou altérations de données."
+                ]
+            },
+            {
+                "id": "cookies",
+                "title": "5. Cookies",
+                "paragraphs": [
+                    "Le site utilise uniquement des cookies techniques nécessaires à son fonctionnement."
+                ],
+                "bullets": [
+                    "Maintien de session (ex: token JWT pour les espaces Jury/Admin).",
+                    "Sécurisation des accès et continuités de navigation.",
+                    "Aucun cookie de ciblage publicitaire n'est déposé."
+                ]
+            },
+            {
+                "id": "droits",
+                "title": "6. Droits des utilisateurs",
+                "paragraphs": [
+                    "Conformément au RGPD, vous pouvez demander l'accès, la rectification, la suppression de vos données personnelles et, le cas échéant, la suppression de votre film déposé.",
+                    "Pour exercer vos droits, contactez l'organisation via l'adresse de contact du festival. Une vérification d'identité peut être demandée pour protéger les données."
+                ]
+            },
+            {
+                "id": "conservation",
+                "title": "7. Durée de conservation",
+                "paragraphs": [
+                    "Les données sont conservées pendant la durée strictement nécessaire aux finalités du festival et aux obligations légales associées."
+                ]
+            }
+        ]
     },
     "movies": {
         "empty-title": "Bientôt disponible",

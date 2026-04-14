@@ -4,21 +4,7 @@
     "movies": "Movies",
     "about": "About",
     "faq": "FAQ",
-    "participate": "Participate",
-    "movies": "Movies"
-  },
-  "footer": {
-    "collaborator": "In collaboration with",
-    "textcontact": "Stay in touch",
-    "newsletter": "Newsletter subscription",
-    "emailplaceholder": "Your e-mail address",
-    "subscribe": "Subscribe to our newsletter",
-    "newsletterLoading": "Subscribing...",
-    "newsletterSubscribeSuccess": "Subscription confirmed. Thank you!",
-    "newsletterSubscribeError": "Unable to subscribe right now.",
-    "newsletterInvalidEmail": "Please enter a valid email address.",
-    "rights": "All rights reserved"
-    "participate": "Join"
+    "participate": "Participate"
   },
   "home": {
     "HeroSection": "People at the heart of AI",
@@ -94,7 +80,7 @@
     "title": "MarsAi",
     "language": {
       "change": "Change language",
-      "french": "English",
+      "french": "French",
       "english": "English",
       "spanish": "Spanish",
       "arabic": "Arabic",
@@ -112,7 +98,86 @@
     "newsletter": "Subscribe to the newsletter",
     "emailplaceholder": "Your email address",
     "subscribe": "Sign up for the newsletter",
+    "newsletterLoading": "Subscribing...",
+    "newsletterSubscribeSuccess": "Subscription confirmed. Thank you!",
+    "newsletterSubscribeError": "Unable to subscribe right now.",
+    "newsletterInvalidEmail": "Please enter a valid email address.",
+    "rgpd": "Privacy policy (GDPR)",
     "rights": "All rights reserved"
+  },
+  "rgpd": {
+    "badge": "GDPR",
+    "pageTitle": "Privacy policy and legal notices",
+    "intro": "This page explains how MarsAI collects, uses, protects, and stores personal data from visitors, filmmakers, and jury members.",
+    "summaryAriaLabel": "GDPR summary",
+    "summaryTitle": "Summary",
+    "backToTop": "Back to top",
+    "backHome": "Back to home",
+    "sections": [
+      {
+        "id": "editeur",
+        "title": "1. Legal notices",
+        "paragraphs": [
+          "The MarsAI website is published for the organization of the MarsAI festival. The information shared on this platform is intended to support festival participation, communication with users, and publication of film-related content."
+        ]
+      },
+      {
+        "id": "donnees-collectees",
+        "title": "2. Data collected (data minimization)",
+        "paragraphs": [
+          "We apply a data minimization principle: only data that is strictly necessary is requested for essential user journeys."
+        ],
+        "bullets": [
+          "Required data for core interactions: first name, last name, and email.",
+          "For film submissions, additional details may be required to process the application.",
+          "No advertising targeting data is collected on this website."
+        ]
+      },
+      {
+        "id": "finalites",
+        "title": "3. Purposes of processing",
+        "bullets": [
+          "Managing registrations and user communications (newsletter, notifications).",
+          "Managing filmmaker applications and festival follow-up.",
+          "Managing jury/admin access and securing sessions."
+        ]
+      },
+      {
+        "id": "hebergement",
+        "title": "4. Hosting and secure storage",
+        "paragraphs": [
+          "The website and its services are hosted on secured infrastructure. Uploaded videos may be stored on S3-compatible object storage buckets with access controls.",
+          "Technical and organizational safeguards are implemented to limit unauthorized access, data loss, or data alteration."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "5. Cookies",
+        "paragraphs": [
+          "The website only uses technical cookies required for its operation."
+        ],
+        "bullets": [
+          "Session continuity (example: JWT token for Jury/Admin areas).",
+          "Access security and navigation continuity.",
+          "No advertising targeting cookies are placed."
+        ]
+      },
+      {
+        "id": "droits",
+        "title": "6. User rights",
+        "paragraphs": [
+          "In accordance with GDPR, you can request access to, correction of, and deletion of your personal data and, where applicable, deletion of your submitted film.",
+          "To exercise your rights, contact the organization via the festival contact address. Identity verification may be requested to protect personal data."
+        ]
+      },
+      {
+        "id": "conservation",
+        "title": "7. Data retention period",
+        "paragraphs": [
+          "Data is kept only for the duration strictly necessary for festival purposes and associated legal obligations."
+        ]
+      }
+    ]
   },
   "movies": {
     "empty-title": "Coming soon",

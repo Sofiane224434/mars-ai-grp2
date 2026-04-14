@@ -11,6 +11,7 @@ import Movies from './pages/public/Movies.jsx';
 import Awards from './pages/public/Awards.jsx';
 import About from './pages/public/About.jsx';
 import FAQ from './pages/public/FAQ.jsx';
+import Rgpd from './pages/public/Rgpd.jsx';
 import Auth from './pages/public/Auth.jsx';
 import Error from './pages/public/Error.jsx';
 import YoutubeUploadTest from './pages/public/YoutubeUploadTest.jsx';
@@ -89,6 +90,8 @@ function App() {
           <Route path="/awards" element={<Awards />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/rgpd" element={<Rgpd />} />
+          <Route path="/politique-confidentialite" element={<Rgpd />} />
           <Route path="/formdirector" element={<Formdirector />} />
           <Route path="/youtube-upload-test" element={<YoutubeUploadTest />} />
         </Route>

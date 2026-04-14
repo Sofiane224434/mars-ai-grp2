@@ -146,6 +146,13 @@ function Footer() {
                                 </p>
                             )}
                         </form>
+
+                        <Link
+                            to="/rgpd"
+                            className="mt-2 text-xs text-white/80 underline decoration-white/40 underline-offset-2 transition hover:text-jaune-simpson hover:decoration-jaune-simpson"
+                        >
+                            {t('footer.rgpd')}
+                        </Link>
                     </div>
                 </div>
 

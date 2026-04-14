@@ -6,18 +6,6 @@
     "faq": "FAQ",
     "participate": "Participate"
   },
-  "footer": {
-    "collaborator": "In collaboration with",
-    "textcontact": "Stay in touch",
-    "newsletter": "Newsletter subscription",
-    "emailplaceholder": "Your e-mail address",
-    "subscribe": "Subscribe to our newsletter",
-    "newsletterLoading": "Registration in progress...",
-    "newsletterSubscribeSuccess": "Registration confirmed. Thank you!",
-    "newsletterSubscribeError": "We&#x27;re unable to register you at this time.",
-    "newsletterInvalidEmail": "Please enter a valid email address.",
-    "rights": "All rights reserved"
-  },
   "home": {
     "HeroSection": "People at the heart of AI",
     "titles1": "1 MINUTE",
@@ -92,7 +80,7 @@
     "title": "MarsAi",
     "language": {
       "change": "Change language",
-      "french": "English",
+      "french": "French",
       "english": "English",
       "spanish": "Spanish",
       "arabic": "Arabic",

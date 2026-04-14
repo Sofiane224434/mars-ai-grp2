@@ -36,7 +36,7 @@ describe('Admin Service - getDashboardStats', () => {
     const result = await adminService.getDashboardStats();
 
     // C. Assertions de résultat
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       totalMovies: 12,
       moviesByStatus: {
         pending: 3,
@@ -50,6 +50,7 @@ describe('Admin Service - getDashboardStats', () => {
       },
       emailsPending: 2
     });
+    expect(result.updatedAt).toEqual(expect.any(String));
 
     // Assertions d'appels (Vérifie que la logique métier appelle bien la BDD)
     expect(adminModel.countTotalMovies).toHaveBeenCalledTimes(1);
@@ -73,7 +74,7 @@ describe('Admin Service - getDashboardStats', () => {
     const result = await adminService.getDashboardStats();
 
     // C. Vérification de la résilience du code (les valeurs par défaut fonctionnent)
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       totalMovies: 0,
       moviesByStatus: {
         pending: 0,
@@ -87,6 +88,7 @@ describe('Admin Service - getDashboardStats', () => {
       },
       emailsPending: 0
     });
+    expect(result.updatedAt).toEqual(expect.any(String));
   });
 
 });

@@ -113,7 +113,7 @@ function MovieDetail() {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+    return (match && match[2].length === 11) ? `https://www.youtube-nocookie.com/embed/${match[2]}` : null;
   };
 
   const getStatusBadgeFromDb = (statusId, statusLabel) => {
@@ -248,8 +248,6 @@ function MovieDetail() {
               <div>{movie.subtitles || "Non renseigné."}</div>
               <div className="text-gris-magneti font-medium">Screenshot :</div>
               <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
-              <div className="text-gris-magneti font-medium">Envoyé le :</div>
-              <div>{movie.createdAt || "01/01/2026"}</div>
             </>
           )}
 

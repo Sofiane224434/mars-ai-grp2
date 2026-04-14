@@ -100,6 +100,7 @@ export const postJuryCommentSchema = z.object({
     movieId: z.number().int().positive("L'ID du film est invalide."),
     content: z.string()
       .min(2, "La note doit contenir au moins 2 caractères.")
-      .max(2000, "La note est trop longue (maximum 2000 caractères).")
+            .max(2000, "La note est trop longue (maximum 2000 caractères.)"),
+        isPrivate: z.coerce.number().int().default(1)
   })
 });

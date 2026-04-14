@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -33,6 +33,8 @@ function AdminMovieDetails() {
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [showMoreDirectorInfo, setShowMoreDirectorInfo] = useState(false);
+  const [seenCommentsByMovie, setSeenCommentsByMovie] = useState({});
+  const commentsSectionRef = useRef(null);
 
   useEffect(() => {
     const resetState = () => {
@@ -58,7 +60,7 @@ function AdminMovieDetails() {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+    return (match && match[2].length === 11) ? `https://www.youtube-nocookie.com/embed/${match[2]}` : null;
   };
 
   const getStatusBadgeFromDb = (statusId, statusLabel) => {
@@ -91,6 +93,23 @@ function AdminMovieDetails() {
     }
   };
 
+  const goToComments = () => {
+    const totalComments = Array.isArray(movie?.publicComments) ? movie.publicComments.length : 0;
+    const key = movieId ? String(movieId) : null;
+
+    if (key) {
+      localStorage.setItem(`admin_seen_comments_${key}`, String(totalComments));
+      setSeenCommentsByMovie((prev) => ({
+        ...prev,
+        [key]: totalComments,
+      }));
+    }
+
+    if (commentsSectionRef.current) {
+      commentsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen background-gradient-black flex items-center justify-center">
@@ -114,6 +133,18 @@ function AdminMovieDetails() {
   // Assignations et IA
   const assignedJuries = movie.assignedJuries || [];
   const usedAis = movie.usedAis || [];
+  const totalComments = Array.isArray(movie.publicComments) ? movie.publicComments.length : 0;
+  const movieKey = movieId ? String(movieId) : null;
+  const storageKey = movieKey ? `admin_seen_comments_${movieKey}` : null;
+  const rawSeenFromStorage = storageKey ? localStorage.getItem(storageKey) : null;
+  const parsedSeenFromStorage = Number.parseInt(rawSeenFromStorage ?? '', 10);
+  const seenFromStorage = Number.isNaN(parsedSeenFromStorage)
+    ? 0
+    : Math.max(parsedSeenFromStorage, 0);
+  const seenCommentsCount = movieKey && Object.prototype.hasOwnProperty.call(seenCommentsByMovie, movieKey)
+    ? seenCommentsByMovie[movieKey]
+    : seenFromStorage;
+  const newCommentsCount = Math.max(0, totalComments - seenCommentsCount);
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
@@ -171,14 +202,32 @@ function AdminMovieDetails() {
 
           {/* Ligne 3 : Bouton Envoyer un email (Ton code) */}
           <div className="mt-4 pt-2 w-full max-w-sm flex flex-col items-center">
-            <Button
-              interactive
-              variant="email-admin"
-              className="h-12 min-h-12"
-              onClick={() => setEmailModalOpen(true)}
-            >
-              Envoyer un email
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                interactive
+                variant="email-admin"
+                className="h-12 min-h-12"
+                onClick={() => setEmailModalOpen(true)}
+              >
+                Envoyer un email
+              </Button>
+              <button
+                type="button"
+                onClick={goToComments}
+                className="relative inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-bleu-ciel/40 bg-bleu-canard/10 text-bleu-ciel transition-colors hover:bg-bleu-ciel/15"
+                title="Aller aux commentaires"
+                aria-label={newCommentsCount > 0 ? `Aller aux commentaires (${newCommentsCount} nouveaux)` : 'Aller aux commentaires'}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h6m5 8-4-3H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z" />
+                </svg>
+                {newCommentsCount > 0 && (
+                  <span className="absolute -right-1 -top-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-brulure-despespoir px-1 text-[10px] font-bold leading-none text-white shadow-md">
+                    {newCommentsCount > 99 ? '99+' : newCommentsCount}
+                  </span>
+                )}
+              </button>
+            </div>
             <p className="text-xs text-gris-magneti mt-2 italic">
               Contacter le réalisateur ({movie.directorEmail || movie.email || "Non renseigné"})
             </p>
@@ -236,8 +285,6 @@ function AdminMovieDetails() {
               <div>{movie.subtitles || "lien_vers_fichier_sous_titres"}</div>
               <div className="text-gris-magneti font-medium">Screenshots :</div>
               <div>{movie.screenshotLink || "Non renseigné."}</div>
-              <div className="text-gris-magneti font-medium">Envoyé le :</div>
-              <div>{movie.createdAt || "01/01/2026"}</div>
             </>
           )}
 
@@ -316,6 +363,26 @@ function AdminMovieDetails() {
               )}
             </button>
           </div>
+        </InfoPanel>
+
+        <InfoPanel title="Commentaires">
+          <div ref={commentsSectionRef} className="sm:col-span-2 h-0" aria-hidden="true" />
+          {movie.publicComments?.length > 0 ? (
+            movie.publicComments.map((comment) => (
+              <article key={comment.id} className="sm:col-span-2 rounded-2xl border border-bleu-ciel/12 bg-linear-to-br from-bleu-canard/20 via-reglisse to-noir-bleute p-4 shadow-[0_10px_24px_rgba(0,0,0,0.14)]">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <span className="text-xs text-gris-magneti/90">{comment.authorEmail || 'Auteur inconnu'}</span>
+                </div>
+                <p className="whitespace-pre-wrap text-sm leading-6 text-white/95">
+                  {comment.content}
+                </p>
+              </article>
+            ))
+          ) : (
+            <div className="sm:col-span-2 rounded-2xl border border-dashed border-gris-magneti/30 bg-white/5 px-4 py-5 text-sm text-gris-magneti">
+              Aucun commentaire pour ce film.
+            </div>
+          )}
         </InfoPanel>
 
       </div>

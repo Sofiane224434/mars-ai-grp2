@@ -115,6 +115,7 @@ export const getMovieByIdForAdmin = async (req, res) => {
       gender: movieData.gender || null,
       assignedJuries: movieData.assignedJuries || [],
       usedAis: movieData.usedAis || [],
+      publicComments: movieData.publicComments || [],
     });
   } catch (error) {
     console.error('Erreur Controller GET /admin/movies/:movieId :', error);

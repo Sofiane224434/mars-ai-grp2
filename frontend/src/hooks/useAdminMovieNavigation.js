@@ -16,7 +16,7 @@ export const useAdminMovieNavigation = (currentMovieId) => {
         setIsLoading(true);
         const token = localStorage.getItem('token');
         
-        const response = await axios.get(`${API_BASE_URL}/admin/movies/review`, {
+        const response = await axios.get(`${API_BASE_URL}/admin/movies`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true
         });

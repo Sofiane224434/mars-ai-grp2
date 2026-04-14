@@ -112,11 +112,11 @@ export const movieModel = {
         c.id,
         c.comment AS content,
         c.movie_id AS movieId,
-        c.isprivate AS isPrivate,
+        0 AS isPrivate,
         u.email AS authorEmail
       FROM comments c
       LEFT JOIN users u ON u.id = c.user_id
-      WHERE c.movie_id = ? AND COALESCE(c.isprivate, 1) = 0
+      WHERE c.movie_id = ?
       ORDER BY c.id ASC
     `;
     const publicComments = await query(sqlPublicComments, [movieId]);

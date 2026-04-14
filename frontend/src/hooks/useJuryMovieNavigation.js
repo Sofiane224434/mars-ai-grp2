@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import useFestivalPhase from './useFestivalPhase.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const useJuryMovieNavigation = (currentMovieId) => {
   const navigate = useNavigate();
+  const { currentPhase } = useFestivalPhase();
   // On récupère l'ID du jury depuis l'URL (si ta route est /dashboard/jury/:id/movies/:movieId)
   // S'il n'y a pas d'ID jury dans l'URL, tu peux le retirer.
   const { id: juryId } = useParams();
@@ -22,7 +24,10 @@ export const useJuryMovieNavigation = (currentMovieId) => {
         setNavigationError(null);
         const token = localStorage.getItem('token');
         const response = await axios.get(`${API_BASE_URL}/jury/movies`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          headers: token ? {
+            Authorization: `Bearer ${token}`,
+            'x-festival-phase-index': String(currentPhase),
+          } : undefined,
           withCredentials: true
         });
 
@@ -54,7 +59,7 @@ export const useJuryMovieNavigation = (currentMovieId) => {
     };
 
     fetchAssignedMovies();
-  }, []); // Exécuté une seule fois au montage
+  }, [currentPhase]); // Rechargé quand la phase change
 
   // Calcul des index (en s'assurant de comparer des nombres)
   const currentId = parseInt(currentMovieId, 10);

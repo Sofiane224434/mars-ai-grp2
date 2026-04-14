@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4];
+const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4, 5];
 
 const movieIdSchema = z.coerce
     .number({
@@ -18,7 +18,7 @@ const voteStatusIdSchema = z
     .int("L'ID doit etre un nombre entier.")
     .positive("L'ID doit etre superieur a zero.")
     .refine((value) => ALLOWED_VOTE_STATUS_IDS.includes(value), {
-        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3 ou 4."
+        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3, 4 ou 5."
     });
 
 const responseStatusIdSchema = z.coerce
@@ -88,19 +88,19 @@ export const movieDetailResponseSchema = z.object({
 //-------------------------------------COMMENTAIRES----------------------------------------------------//
 // Schéma pour GET /api/jury/comments?movieId=X
 export const getJuryCommentsSchema = z.object({
-  query: z.object({
-    // Tout ce qui vient de l'URL (query) est une string, on vérifie que c'est bien un nombre
-    movieId: z.string().regex(/^\d+$/, "Le paramètre movieId doit être un nombre entier valide.")
-  })
+    query: z.object({
+        // Tout ce qui vient de l'URL (query) est une string, on vérifie que c'est bien un nombre
+        movieId: z.string().regex(/^\d+$/, "Le paramètre movieId doit être un nombre entier valide.")
+    })
 });
 
 // Schéma pour POST /api/jury/comments
 export const postJuryCommentSchema = z.object({
-  body: z.object({
-    movieId: z.number().int().positive("L'ID du film est invalide."),
-    content: z.string()
-      .min(2, "La note doit contenir au moins 2 caractères.")
+    body: z.object({
+        movieId: z.number().int().positive("L'ID du film est invalide."),
+        content: z.string()
+            .min(2, "La note doit contenir au moins 2 caractères.")
             .max(2000, "La note est trop longue (maximum 2000 caractères.)"),
         isPrivate: z.coerce.number().int().default(1)
-  })
+    })
 });

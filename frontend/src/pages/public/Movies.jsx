@@ -1,7 +1,17 @@
 // pages/Movies.jsx
 import { useTranslation } from "react-i18next";
+import useFestivalPhase from "../../hooks/useFestivalPhase";
+
+const PHASE_LABELS = [
+    "movies.current-phase",
+    "movies.phase-judgment",
+    "movies.phase-top50",
+    "movies.phase-top5",
+];
+
 function Movies() {
     const { t } = useTranslation();
+    const { currentPhase } = useFestivalPhase();
 
     return (
         <div className="min-h-screen bg-gris-anthracite text-white">
@@ -16,7 +26,7 @@ function Movies() {
 
                 <div className="mt-10 flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-6 backdrop-blur-sm">
                     <span className="text-sm uppercase tracking-widest text-white/40">{t("movies.current-phase-label")}</span>
-                    <span className="text-xl font-semibold text-jaune-simpson">{t("movies.current-phase")}</span>
+                    <span className="text-xl font-semibold text-jaune-simpson">{t(PHASE_LABELS[currentPhase])}</span>
                 </div>
             </section>
         </div>

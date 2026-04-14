@@ -5,6 +5,7 @@ import axios from 'axios';
 // Hooks
 import { useAdminMovieNavigation } from '../../../hooks/useAdminMovieNavigation.js';
 import useApi from '../../../hooks/useApi.js';
+import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 // Composants UI
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
@@ -19,6 +20,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 function AdminMovieDetails() {
   const { movieId } = useParams();
+  const { currentPhase } = useFestivalPhase();
   const { canPrev, canNext, goPrev, goNext } = useAdminMovieNavigation(movieId);
 
   const {
@@ -128,10 +130,29 @@ function AdminMovieDetails() {
     );
   }
 
-  const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
-
   // Assignations et IA
   const assignedJuries = movie.assignedJuries || [];
+  const currentStatus = (currentPhase === 1 && assignedJuries.length === 0)
+    ? { variant: 'pending', label: 'En attente' }
+    : getStatusBadgeFromDb(movie.statusId, movie.status);
+  const showAssignmentControls = currentPhase === 0;
+  const showAssignedJuriesInJudgmentPhase = currentPhase === 1 && assignedJuries.length > 0 && movie.statusId !== 5;
+  const juryDecisionLabel = (() => {
+    if (currentPhase !== 1) {
+      return 'Vidéo assignée à :';
+    }
+
+    switch (movie.statusId) {
+      case 4:
+        return 'Vidéo validée par :';
+      case 2:
+        return 'Vidéo refusée par :';
+      case 3:
+        return 'Vidéo mise en revue par :';
+      default:
+        return 'Vidéo non jugée par :';
+    }
+  })();
   const usedAis = movie.usedAis || [];
   const totalComments = Array.isArray(movie.publicComments) ? movie.publicComments.length : 0;
   const movieKey = movieId ? String(movieId) : null;
@@ -178,26 +199,30 @@ function AdminMovieDetails() {
             <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
           </div>
 
-          {/* Ligne 2 : Assignation Jury OU Bouton d'assignation */}
-          {assignedJuries.length > 0 ? (
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-white font-medium">Vidéo assignée à :</span>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {assignedJuries.map((jury, index) => (
-                  <div key={index} className="bg-bleu-ciel text-black px-3 py-1 rounded-sm font-bold text-sm flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
-                    {jury.name}
-                  </div>
-                ))}
+          {/* Ligne 2 : Assignation Jury OU Bouton d'assignation (phase 1 uniquement) */}
+          {(showAssignmentControls || showAssignedJuriesInJudgmentPhase) && (
+            assignedJuries.length > 0 ? (
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-white font-medium">{juryDecisionLabel}</span>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {assignedJuries.map((jury, index) => (
+                    <div key={index} className="bg-bleu-ciel text-black px-3 py-1 rounded-sm font-bold text-sm flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                      {jury.name}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-3 mt-2">
-              <span className="text-gris-magneti text-sm italic">Cette vidéo n'est pas encore assignée.</span>
-              <Button interactive variant="email-send" onClick={() => console.log("Ouvrir modale assignation")}>
-                Assigner cette vidéo à un jury
-              </Button>
-            </div>
+            ) : (
+              showAssignmentControls && (
+                <div className="flex flex-col items-center gap-3 mt-2">
+                  <span className="text-gris-magneti text-sm italic">Cette vidéo n'est pas encore assignée.</span>
+                  <Button interactive variant="email-send" onClick={() => console.log("Ouvrir modale assignation")}>
+                    Assigner cette vidéo à un jury
+                  </Button>
+                </div>
+              )
+            )
           )}
 
           {/* Ligne 3 : Bouton Envoyer un email (Ton code) */}

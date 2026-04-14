@@ -37,6 +37,42 @@ export const getAssignedMoviesByUser = async (userId) => {
   return await query(sql, [userId]);
 };
 
+// Recuperer tous les films pour la phase de jugement (sans contrainte d'assignation)
+export const getAllMoviesForJudgmentPhase = async () => {
+  const sql = `
+    SELECT
+      m.id,
+      m.title_original,
+      m.title_original AS title,
+      m.title_english,
+      m.language,
+      m.classification,
+      m.thumbnail,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
+      m.status AS statusId,
+      s.status AS statusLabel,
+      s.status AS status,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName,
+      m.created_at,
+      m.updated_at
+    FROM movies m
+    LEFT JOIN status s ON s.id = m.status
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.status IN (4, 5)
+    ORDER BY m.id ASC
+  `;
+
+  return await query(sql);
+};
+
 // Verifier que le film est bien assigne a ce jury
 export const isMovieAssignedToUser = async (movieId, userId) => {
   const sql = `
@@ -54,6 +90,18 @@ export const isMovieAssignedToUser = async (movieId, userId) => {
 export const updateMovieStatus = async (movieId, statusId) => {
   const sql = "UPDATE movies SET status = ? WHERE id = ?";
   return await query(sql, [statusId, movieId]);
+};
+
+export const getMovieStatusById = async (movieId) => {
+  const sql = 'SELECT status FROM movies WHERE id = ? LIMIT 1';
+  const rows = await query(sql, [movieId]);
+  return rows?.[0]?.status ?? null;
+};
+
+export const countMoviesByStatus = async (statusId) => {
+  const sql = 'SELECT COUNT(*) AS count FROM movies WHERE status = ?';
+  const rows = await query(sql, [statusId]);
+  return Number(rows?.[0]?.count || 0);
 };
 
 // Récupérer les détails d'un film ET vérifier s'il est assigné au juré
@@ -127,7 +175,7 @@ export const getMovieDetailById = async (movieId, userId) => {
 
   // Le paramètre 1 (userId) remplace le premier ?, le paramètre 2 (movieId) le second ?
   const rows = await query(sql, [userId, movieId]);
-  
+
   // Retourne la ligne si le film existe, sinon undefined
   const row = rows.length > 0 ? rows[0] : null;
   if (!row) return null;

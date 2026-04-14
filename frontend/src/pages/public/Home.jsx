@@ -7,7 +7,7 @@ import QuickAccessSection from '../../components/sections/ConceptFestival/QuickA
 function Home() {
 
     return (
-        
+
         <main className='background-gradient-black '>
             <>
                 <HeroSection />
@@ -16,7 +16,7 @@ function Home() {
                 <QuickAccessSection />
             </>
         </main>
-      
+
     );
 }
 

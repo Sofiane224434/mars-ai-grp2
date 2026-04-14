@@ -21,6 +21,10 @@ const FILTER_TONE_CLASSES = {
     bg: "bg-bleu-bulma",
     text: "text-gris-anthracite",
   },
+  top50: {
+    bg: "bg-bleu-ocean",
+    text: "text-white",
+  },
 };
 
 const Filter = ({

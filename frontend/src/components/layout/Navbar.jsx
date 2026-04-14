@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button.jsx';
+import useFestivalPhase from '../../hooks/useFestivalPhase.js';
 
 function Navbar({ isRounded = false }) {
 
   //Pour ouvrir ou fermer le menu hamburger
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const { isSubmissionPhase } = useFestivalPhase();
   const faqLabel = t('nav.faq');
   const faqButtonClass = faqLabel.length > 12 ? 'text-sm leading-tight px-2 whitespace-normal' : '';
 
@@ -47,9 +49,11 @@ function Navbar({ isRounded = false }) {
           <Link to="/faq">
             <Button variant="neon-yellow" className={faqButtonClass}>{faqLabel}</Button>
           </Link>
-          <Link to="/participate">
-            <Button variant="gradient-blue">{t('nav.participate')}</Button>
-          </Link>
+          {isSubmissionPhase && (
+            <Link to="/participate">
+              <Button variant="gradient-blue">{t('nav.participate')}</Button>
+            </Link>
+          )}
 
         </div>
       </div>
@@ -69,9 +73,11 @@ function Navbar({ isRounded = false }) {
           <Link to="/faq" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center border-t border-white/10 my-2">
             <Button variant="neon-yellow" className={`w-full ${faqButtonClass}`}>{faqLabel}</Button>
           </Link>
-          <div className="w-[80%] max-w-70 flex justify-center">
-            <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
-          </div>
+          {isSubmissionPhase && (
+            <Link to="/participate" onClick={() => setIsOpen(false)} className="w-[80%] max-w-70 flex justify-center">
+              <Button variant="gradient-blue" className="w-full">{t('nav.participate')}</Button>
+            </Link>
+          )}
         </div>
       )}
 

@@ -20,6 +20,10 @@ const STATUS_VARIANTS = {
     container: "bg-gris-magneti border-gray-800 text-gray-800",
     icon: icon_wait,
   },
+  top50: {
+    container: "bg-bleu-ocean border-blue-900 text-white",
+    icon: icon_valid,
+  },
 };
 
 const StatusBadge = ({

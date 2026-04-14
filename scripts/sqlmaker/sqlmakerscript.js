@@ -30,6 +30,8 @@ for (let o in dataWanted) {
     }
 }
 
+let available_tables = Object.keys(myobj);
+
 //console.log(myobj);
 
 /**
@@ -38,8 +40,6 @@ for (let o in dataWanted) {
  * @returns 
  */
 function createSQLInsert({ tablename, named = false }) {
-
-    let available_tables = Object.keys(myobj);
 
     if (!myobj[tablename]) {
         console.warn("Il semble que cette table n'existe pas... " +
@@ -72,15 +72,13 @@ function createSQLInsert({ tablename, named = false }) {
                 i_values += start_par;
             }
             i_insert += myrows[i];
-            if (tablename == "movies" && myrows[i] == "status") {
-                i_values += "1";
+
+            if (named) {
+                i_values += ":" + myrows[i];
             } else {
-                if (named) {
-                    i_values += ":" + myrows[i];
-                } else {
-                    i_values += "?";
-                }
+                i_values += "?";
             }
+
 
             available_tables += myrows[i];
             if (i < myrows.length - 1) {
@@ -206,6 +204,10 @@ LEFT JOIN socials on socials.movie_id = movies.id
 }
 
 function getAvailableRows(tablename) {
+    if (!available_tables.includes(tablename)) {
+        return null;
+    }
+
     let stringtable = "";
 
     let myrows = myobj[tablename]
@@ -226,14 +228,50 @@ function getAvailableRows(tablename) {
     return stringtable;
 }
 
+function createSQLNamedObject(tablename) {
+    if (!available_tables.includes(tablename)) {
+        return null;
+    }
+
+    let namedobject = "";
+
+    const mytable = myobj[tablename];
+
+    for (let i in mytable) {
+        if (i == 0) {
+            namedobject += "{";
+        }
+        if (mytable[i] != "id") {
+            namedobject += mytable[i] + ":" + '""';
+        }
+        if (i < mytable.length - 1 && namedobject.length > 1) {
+            namedobject += ", ";
+        }
+        if (i == mytable.length - 1) {
+            namedobject += "}";
+        }
+    }
+
+    return namedobject;
+
+}
+
 let sql_list = [
-    createSQLInsert({ tablename: "movies" }),
-    createSQLInsert({ tablename: "director_profile" }),
-    createSQLInsert({ tablename: "sound_data" }),
-    createSQLInsert({ tablename: "used_ai" }),
-    createSQLInsert({ tablename: "socials" }),
-    createSQLInsert({ tablename: "screenshots" }),
-    createSQLSelectMoviedata({})
+    "---CODE à COPIER COLLER POUR LES REQUÊTES SQL---",
+    createSQLInsert({ tablename: "movies", named: true }) + ";",
+    createSQLInsert({ tablename: "director_profile", named: true }) + ";",
+    createSQLInsert({ tablename: "sound_data", named: true }) + ";",
+    createSQLInsert({ tablename: "used_ai", named: true }) + ";",
+    createSQLInsert({ tablename: "socials", named: true }) + ";",
+    createSQLInsert({ tablename: "screenshots", named: true }) + ";",
+    createSQLSelectMoviedata({}),
+    "Modèles d'objets à rentrer dans la BDD : ",
+    "movies = " + createSQLNamedObject("movies"),
+    "director_profile = " + createSQLNamedObject("director_profile"),
+    "sound_data = " + createSQLNamedObject("sound_data"),
+    "used_ai = " + createSQLNamedObject("used_ai"),
+    "socials = " + createSQLNamedObject("socials"),
+    "screenshots = " + createSQLNamedObject("screenshots")
 ];
 
 let sql = "";

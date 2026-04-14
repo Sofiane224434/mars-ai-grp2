@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "../ui/Button"
 
 export default function FormStepsButtons({ step, maxstep, verificationFunction,
@@ -7,10 +8,12 @@ export default function FormStepsButtons({ step, maxstep, verificationFunction,
 
     //const [currentStep, setCurrentStep] = useState(step);
 
+    const { t } = useTranslation();
+
     const btnClass = "appearance-none [&_.btn-bg-base]:h-full [&_.btn-bg-base]:top-0 [&_.btn-bg-base]:rounded-full"
-    const NextBtn = <Button variant="filled-yellow" interactive type="button" onClick={increaseStep} className={btnClass}>Suivant {">"}</Button>
-    const PrevBtn = <Button variant="filled-yellow" interactive type="button" onClick={decreaseStep} className={btnClass}>{"<"} Précédent</Button>
-    const SubmitBtn = <Button variant="filled-yellow" interactive type="submit" className={btnClass}>Envoyer</Button>
+    const NextBtn = <Button variant="filled-yellow" interactive type="button" onClick={increaseStep} className={btnClass}>{t("form.next")} {">"}  </Button>
+    const PrevBtn = <Button variant="filled-yellow" interactive type="button" onClick={decreaseStep} className={btnClass}>{"<"} {t("form.previous")}</Button>
+    const SubmitBtn = <Button variant="filled-yellow" interactive type="submit" className={btnClass}>{t("form.send")}</Button>
 
     //Gestion d'erreurs pour être sûr d'avoir toutes les fonctions et params nécessaires
     if (!step) {

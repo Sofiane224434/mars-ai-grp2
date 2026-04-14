@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 //import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
@@ -10,6 +11,7 @@ import StepsTrack from "./StepsTrack";
 
 export default function FormParent() {
 
+    const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState(1);
     const formTopRef = useRef(null);
 
@@ -90,7 +92,7 @@ export default function FormParent() {
 
     return (
         <div ref={formTopRef} className="flex flex-col items-center gap-6 bg-brun-brule pb-10">
-            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule py-6 text-center text-4xl font-bold text-jaune-souffre">Envoyez votre vidéo</div>
+            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule py-6 text-center text-4xl font-bold text-jaune-souffre">{t("form.title")}</div>
             <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
             <form className="flex w-[90%] flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-jaune-souffre">
                 {myforms.map(form => { return form }

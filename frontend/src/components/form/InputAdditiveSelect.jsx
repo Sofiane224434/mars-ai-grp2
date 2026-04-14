@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 /**
  * Permet de générer un input de type select additif, pour les cas où qqun peut ajouter 
@@ -12,6 +13,8 @@ import { useState, useEffect } from "react";
 export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle,
     valueother, getValuesFunc, declareSelfFunc, formstep = null
 }) {
+
+    const { t } = useTranslation();
 
     //Valeurs pour le premier input
     const [firstInput, setFirstInput] = useState("");
@@ -35,7 +38,7 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
     //Ceci est important pour que la valeur par défaut soit vide afin que l'utilisateur
     //n'oublie pas de faire son choix.
     if (options[0].props.value != "") {
-        let newoption = <option disabled selected value={""}>Sélectionnez...</option>;
+        let newoption = <option disabled selected value={""}>{t("form.select")}</option>;
         options = [newoption].concat(options);
     }
 
@@ -207,7 +210,7 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
                 <select onChange={(e) => { setFirstInput(e.target.value) }} className={selectClass}>
                     {myoptionmap}
                 </select>
-                {checkforOther(firstInput) && <input type="text" placeholder="Précisez..."
+                {checkforOther(firstInput) && <input type="text" placeholder={t("form.specify")}
                     onChange={(e) => { setFirstInputText(e.target.value) }} className={textInputClass}></input>}
             </div>
 
@@ -224,13 +227,13 @@ export default function InputAdditiveSelect({ name, addlimit = 5, options, label
                                 ✕
                             </button>
                         </div>
-                        {checkforOther(selectValues[index]) && <input type="text" placeholder="Précisez..."
+                        {checkforOther(selectValues[index]) && <input type="text" placeholder={t("form.specify")}
                             onChange={(e) => { updateTextValues(e, index) }} className={textInputClass}></input>}
                     </div>
                 )
             })}
 
-            <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : "Ajouter"}</button>
+            <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : t("form.add")}</button>
         </div>
     )
 }

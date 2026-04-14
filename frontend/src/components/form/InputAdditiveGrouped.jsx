@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 /**
  * Permet de créer un groupe d'input additif, pour les cas où qqun peut ajouter 
@@ -18,6 +19,8 @@ import { useState, useEffect } from "react"
 export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
     getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput,
     classContainer, classLabel, classGroup, formstep = null }) {
+
+    const { t } = useTranslation();
 
     //Vérification que chaque noms soient uniques
     if (new Set(inputnames).size !== inputnames.length) {
@@ -187,7 +190,7 @@ export default function InputAdditiveGrouped({ name, inputnames, labels, addlimi
             })}
 
             {myValues.length < (addlimit - 1) &&
-                <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : "Ajouter"}</button>}
+                <button type="button" onClick={addInput} className={btnAddClass}>(+) {btntitle ? btntitle : t("form.add")}</button>}
         </div>
     )
 }

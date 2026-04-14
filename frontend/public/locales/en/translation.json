@@ -4,8 +4,7 @@
     "movies": "Movies",
     "about": "About",
     "faq": "FAQ",
-    "participate": "Participate",
-    "movies": "Movies"
+    "participate": "Participate"
   },
   "footer": {
     "collaborator": "In collaboration with",
@@ -13,12 +12,11 @@
     "newsletter": "Newsletter subscription",
     "emailplaceholder": "Your e-mail address",
     "subscribe": "Subscribe to our newsletter",
-    "newsletterLoading": "Subscribing...",
-    "newsletterSubscribeSuccess": "Subscription confirmed. Thank you!",
-    "newsletterSubscribeError": "Unable to subscribe right now.",
+    "newsletterLoading": "Registration in progress...",
+    "newsletterSubscribeSuccess": "Registration confirmed. Thank you!",
+    "newsletterSubscribeError": "We&#x27;re unable to register you at this time.",
     "newsletterInvalidEmail": "Please enter a valid email address.",
     "rights": "All rights reserved"
-    "participate": "Join"
   },
   "home": {
     "HeroSection": "People at the heart of AI",
@@ -106,14 +104,6 @@
       "japanese": "Japanese"
     }
   },
-  "footer": {
-    "collaborator": "In collaboration with",
-    "textcontact": "Stay in touch",
-    "newsletter": "Subscribe to the newsletter",
-    "emailplaceholder": "Your email address",
-    "subscribe": "Sign up for the newsletter",
-    "rights": "All rights reserved"
-  },
   "movies": {
     "empty-title": "Coming soon",
     "empty-description": "The 50 films selected by the jury will be posted here once the submission period has ended. Check back soon!",
@@ -128,5 +118,104 @@
     "seconds": "Seconds",
     "top50": "Top 50",
     "participate": "Join"
+  },
+  "form": {
+    "title": "Submit your video",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "SEND",
+    "send": "Send",
+    "add": "Add",
+    "select": "Select...",
+    "specify": "Please specify...",
+    "step1": {
+      "title": "Step 1: Movie Profile",
+      "movieTitle": "Movie Title",
+      "movieTitleFr": "Film title translated into French (if possible)",
+      "synopsis": "Synopsis (summary) of your film:",
+      "movieLanguage": "Language of your film (if it contains dialogue or text)",
+      "soundbankCheck": "This video contains music and/or uses sound effects.",
+      "soundbankAdd": "ADD A SOUNDBANK/MUSIC",
+      "soundbankLabel": "Please list the sound banks or music used.",
+      "ytLink": "YouTube link to this video:"
+    },
+    "step2": {
+      "title": "Step 2: Declaration of AI Use",
+      "aiUsedFor": "You have used AI to:",
+      "aiScenario": "Script generation",
+      "aiVideo": "Video production",
+      "aiPostprod": "The post-production generation",
+      "chooseAIs": "Select the AI models to use.",
+      "aiGemini": "Google (Gemini)",
+      "aiMidjourney": "Midjourney",
+      "aiChatGPT": "OpenAI (ChatGPT)",
+      "aiClaude": "Anthropic (Claude)",
+      "aiGrok": "Grok",
+      "aiOther": "Other...",
+      "classificationLabel": "Select your film&#x27;s rating:",
+      "classificationAllAI": "Fully generated (100% AI)",
+      "classificationHybrid": "Hybrid production (live-action footage + AI-generated content)",
+      "promptsLabel": "Prompts you used for AI generation:",
+      "errorAtLeastOne": "You must select at least one."
+    },
+    "step3": {
+      "title": "Step 3: Multimedia and Accessibility",
+      "thumbnail": "The thumbnail for your film (an image that will be used to represent it):",
+      "screenshots": "Here are a few screenshots from your movie:",
+      "dialogueCheck": "This film contains dialogue",
+      "srtLabel": "Please provide a subtitle file (.srt):",
+      "errorAtLeastOneScreenshot": "You must provide at least one screenshot."
+    },
+    "step4": {
+      "title": "Step 4: Your Information",
+      "lastName": "Last Name",
+      "firstName": "First name",
+      "gender": "Title:",
+      "genderMale": "Sir",
+      "genderFemale": "Madam",
+      "genderOther": "Other",
+      "socials": "Your social media accounts:",
+      "socialName": "Name of the social network",
+      "socialLink": "Social media link",
+      "email": "Email",
+      "phone": "Phone number",
+      "birthdate": "Date of birth",
+      "country": "Current country of residence",
+      "address": "Your address",
+      "address2": "Your address, line 2",
+      "postalCode": "Zip code",
+      "city": "City",
+      "marketingLabel": "How did you hear about the MarsAI festival?",
+      "marketingWordOfMouth": "Word of mouth",
+      "marketingSocialMedia": "On social media",
+      "marketingNews": "Through a newspaper",
+      "marketingSchool": "Through my school",
+      "marketingPoster": "Through a sign or a flyer",
+      "marketingOther": "Other (please specify)",
+      "specifyLabel": "Please specify:",
+      "tosCheck": "I agree to the terms of use.",
+      "rulesCheck": "I agree to the MarsAI Festival&#x27;s video submission guidelines.",
+      "errorTos": "You must agree to the terms of use.",
+      "errorRules": "You must agree to the festival rules.",
+      "errorAge": "You must be at least 18 years old to participate."
+    },
+    "validation": {
+      "required": "Please fill in this field.",
+      "invalidFormat": "The format of this field is invalid.",
+      "textTooLong": "Text is too long; it must be less than {{max}} characters.",
+      "textTooShort": "Text is too short; it must be at least {{min}} characters long.",
+      "notANumber": "Error: This is not a number.",
+      "numberTooSmall": "The number must be greater than: {{min}}.",
+      "numberTooLarge": "The number must be less than: {{max}}.",
+      "invalidDate": "Invalid format; must be a date (year-month-day)",
+      "dateTooLate": "The date must not be later than {{max}}.",
+      "dateTooEarly": "The date must be later than {{min}}.",
+      "videoRequired": "You must upload a video file.",
+      "noFile": "No files were found.",
+      "notVideo": "The file must be in video format (.mp4 or .mov).",
+      "fileTooLarge": "The file is too large; it must be less than {{max}} MB.",
+      "fileTooSmall": "The file is too small; it must be at least {{min}} MB.",
+      "notImage": "The file must be in image format (.png / .jpeg / .jpg)."
+    }
   }
 }

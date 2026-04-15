@@ -16,56 +16,58 @@ const FALLBACK_SVG = (
 
 const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
   const [imageError, setImageError] = useState(false);
-  
+
   const movieTitle = movie?.title || movie?.title_original || 'Film sans titre';
   const movieId = movie?.movieID || movie?.id;
   const detailPath = `/dashboard/admin/movies/${movieId}`;
-  
+
   const getCardStyle = (statusId) => {
-    switch(statusId) {
+    switch (statusId) {
       case 2: return 'bg-brulure-despespoir/10 border border-red-500/50 hover:border-red-600 hover:shadow-[0_0_15px_rgba(220,38,38,0.3)]';
       case 3: return 'bg-[#fdff6b]/10 border border-[#fdff6b]/50 hover:border-[#fdff6b] hover:shadow-[0_0_15px_rgba(253,255,107,0.2)]';
       case 4: return 'bg-bleu-canard/10 border border-vert-insecateur/50 hover:border-vert-picollo hover:shadow-[0_0_15px_rgba(0,128,128,0.4)]';
+      case 5: return 'bg-bleu-ocean/10 border border-bleu-ocean/50 hover:border-bleu-ocean hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]';
+      case 6: return 'bg-bleu-ocean/10 border border-bleu-ocean/50 hover:border-bleu-ocean hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]';
       default: return 'bg-reglisse border border-gris-magneti/30 hover:border-bleu-ciel/50';
     }
   };
 
   const getStatusLabel = (statusId) => {
-    switch(statusId) {
+    switch (statusId) {
       case 2: return { variant: 'rejected', label: 'REFUSÉ' };
       case 3: return { variant: 'review', label: 'À REVOIR' };
       case 4: return { variant: 'approved', label: 'VALIDÉ' };
+      case 5: return { variant: 'top50', label: 'TOP 50' };
+      case 6: return { variant: 'top5', label: 'TOP 5' };
       default: return { variant: 'pending', label: 'EN ATTENTE' };
     }
   };
 
   // On affine un peu la bordure selon le mode pour que la liste ne soit pas trop "lourde"
-  const cardStyle = layout === 'grid' 
-    ? getCardStyle(movie.statusId).replace(/border /g, 'border-4 ') 
+  const cardStyle = layout === 'grid'
+    ? getCardStyle(movie.statusId).replace(/border /g, 'border-4 ')
     : getCardStyle(movie.statusId);
 
   const statusInfo = getStatusLabel(movie.statusId);
 
   return (
-    <div className={`flex backdrop-blur-sm transition-all duration-300 ${cardStyle} ${
-      layout === 'list' 
-        ? 'flex-col md:flex-row items-start md:items-center p-3 gap-4 md:gap-6 rounded-xl w-full overflow-hidden' 
+    <div className={`flex backdrop-blur-sm transition-all duration-300 ${cardStyle} ${layout === 'list'
+        ? 'flex-col md:flex-row items-start md:items-center p-3 gap-4 md:gap-6 rounded-xl w-full overflow-hidden'
         : 'flex-col rounded-2xl overflow-hidden'
-    }`}>
-      
+      }`}>
+
       {/* 1. LA MINIATURE : Pleine largeur en mode Grille, très petite en mode Liste */}
-      <Link 
-        to={detailPath} 
-        className={`relative shrink-0 group overflow-hidden ${
-          layout === 'list' 
-            ? 'w-full md:w-40 aspect-video rounded-lg' 
+      <Link
+        to={detailPath}
+        className={`relative shrink-0 group overflow-hidden ${layout === 'list'
+            ? 'w-full md:w-40 aspect-video rounded-lg'
             : 'w-full aspect-video'
-        }`}
+          }`}
       >
         {imageError ? FALLBACK_SVG : (
-          <img 
+          <img
             src={movie.thumbnail || movie.screenshotLink || DEFAULT_THUMBNAIL}
-            alt={`Vignette de ${movieTitle}`} 
+            alt={`Vignette de ${movieTitle}`}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
             onError={() => setImageError(true)}
             onLoad={() => setImageError(false)}
@@ -74,12 +76,11 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
       </Link>
 
       {/* 2. LE CONTENU PRINCIPAL */}
-      <div className={`flex grow ${
-        layout === 'list' 
-          ? 'flex-col md:flex-row md:items-center justify-between gap-4 w-full min-w-0' 
+      <div className={`flex grow ${layout === 'list'
+          ? 'flex-col md:flex-row md:items-center justify-between gap-4 w-full min-w-0'
           : 'flex-col p-5'
-      }`}>
-        
+        }`}>
+
         {/* Textes (Titre + Réalisateur) */}
         <div className={`flex flex-col ${layout === 'list' ? 'flex-1 min-w-0' : ''}`}>
           {layout === 'grid' && (
@@ -90,16 +91,15 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
             </div>
           )}
 
-          <h2 className={`font-bold text-white font-title ${
-            layout === 'list' ? 'text-lg leading-tight whitespace-normal wrap-break-word' : 'text-xl mb-1 line-clamp-1'
-          }`} title={movieTitle}>
+          <h2 className={`font-bold text-white font-title ${layout === 'list' ? 'text-lg leading-tight whitespace-normal wrap-break-word' : 'text-xl mb-1 line-clamp-1'
+            }`} title={movieTitle}>
             {movieTitle}
           </h2>
-          
+
           <p className={`text-sm text-gris-magneti ${layout === 'list' ? 'whitespace-normal wrap-break-word' : 'mb-6'}`}>
             Par <span className="text-bleu-ciel font-medium">{movie.directorFirstName} {movie.directorLastName}</span>
           </p>
-          
+
           {/* Sur mobile en mode liste, on met le statut sous le titre */}
           {layout === 'list' && (
             <div className="mt-2 sm:hidden">
@@ -120,19 +120,17 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
         )}
 
         {/* 4. LES BOUTONS : Repoussés à droite en mode Liste */}
-        <div className={`flex gap-3 shrink-0 ${
-          layout === 'list' 
-            ? 'flex-col md:flex-row items-stretch md:items-center md:ml-auto w-full md:w-auto min-w-0' 
+        <div className={`flex gap-3 shrink-0 ${layout === 'list'
+            ? 'flex-col md:flex-row items-stretch md:items-center md:ml-auto w-full md:w-auto min-w-0'
             : 'mt-auto flex-col sm:flex-row sm:items-stretch'
-        }`}>
+          }`}>
           <Link to={detailPath} className={layout === 'grid' ? 'flex-1' : 'w-full md:w-auto'}>
-            <button className={`w-full h-full rounded-xl border-2 border-turquoise-vif/50 text-white text-sm font-medium hover:bg-gris-magneti/20 transition-colors flex items-center justify-center whitespace-nowrap ${
-              layout === 'list' ? 'px-4 py-2 min-h-9' : 'px-4 py-2 min-h-10'
-            }`}>
+            <button className={`w-full h-full rounded-xl border-2 border-turquoise-vif/50 text-white text-sm font-medium hover:bg-gris-magneti/20 transition-colors flex items-center justify-center whitespace-nowrap ${layout === 'list' ? 'px-4 py-2 min-h-9' : 'px-4 py-2 min-h-10'
+              }`}>
               Détails
             </button>
           </Link>
-          
+
           <div className={layout === 'grid' ? 'flex-1' : 'w-full md:w-auto'}>
             <Button
               interactive

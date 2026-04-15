@@ -235,53 +235,53 @@ const AdminEmailConfirmation = () => {
               {/* Desktop */}
               <div className="hidden lg:flex items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
-                    {currentPhase >= 1 && (
-                      <Filter
-                        variant="top50"
-                        checked={selectedFilters.status.includes('top50')}
-                        onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
-                      >
-                        Top 50
-                      </Filter>
-                    )}
-                    {currentPhase >= 2 && (
-                      <Filter
-                        variant="top5"
-                        checked={selectedFilters.status.includes('top5')}
-                        onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
-                      >
-                        Top 5
-                      </Filter>
-                    )}
+                  {currentPhase >= 1 && (
                     <Filter
-                      variant="approved"
-                      checked={selectedFilters.status.includes('approved')}
-                      onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                      variant="top50"
+                      checked={selectedFilters.status.includes('top50')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
                     >
-                      Validé
+                      Top 50
                     </Filter>
+                  )}
+                  {currentPhase >= 2 && (
                     <Filter
-                      variant="rejected"
-                      checked={selectedFilters.status.includes('rejected')}
-                      onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                      variant="top5"
+                      checked={selectedFilters.status.includes('top5')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
                     >
-                      Refusé
+                      Top 5
                     </Filter>
-                    <Filter
-                      variant="review"
-                      checked={selectedFilters.status.includes('review')}
-                      onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
-                    >
-                      À revoir
-                    </Filter>
-                    <Filter
-                      variant="pending"
-                      checked={selectedFilters.status.includes('pending')}
-                      onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
-                    >
-                      En attente
-                    </Filter>
-                  </div>
+                  )}
+                  <Filter
+                    variant="approved"
+                    checked={selectedFilters.status.includes('approved')}
+                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                  >
+                    Validé
+                  </Filter>
+                  <Filter
+                    variant="rejected"
+                    checked={selectedFilters.status.includes('rejected')}
+                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                  >
+                    Refusé
+                  </Filter>
+                  <Filter
+                    variant="review"
+                    checked={selectedFilters.status.includes('review')}
+                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                  >
+                    À revoir
+                  </Filter>
+                  <Filter
+                    variant="pending"
+                    checked={selectedFilters.status.includes('pending')}
+                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                  >
+                    En attente
+                  </Filter>
+                </div>
                 <Button
                   interactive
                   className="shrink-0 self-center flex items-center justify-center text-center text-sm"

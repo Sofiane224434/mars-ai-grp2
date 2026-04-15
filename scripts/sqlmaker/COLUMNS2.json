@@ -1,0 +1,318 @@
+[
+    {
+        "type": "header",
+        "version": "5.2.0",
+        "comment": "Export to JSON plugin for PHPMyAdmin"
+    },
+    {
+        "type": "database",
+        "name": "INFORMATION_SCHEMA"
+    },
+    {
+        "type": "table",
+        "name": "COLUMNS",
+        "database": "INFORMATION_SCHEMA",
+        "data": [
+            {
+                "TABLE_NAME": "ai_list",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "ai_list",
+                "COLUMN_NAME": "ai_name"
+            },
+            {
+                "TABLE_NAME": "ai_list",
+                "COLUMN_NAME": "included"
+            },
+            {
+                "TABLE_NAME": "comments",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "comments",
+                "COLUMN_NAME": "user_id"
+            },
+            {
+                "TABLE_NAME": "comments",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "comments",
+                "COLUMN_NAME": "comment"
+            },
+            {
+                "TABLE_NAME": "comments",
+                "COLUMN_NAME": "isprivate"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "email"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "firstname"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "lastname"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "address"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "address2"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "postal_code"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "city"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "country"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "marketting"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "date_of_birth"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "gender"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "fix_phone"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "mobile_phone"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "school"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "current_job"
+            },
+            {
+                "TABLE_NAME": "director_profile",
+                "COLUMN_NAME": "director_language"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "object"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "message"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "user_id"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "email",
+                "COLUMN_NAME": "sent_at"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "title_original"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "subtitles"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "videofile"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "language"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "description"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "prompt"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "status_id"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "synopsis_original"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "classification"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "thumbnail"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "created_at"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "updated_at"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "title_english"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "synopsis_english"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "youtube_url"
+            },
+            {
+                "TABLE_NAME": "movies",
+                "COLUMN_NAME": "movie_duration"
+            },
+            {
+                "TABLE_NAME": "newsletter",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "newsletter",
+                "COLUMN_NAME": "email"
+            },
+            {
+                "TABLE_NAME": "screenshots",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "screenshots",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "screenshots",
+                "COLUMN_NAME": "link"
+            },
+            {
+                "TABLE_NAME": "socials",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "socials",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "socials",
+                "COLUMN_NAME": "social_name"
+            },
+            {
+                "TABLE_NAME": "socials",
+                "COLUMN_NAME": "social_link"
+            },
+            {
+                "TABLE_NAME": "sound_data",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "sound_data",
+                "COLUMN_NAME": "sound"
+            },
+            {
+                "TABLE_NAME": "sound_data",
+                "COLUMN_NAME": "type"
+            },
+            {
+                "TABLE_NAME": "sound_data",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "status",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "status",
+                "COLUMN_NAME": "status"
+            },
+            {
+                "TABLE_NAME": "used_ai",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "used_ai",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "used_ai",
+                "COLUMN_NAME": "ai_name"
+            },
+            {
+                "TABLE_NAME": "used_ai",
+                "COLUMN_NAME": "category"
+            },
+            {
+                "TABLE_NAME": "users",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "users",
+                "COLUMN_NAME": "email"
+            },
+            {
+                "TABLE_NAME": "users",
+                "COLUMN_NAME": "status"
+            },
+            {
+                "TABLE_NAME": "users",
+                "COLUMN_NAME": "token_access"
+            },
+            {
+                "TABLE_NAME": "users_movies",
+                "COLUMN_NAME": "id"
+            },
+            {
+                "TABLE_NAME": "users_movies",
+                "COLUMN_NAME": "movie_id"
+            },
+            {
+                "TABLE_NAME": "users_movies",
+                "COLUMN_NAME": "user_id"
+            }
+        ]
+    }
+]

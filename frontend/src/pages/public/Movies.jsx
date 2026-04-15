@@ -1,5 +1,6 @@
 // pages/Movies.jsx
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import useFestivalPhase from "../../hooks/useFestivalPhase";
@@ -8,7 +9,7 @@ import Pagination from "../../components/ui/Pagination";
 import Spinner from "../../components/ui/Spinner";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 20;
 
 const PHASE_LABELS = [
     "movies.current-phase",
@@ -19,6 +20,7 @@ const PHASE_LABELS = [
 
 function Movies() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { currentPhase } = useFestivalPhase();
     const showMovies = currentPhase >= 2;
 
@@ -104,6 +106,8 @@ function Movies() {
                                         directorName={movie.directorName}
                                         description={movie.description || "Description non renseignée."}
                                         thumbnailSrc={movie.thumbnail || movie.screenshotLink}
+                                        onThumbnailClick={() => navigate(`/movies/${movie.id}`)}
+                                        onMoreInfo={() => navigate(`/movies/${movie.id}`)}
                                     />
                                 ))}
                             </div>

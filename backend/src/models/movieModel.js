@@ -34,6 +34,61 @@ export const getPublicMovies = async (phaseIndex) => {
   return await query(sql, statusFilter);
 };
 
+export const getPublicMovieDetail = async (movieId, phaseIndex) => {
+  const statusFilter = phaseIndex >= 3 ? [6] : [5, 6];
+  const placeholders = statusFilter.map(() => '?').join(', ');
+
+  const sqlMovie = `
+    SELECT
+      m.id,
+      m.title_original AS title,
+      m.title_english,
+      m.synopsis_original AS synopsis,
+      m.synopsis_english,
+      m.description,
+      m.youtube_url AS videoUrl,
+      m.thumbnail,
+      m.language,
+      m.classification,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName
+    FROM movies m
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.id = ? AND m.status IN (${placeholders})
+    LIMIT 1
+  `;
+
+  const rows = await query(sqlMovie, [movieId, ...statusFilter]);
+  const movie = rows[0];
+
+  if (!movie) {
+    return null;
+  }
+
+  const sqlUsedAis = `
+    SELECT al.ai_name, ua.category
+    FROM used_ai ua
+    JOIN ai_list al ON ua.ai_name = al.id
+    WHERE ua.movie_id = ?
+    ORDER BY ua.id ASC
+  `;
+
+  const usedAis = await query(sqlUsedAis, [movieId]);
+
+  return {
+    ...movie,
+    usedAis,
+  };
+};
+
 export const movieModel = {
   // 1. Récupérer la liste d'attente
   async getMoviesPendingReview() {

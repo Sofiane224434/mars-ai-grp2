@@ -21,7 +21,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const { t } = useTranslation();
 
     const [movietitle, setMovieTitle] = useState("");
-    const [movietitlefr, setMovieTitlefr] = useState("");
+    const [movietitleeng, setMovieTitleeng] = useState("");
     const [synopsis, setSynopsis] = useState("");
     const [synopsisEng, setSynopsisEng] = useState("");
     const [movielanguage, setMovieLanguage] = useState("");
@@ -29,9 +29,11 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [soundbankCheck, setSoundbankCheck] = useState(false);
     const [soundbankData, setSoundbankData] = useState([]);
     const [ytlink, setYTlink] = useState("");
+    const [description, setDescription] = useState("");
+    const [videoLength, setVideoLength] = useState("");
 
     const [errorMovieTitle, setErrorMovieTitle] = useState("");
-    const [errorMovieTitlefr, setErrorMovieTitlefr] = useState("");
+    const [errorMovieTitleeng, setErrorMovieTitleeng] = useState("");
     const [errorSynopsis, setErrorSynopsis] = useState("");
     const [errorSynopsisEng, setErrorSynopsisEng] = useState("");
     const [errorMovieLanguage, setErrorMovieLanguage] = useState("");
@@ -39,18 +41,26 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [errorSoundbankCheck, setErrorSoundbankCheck] = useState("");
     const [errorSoundbankData, setErrorSoundbankData] = useState("");
     const [errorYtLink, setErrorYtLink] = useState("");
+    const [errorDescription, setErrorDescription] = useState("");
 
     let alldata = {
         movietitle: movietitle,
-        movietitlefr: movietitlefr,
+        movietitleeng: movietitleeng,
         synopsis: synopsis,
         synopsisEng: synopsisEng,
         movielanguage: movielanguage,
         movievideo: movievideo,
         soundbankCheck: soundbankCheck,
         soundbankData: soundbankData,
-        ytlink: ytlink
+        ytlink: ytlink,
+        description: description,
+        videoLength: videoLength
     }
+
+    //debug
+    useEffect(() => {
+        console.log(alldata);
+    }, [alldata])
 
     function sendData() {
         if (getFunction) {
@@ -66,7 +76,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
     function clearAllErrors() {
         setErrorMovieTitle("");
-        setErrorMovieTitlefr("");
+        setErrorMovieTitleeng("");
         setErrorSynopsis("");
         setErrorSynopsisEng("");
         setErrorMovieLanguage("");
@@ -74,6 +84,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
         setErrorSoundbankCheck("");
         setErrorSoundbankData("");
         setErrorYtLink("");
+        setErrorDescription("");
     }
 
     function verify() {
@@ -88,12 +99,20 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errorSetFunction: setErrorMovieTitle
             }),
             verifyInputText({
-                value: movietitlefr, max_length: 100,
-                errorSetFunction: setErrorMovieTitlefr
+                value: movietitleeng, max_length: 100,
+                errorSetFunction: setErrorMovieTitleeng
             }),
             verifyInputText({
-                value: synopsis, max_length: 300, required: true,
+                value: description, max_length: 300, required: true,
+                errorSetFunction: setErrorDescription
+            }),
+            verifyInputText({
+                value: synopsis, max_length: 500, required: true,
                 errorSetFunction: setErrorSynopsis
+            }),
+            verifyInputText({
+                value: synopsisEng, max_length: 500, required: true,
+                errorSetFunction: setErrorSynopsisEng
             }),
             verifyInputText({
                 value: movielanguage, max_length: 100,
@@ -115,6 +134,15 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
         if (soundbankCheck) {
             //Vérifier si la première valeur n'est pas vide..
+            if (soundbankData.length < 0 || soundbankData[0] == "") {
+                setErrorSoundbankData("Vous devez en renseigner au moins un.");
+                error = true;
+            }
+        }
+
+        if (videoLength > 90) {
+            setErrorMovieVideo("Votre vidéo doit être de moins d'une minute.")
+            error = true;
         }
 
         if (!error) {
@@ -128,8 +156,28 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
     }
 
-    // let testschema = z.url({ hostname: /^www\.youtube\.com$/ });
-    // console.log(testschema.safeParse("https://www.youtube.com/embed/DFYRQ_zQ-gk?autoplay=1"));
+    //Obtenir longueur de la vidéo
+    function getVideoInfo(value) {
+        let videofile = value.file;
+
+        let video = document.createElement('video');
+        video.preload = 'metadata';
+
+        video.onloadedmetadata = function () {
+
+            window.URL.revokeObjectURL(video.src);
+
+            let duration = video.duration;
+
+            //Enregistre la longueur de la vidéo en state
+            setVideoLength(duration);
+        }
+
+        video.src = URL.createObjectURL(videofile);
+
+        //Enregistre les infos fichier vidéo dans le state
+        setMovieVideo(value);
+    }
 
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
@@ -140,20 +188,28 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
                 max_string={100}></InputSuper>
 
-            <InputSuper label={t("form.step1.movieTitleFr")}
-                type={"text"} getValueFunc={setMovieTitlefr}
-                errormessage={errorMovieTitlefr} max_string={100}></InputSuper>
+            <InputSuper label={t("form.step1.movieTitleeng")}
+                type={"text"} getValueFunc={setMovieTitleeng}
+                errormessage={errorMovieTitleeng} max_string={100}></InputSuper>
+
+            <InputSuper type={"textarea"} label={t("form.step1.description")}
+                getValueFunc={setDescription} max_string={300}
+                errormessage={errorDescription}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsis}
-                max_string={300} label={t("form.step1.synopsis")}
+                max_string={500} label={t("form.step1.synopsis")}
                 errormessage={errorSynopsis}></InputSuper>
+
+            <InputSuper type={"textarea"} getValueFunc={setSynopsisEng}
+                max_string={500} label={"Votre synopsis en anglais."}
+                errormessage={errorSynopsisEng}></InputSuper>
 
             <InputSuper type={"text"} label={t("form.step1.movieLanguage")}
                 getValueFunc={setMovieLanguage} max_string={100}
                 errormessage={errorMovieLanguage}></InputSuper>
 
             <InputSuper type={"file"} accept={"video/mp4,video/x-m4v,video/mov"}
-                getValueFunc={setMovieVideo} required={true}
+                getValueFunc={getVideoInfo} required={true}
                 errormessage={errorMovieVideo}></InputSuper>
 
             <InputSuper type={"checkbox"} label={t("form.step1.soundbankCheck")} getValueFunc={setSoundbankCheck}

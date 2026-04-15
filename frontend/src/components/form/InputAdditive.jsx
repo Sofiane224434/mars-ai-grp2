@@ -34,18 +34,17 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     const classDefaultContainer = "w-full";
     const classDefaultLabel = "text-jaune-souffre";
 
-    let alldata = [firstInput].concat(myValues);
-
-    function sendalldata() {
+    function sendalldata(firstval, othervals) {
+        let alldata = [firstval].concat(othervals)
         getValuesFunc(alldata)
     }
 
-    useEffect(() => {
-        if (getValuesFunc) {
-            sendalldata();
-        }
+    // useEffect(() => {
+    //     if (getValuesFunc) {
+    //         sendalldata();
+    //     }
 
-    }, [alldata])
+    // }, [alldata])
 
     //Si la fonction d'auto déclaration de la fonction existe, envoie au parent ses informations
     //dès que l'élément apparait sur le DOM
@@ -88,6 +87,7 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
     function updateFirstInput(e) {
         let value = e.target.value;
         setFirstInput(value);
+        sendalldata(value, myValues);
     }
 
     /**
@@ -104,6 +104,7 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
             }
         });
         setMyValues(newval);
+        sendalldata(firstInput, newval);
     }
 
     /**

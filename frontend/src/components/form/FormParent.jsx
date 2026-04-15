@@ -49,16 +49,109 @@ export default function FormParent() {
         setFormDirectorInfo(lastvalues);
         console.log("Successfully filled form");
         console.log(formMovieInfo, formMultimedia, formAIUse, lastvalues);
+        const directorInfo = lastvalues;
 
         try {
-            const moviedata = {
-                movieInfo: formMovieInfo,
-                movieMultimedia: formMultimedia,
-                movieAIuse: formAIUse,
-                movieDirectorProfile: lastvalues
+
+            //Construction des objets à envoyer dans le back
+            //NE PAS OUBLIER de rajouter plus tard "movie_id" dans tous les objets
+            //SAUF movies après que "movies" soit envoyé en bdd
+
+            const movies = {
+                classification: formAIUse["classification"],
+                created_at: Date.now(),
+                description: formMovieInfo["description"],
+                language: formMovieInfo["movielanguage"],
+                movie_duration: formMovieInfo["videolength"],
+                prompt: formAIUse["prompts"],
+                status: 0,
+                subtitles: formMultimedia["srtData"],
+                synopsis_english: formMovieInfo["synopsisEng"],
+                synopsis_original: formMovieInfo["synopsis"],
+                thumbnail: formMultimedia["thumbnail"],
+                title_english: formMovieInfo["movietitleeng"],
+                title_original: formMovieInfo["movietitle"],
+                updated_at: Date.now(),
+                videofile: formMovieInfo["movievideo"],
+                youtube_url: formMovieInfo["ytlink"]
+            };
+
+            const director_profile = {
+                address: directorInfo["address"],
+                address2: directorInfo["address2"],
+                city: directorInfo["city"],
+                country: directorInfo["country"],
+                current_job: directorInfo["job"],
+                date_of_birth: directorInfo["birthdate"],
+                director_language: directorInfo["language"],
+                email: directorInfo["email"],
+                firstname: directorInfo["firstname"],
+                fix_phone: directorInfo["fixtel"],
+                gender: directorInfo["gender"],
+                lastname: directorInfo["lastname"],
+                marketting: directorInfo["marketting"],
+                mobile_phone: directorInfo["tel"],
+                postal_code: directorInfo["postalcode"],
+                school: directorInfo["school"]
+            };
+
+            //can be multiple
+            let ex_sound_data = { sound: "", type: "" };
+            let sound_data = [];
+
+            //Construction de l'objet IAs utilisées
+            let ex_used_ai = { ai_name: "", category: "" };
+
+            let used_ai = [];
+
+            if (formAIUse["aiscenarioData"].length > 0) {
+                for (let n in formAIUse["aiscenarioData"]) {
+                    ex_used_ai.ai_name = formAIUse["aiscenarioData"][n];
+                    ex_used_ai.category = "script";
+                    used_ai.push(ex_used_ai);
+                }
+            }
+            if (formAIUse["aivideoData"].length > 0) {
+                for (let n in formAIUse["aivideoData"]) {
+                    ex_used_ai.ai_name = formAIUse["aivideoData"][n];
+                    ex_used_ai.category = "movie";
+                    used_ai.push(ex_used_ai);
+                }
+            }
+            if (formAIUse["aipostprodData"].length > 0) {
+                for (let n in formAIUse["aipostprodData"]) {
+                    ex_used_ai.ai_name = formAIUse["aipostprodData"][n];
+                    ex_used_ai.category = "postprod";
+                    used_ai.push(ex_used_ai);
+                }
             }
 
-            await createMovie(moviedata);
+
+            //Construction de screenshots
+            //NE PAS OUBLIER dans le back, chaque fichier doit être:
+            //- Envoyé dans le bucket
+            //- Extraire le lien du bucket
+            //- Remplacer chaque "link" par le lien du bucket au lieu du fichier du formulaire
+            const screenshots = [
+                formMultimedia["screenshot1"] && { link: formMultimedia["screenshot1"] },
+                formMultimedia["screenshot2"] && { link: formMultimedia["screenshot2"] },
+                formMultimedia["screenshot3"] && { link: formMultimedia["screenshot3"] },
+            ];
+
+            //Construction de socials
+            //NE PAS OUBLIER de rajouter "movie_id" dans le back
+            let socialsData = formDirectorInfo["socials"];
+
+            let socials = [];
+
+            for (let n in socialsData) {
+                socials.push({
+                    social_link: socialsData[n]["sociallink"],
+                    social_name: socialsData[n]["socialname"]
+                })
+            }
+
+            //await createMovie(moviedata);
 
         } catch (err) {
             console.log(err);

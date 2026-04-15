@@ -22,17 +22,17 @@ LEFT JOIN screenshots ON screenshots.movie_id = movies.id
 LEFT JOIN socials ON socials.movie_id = movies.id 
 
 
-Modèles d'objets à rentrer dans la BDD : 
+-- Modèles d'objets à rentrer dans la BDD : 
 
-movies = {title_original:"", subtitles:"", videofile:"", language:"", description:"", prompt:"", status_id:"", synopsis_original:"", classification:"", thumbnail:"", created_at:"", updated_at:"", title_english:"", synopsis_english:"", youtube_url:"", movie_duration:""}
+-- movies = {title_original:"", subtitles:"", videofile:"", language:"", description:"", prompt:"", status_id:"", synopsis_original:"", classification:"", thumbnail:"", created_at:"", updated_at:"", title_english:"", synopsis_english:"", youtube_url:"", movie_duration:""}
 
-director_profile = {movie_id:"", email:"", firstname:"", lastname:"", address:"", address2:"", postal_code:"", city:"", country:"", marketting:"", date_of_birth:"", gender:"", fix_phone:"", mobile_phone:"", school:"", current_job:"", director_language:""}
+-- director_profile = {movie_id:"", email:"", firstname:"", lastname:"", address:"", address2:"", postal_code:"", city:"", country:"", marketting:"", date_of_birth:"", gender:"", fix_phone:"", mobile_phone:"", school:"", current_job:"", director_language:""}
 
-sound_data = {sound:"", type:"", movie_id:""}
+-- sound_data = {sound:"", type:"", movie_id:""}
 
-used_ai = {movie_id:"", ai_name:"", category:""}
+-- used_ai = {movie_id:"", ai_name:"", category:""}
 
-socials = {movie_id:"", social_name:"", social_link:""}
+-- socials = {movie_id:"", social_name:"", social_link:""}
 
-screenshots = {movie_id:"", link:""}
+-- screenshots = {movie_id:"", link:""}
 

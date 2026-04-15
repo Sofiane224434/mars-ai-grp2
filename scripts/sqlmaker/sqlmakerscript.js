@@ -265,13 +265,13 @@ let sql_list = [
     createSQLInsert({ tablename: "socials", named: true }) + ";",
     createSQLInsert({ tablename: "screenshots", named: true }) + ";",
     createSQLSelectMoviedata({}),
-    "Modèles d'objets à rentrer dans la BDD : ",
-    "movies = " + createSQLNamedObject("movies"),
-    "director_profile = " + createSQLNamedObject("director_profile"),
-    "sound_data = " + createSQLNamedObject("sound_data"),
-    "used_ai = " + createSQLNamedObject("used_ai"),
-    "socials = " + createSQLNamedObject("socials"),
-    "screenshots = " + createSQLNamedObject("screenshots")
+    "-- Modèles d'objets à rentrer dans la BDD : ",
+    "-- movies = " + createSQLNamedObject("movies"),
+    "-- director_profile = " + createSQLNamedObject("director_profile"),
+    "-- sound_data = " + createSQLNamedObject("sound_data"),
+    "-- used_ai = " + createSQLNamedObject("used_ai"),
+    "-- socials = " + createSQLNamedObject("socials"),
+    "-- screenshots = " + createSQLNamedObject("screenshots")
 ];
 
 let sql = "";
@@ -282,7 +282,7 @@ for (let s in sql_list) {
 //console.log(sql);
 
 if (sql) {
-    fs.writeFile("./scripts/sqlmaker/results/myresult.txt", sql, function (err) {
+    fs.writeFile("./scripts/sqlmaker/results/myresult.sql", sql, function (err) {
         if (err) {
             return console.log(err);
         }

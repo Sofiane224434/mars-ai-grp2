@@ -37,7 +37,7 @@ async function fetchAPI(endpoint, options = {}) {
 // }
 
 export const movieService = {
-    savedata: (moviedata) => fetchAPI('/movie', {
+    savedata: (moviedata) => fetchAPI('/movies', {
         method: 'POST',
         body: JSON.stringify(moviedata)
     })

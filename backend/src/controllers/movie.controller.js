@@ -7,6 +7,8 @@ import { movieModel } from "../models/movieModel.js";
 const unlinkFile = promisify(fs.unlink);
 
 export const addMovie = async (req, res) => {
+  console.log("controller received movie...");
+  console.log(req.body);
   const moviedata = req.body;
   // Fichier temporaire cree par multer (upload multipart/form-data).
   const file = req.file;
@@ -16,6 +18,8 @@ export const addMovie = async (req, res) => {
   let s3Warning = null;
 
   try {
+    moviedata.movies.thumbnail = "dummy thumbnail link";
+    moviedata.movies.videofile = "dummy link for videofile";
     const moviesent = movieModel.postMovie(moviedata);
 
     res.status(201).json({ message: 'Film envoyé', moviesent });

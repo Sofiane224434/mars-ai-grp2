@@ -4,6 +4,7 @@ import { movieService } from "../services/api";
 export default function useMovie() {
     //create movie
     const createMovie = async (moviedata) => {
+        console.log("hook movie got");
         const data = await movieService.savedata(moviedata);
         return data;
     };

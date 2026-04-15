@@ -43,7 +43,7 @@ export default function FormParent() {
     }
 
     async function sendtoback(lastvalues) {
-        e.preventDefault();
+        // e.preventDefault();
         setLoading(true);
 
         setFormDirectorInfo(lastvalues);

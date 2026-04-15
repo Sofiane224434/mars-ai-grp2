@@ -315,6 +315,7 @@ export const movieModel = {
   },
 
   async postMovie(moviedata) {
+    console.log("model received movie...");
     const sql_movies = `INSERT INTO movies 
     (classification, created_at, description, language, 
     movie_duration, prompt, status, subtitles, synopsis_english, 

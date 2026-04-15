@@ -2,16 +2,26 @@ import { uploadFile, getFileStream } from "../config/s3.js";
 import { uploadVideoToYouTube } from "../config/youtube.js";
 import fs from "fs";
 import { promisify } from "util";
+import { movieModel } from "../models/movieModel.js";
 
 const unlinkFile = promisify(fs.unlink);
 
 export const addMovie = async (req, res) => {
+  const moviedata = req.body;
   // Fichier temporaire cree par multer (upload multipart/form-data).
   const file = req.file;
   // Utile pour diagnostiquer rapidement l'etape exacte en echec.
   let currentStep = "validation";
   let s3Result = null;
   let s3Warning = null;
+
+  try {
+    const moviesent = movieModel.postMovie(moviedata);
+
+    res.status(201).json({ message: 'Film envoyé', moviesent });
+  } catch (err) {
+    console.log(err);
+  }
 
   try {
     // 1) Verification minimale du payload fichier

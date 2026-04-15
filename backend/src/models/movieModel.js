@@ -312,6 +312,23 @@ export const movieModel = {
       email: row.email,
       assignedMoviesCount: Number(row.assignedMoviesCount || 0),
     }));
+  },
+
+  async postMovie(moviedata) {
+    const sql_movies = `INSERT INTO movies 
+    (classification, created_at, description, language, 
+    movie_duration, prompt, status, subtitles, synopsis_english, 
+    synopsis_original, thumbnail, title_english, title_original, updated_at, 
+    videofile, youtube_url) 
+    VALUES (:classification, :created_at, :description, :language, 
+    :movie_duration, :prompt, :status, :subtitles, :synopsis_english, 
+    :synopsis_original, :thumbnail, :title_english, :title_original, 
+    :updated_at, :videofile, :youtube_url);
+  `;
+
+    const movies = moviedata.movies;
+    const result = await connection.execute(sql_movies, movies);
+    return { id: result.id, movieinfo: movies };
   }
 };
 

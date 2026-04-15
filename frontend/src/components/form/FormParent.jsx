@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-//import useMovie from "../../hooks/useMovie";
+import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
 import FormAIUse from "./Forms/FormAIUse";
@@ -15,7 +15,7 @@ export default function FormParent() {
     const [currentStep, setCurrentStep] = useState(1);
     const formTopRef = useRef(null);
 
-    //const { createMovie } = useMovie();
+    const { createMovie } = useMovie();
     const [loading, setLoading] = useState(false);
 
     const [formMovieInfo, setFormMovieInfo] = useState({});
@@ -151,7 +151,16 @@ export default function FormParent() {
                 })
             }
 
-            //await createMovie(moviedata);
+            const moviedata = {
+                movies: movies,
+                director_profile: director_profile,
+                sound_data: sound_data,
+                used_ai: used_ai,
+                screenshots: screenshots,
+                socials: socials
+            }
+
+            await createMovie(moviedata);
 
         } catch (err) {
             console.log(err);

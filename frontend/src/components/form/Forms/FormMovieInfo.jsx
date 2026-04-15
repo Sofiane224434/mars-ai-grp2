@@ -21,7 +21,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const { t } = useTranslation();
 
     const [movietitle, setMovieTitle] = useState("");
-    const [movietitlefr, setMovieTitlefr] = useState("");
+    const [movietitleeng, setMovieTitleeng] = useState("");
     const [synopsis, setSynopsis] = useState("");
     const [synopsisEng, setSynopsisEng] = useState("");
     const [movielanguage, setMovieLanguage] = useState("");
@@ -29,9 +29,10 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [soundbankCheck, setSoundbankCheck] = useState(false);
     const [soundbankData, setSoundbankData] = useState([]);
     const [ytlink, setYTlink] = useState("");
+    const [description, setDescription] = useState("");
 
     const [errorMovieTitle, setErrorMovieTitle] = useState("");
-    const [errorMovieTitlefr, setErrorMovieTitlefr] = useState("");
+    const [errorMovieTitleeng, setErrorMovieTitleend] = useState("");
     const [errorSynopsis, setErrorSynopsis] = useState("");
     const [errorSynopsisEng, setErrorSynopsisEng] = useState("");
     const [errorMovieLanguage, setErrorMovieLanguage] = useState("");
@@ -39,17 +40,19 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [errorSoundbankCheck, setErrorSoundbankCheck] = useState("");
     const [errorSoundbankData, setErrorSoundbankData] = useState("");
     const [errorYtLink, setErrorYtLink] = useState("");
+    const [errorDescription, setErrorDescription] = useState("");
 
     let alldata = {
         movietitle: movietitle,
-        movietitlefr: movietitlefr,
+        movietitleeng: movietitleeng,
         synopsis: synopsis,
         synopsisEng: synopsisEng,
         movielanguage: movielanguage,
         movievideo: movievideo,
         soundbankCheck: soundbankCheck,
         soundbankData: soundbankData,
-        ytlink: ytlink
+        ytlink: ytlink,
+        description: description
     }
 
     function sendData() {
@@ -66,7 +69,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
     function clearAllErrors() {
         setErrorMovieTitle("");
-        setErrorMovieTitlefr("");
+        setErrorMovieTitleeng("");
         setErrorSynopsis("");
         setErrorSynopsisEng("");
         setErrorMovieLanguage("");
@@ -74,6 +77,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
         setErrorSoundbankCheck("");
         setErrorSoundbankData("");
         setErrorYtLink("");
+        setErrorDescription("");
     }
 
     function verify() {
@@ -88,8 +92,8 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errorSetFunction: setErrorMovieTitle
             }),
             verifyInputText({
-                value: movietitlefr, max_length: 100,
-                errorSetFunction: setErrorMovieTitlefr
+                value: movietitleeng, max_length: 100,
+                errorSetFunction: setErrorMovieTitleeng
             }),
             verifyInputText({
                 value: synopsis, max_length: 300, required: true,
@@ -140,13 +144,21 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
                 max_string={100}></InputSuper>
 
-            <InputSuper label={t("form.step1.movieTitleFr")}
-                type={"text"} getValueFunc={setMovieTitlefr}
-                errormessage={errorMovieTitlefr} max_string={100}></InputSuper>
+            <InputSuper label={t("form.step1.movieTitleeng")}
+                type={"text"} getValueFunc={setMovieTitleeng}
+                errormessage={errorMovieTitleeng} max_string={100}></InputSuper>
+
+            <InputSuper type={"textarea"} label={t("form.step1.description")}
+                getValueFunc={setDescription} max_string={300}
+                errormessage={errorDescription}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsis}
-                max_string={300} label={t("form.step1.synopsis")}
+                max_string={500} label={t("form.step1.synopsis")}
                 errormessage={errorSynopsis}></InputSuper>
+
+            <InputSuper type={"textarea"} getValueFunc={setSynopsisEng}
+                max_string={500} label={"Votre synopsis en anglais."}
+                errormessage={errorSynopsisEng}></InputSuper>
 
             <InputSuper type={"text"} label={t("form.step1.movieLanguage")}
                 getValueFunc={setMovieLanguage} max_string={100}

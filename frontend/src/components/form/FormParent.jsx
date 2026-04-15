@@ -106,7 +106,7 @@ export default function FormParent() {
                 synopsis_english: formMovieInfo["synopsisEng"],
                 synopsis_original: formMovieInfo["synopsis"],
                 thumbnail: formMultimedia["thumbnail"],
-                title_english: "",
+                title_english: formMovieInfo["movietitleeng"],
                 title_original: formMovieInfo["movietitle"],
                 updated_at: Date.now(),
                 videofile: formMovieInfo["movievideo"],

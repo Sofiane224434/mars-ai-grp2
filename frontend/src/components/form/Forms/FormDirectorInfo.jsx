@@ -117,6 +117,10 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         setErrorMarkettingOther("");
         setErrorTosCheck("");
         setErrorRulesCheck("");
+        setErrorJob("");
+        setErrorSchool("");
+        setErrorFixtel("");
+        setErrorLanguage("");
     }
 
     function verify() {
@@ -271,7 +275,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
 
             <InputSuper type={"tel"} max_string={10}
                 getValueFunc={setFixtel}
-                label={"Votre numéro de téléphone fixe (optionnel)"} numberonly={true}
+                label={t("form.step4.phonefix")} numberonly={true}
                 errormessage={errorFixtel}></InputSuper>
 
             <InputSuper type={"date"}
@@ -287,7 +291,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setLanguage}
-                label={"Votre langue"}
+                label={t("form.step4.languague")}
                 errormessage={errorLanguage}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
@@ -314,11 +318,11 @@ export default function FormDirectorInfo({ hide = false, getFunction,
             ></InputSuper>
 
             <InputSuper type={"text"} getValueFunc={setSchool}
-                label={"A quelle école allez-vous / êtes-vous allé ?"}
+                label={t("form.step4.school")}
                 errormessage={errorSchool}></InputSuper>
 
             <InputSuper type={"text"} getValueFunc={setJob}
-                label={"Quel est votre travail actuel ?"}
+                label={t("form.step4.job")}
                 errormessage={errorJob}></InputSuper>
 
             {marketting == "other" &&

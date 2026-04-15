@@ -41,6 +41,11 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
   const isJuryPanel = variant === "jury";
   const { id: juryId } = useParams();
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const mobileIconOnlyProps = {
+    iconOnly: true,
+    iconOnlyButtonSizeClass: "h-9 w-9",
+    iconOnlyImageSizeClass: "h-4 w-4",
+  };
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -68,8 +73,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
     }
   };
   const containerClass =
-    `mt-1 relative min-h-screen h-full transition-all duration-200 w-[245px] ${collapsed ? "lg:w-[110px]" : ""
-      } ${className}`.trim();
+    `mt-1 relative min-h-screen h-full transition-all duration-200 ${className}`.trim();
+  const containerStyle = collapsed ? { width: "110px" } : { width: "245px" };
   const contentClass = `${currentVariant.content} flex-1 px-2 items-center gap-0 ${collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
     }`.trim();
 
@@ -101,8 +106,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             <Button
               variant="btn-panel-home"
               iconImg={panel_icon_home}
-              iconOnly
-              className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+              {...mobileIconOnlyProps}
             >
               ACCUEIL
             </Button>
@@ -113,8 +117,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_assign1}
-                iconOnly
-                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+                {...mobileIconOnlyProps}
               >
                 GÉRER LES VIDEOS
               </Button>
@@ -126,8 +129,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_mail}
-                iconOnly
-                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+                {...mobileIconOnlyProps}
               >
                 CONFIRMATION EMAIL
               </Button>
@@ -139,8 +141,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_not_watched}
-                iconOnly
-                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+                {...mobileIconOnlyProps}
               >
                 JUGER LES VIDÉOS
               </Button>
@@ -152,8 +153,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_add}
-                iconOnly
-                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+                {...mobileIconOnlyProps}
               >
                 AJOUTER JURY
               </Button>
@@ -165,8 +165,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               <Button
                 variant="btn-panel"
                 iconImg={panel_icon_setting}
-                iconOnly
-                className="h-9! w-9! [&_img]:h-4! [&_img]:w-4!"
+                {...mobileIconOnlyProps}
               >
                 MODIFIER LE SITE
               </Button>
@@ -205,7 +204,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
       {/* ── DESKTOP : sidebar sticky classique ── */}
       <div className="hidden lg:block">
         <div className="sticky top-0 self-start max-h-screen h-screen">
-          <div className={containerClass}>
+          <div className={containerClass} style={containerStyle}>
             {currentVariant.bg}
             <div className="relative z-40 h-full flex flex-col">
               {/* Bouton collapse – desktop uniquement */}
@@ -214,15 +213,35 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                 onClick={() => setCollapsed((prev) => !prev)}
                 aria-label={collapsed ? "Ouvrir le menu" : "Fermer le menu"}
                 aria-expanded={!collapsed}
-                className="hidden lg:flex absolute -right-[25px] top-8 z-20 h-[50px] w-[25px] rounded-r-full bg-[#42cbe6] items-center justify-center pr-1.5"
+                className="hidden lg:flex absolute top-8 z-20 rounded-r-full bg-bleu-ciel items-center justify-center pr-1.5"
+                style={{ right: "-25px", width: "25px", height: "50px" }}
               >
                 {!collapsed ? (
-                  <span className="relative block h-4 w-40">
-                    <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 rotate-45 bg-bleu-canard" />
-                    <span className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 -rotate-45 bg-bleu-canard" />
-                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="h-4 w-4 text-bleu-canard"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M10.5 3.5L5.5 8L10.5 12.5"
+                      stroke="currentColor"
+                      strokeWidth="2.25"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 ) : (
-                  <span className="ml-1 block h-0 w-0 border-y-[7px] border-y-transparent border-l-[11px] border-l-bleu-canard" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    className="ml-0.5 h-3.5 w-3.5 text-bleu-canard"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 3.5L11 8L5 12.5V3.5Z" />
+                  </svg>
                 )}
               </button>
 

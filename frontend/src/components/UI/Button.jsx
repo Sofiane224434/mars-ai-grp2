@@ -9,6 +9,8 @@ const Button = ({
   iconImg = "",
   iconClassName = "",
   iconOnly = false,
+  iconOnlyButtonSizeClass = "",
+  iconOnlyImageSizeClass = "",
   className = "",
   interactive = false,
   type = "button",
@@ -17,15 +19,19 @@ const Button = ({
   ariaLabel,
 }) => {
   const iconToDisplay = iconImg || panel_icon_home;
+  const resolvedIconOnlyButtonSizeClass =
+    iconOnlyButtonSizeClass || "w-14 h-14";
+  const resolvedIconOnlyImageSizeClass =
+    iconOnlyImageSizeClass || "h-7 w-auto";
   const panelBgClass = iconOnly
     ? "pointer-events-none absolute inset-0 rounded-full bg-bleu-ocean"
     : "btn-bg-admin-base bg-bleu-ocean rounded-none";
   const panelIconClass = iconOnly
-    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    ? `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain ${resolvedIconOnlyImageSizeClass}`
     : "status-base-icon-jury";
   const panelIconWithOffsetClass = `${panelIconClass} ${iconClassName}`.trim();
   const homePanelIconClass = iconOnly
-    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    ? `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain ${resolvedIconOnlyImageSizeClass}`
     : "status-base-icon-jury-accueil";
 
   //---------------------------------------------------------------------------------------------------------
@@ -191,7 +197,7 @@ const Button = ({
         : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
-      ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
+      ? `${resolvedIconOnlyButtonSizeClass} p-0 pl-0 justify-center`
       : "";
   const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 

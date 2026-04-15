@@ -5,6 +5,17 @@ dotenv.config();
 
 const DEFAULT_TARGET_TOTAL = 50;
 const DEFAULT_SOURCE_TITLE = "Odyssee IA";
+const THUMBNAIL_POOL = [
+  "https://picsum.photos/id/1018/1200/675",
+  "https://picsum.photos/id/1025/1200/675",
+  "https://picsum.photos/id/1035/1200/675",
+  "https://picsum.photos/id/1041/1200/675",
+  "https://picsum.photos/id/1050/1200/675",
+  "https://picsum.photos/id/1067/1200/675",
+  "https://picsum.photos/id/1074/1200/675",
+  "https://picsum.photos/id/1084/1200/675",
+  "https://picsum.photos/id/1080/1200/675",
+];
 
 const titleFragments = [
   "Echos",
@@ -49,6 +60,9 @@ const parseIntArg = (value, fallback) => {
 
 const targetTotal = parseIntArg(process.argv[2], DEFAULT_TARGET_TOTAL);
 const sourceMovieIdArg = parseIntArg(process.argv[3], null);
+
+const pickThumbnail = (index) =>
+  THUMBNAIL_POOL[index % THUMBNAIL_POOL.length] || "https://picsum.photos/id/1005/1200/675";
 
 const findSourceMovie = async () => {
   if (sourceMovieIdArg) {
@@ -100,7 +114,7 @@ const buildMoviePayload = (sourceMovie, index) => {
     synopsis_original:
       `Synopsis test #${variant}: une histoire breve se deroule entre ${secondaryTitle} et un futur assiste par IA.`,
     classification: sourceMovie.classification || "Tout public",
-    thumbnail: sourceMovie.thumbnail,
+    thumbnail: pickThumbnail(index),
     title_english: titleEnglish,
     synopsis_english:
       `Test synopsis #${variant}: a short story unfolding between ${secondaryTitle} and an AI-assisted future.`,

@@ -4,6 +4,20 @@ import pool, { query } from "../src/config/db.js";
 dotenv.config();
 
 const SEED_MARKER = "Film de test #%genere automatiquement%";
+const THUMBNAIL_POOL = [
+  "https://picsum.photos/id/1018/1200/675",
+  "https://picsum.photos/id/1025/1200/675",
+  "https://picsum.photos/id/1035/1200/675",
+  "https://picsum.photos/id/1041/1200/675",
+  "https://picsum.photos/id/1050/1200/675",
+  "https://picsum.photos/id/1067/1200/675",
+  "https://picsum.photos/id/1074/1200/675",
+  "https://picsum.photos/id/1084/1200/675",
+  "https://picsum.photos/id/1080/1200/675",
+];
+
+const pickThumbnail = (index) =>
+  THUMBNAIL_POOL[index % THUMBNAIL_POOL.length] || "https://picsum.photos/id/1005/1200/675";
 
 const findOdysseeSourceMovie = async () => {
   const sourceRows = await query(
@@ -36,7 +50,6 @@ const run = async () => {
       `UPDATE movies
        SET videofile = ?,
            subtitles = ?,
-           thumbnail = ?,
            language = ?,
            youtube_url = ?,
            movie_duration = ?
@@ -44,13 +57,28 @@ const run = async () => {
       [
         source.videofile,
         source.subtitles,
-        source.thumbnail,
         source.language,
         source.youtube_url,
         source.movie_duration,
         SEED_MARKER,
       ],
     );
+
+    const seededRows = await query(
+      `SELECT id
+       FROM movies
+       WHERE description LIKE ?
+       ORDER BY id ASC`,
+      [SEED_MARKER],
+    );
+
+    for (let i = 0; i < seededRows.length; i += 1) {
+      const movieId = Number(seededRows[i].id);
+      await pool.execute("UPDATE movies SET thumbnail = ? WHERE id = ?", [
+        pickThumbnail(i),
+        movieId,
+      ]);
+    }
 
     const [summaryRows] = await pool.execute(
       `SELECT
@@ -71,6 +99,15 @@ const run = async () => {
       [SEED_MARKER],
     );
 
+    const [thumbnailRows] = await pool.execute(
+      `SELECT thumbnail, COUNT(*) AS count
+       FROM movies
+       WHERE description LIKE ?
+       GROUP BY thumbnail
+       ORDER BY count DESC`,
+      [SEED_MARKER],
+    );
+
     console.log("Source appliquee:", {
       id: source.id,
       title: source.title_original,
@@ -78,8 +115,10 @@ const run = async () => {
     });
     console.log("Lignes status mises a jour:", statusResult.affectedRows);
     console.log("Lignes media mises a jour:", mediaResult.affectedRows);
+    console.log("Lignes miniature mises a jour:", seededRows.length);
     console.log("Resume films seedes:", summaryRows[0]);
     console.log("Distribution videofile (films seedes):", videoRows);
+    console.log("Distribution thumbnails (films seedes):", thumbnailRows);
   } catch (error) {
     console.error("Echec normalisation films seedes:", error?.message || error);
     process.exitCode = 1;

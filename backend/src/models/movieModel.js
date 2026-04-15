@@ -168,6 +168,7 @@ export const movieModel = {
       SELECT
         m.id,
         m.title_original AS title,
+        m.description,
         m.thumbnail,
         m.status AS statusId,
         s.status AS statusCode,
@@ -201,6 +202,7 @@ export const movieModel = {
       return {
         id: row.id,
         title: row.title || 'Sans titre',
+        description: row.description || null,
         thumbnail: row.thumbnail,
         statusId: row.statusId,
         evaluationStatus: this.mapEvaluationStatus(row.statusCode),

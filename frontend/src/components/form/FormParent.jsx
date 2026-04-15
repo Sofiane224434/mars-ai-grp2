@@ -113,23 +113,30 @@ export default function FormParent() {
                 youtube_url: formMovieInfo["ytlink"]
             };
 
+            /**
+             * const [job, setJob] = useState("");
+    const [fixtel, setFixtel] = useState("");
+    const [school, setSchool] = useState("");
+    const [language, setLanguage] = useState("");
+             */
+
             const director_profile = {
                 address: directorInfo["address"],
                 address2: directorInfo["address2"],
                 city: directorInfo["city"],
                 country: directorInfo["country"],
-                current_job: "",
+                current_job: directorInfo["job"],
                 date_of_birth: directorInfo["birthdate"],
-                director_language: "",
+                director_language: directorInfo["language"],
                 email: directorInfo["email"],
                 firstname: directorInfo["firstname"],
-                fix_phone: "",
+                fix_phone: directorInfo["fixtel"],
                 gender: directorInfo["gender"],
                 lastname: directorInfo["lastname"],
                 marketting: directorInfo["marketting"],
                 mobile_phone: directorInfo["tel"],
                 postal_code: directorInfo["postalcode"],
-                school: ""
+                school: directorInfo["school"]
             };
 
             //can be multiple

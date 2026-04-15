@@ -29,6 +29,10 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     const [markettingOther, setMarkettingOther] = useState("");
     const [tosCheck, setTosCheck] = useState(false);
     const [rulesCheck, setRulesCheck] = useState(false);
+    const [job, setJob] = useState("");
+    const [fixtel, setFixtel] = useState("");
+    const [school, setSchool] = useState("");
+    const [language, setLanguage] = useState("");
 
     const [errorFirstname, setErrorFirstname] = useState("");
     const [errorLastname, setErrorLastname] = useState("");
@@ -46,6 +50,10 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     const [errorMarkettingOther, setErrorMarkettingOther] = useState("");
     const [errorTosCheck, setErrorTosCheck] = useState("");
     const [errorRulesCheck, setErrorRulesCheck] = useState("");
+    const [errorJob, setErrorJob] = useState("");
+    const [errorFixtel, setErrorFixtel] = useState("");
+    const [errorSchool, setErrorSchool] = useState("");
+    const [errorLanguage, setErrorLanguage] = useState("");
 
     let alldata = {
         firstname: firstname,
@@ -62,7 +70,11 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         city: city,
         marketting: marketting == "other" ? markettingOther : marketting,
         tosCheck: tosCheck,
-        rulesCheck: rulesCheck
+        rulesCheck: rulesCheck,
+        job: job,
+        school: school,
+        language: language,
+        fixtel: fixtel
     }
 
     function sendData() {
@@ -76,7 +88,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         <option value={"m"}>{t("form.step4.genderMale")}</option>,
         <option value={"f"}>{t("form.step4.genderFemale")}</option>,
         <option value={"other"}>{t("form.step4.genderOther")}</option>,
-    ]
+    ];
 
     const markettingoptions = [
         <option disabled selected value={""}>{t("form.select")}</option>,
@@ -86,7 +98,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         <option value={"école"}>{t("form.step4.marketingSchool")}</option>,
         <option value={"panneau"}>{t("form.step4.marketingPoster")}</option>,
         <option value={"other"}>{t("form.step4.marketingOther")}</option>
-    ]
+    ];
 
     function clearAllErrors() {
         setErrorFirstname("");
@@ -136,6 +148,10 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 value: tel, required: true, max_length: 10, regex: numberonly_regex,
                 errorSetFunction: setErrorTel
             }),
+            verifyInputText({
+                value: fixtel, required: false, max_length: 10, regex: numberonly_regex,
+                errorSetFunction: setErrorFixtel
+            }),
             verifyInputDate({
                 value: birthdate, max_date: new Date(Date.now()),
                 required: true, errorSetFunction: setErrorBirthdate
@@ -161,8 +177,20 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 errorSetFunction: setErrorCity
             }),
             verifyInputText({
+                value: language, max_length: 100, required: true,
+                errorSetFunction: setErrorLanguage
+            }),
+            verifyInputText({
                 value: marketting, required: true,
                 errorSetFunction: setErrorMarketting
+            }),
+            verifyInputText({
+                value: job, required: true,
+                errorSetFunction: setErrorJob
+            }),
+            verifyInputText({
+                value: school, required: true,
+                errorSetFunction: setErrorSchool
             })
         ]
 
@@ -241,6 +269,11 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 label={t("form.step4.phone")} numberonly={true}
                 errormessage={errorTel}></InputSuper>
 
+            <InputSuper type={"tel"} max_string={10}
+                getValueFunc={setFixtel}
+                label={"Votre numéro de téléphone fixe (optionnel)"} numberonly={true}
+                errormessage={errorFixtel}></InputSuper>
+
             <InputSuper type={"date"}
                 getValueFunc={setBirthdate}
                 label={t("form.step4.birthdate")} max_numdate={new Date().toISOString().split("T")[0]}
@@ -251,6 +284,11 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 getValueFunc={setCountry}
                 label={t("form.step4.country")}
                 errormessage={errorCountry}></InputSuper>
+
+            <InputSuper type={"text"} max_string={100}
+                getValueFunc={setLanguage}
+                label={"Votre langue"}
+                errormessage={errorLanguage}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setAddress}
@@ -274,6 +312,14 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 label={t("form.step4.marketingLabel")}
                 errormessage={errorMarketting}
             ></InputSuper>
+
+            <InputSuper type={"text"} getValueFunc={setSchool}
+                label={"A quelle école allez-vous / êtes-vous allé ?"}
+                errormessage={errorSchool}></InputSuper>
+
+            <InputSuper type={"text"} getValueFunc={setJob}
+                label={"Quel est votre travail actuel ?"}
+                errormessage={errorJob}></InputSuper>
 
             {marketting == "other" &&
                 <InputSuper type={"text"} max_string={200}

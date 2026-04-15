@@ -8,6 +8,7 @@ import ScrollToTop from './components/layout/ScrollToTop.jsx';
 // Pages Publiques
 import Home from './pages/public/Home.jsx';
 import Movies from './pages/public/Movies.jsx';
+import PublicMovieDetail from './pages/public/MovieDetail.jsx';
 import Awards from './pages/public/Awards.jsx';
 import About from './pages/public/About.jsx';
 import FAQ from './pages/public/FAQ.jsx';
@@ -90,6 +91,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:movieId" element={<PublicMovieDetail />} />
           <Route path="/awards" element={<Awards />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />

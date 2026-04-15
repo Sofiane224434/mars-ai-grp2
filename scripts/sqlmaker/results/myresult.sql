@@ -1,20 +1,20 @@
 ---CODE à COPIER COLLER POUR LES REQUÊTES SQL---
 
-INSERT INTO movies (title_original, subtitles, videofile, language, description, prompt, status_id, synopsis_original, classification, thumbnail, created_at, updated_at, title_english, synopsis_english, youtube_url, movie_duration) VALUES (:title_original, :subtitles, :videofile, :language, :description, :prompt, :status_id, :synopsis_original, :classification, :thumbnail, :created_at, :updated_at, :title_english, :synopsis_english, :youtube_url, :movie_duration);
+INSERT INTO movies (classification, created_at, description, language, movie_duration, prompt, status, subtitles, synopsis_english, synopsis_original, thumbnail, title_english, title_original, updated_at, videofile, youtube_url) VALUES (:classification, :created_at, :description, :language, :movie_duration, :prompt, :status, :subtitles, :synopsis_english, :synopsis_original, :thumbnail, :title_english, :title_original, :updated_at, :videofile, :youtube_url);
 
-INSERT INTO director_profile (movie_id, email, firstname, lastname, address, address2, postal_code, city, country, marketting, date_of_birth, gender, fix_phone, mobile_phone, school, current_job, director_language) VALUES (:movie_id, :email, :firstname, :lastname, :address, :address2, :postal_code, :city, :country, :marketting, :date_of_birth, :gender, :fix_phone, :mobile_phone, :school, :current_job, :director_language);
+INSERT INTO director_profile (address, address2, city, country, current_job, date_of_birth, director_language, email, firstname, fix_phone, gender, lastname, marketting, mobile_phone, movie_id, postal_code, school) VALUES (:address, :address2, :city, :country, :current_job, :date_of_birth, :director_language, :email, :firstname, :fix_phone, :gender, :lastname, :marketting, :mobile_phone, :movie_id, :postal_code, :school);
 
-INSERT INTO sound_data (sound, type, movie_id) VALUES (:sound, :type, :movie_id);
+INSERT INTO sound_data (movie_id, sound, type) VALUES (:movie_id, :sound, :type);
 
-INSERT INTO used_ai (movie_id, ai_name, category) VALUES (:movie_id, :ai_name, :category);
+INSERT INTO used_ai (ai_name, category, movie_id) VALUES (:ai_name, :category, :movie_id);
 
-INSERT INTO socials (movie_id, social_name, social_link) VALUES (:movie_id, :social_name, :social_link);
+INSERT INTO socials (movie_id, social_link, social_name) VALUES (:movie_id, :social_link, :social_name);
 
-INSERT INTO screenshots (movie_id, link) VALUES (:movie_id, :link);
+INSERT INTO screenshots (link, movie_id) VALUES (:link, :movie_id);
 
-SELECT movies.id, movies.title_original, movies.subtitles, movies.videofile, movies.language, movies.description, movies.prompt, movies.status_id, movies.synopsis_original, movies.classification, movies.thumbnail, movies.created_at, movies.updated_at, movies.title_english, movies.synopsis_english, movies.youtube_url, movies.movie_duration, status.status, director_profile.email, director_profile.firstname, director_profile.lastname, director_profile.address, director_profile.address2, director_profile.postal_code, director_profile.city, director_profile.country, director_profile.marketting, director_profile.date_of_birth, director_profile.gender, director_profile.fix_phone, director_profile.mobile_phone, director_profile.school, director_profile.current_job, director_profile.director_language, sound_data.sound, sound_data.type, used_ai.ai_name, used_ai.category, screenshots.link, socials.social_name, socials.social_link 
+SELECT movies.classification, movies.created_at, movies.description, movies.id, movies.language, movies.movie_duration, movies.prompt, movies.status, movies.subtitles, movies.synopsis_english, movies.synopsis_original, movies.thumbnail, movies.title_english, movies.title_original, movies.updated_at, movies.videofile, movies.youtube_url, status.status, director_profile.address, director_profile.address2, director_profile.city, director_profile.country, director_profile.current_job, director_profile.date_of_birth, director_profile.director_language, director_profile.email, director_profile.firstname, director_profile.fix_phone, director_profile.gender, director_profile.lastname, director_profile.marketting, director_profile.mobile_phone, director_profile.postal_code, director_profile.school, sound_data.sound, sound_data.type, used_ai.ai_name, used_ai.category, screenshots.link, socials.social_link, socials.social_name 
 FROM movies
-LEFT JOIN status ON status.id = movies.status_id 
+LEFT JOIN status ON status.id = movies.status 
 LEFT JOIN director_profile ON director_profile.movie_id = movies.id 
 LEFT JOIN sound_data ON sound_data.movie_id = movies.id 
 LEFT JOIN used_ai ON used_ai.movie_id = movies.id 
@@ -24,15 +24,15 @@ LEFT JOIN socials ON socials.movie_id = movies.id
 
 -- Modèles d'objets à rentrer dans la BDD : 
 
--- movies = {title_original:"", subtitles:"", videofile:"", language:"", description:"", prompt:"", status_id:"", synopsis_original:"", classification:"", thumbnail:"", created_at:"", updated_at:"", title_english:"", synopsis_english:"", youtube_url:"", movie_duration:""}
+-- movies = {classification:"", created_at:"", description:"", , language:"", movie_duration:"", prompt:"", status:"", subtitles:"", synopsis_english:"", synopsis_original:"", thumbnail:"", title_english:"", title_original:"", updated_at:"", videofile:"", youtube_url:""}
 
--- director_profile = {movie_id:"", email:"", firstname:"", lastname:"", address:"", address2:"", postal_code:"", city:"", country:"", marketting:"", date_of_birth:"", gender:"", fix_phone:"", mobile_phone:"", school:"", current_job:"", director_language:""}
+-- director_profile = {address:"", address2:"", city:"", country:"", current_job:"", date_of_birth:"", director_language:"", email:"", firstname:"", fix_phone:"", gender:"", , lastname:"", marketting:"", mobile_phone:"", movie_id:"", postal_code:"", school:""}
 
--- sound_data = {sound:"", type:"", movie_id:""}
+-- sound_data = {movie_id:"", sound:"", type:""}
 
--- used_ai = {movie_id:"", ai_name:"", category:""}
+-- used_ai = {ai_name:"", category:"", , movie_id:""}
 
--- socials = {movie_id:"", social_name:"", social_link:""}
+-- socials = {movie_id:"", social_link:"", social_name:""}
 
--- screenshots = {movie_id:"", link:""}
+-- screenshots = {link:"", movie_id:""}
 

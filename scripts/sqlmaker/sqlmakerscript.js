@@ -1,7 +1,7 @@
 /**
  * EXPLICATIONS : 
  * Commande SQL pour récupérer la structure de toutes les tables d'une bd :
- * select * from INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "marsai";
+ * select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "marsai";
  * 
  * Puis, sur phpmyadmin, utiliser "export" en dessous des résultats.
  * Exporter en json.
@@ -10,7 +10,7 @@
  * import nomdevariable from "./...chemindujson" with {type:"json"};
  */
 
-import data from "./COLUMNS.json" with { type: "json" };
+import data from "./COLUMNS2.json" with { type: "json" };
 
 import fs from "fs";
 
@@ -125,7 +125,7 @@ LEFT JOIN socials on socials.movie_id = movies.id
 
         if (tables[t] != "movies") {
             if (tables[t] == "status") {
-                leftjoins += "LEFT JOIN " + tables[t] + " ON " + tables[t] + ".id = movies.status \n";
+                leftjoins += "LEFT JOIN " + tables[t] + " ON " + tables[t] + ".id = movies.status_id \n";
             } else {
                 leftjoins += "LEFT JOIN " + tables[t] + " ON " + tables[t] + ".movie_id = movies.id \n";
             }
@@ -161,9 +161,9 @@ LEFT JOIN socials on socials.movie_id = movies.id
 
     if (status) {
         if (named) {
-            conditions.push("movies.status = :moviestatus")
+            conditions.push("movies.status_id = :moviestatus")
         } else {
-            conditions.push("movies.status = ?");
+            conditions.push("movies.status_id = ?");
         }
     }
     if (movieid) {

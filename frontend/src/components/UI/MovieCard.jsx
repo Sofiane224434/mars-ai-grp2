@@ -8,6 +8,7 @@ const STATUS_VARIANT = {
   review: "review",
   rejected: "rejected",
   top50: "top50",
+  top5: "top5",
 };
 
 const STATUS_LABEL = {
@@ -16,6 +17,7 @@ const STATUS_LABEL = {
   review: "À revoir",
   rejected: "Refusé",
   top50: "Top 50",
+  top5: "Top 5",
 };
 
 const DEFAULT_THUMBNAIL = "https://picsum.photos/id/1005/1200/675";

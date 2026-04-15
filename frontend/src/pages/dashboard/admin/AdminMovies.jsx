@@ -13,7 +13,7 @@ import useFestivalPhase from "../../../hooks/useFestivalPhase.js";
 // 🚀 AJOUT 1 : Import de l'interrupteur
 import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
 
-const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending', 'top50'];
+const ALLOWED_STATUSES = ['approved', 'review', 'rejected', 'pending', 'top50', 'top5'];
 const ALLOWED_ASSIGNATIONS = ['assigned', 'unassigned'];
 
 function AdminMovies() {
@@ -311,13 +311,24 @@ function AdminMovies() {
                   </div>
 
                   <div className="flex flex-wrap items-center justify-center gap-2">
-                    <Filter
-                      variant="top50"
-                      checked={selectedFilters.status.includes('top50')}
-                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
-                    >
-                      Top 50
-                    </Filter>
+                    {currentPhase >= 1 && (
+                      <Filter
+                        variant="top50"
+                        checked={selectedFilters.status.includes('top50')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
+                      >
+                        Top 50
+                      </Filter>
+                    )}
+                    {currentPhase >= 2 && (
+                      <Filter
+                        variant="top5"
+                        checked={selectedFilters.status.includes('top5')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
+                      >
+                        Top 5
+                      </Filter>
+                    )}
                     <Filter
                       variant="approved"
                       checked={selectedFilters.status.includes('approved')}
@@ -380,13 +391,24 @@ function AdminMovies() {
                     </Filter>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Filter
-                      variant="top50"
-                      checked={selectedFilters.status.includes('top50')}
-                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
-                    >
-                      Top 50
-                    </Filter>
+                    {currentPhase >= 1 && (
+                      <Filter
+                        variant="top50"
+                        checked={selectedFilters.status.includes('top50')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
+                      >
+                        Top 50
+                      </Filter>
+                    )}
+                    {currentPhase >= 2 && (
+                      <Filter
+                        variant="top5"
+                        checked={selectedFilters.status.includes('top5')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
+                      >
+                        Top 5
+                      </Filter>
+                    )}
                     <Filter
                       variant="approved"
                       checked={selectedFilters.status.includes('approved')}

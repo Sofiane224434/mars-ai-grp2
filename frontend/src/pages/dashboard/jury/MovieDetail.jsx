@@ -27,6 +27,7 @@ function MovieDetail() {
   const { movieId } = useParams();
   const { currentPhase } = useFestivalPhase();
   const isJudgmentPhase = currentPhase === 1;
+  const isTop5Phase = currentPhase === 2;
   const { canPrev, canNext, goPrev, goNext } = useJuryMovieNavigation(movieId);
 
   // 🚀 1. INJECTION DU HOOK : Remplace 3 useState d'un seul coup !
@@ -47,7 +48,7 @@ function MovieDetail() {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [showMoreDirectorInfo, setShowMoreDirectorInfo] = useState(false);
 
-  const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider", 5: "Top 50" };
+  const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider", 5: "Top 50", 6: "Top 5" };
 
   // 🚀 2. LE USEEFFECT NETTOYÉ : Il ne contient plus que la logique d'appel, zéro gestion d'état !
   useEffect(() => {
@@ -110,7 +111,7 @@ function MovieDetail() {
         if (err.response?.status === 401) {
           toast.error("Votre session a expiré. Veuillez vous reconnecter.", { duration: 4000, position: 'bottom-right' });
         } else if (err.response?.status === 409) {
-          toast.error(err.response?.data?.message || "Limite Top 50 atteinte (50 films max).", { duration: 4000, position: 'bottom-right' });
+          toast.error(err.response?.data?.message || "Limite atteinte.", { duration: 4000, position: 'bottom-right' });
         } else {
           toast.error("Une erreur est survenue lors de l'enregistrement.", { duration: 4000, position: 'bottom-right' });
         }
@@ -134,9 +135,14 @@ function MovieDetail() {
       3: { variant: 'review', label: 'A revoir' },
       4: { variant: 'approved', label: 'Valide' },
       5: { variant: 'top50', label: 'Top 50' },
+      6: { variant: 'top5', label: 'Top 5' },
     };
 
     if (isJudgmentPhase && statusId === 4) {
+      return { variant: 'pending', label: 'En attente' };
+    }
+
+    if (isTop5Phase && statusId === 5) {
       return { variant: 'pending', label: 'En attente' };
     }
 
@@ -176,9 +182,15 @@ function MovieDetail() {
   }
 
   const currentStatus = getStatusBadgeFromDb(movie.statusId, movie.status);
-  const isVoteLocked = isJudgmentPhase ? ![4, 5].includes(movie.statusId) : ![1, 4].includes(movie.statusId);
+  const isVoteLocked = isTop5Phase
+    ? ![5, 6].includes(movie.statusId)
+    : isJudgmentPhase
+      ? ![4, 5].includes(movie.statusId)
+      : ![1, 4].includes(movie.statusId);
   const canPromoteTop50 = isJudgmentPhase ? movie.statusId === 4 : movie.statusId === 4;
   const canRemoveTop50 = isJudgmentPhase && movie.statusId === 5;
+  const canPromoteTop5 = isTop5Phase && movie.statusId === 5;
+  const canRemoveTop5 = isTop5Phase && movie.statusId === 6;
   const usedAis = movie.usedAis || [];
 
   const getAiCategoryStyle = (category) => {
@@ -229,7 +241,7 @@ function MovieDetail() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
-            {!isJudgmentPhase && (
+            {!isJudgmentPhase && !isTop5Phase && (
               <>
                 <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
                   Valider
@@ -239,7 +251,7 @@ function MovieDetail() {
                 </Button>
               </>
             )}
-            {!isJudgmentPhase && (
+            {!isJudgmentPhase && !isTop5Phase && (
               <Button interactive variant="rejected-jury" onClick={() => initiateVote(2)} disabled={isVoting || isVoteLocked}>
                 Refuser
               </Button>
@@ -254,9 +266,19 @@ function MovieDetail() {
                 {canRemoveTop50 ? 'Retirer Top 50' : 'Top 50'}
               </Button>
             ) : null}
+            {isTop5Phase ? (
+              <Button
+                interactive
+                variant={canRemoveTop5 ? 'rejected-jury' : 'approved-jury'}
+                onClick={() => initiateVote(canRemoveTop5 ? 5 : 6)}
+                disabled={isVoting || (!canPromoteTop5 && !canRemoveTop5)}
+              >
+                {canRemoveTop5 ? 'Retirer Top 5' : 'Top 5'}
+              </Button>
+            ) : null}
           </div>
 
-          {!isJudgmentPhase && movie.statusId === 4 && (
+          {!isJudgmentPhase && !isTop5Phase && movie.statusId === 4 && (
             <p className="text-gris-magneti text-xs mt-4 italic">
               Film validé : vous pouvez le passer en Top 50 si vous le souhaitez.
             </p>
@@ -268,7 +290,13 @@ function MovieDetail() {
             </p>
           )}
 
-          {!isJudgmentPhase && isVoteLocked && movie.statusId !== 4 && (
+          {isTop5Phase && (
+            <p className="text-gris-magneti text-xs mt-4 italic">
+              Phase Top 5 : utilisez le bouton Top 5 pour ajouter ou retirer un film du Top 5 (max 5 films). Le statut "Top 50" est affiché comme "En attente".
+            </p>
+          )}
+
+          {!isJudgmentPhase && !isTop5Phase && isVoteLocked && movie.statusId !== 4 && (
             <p className="text-gris-magneti text-xs mt-4 italic">
               Vous avez déjà statué sur ce film. Le vote est verrouillé.
             </p>

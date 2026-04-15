@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4, 5];
+const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4, 5, 6];
 
 const movieIdSchema = z.coerce
     .number({
@@ -18,7 +18,7 @@ const voteStatusIdSchema = z
     .int("L'ID doit etre un nombre entier.")
     .positive("L'ID doit etre superieur a zero.")
     .refine((value) => ALLOWED_VOTE_STATUS_IDS.includes(value), {
-        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3, 4 ou 5."
+        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3, 4, 5 ou 6."
     });
 
 const responseStatusIdSchema = z.coerce

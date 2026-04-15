@@ -1,5 +1,39 @@
 import pool, { query } from "../config/db.js";
 
+// Recuperer les films publics (Top 50 ou Top 5 selon la phase)
+export const getPublicMovies = async (phaseIndex) => {
+  // Phase 2 (affiche top 50): status IN (5, 6)
+  // Phase 3 (affiche top 5): status = 6
+  const statusFilter = phaseIndex >= 3 ? [6] : [5, 6];
+  const placeholders = statusFilter.map(() => '?').join(', ');
+
+  const sql = `
+    SELECT
+      m.id,
+      m.title_original AS title,
+      m.description,
+      m.title_english,
+      m.language,
+      m.thumbnail,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName
+    FROM movies m
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.status IN (${placeholders})
+    ORDER BY m.id ASC
+  `;
+
+  return await query(sql, statusFilter);
+};
+
 export const movieModel = {
   // 1. Récupérer la liste d'attente
   async getMoviesPendingReview() {
@@ -20,7 +54,7 @@ export const movieModel = {
         ORDER BY dp.id ASC
         LIMIT 1
       )
-      WHERE m.status IN (2, 3, 4)
+      WHERE m.status IN (2, 3, 4, 5, 6)
         AND NOT EXISTS (
           SELECT 1
           FROM email e

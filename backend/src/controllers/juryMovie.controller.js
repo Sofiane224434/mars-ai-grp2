@@ -3,6 +3,8 @@ import { movieDetailResponseSchema } from '../schemas/jury.schema.js';
 
 const TOP50_STATUS_ID = 5;
 const TOP50_MAX_COUNT = 50;
+const TOP5_STATUS_ID = 6;
+const TOP5_MAX_COUNT = 5;
 
 const getPhaseIndexFromRequest = (req) => {
   const rawPhase = req.headers['x-festival-phase-index'];
@@ -11,13 +13,19 @@ const getPhaseIndexFromRequest = (req) => {
 };
 
 const isJudgmentPhase = (req) => getPhaseIndexFromRequest(req) === 1;
+const isTop5Phase = (req) => getPhaseIndexFromRequest(req) === 2;
 
 export const getAssignedMovies = async (req, res) => {
   try {
     const userId = req.user.id;
-    const movies = isJudgmentPhase(req)
-      ? await JuryMovieModel.getAllMoviesForJudgmentPhase()
-      : await JuryMovieModel.getAssignedMoviesByUser(userId);
+    let movies;
+    if (isTop5Phase(req)) {
+      movies = await JuryMovieModel.getAllMoviesForTop5Phase();
+    } else if (isJudgmentPhase(req)) {
+      movies = await JuryMovieModel.getAllMoviesForJudgmentPhase();
+    } else {
+      movies = await JuryMovieModel.getAssignedMoviesByUser(userId);
+    }
 
     return res.status(200).json({
       success: true,
@@ -45,7 +53,7 @@ export const validateMovieStatus = async (req, res) => {
       });
     }
 
-    if (!isJudgmentPhase(req)) {
+    if (!isJudgmentPhase(req) && !isTop5Phase(req)) {
       const isAssigned = await JuryMovieModel.isMovieAssignedToUser(movieId, userId);
       if (!isAssigned) {
         return res.status(403).json({
@@ -73,6 +81,20 @@ export const validateMovieStatus = async (req, res) => {
         return res.status(409).json({
           success: false,
           message: 'Limite atteinte : le Top 50 contient deja 50 films.'
+        });
+      }
+    }
+
+    if (
+      isTop5Phase(req)
+      && statusId === TOP5_STATUS_ID
+      && currentStatusId !== TOP5_STATUS_ID
+    ) {
+      const currentTop5Count = await JuryMovieModel.countMoviesByStatus(TOP5_STATUS_ID);
+      if (currentTop5Count >= TOP5_MAX_COUNT) {
+        return res.status(409).json({
+          success: false,
+          message: 'Limite atteinte : le Top 5 contient deja 5 films.'
         });
       }
     }
@@ -118,7 +140,7 @@ export const getMovieById = async (req, res) => {
       return res.status(404).json({ message: "Ce film est introuvable." });
     }
 
-    if (!isJudgmentPhase(req) && !movieData.isAssigned) {
+    if (!isJudgmentPhase(req) && !isTop5Phase(req) && !movieData.isAssigned) {
       // Le film existe, mais le LEFT JOIN n'a rien trouvé pour CE juré
       return res.status(403).json({
         message: "Accès interdit : ce film ne fait pas partie de votre sélection."

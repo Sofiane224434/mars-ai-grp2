@@ -53,43 +53,6 @@ export default function FormParent() {
 
         try {
 
-            /**
-             * const [movietitle, setMovieTitle] = useState("");
-    const [movietitlefr, setMovieTitlefr] = useState("");
-    const [synopsis, setSynopsis] = useState("");
-    const [synopsisEng, setSynopsisEng] = useState("");
-    const [movielanguage, setMovieLanguage] = useState("");
-    const [movievideo, setMovieVideo] = useState({ file: "", value: "" });
-    const [soundbankCheck, setSoundbankCheck] = useState(false);
-    const [soundbankData, setSoundbankData] = useState([]);
-    const [ytlink, setYTlink] = useState("");
-             */
-
-            /**
-             *  const [aiscenarioCheck, setAiScenarioCheck] = useState(false);
-            const [aiscenarioData, setAiScenarioData] = useState([]);
-            const [aivideoCheck, setAiVideoCheck] = useState(false);
-            const [aivideoData, setAiVideoData] = useState([]);
-            const [aipostprodCheck, setAiPostprodCheck] = useState(false);
-            const [aipostprodData, setAiPostprodData] = useState([]);
-            //note:must also have the other values (should be handled by the additive component)
-            const [classification, setClassification] = useState("");
-            const [prompts, setPrompts] = useState("");
-        
-            const [errorAiCheck, setErrorAiCheck] = useState("");
-            const [errorClassification, setErrorClassification] = useState("");
-            const [errorPrompts, setErrorPrompts] = useState("");
-             */
-
-            /**
-             * const [thumbnail, setThumbnail] = useState({ file: "", value: "" });
-    const [srtCheck, setSrtCheck] = useState(false);
-    const [srtData, setSrtData] = useState({ file: "", value: "" });
-    const [screenshot1, setScreenshot1] = useState({ file: "", value: "" });
-    const [screenshot2, setScreenshot2] = useState({ file: "", value: "" });
-    const [screenshot3, setScreenshot3] = useState({ file: "", value: "" });
-             */
-
             //Construction des objets à envoyer dans le back
             //NE PAS OUBLIER de rajouter plus tard "movie_id" dans tous les objets
             //SAUF movies après que "movies" soit envoyé en bdd
@@ -97,9 +60,9 @@ export default function FormParent() {
             const movies = {
                 classification: formAIUse["classification"],
                 created_at: Date.now(),
-                description: "",
+                description: formMovieInfo["description"],
                 language: formMovieInfo["movielanguage"],
-                movie_duration: "",
+                movie_duration: formMovieInfo["videolength"],
                 prompt: formAIUse["prompts"],
                 status: 0,
                 subtitles: formMultimedia["srtData"],
@@ -112,13 +75,6 @@ export default function FormParent() {
                 videofile: formMovieInfo["movievideo"],
                 youtube_url: formMovieInfo["ytlink"]
             };
-
-            /**
-             * const [job, setJob] = useState("");
-    const [fixtel, setFixtel] = useState("");
-    const [school, setSchool] = useState("");
-    const [language, setLanguage] = useState("");
-             */
 
             const director_profile = {
                 address: directorInfo["address"],
@@ -177,9 +133,9 @@ export default function FormParent() {
             //- Extraire le lien du bucket
             //- Remplacer chaque "link" par le lien du bucket au lieu du fichier du formulaire
             const screenshots = [
-                { link: formMultimedia["screenshot1"] },
-                { link: formMultimedia["screenshot2"] },
-                { link: formMultimedia["screenshot3"] },
+                formMultimedia["screenshot1"] && { link: formMultimedia["screenshot1"] },
+                formMultimedia["screenshot2"] && { link: formMultimedia["screenshot2"] },
+                formMultimedia["screenshot3"] && { link: formMultimedia["screenshot3"] },
             ];
 
             //Construction de socials

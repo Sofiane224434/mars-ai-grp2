@@ -30,9 +30,10 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [soundbankData, setSoundbankData] = useState([]);
     const [ytlink, setYTlink] = useState("");
     const [description, setDescription] = useState("");
+    const [videoLength, setVideoLength] = useState("");
 
     const [errorMovieTitle, setErrorMovieTitle] = useState("");
-    const [errorMovieTitleeng, setErrorMovieTitleend] = useState("");
+    const [errorMovieTitleeng, setErrorMovieTitleeng] = useState("");
     const [errorSynopsis, setErrorSynopsis] = useState("");
     const [errorSynopsisEng, setErrorSynopsisEng] = useState("");
     const [errorMovieLanguage, setErrorMovieLanguage] = useState("");
@@ -52,8 +53,14 @@ export default function FormMovieInfo({ hide = false, getFunction,
         soundbankCheck: soundbankCheck,
         soundbankData: soundbankData,
         ytlink: ytlink,
-        description: description
+        description: description,
+        videoLength: videoLength
     }
+
+    //debug
+    useEffect(() => {
+        console.log(alldata);
+    }, [alldata])
 
     function sendData() {
         if (getFunction) {
@@ -127,6 +134,15 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
         if (soundbankCheck) {
             //Vérifier si la première valeur n'est pas vide..
+            if (soundbankData.length < 0 || soundbankData[0] == "") {
+                setErrorSoundbankData("Vous devez en renseigner au moins un.");
+                error = true;
+            }
+        }
+
+        if (videoLength > 90) {
+            setErrorMovieVideo("Votre vidéo doit être de moins d'une minute.")
+            error = true;
         }
 
         if (!error) {
@@ -140,8 +156,28 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
     }
 
-    // let testschema = z.url({ hostname: /^www\.youtube\.com$/ });
-    // console.log(testschema.safeParse("https://www.youtube.com/embed/DFYRQ_zQ-gk?autoplay=1"));
+    //Obtenir longueur de la vidéo
+    function getVideoInfo(value) {
+        let videofile = value.file;
+
+        let video = document.createElement('video');
+        video.preload = 'metadata';
+
+        video.onloadedmetadata = function () {
+
+            window.URL.revokeObjectURL(video.src);
+
+            let duration = video.duration;
+
+            //Enregistre la longueur de la vidéo en state
+            setVideoLength(duration);
+        }
+
+        video.src = URL.createObjectURL(videofile);
+
+        //Enregistre les infos fichier vidéo dans le state
+        setMovieVideo(value);
+    }
 
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
@@ -173,7 +209,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errormessage={errorMovieLanguage}></InputSuper>
 
             <InputSuper type={"file"} accept={"video/mp4,video/x-m4v,video/mov"}
-                getValueFunc={setMovieVideo} required={true}
+                getValueFunc={getVideoInfo} required={true}
                 errormessage={errorMovieVideo}></InputSuper>
 
             <InputSuper type={"checkbox"} label={t("form.step1.soundbankCheck")} getValueFunc={setSoundbankCheck}

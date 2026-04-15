@@ -96,8 +96,16 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errorSetFunction: setErrorMovieTitleeng
             }),
             verifyInputText({
-                value: synopsis, max_length: 300, required: true,
+                value: description, max_length: 300, required: true,
+                errorSetFunction: setErrorDescription
+            }),
+            verifyInputText({
+                value: synopsis, max_length: 500, required: true,
                 errorSetFunction: setErrorSynopsis
+            }),
+            verifyInputText({
+                value: synopsisEng, max_length: 500, required: true,
+                errorSetFunction: setErrorSynopsisEng
             }),
             verifyInputText({
                 value: movielanguage, max_length: 100,

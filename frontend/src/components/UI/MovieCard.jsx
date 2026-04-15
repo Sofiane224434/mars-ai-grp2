@@ -18,7 +18,7 @@ const STATUS_LABEL = {
   top50: "Top 50",
 };
 
-const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
+const DEFAULT_THUMBNAIL = "https://picsum.photos/id/1005/1200/675";
 
 // Fallback SVG si l'image ne charge pas
 const FALLBACK_SVG = (
@@ -40,7 +40,7 @@ function MovieCard({
   layout = "grid",
   title = "Titre de la video",
   directorName = "Nom Prénom",
-  description = "Une description raccourcie de la video. Texte texte. Plus de description...",
+  description = "Description non renseignée.",
   status = "pending",
   assignedJurors = [],
   thumbnailSrc,

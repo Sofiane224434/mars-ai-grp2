@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,7 +14,7 @@ import Button from '../../../components/ui/Button.jsx';
 import Spinner from '../../../components/ui/Spinner.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
-import AdminMovieDetailActions from '../../../components/sections/DashboardAdmin/AdminMovieDetailActions.jsx';
+import JuryAssignmentModal from '../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -36,7 +36,34 @@ function AdminMovieDetails() {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [showMoreDirectorInfo, setShowMoreDirectorInfo] = useState(false);
   const [seenCommentsByMovie, setSeenCommentsByMovie] = useState({});
+  const [juryOptions, setJuryOptions] = useState([]);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [selectedJuryId, setSelectedJuryId] = useState('');
+  const [assignError, setAssignError] = useState('');
+  const [isAssigning, setIsAssigning] = useState(false);
   const commentsSectionRef = useRef(null);
+
+  const getAuthConfig = useCallback(() => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      withCredentials: true,
+    };
+  }, []);
+
+  const loadMovieDetail = useCallback(async () => {
+    if (!movieId) return;
+
+    await fetchMovie(() =>
+      axios.get(`${API_BASE_URL}/admin/movies/${movieId}`, getAuthConfig()),
+    );
+  }, [fetchMovie, getAuthConfig, movieId]);
+
+  const loadJuryOptions = useCallback(async () => {
+    const response = await axios.get(`${API_BASE_URL}/movies/juries`, getAuthConfig());
+    const juries = response?.data?.data || [];
+    setJuryOptions(Array.isArray(juries) ? juries : []);
+  }, [getAuthConfig]);
 
   useEffect(() => {
     const resetState = () => {
@@ -46,17 +73,75 @@ function AdminMovieDetails() {
 
     queueMicrotask(resetState);
 
-    if (movieId) {
-      const token = localStorage.getItem('token');
-      // On appelle la route admin pour récupérer les détails du film
-      fetchMovie(() =>
-        axios.get(`${API_BASE_URL}/admin/movies/${movieId}`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-          withCredentials: true
-        })
-      );
+    if (!movieId) return;
+
+    const loadPageData = async () => {
+      try {
+        await Promise.all([loadMovieDetail(), loadJuryOptions()]);
+      } catch (loadError) {
+        console.error('Erreur de chargement du detail film:', loadError);
+      }
+    };
+
+    loadPageData();
+  }, [loadJuryOptions, loadMovieDetail, movieId]);
+
+  const openAssignModal = () => {
+    if (!movie) return;
+
+    const currentJuryId = Array.isArray(movie.assignedJuries) && movie.assignedJuries.length > 0
+      ? String(movie.assignedJuries[0]?.id || '')
+      : '';
+
+    setSelectedJuryId(currentJuryId);
+    setAssignError('');
+    setIsAssignModalOpen(true);
+  };
+
+  const closeAssignModal = () => {
+    setIsAssignModalOpen(false);
+    setSelectedJuryId('');
+    setAssignError('');
+  };
+
+  const handleAssignMovie = async () => {
+    if (!movie?.id) {
+      setAssignError('Film invalide.');
+      return;
     }
-  }, [movieId, fetchMovie]);
+
+    if (!selectedJuryId) {
+      setAssignError('Sélectionne un jury.');
+      return;
+    }
+
+    setIsAssigning(true);
+    setAssignError('');
+
+    try {
+      await axios.post(
+        `${API_BASE_URL}/movies/assign`,
+        {
+          movieId: Number(movie.id),
+          juryId: Number(selectedJuryId),
+        },
+        getAuthConfig(),
+      );
+
+      await Promise.all([loadMovieDetail(), loadJuryOptions()]);
+      closeAssignModal();
+    } catch (requestError) {
+      const zodFirstIssue = requestError?.response?.data?.erreurs?.[0]?.message;
+      const message =
+        requestError?.response?.data?.message ||
+        requestError?.response?.data?.error ||
+        zodFirstIssue ||
+        'Erreur lors de l\'assignation du jury.';
+      setAssignError(message);
+    } finally {
+      setIsAssigning(false);
+    }
+  };
 
   const getYouTubeEmbedUrl = (url) => {
     if (!url) return null;
@@ -217,7 +302,7 @@ function AdminMovieDetails() {
               showAssignmentControls && (
                 <div className="flex flex-col items-center gap-3 mt-2">
                   <span className="text-gris-magneti text-sm italic">Cette vidéo n'est pas encore assignée.</span>
-                  <Button interactive variant="email-send" onClick={() => console.log("Ouvrir modale assignation")}>
+                  <Button interactive variant="email-send" onClick={openAssignModal}>
                     Assigner cette vidéo à un jury
                   </Button>
                 </div>
@@ -413,6 +498,18 @@ function AdminMovieDetails() {
       </div>
 
       {/* Ton code exact pour la modale */}
+      <JuryAssignmentModal
+        isOpen={isAssignModalOpen}
+        selectedMovie={movie}
+        juryOptions={juryOptions}
+        selectedJuryId={selectedJuryId}
+        onSelectJury={setSelectedJuryId}
+        assignError={assignError}
+        isAssigning={isAssigning}
+        onClose={closeAssignModal}
+        onConfirm={handleAssignMovie}
+      />
+
       {emailModalOpen && (
         <EmailTemplateModal
           movie={movie}

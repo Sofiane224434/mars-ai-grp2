@@ -251,6 +251,7 @@ function JuryMovies() {
                   status={statusStr}
                   title={movie.title}
                   directorName={movie.directorName}
+                  description={movie.description || 'Description non renseignée.'}
                   thumbnailSrc={movie.thumbnail || movie.screenshotLink}
                   onMoreInfo={() => navigate(`/dashboard/jury/${id}/movies/${movie.id}`)}
                 />

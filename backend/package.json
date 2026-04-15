@@ -9,7 +9,9 @@
     "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch --passWithNoTests",
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "sync:newsletter-unsubscribed": "node scripts/syncBrevoUnsubscribed.js"
+    "sync:newsletter-unsubscribed": "node scripts/syncBrevoUnsubscribed.js",
+    "seed:movies50": "node scripts/seedMoviesFromExistingVideo.js 50",
+    "seed:movies:normalize-submission": "node scripts/normalizeSeededMoviesForSubmissionPhase.js"
   },
   "keywords": [],
   "author": "",

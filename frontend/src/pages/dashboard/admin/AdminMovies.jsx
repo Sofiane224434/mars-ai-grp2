@@ -453,6 +453,7 @@ function AdminMovies() {
                   status={statusStr}
                   title={movie.title}
                   directorName={movie.directorName}
+                  description={movie.description || 'Description non renseignée.'}
                   thumbnailSrc={movie.thumbnail || movie.screenshotLink}
                   assignedJurors={hasJury ? movie.assignedJuries.map(j => j.name || j.email) : []}
                   onAssign={() => openAssignModal(movie)}

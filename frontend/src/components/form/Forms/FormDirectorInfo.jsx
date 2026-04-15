@@ -60,7 +60,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         address2: address2,
         postalcode: postalcode,
         city: city,
-        marketting: marketting,
+        marketting: marketting == "other" ? markettingOther : marketting,
         tosCheck: tosCheck,
         rulesCheck: rulesCheck
     }

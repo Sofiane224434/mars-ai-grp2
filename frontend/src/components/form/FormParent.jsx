@@ -49,16 +49,93 @@ export default function FormParent() {
         setFormDirectorInfo(lastvalues);
         console.log("Successfully filled form");
         console.log(formMovieInfo, formMultimedia, formAIUse, lastvalues);
+        const directorInfo = lastvalues;
 
         try {
-            const moviedata = {
-                movieInfo: formMovieInfo,
-                movieMultimedia: formMultimedia,
-                movieAIuse: formAIUse,
-                movieDirectorProfile: lastvalues
-            }
 
-            await createMovie(moviedata);
+            /**
+             * const [movietitle, setMovieTitle] = useState("");
+    const [movietitlefr, setMovieTitlefr] = useState("");
+    const [synopsis, setSynopsis] = useState("");
+    const [synopsisEng, setSynopsisEng] = useState("");
+    const [movielanguage, setMovieLanguage] = useState("");
+    const [movievideo, setMovieVideo] = useState({ file: "", value: "" });
+    const [soundbankCheck, setSoundbankCheck] = useState(false);
+    const [soundbankData, setSoundbankData] = useState([]);
+    const [ytlink, setYTlink] = useState("");
+             */
+
+            /**
+             *  const [aiscenarioCheck, setAiScenarioCheck] = useState(false);
+            const [aiscenarioData, setAiScenarioData] = useState([]);
+            const [aivideoCheck, setAiVideoCheck] = useState(false);
+            const [aivideoData, setAiVideoData] = useState([]);
+            const [aipostprodCheck, setAiPostprodCheck] = useState(false);
+            const [aipostprodData, setAiPostprodData] = useState([]);
+            //note:must also have the other values (should be handled by the additive component)
+            const [classification, setClassification] = useState("");
+            const [prompts, setPrompts] = useState("");
+        
+            const [errorAiCheck, setErrorAiCheck] = useState("");
+            const [errorClassification, setErrorClassification] = useState("");
+            const [errorPrompts, setErrorPrompts] = useState("");
+             */
+
+            /**
+             * const [thumbnail, setThumbnail] = useState({ file: "", value: "" });
+    const [srtCheck, setSrtCheck] = useState(false);
+    const [srtData, setSrtData] = useState({ file: "", value: "" });
+    const [screenshot1, setScreenshot1] = useState({ file: "", value: "" });
+    const [screenshot2, setScreenshot2] = useState({ file: "", value: "" });
+    const [screenshot3, setScreenshot3] = useState({ file: "", value: "" });
+             */
+
+            const movies = {
+                classification: formAIUse["classification"],
+                created_at: Date.now(),
+                description: "",
+                language: formMovieInfo["movielanguage"],
+                movie_duration: "",
+                prompt: formAIUse["prompts"],
+                status: 0,
+                subtitles: formMultimedia["srtData"],
+                synopsis_english: formMovieInfo["synopsisEng"],
+                synopsis_original: formMovieInfo["synopsis"],
+                thumbnail: formMultimedia["thumbnail"],
+                title_english: "",
+                title_original: formMovieInfo["movietitle"],
+                updated_at: Date.now(),
+                videofile: formMovieInfo["movievideo"],
+                youtube_url: formMovieInfo["ytlink"]
+            };
+
+            const director_profile = {
+                address: directorInfo["address"],
+                address2: directorInfo["address2"],
+                city: directorInfo["city"],
+                country: directorInfo["country"],
+                current_job: "",
+                date_of_birth: directorInfo["birthdate"],
+                director_language: "",
+                email: directorInfo["email"],
+                firstname: directorInfo["firstname"],
+                fix_phone: "",
+                gender: directorInfo["gender"],
+                lastname: directorInfo["lastname"],
+                marketting: directorInfo["marketting"],
+                mobile_phone: directorInfo["tel"],
+                postal_code: directorInfo["postalcode"],
+                school: ""
+            };
+            //can be multiple
+            const sound_data = { sound: "", type: "" };
+            //can be multiple
+            const used_ai = { ai_name: "", category: "" };
+            //can be multiple
+            const screenshots = { link: "" };
+
+
+            //await createMovie(moviedata);
 
         } catch (err) {
             console.log(err);

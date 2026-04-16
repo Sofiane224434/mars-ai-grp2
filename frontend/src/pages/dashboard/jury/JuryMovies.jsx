@@ -18,6 +18,7 @@ function JuryMovies() {
   const { currentPhase } = useFestivalPhase();
   const isJudgmentPhase = currentPhase === 1;
   const isTop5Phase = currentPhase === 2;
+  const isResultsPhase = currentPhase === 3;
   const allowedStatusesForPhase = useMemo(() =>
     isTop5Phase
       ? ['pending', 'top5']
@@ -167,6 +168,25 @@ function JuryMovies() {
   const finalError = apiError;
   if (finalError) {
     return <div className="min-h-screen bg-linear-to-b from-noir-bleute to-gris-anthracite flex items-center justify-center text-center text-red-500 p-4">{finalError}</div>;
+  }
+
+  if (isResultsPhase) {
+    return (
+      <div className="min-h-screen bg-linear-to-b from-noir-bleute to-gris-anthracite flex items-center justify-center p-8">
+        <div className="max-w-lg w-full text-center rounded-2xl border border-white/10 bg-gris-steelix/60 p-10 backdrop-blur-sm">
+          <div className="mb-6 flex justify-center">
+            <span className="text-6xl">🏆</span>
+          </div>
+          <h2 className="text-3xl font-bold font-title text-white mb-4">
+            Mission accomplie&nbsp;!
+          </h2>
+          <p className="text-gris-magneti text-lg leading-relaxed">
+            Il n&rsquo;y a plus de films à juger.<br />
+            Merci, vous avez fait du bon travail&nbsp;!
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (

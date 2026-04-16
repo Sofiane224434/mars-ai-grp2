@@ -32,7 +32,8 @@
                     "cta": "Lire la FAQ"
                 }
             }
-        }
+        },
+        "results-available": "Les Résultats des Gagnants sont disponibles !"
     },
     "about": {
         "blocks": {
@@ -187,6 +188,17 @@
         "phase-judgment": "Jugement pour le top 50",
         "phase-top50": "Sélection du top 50",
         "phase-top5": "Sélection du top 5",
+        "results-title": "Résultats des gagnants",
+        "results-description": "Découvrez le Top 5 puis l'ensemble du Top 50 sélectionné par le jury.",
+        "top5-title": "Top 5",
+        "top5-description": "Découvrez les 5 films finalistes sélectionnés par le jury.",
+        "podium-title": "Podium du Top 5",
+        "podium-first": "1er",
+        "podium-second": "2e",
+        "podium-third": "3e",
+        "view-movie": "Voir le film",
+        "top50-title": "Top 50",
+        "top50-description": "Retrouvez également la sélection complète du Top 50.",
         "back-to-list": "Retour à la liste des films",
         "detail-loading": "Chargement du film...",
         "detail-error-title": "Film indisponible",

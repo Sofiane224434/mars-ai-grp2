@@ -50,6 +50,40 @@ function MovieDetail() {
 
   const statusLabels = { 2: "Refuser", 3: "À revoir", 4: "Valider", 5: "Top 50", 6: "Top 5" };
 
+  const handleTop5Rank = async (rank) => {
+    if ((movie?.top5Rank ?? null) === rank) {
+      return;
+    }
+
+    try {
+      setIsVoting(true);
+      const token = localStorage.getItem('token');
+
+      await axios.put(`${API_BASE_URL}/jury/movies/${movieId}/top5-rank`, { rank }, {
+        headers: token ? {
+          Authorization: `Bearer ${token}`,
+          'x-festival-phase-index': String(currentPhase),
+        } : undefined,
+        withCredentials: true
+      });
+
+      setMovie((prev) => ({ ...prev, top5Rank: rank }));
+      toast.success(rank ? `Position podium ${rank} enregistrée.` : 'Position podium retirée.', {
+        duration: 3000,
+        position: 'bottom-right',
+        style: { background: '#1A232C', color: '#fff', border: '1px solid #4DB8B9' },
+      });
+    } catch (err) {
+      console.error('Erreur API lors du classement Top 5 :', err);
+      toast.error(err.response?.data?.message || 'Impossible de mettre à jour la position podium.', {
+        duration: 4000,
+        position: 'bottom-right'
+      });
+    } finally {
+      setIsVoting(false);
+    }
+  };
+
   // 🚀 2. LE USEEFFECT NETTOYÉ : Il ne contient plus que la logique d'appel, zéro gestion d'état !
   useEffect(() => {
     queueMicrotask(() => {
@@ -294,6 +328,36 @@ function MovieDetail() {
             <p className="text-gris-magneti text-xs mt-4 italic">
               Phase Top 5 : utilisez le bouton Top 5 pour ajouter ou retirer un film du Top 5 (max 5 films). Le statut "Top 50" est affiché comme "En attente".
             </p>
+          )}
+
+          {isTop5Phase && movie.statusId === 6 && (
+            <div className="mt-6 flex flex-col items-center gap-3">
+              <p className="text-sm text-gris-magneti">Classement podium (Top 3)</p>
+              <div className="w-full max-w-xs">
+                <label htmlFor="top5-rank-select" className="mb-2 block text-xs text-gris-magneti">
+                  Choisir le rang
+                </label>
+                <select
+                  id="top5-rank-select"
+                  className="w-full rounded-xl border border-white/20 bg-[#1e2124] px-4 py-3 text-white outline-none transition-all focus:border-jaune-souffre"
+                  value={movie.top5Rank ?? ''}
+                  disabled={isVoting}
+                  onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    const nextRank = selectedValue === '' ? null : Number(selectedValue);
+                    handleTop5Rank(nextRank);
+                  }}
+                >
+                  <option value="">Aucune position</option>
+                  <option value="1">1er</option>
+                  <option value="2">2e</option>
+                  <option value="3">3e</option>
+                </select>
+              </div>
+              <p className="text-xs text-gris-magneti italic">
+                Position actuelle : {movie.top5Rank ? `${movie.top5Rank}${movie.top5Rank === 1 ? 'er' : 'e'}` : 'aucune'}.
+              </p>
+            </div>
           )}
 
           {!isJudgmentPhase && !isTop5Phase && isVoteLocked && movie.statusId !== 4 && (

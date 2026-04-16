@@ -6,34 +6,6 @@
     "faq": "FAQ",
     "participate": "Mitmachen"
   },
-  "home": {
-    "HeroSection": "Der Mensch im Mittelpunkt der KI",
-    "titles1": "1 MINUTE",
-    "description1": "Jeder Film dauert höchstens 1 Minute",
-    "titles2": "1 THEMA",
-    "description2": "Allen Filmen ist ein gemeinsames Thema gemein: Eine erstrebenswerte Zukunft",
-    "titles3": "1 GEWINNER",
-    "description3": "Nur ein einziger großer Gewinner!",
-    "PodiumGraphic": "Aus einer Auswahl von über 20.000 Videos",
-    "quickAccess": {
-      "title": "Entdecken Sie das Festival",
-      "description": "Hier finden Sie schnell die wichtigsten Seiten des Festivals, um die Filme zu entdecken, MarsAI besser kennenzulernen und alle praktischen Informationen zu erhalten.",
-      "cards": {
-        "movies": {
-          "description": "Entdecken Sie die ausgewählten Kurzfilme, verfolgen Sie die aktuelle Phase und sehen Sie sich bald die Gewinnerliste an.",
-          "cta": "Filme ansehen"
-        },
-        "about": {
-          "description": "Machen Sie sich mit der Vision des Festivals, seinen Zielen und dem einzigartigen Format des Wettbewerbs vertraut.",
-          "cta": "MarsAI entdecken"
-        },
-        "faq": {
-          "description": "Hier finden Sie auf einen Blick alle praktischen Informationen: Anfahrt, Öffnungszeiten, Workshops und Ablauf.",
-          "cta": "FAQ lesen"
-        }
-      }
-    }
-  },
   "about": {
     "blocks": {
       "block1": {
@@ -102,13 +74,44 @@
     "newsletterLoading": "Anmeldung läuft...",
     "newsletterSubscribeSuccess": "Anmeldung bestätigt. Vielen Dank!",
     "newsletterSubscribeError": "Eine Anmeldung ist derzeit nicht möglich.",
-    "newsletterInvalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein."
+    "newsletterInvalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "rgpd": "Datenschutzerklärung (DSGVO)"
   },
   "movies": {
     "empty-title": "Bald erhältlich",
     "empty-description": "Die 50 von der Jury ausgewählten Filme werden nach Abschluss der Bewerbungsphase hier veröffentlicht. Schauen Sie bald wieder vorbei!",
     "current-phase-label": "Aktuelle Phase",
-    "current-phase": "Einreichung der Bewerbungen"
+    "current-phase": "Einreichung der Bewerbungen",
+    "phase-judgment": "Entscheidung über die Top 50",
+    "phase-top50": "Auswahl der Top 50",
+    "phase-top5": "Auswahl der Top 5",
+    "results-title": "Ergebnisse der Gewinner",
+    "results-description": "Entdecken Sie die Top 5 und anschließend die gesamte Top 50, die von der Jury ausgewählt wurde.",
+    "top5-title": "Top 5",
+    "top5-description": "Entdecken Sie die 5 von der Jury ausgewählten Finalistenfilme.",
+    "top50-title": "Top 50",
+    "top50-description": "Hier finden Sie auch die vollständige Liste der Top 50.",
+    "back-to-list": "Zurück zur Filmliste",
+    "detail-loading": "Film wird geladen...",
+    "detail-error-title": "Film nicht verfügbar",
+    "detail-not-found": "Der gewünschte Film ist nicht auffindbar oder noch nicht öffentlich zugänglich.",
+    "detail-no-video": "Zu diesem Film ist kein Videolink verfügbar.",
+    "detail-film-info-title": "Informationen zum Film",
+    "detail-synopsis-label": "Zusammenfassung",
+    "detail-description-label": "Beschreibung",
+    "detail-language-label": "Sprache",
+    "detail-classification-label": "Klassifizierung",
+    "detail-ai-tools-title": "Verwendete KI-Tools",
+    "detail-ai-tools-label": "Liste der Werkzeuge",
+    "detail-no-ai-tools": "Für diesen Film sind keine KI-Tools angegeben.",
+    "by-director": "Von: {{director}}",
+    "unknown-director": "Regisseur unbekannt",
+    "not-provided": "Keine Angabe.",
+    "podium-title": "Podium der Top 5",
+    "podium-first": "1.",
+    "podium-second": "2.",
+    "podium-third": "3.",
+    "view-movie": "Den Film ansehen"
   },
   "countdown": {
     "nextSelection": "Nächste Auswahl",
@@ -217,5 +220,44 @@
       "fileTooSmall": "Die Datei ist zu klein; sie muss mindestens {{min}} MB groß sein.",
       "notImage": "Die Datei muss im Bildformat (.png / .jpeg / .jpg) vorliegen."
     }
+  },
+  "home": {
+    "results-available": "Die Gewinner stehen fest!",
+    "HeroSection": "Der Mensch im Mittelpunkt der KI",
+    "titles1": "1 MINUTE",
+    "description1": "Jeder Film dauert höchstens 1 Minute",
+    "titles2": "1 THEMA",
+    "description2": "Allen Filmen ist ein gemeinsames Thema gemein: Eine erstrebenswerte Zukunft",
+    "titles3": "1 GEWINNER",
+    "description3": "Nur ein einziger großer Gewinner!",
+    "PodiumGraphic": "Aus einer Auswahl von über 20.000 Videos",
+    "quickAccess": {
+      "title": "Entdecken Sie das Festival",
+      "description": "Hier finden Sie schnell die wichtigsten Seiten des Festivals, um die Filme zu entdecken, MarsAI besser kennenzulernen und alle praktischen Informationen zu erhalten.",
+      "cards": {
+        "movies": {
+          "description": "Entdecken Sie die ausgewählten Kurzfilme, verfolgen Sie die aktuelle Phase und sehen Sie sich bald die Gewinnerliste an.",
+          "cta": "Filme ansehen"
+        },
+        "about": {
+          "description": "Machen Sie sich mit der Vision des Festivals, seinen Zielen und dem einzigartigen Format des Wettbewerbs vertraut.",
+          "cta": "MarsAI entdecken"
+        },
+        "faq": {
+          "description": "Hier finden Sie auf einen Blick alle praktischen Informationen: Anfahrt, Öffnungszeiten, Workshops und Ablauf.",
+          "cta": "FAQ lesen"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "DSGVO",
+    "pageTitle": "Datenschutzerklärung und Impressum",
+    "intro": "Auf dieser Seite wird erläutert, wie MarsAI personenbezogene Daten von Besuchern, Filmemachern und Jurymitgliedern erhebt, nutzt, schützt und speichert.",
+    "summaryAriaLabel": "Übersicht DSGVO",
+    "summaryTitle": "Inhaltsverzeichnis",
+    "backToTop": "Zurück zum Seitenanfang",
+    "backHome": "Zurück zur Startseite",
+    "sections": "[Objekt Objekt],[Objekt Objekt],[Objekt Objekt],[Objekt Objekt],[Objekt Objekt],[Objekt Objekt],[Objekt Objekt]"
   }
 }

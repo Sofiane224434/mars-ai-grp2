@@ -2,15 +2,16 @@ import pool, { query } from "../config/db.js";
 
 // Recuperer les films publics (Top 50 ou Top 5 selon la phase)
 export const getPublicMovies = async (phaseIndex) => {
-  // Phase 2 (affiche top 50): status IN (5, 6)
-  // Phase 3 (affiche top 5): status = 6
-  const statusFilter = phaseIndex >= 3 ? [6] : [5, 6];
+  // A partir de la phase publique, on garde Top 50 et Top 5 accessibles.
+  const statusFilter = [5, 6];
   const placeholders = statusFilter.map(() => '?').join(', ');
 
   const sql = `
     SELECT
       m.id,
       m.title_original AS title,
+      m.status AS statusId,
+      m.top5_rank AS top5Rank,
       m.description,
       m.title_english,
       m.language,
@@ -28,14 +29,18 @@ export const getPublicMovies = async (phaseIndex) => {
     FROM movies m
     LEFT JOIN director_profile dp ON dp.movie_id = m.id
     WHERE m.status IN (${placeholders})
-    ORDER BY m.id ASC
+    ORDER BY
+      CASE WHEN m.status = 6 THEN 0 ELSE 1 END ASC,
+      CASE WHEN m.status = 6 AND m.top5_rank IS NULL THEN 1 ELSE 0 END ASC,
+      CASE WHEN m.status = 6 THEN m.top5_rank ELSE NULL END ASC,
+      m.id ASC
   `;
 
   return await query(sql, statusFilter);
 };
 
 export const getPublicMovieDetail = async (movieId, phaseIndex) => {
-  const statusFilter = phaseIndex >= 3 ? [6] : [5, 6];
+  const statusFilter = [5, 6];
   const placeholders = statusFilter.map(() => '?').join(', ');
 
   const sqlMovie = `
@@ -47,6 +52,7 @@ export const getPublicMovieDetail = async (movieId, phaseIndex) => {
       m.synopsis_english,
       m.description,
       m.youtube_url AS videoUrl,
+      m.top5_rank AS top5Rank,
       m.thumbnail,
       m.language,
       m.classification,

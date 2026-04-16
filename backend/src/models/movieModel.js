@@ -207,14 +207,19 @@ export const movieModel = {
         c.id,
         c.comment AS content,
         c.movie_id AS movieId,
-        0 AS isPrivate,
+        c.isprivate AS isPrivate,
         u.email AS authorEmail
       FROM comments c
       LEFT JOIN users u ON u.id = c.user_id
       WHERE c.movie_id = ?
+        AND COALESCE(c.isprivate, 1) = 0
       ORDER BY c.id ASC
     `;
-    const publicComments = await query(sqlPublicComments, [movieId]);
+    const publicCommentsRows = await query(sqlPublicComments, [movieId]);
+    const publicComments = publicCommentsRows.map((row) => ({
+      ...row,
+      isPrivate: Number(row.isPrivate) !== 0,
+    }));
 
     // 4. On assemble l'objet final comme ton frontend l'attend
     return {

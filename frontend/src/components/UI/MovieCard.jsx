@@ -93,7 +93,7 @@ function MovieCard({
           onClick={onMoreInfo}
           className="h-12! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight [&_.btn-bg-base]:h-full [&_.btn-bg-base]:top-0 [&_.btn-bg-base]:rounded-full"
         >
-          {isPublicCard ? "Accéder aux détails" : "Voir plus d&apos;informations"}
+          {isPublicCard ? "Accéder aux détails" : "Voir plus d'informations"}
         </Button>
       )}
     </div>

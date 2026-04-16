@@ -114,6 +114,27 @@ export const postJuryCommentSchema = z.object({
         content: z.string()
             .min(2, "La note doit contenir au moins 2 caractères.")
             .max(2000, "La note est trop longue (maximum 2000 caractères.)"),
-        isPrivate: z.coerce.number().int().default(1)
+        isPrivate: z.coerce.number().int().min(0).max(1).default(1)
+    })
+});
+
+export const putJuryCommentSchema = z.object({
+    params: z.object({
+        commentId: z.string().regex(/^\d+$/, "Le paramètre commentId doit être un nombre entier valide.")
+    }),
+    body: z.object({
+        content: z.string()
+            .min(2, "La note doit contenir au moins 2 caractères.")
+            .max(2000, "La note est trop longue (maximum 2000 caractères.)")
+            .optional(),
+        isPrivate: z.coerce.number().int().min(0).max(1).optional()
+    }).refine((data) => data.content !== undefined || data.isPrivate !== undefined, {
+        message: "Au moins un champ (content ou isPrivate) doit être fourni."
+    })
+});
+
+export const deleteJuryCommentSchema = z.object({
+    params: z.object({
+        commentId: z.string().regex(/^\d+$/, "Le paramètre commentId doit être un nombre entier valide.")
     })
 });

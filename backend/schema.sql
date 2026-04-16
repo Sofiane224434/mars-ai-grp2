@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `marsai`.`comments` (
   `user_id` INT NOT NULL,
   `movie_id` INT NOT NULL,
   `comment` LONGTEXT NOT NULL,
+  `isprivate` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_teamid_team_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_movieid_movies_idx` (`movie_id` ASC) VISIBLE,
@@ -143,15 +144,15 @@ CREATE TABLE IF NOT EXISTS `marsai`.`comments` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO `marsai`.`comments` (`id`, `user_id`, `movie_id`, `comment`) VALUES
-(1, 1, 1, 'Utilisation de Midjourney incroyable.'),
-(2, 1, 1, 'ce film est très correct'),
-(3, 1, 1, 'Très sombre'),
-(4, 1, 10, 'huih'),
-(5, 1, 9, 'fdf'),
-(6, 1, 11, 'tres bien'),
-(7, 1, 8, 'sdsd'),
-(8, 1, 12, 'Très beau travail sur la colorimétrie.');
+INSERT INTO `marsai`.`comments` (`id`, `user_id`, `movie_id`, `comment`, `isprivate`) VALUES
+(1, 1, 1, 'Utilisation de Midjourney incroyable.', 0),
+(2, 1, 1, 'ce film est très correct', 0),
+(3, 1, 1, 'Très sombre', 0),
+(4, 1, 10, 'huih', 0),
+(5, 1, 9, 'fdf', 0),
+(6, 1, 11, 'tres bien', 0),
+(7, 1, 8, 'sdsd', 0),
+(8, 1, 12, 'Très beau travail sur la colorimétrie.', 0);
 
 -- -----------------------------------------------------
 -- Table `marsai`.`users_movies`

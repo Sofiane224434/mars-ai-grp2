@@ -6,12 +6,19 @@ import {
   getMovieByIdSchema,
   updateMovieStatusSchema,
   getJuryCommentsSchema,
-  postJuryCommentSchema
+  postJuryCommentSchema,
+  putJuryCommentSchema,
+  deleteJuryCommentSchema
 } from '../schemas/jury.schema.js';
 
 // Import des contrôleurs
 import { getAssignedMovies, getMovieById, validateMovieStatus } from '../controllers/juryMovie.controller.js';
-import { getJuryComments, postJuryComment } from '../controllers/juryComment.controller.js';
+import {
+  deleteJuryComment,
+  getJuryComments,
+  postJuryComment,
+  putJuryComment
+} from '../controllers/juryComment.controller.js';
 
 const router = express.Router();
 
@@ -57,5 +64,11 @@ router.get('/comments', validateRequest(getJuryCommentsSchema), getJuryComments)
 
 // Ajouter une nouvelle note
 router.post('/comments', validateRequest(postJuryCommentSchema), postJuryComment);
+
+// Modifier une note existante
+router.put('/comments/:commentId', validateRequest(putJuryCommentSchema), putJuryComment);
+
+// Supprimer une note
+router.delete('/comments/:commentId', validateRequest(deleteJuryCommentSchema), deleteJuryComment);
 
 export default router;

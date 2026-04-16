@@ -6,34 +6,6 @@
     "faq": "Perguntas frequentes",
     "participate": "Participar"
   },
-  "home": {
-    "HeroSection": "O ser humano no centro da IA",
-    "titles1": "1 MINUTO",
-    "description1": "Cada vídeo tem uma duração máxima de 1 minuto",
-    "titles2": "1 TEMA",
-    "description2": "Todos os filmes têm um tema comum: um futuro desejável",
-    "titles3": "1 VENCEDOR",
-    "description3": "Um único grande vencedor!",
-    "PodiumGraphic": "De uma seleção de mais de 20 000 vídeos",
-    "quickAccess": {
-      "title": "Explore o festival",
-      "description": "Aceda rapidamente às páginas principais do festival para descobrir os filmes, compreender melhor o MarsAI e obter todas as informações práticas.",
-      "cards": {
-        "movies": {
-          "description": "Descubra os curtas-metragens selecionados, acompanhe a fase atual e fique atento ao anúncio dos vencedores, que será feito em breve.",
-          "cta": "Ver os filmes"
-        },
-        "about": {
-          "description": "Compreenda a visão do festival, os seus objetivos e o formato único do concurso.",
-          "cta": "Conheça a MarsAI"
-        },
-        "faq": {
-          "description": "Aceda rapidamente às informações práticas: acesso, horários, workshops e organização.",
-          "cta": "Ler as perguntas frequentes"
-        }
-      }
-    }
-  },
   "about": {
     "blocks": {
       "block1": {
@@ -102,13 +74,44 @@
     "newsletterLoading": "Inscrição em curso...",
     "newsletterSubscribeSuccess": "Inscrição confirmada. Obrigado!",
     "newsletterSubscribeError": "Não é possível inscrever-se neste momento.",
-    "newsletterInvalidEmail": "Por favor, introduza um endereço de e-mail válido."
+    "newsletterInvalidEmail": "Por favor, introduza um endereço de e-mail válido.",
+    "rgpd": "Política de Privacidade (RGPD)"
   },
   "movies": {
     "empty-title": "Em breve disponível",
     "empty-description": "Os 50 filmes selecionados pelo júri serão publicados aqui após o encerramento do período de candidaturas. Volte em breve!",
     "current-phase-label": "Fase atual",
-    "current-phase": "Apresentação das candidaturas"
+    "current-phase": "Apresentação das candidaturas",
+    "phase-judgment": "Classificação dos 50 melhores",
+    "phase-top50": "Seleção dos 50 melhores",
+    "phase-top5": "Seleção dos 5 melhores",
+    "results-title": "Resultados dos vencedores",
+    "results-description": "Descubra o Top 5 e, em seguida, o Top 50 completo selecionado pelo júri.",
+    "top5-title": "Top 5",
+    "top5-description": "Descubra os 5 filmes finalistas selecionados pelo júri.",
+    "top50-title": "Top 50",
+    "top50-description": "Veja também a seleção completa do Top 50.",
+    "back-to-list": "Voltar à lista de filmes",
+    "detail-loading": "A carregar o filme...",
+    "detail-error-title": "Filme indisponível",
+    "detail-not-found": "O filme solicitado não foi encontrado ou ainda não está disponível ao público.",
+    "detail-no-video": "Não há nenhum vídeo disponível para este filme.",
+    "detail-film-info-title": "Informações sobre o filme",
+    "detail-synopsis-label": "Sinopse",
+    "detail-description-label": "Descrição",
+    "detail-language-label": "Idioma",
+    "detail-classification-label": "Classificação",
+    "detail-ai-tools-title": "Ferramentas de IA utilizadas",
+    "detail-ai-tools-label": "Lista de ferramentas",
+    "detail-no-ai-tools": "Não há nenhuma ferramenta de IA registada para este filme.",
+    "by-director": "Por: {{director}}",
+    "unknown-director": "Realizador desconhecido",
+    "not-provided": "Não indicado.",
+    "podium-title": "Pódio do Top 5",
+    "podium-first": "1.º",
+    "podium-second": "2.º",
+    "podium-third": "3.º",
+    "view-movie": "Ver o filme"
   },
   "countdown": {
     "nextSelection": "Próxima seleção",
@@ -217,5 +220,44 @@
       "fileTooSmall": "O ficheiro é demasiado pequeno; deve ter pelo menos {{min}} MB.",
       "notImage": "O ficheiro deve estar no formato de imagem (.png / .jpeg / .jpg)."
     }
+  },
+  "home": {
+    "results-available": "Os resultados dos vencedores já estão disponíveis!",
+    "HeroSection": "O ser humano no centro da IA",
+    "titles1": "1 MINUTO",
+    "description1": "Cada vídeo tem uma duração máxima de 1 minuto",
+    "titles2": "1 TEMA",
+    "description2": "Todos os filmes têm um tema comum: um futuro desejável",
+    "titles3": "1 VENCEDOR",
+    "description3": "Um único grande vencedor!",
+    "PodiumGraphic": "De uma seleção de mais de 20 000 vídeos",
+    "quickAccess": {
+      "title": "Explore o festival",
+      "description": "Aceda rapidamente às páginas principais do festival para descobrir os filmes, compreender melhor o MarsAI e obter todas as informações práticas.",
+      "cards": {
+        "movies": {
+          "description": "Descubra os curtas-metragens selecionados, acompanhe a fase atual e fique atento ao anúncio dos vencedores, que será feito em breve.",
+          "cta": "Ver os filmes"
+        },
+        "about": {
+          "description": "Compreenda a visão do festival, os seus objetivos e o formato único do concurso.",
+          "cta": "Conheça a MarsAI"
+        },
+        "faq": {
+          "description": "Aceda rapidamente às informações práticas: acesso, horários, workshops e organização.",
+          "cta": "Ler as perguntas frequentes"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "RGPD",
+    "pageTitle": "Política de privacidade e aviso legal",
+    "intro": "Esta página explica como a MarsAI recolhe, utiliza, protege e conserva os dados pessoais dos visitantes, realizadores e membros do júri.",
+    "summaryAriaLabel": "Índice do RGPD",
+    "summaryTitle": "Índice",
+    "backToTop": "Voltar ao topo da página",
+    "backHome": "Voltar à página inicial",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
   }
 }

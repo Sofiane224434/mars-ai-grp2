@@ -27,4 +27,18 @@ export async function testConnection() {
         return false;
     }
 }
+
+export async function ensureSchemaUpdates() {
+    try {
+        const existing = await query(`SHOW COLUMNS FROM movies LIKE 'top5_rank'`);
+        if (!Array.isArray(existing) || existing.length === 0) {
+            await query(`ALTER TABLE movies ADD COLUMN top5_rank TINYINT NULL DEFAULT NULL`);
+        }
+        console.log('Schema check OK: movies.top5_rank');
+        return true;
+    } catch (error) {
+        console.error('Erreur schema update (top5_rank):', error);
+        return false;
+    }
+}
 export default pool;

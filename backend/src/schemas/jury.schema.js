@@ -44,6 +44,18 @@ export const updateMovieStatusSchema = z.object({
     })
 });
 
+export const updateTop5RankSchema = z.object({
+    params: movieIdParamsSchema,
+    body: z.object({
+        rank: z.union([
+            z.literal(1),
+            z.literal(2),
+            z.literal(3),
+            z.null()
+        ])
+    })
+});
+
 export const movieDetailResponseSchema = z.object({
     id: movieIdSchema,
     title: z.string().min(1, 'Le titre est obligatoire.'),
@@ -63,6 +75,7 @@ export const movieDetailResponseSchema = z.object({
     createdAt: z.union([z.string(), z.date()]),
     aiTools: z.string().nullable(),
     statusId: responseStatusIdSchema,
+    top5Rank: z.union([z.literal(1), z.literal(2), z.literal(3), z.null()]).default(null),
     status: z.string().min(1, 'Le statut est obligatoire.'),
     directorName: z.string().min(1, 'Le nom du réalisateur est obligatoire.'),
     directorFirstName: z.string().nullable(),

@@ -20,6 +20,7 @@ export const getAssignedMoviesByUser = async (userId) => {
         LIMIT 1
       ) AS screenshotLink,
       m.status AS statusId,
+      m.top5_rank AS top5Rank,
       s.status AS statusLabel,
       s.status AS status,
       dp.firstname AS directorFirstName,
@@ -58,6 +59,7 @@ export const getAllMoviesForJudgmentPhase = async () => {
         LIMIT 1
       ) AS screenshotLink,
       m.status AS statusId,
+      m.top5_rank AS top5Rank,
       s.status AS statusLabel,
       s.status AS status,
       dp.firstname AS directorFirstName,
@@ -95,6 +97,7 @@ export const getAllMoviesForTop5Phase = async () => {
         LIMIT 1
       ) AS screenshotLink,
       m.status AS statusId,
+      m.top5_rank AS top5Rank,
       s.status AS statusLabel,
       s.status AS status,
       dp.firstname AS directorFirstName,
@@ -127,8 +130,30 @@ export const isMovieAssignedToUser = async (movieId, userId) => {
 
 // Mettre à jour le statut du film
 export const updateMovieStatus = async (movieId, statusId) => {
-  const sql = "UPDATE movies SET status = ? WHERE id = ?";
-  return await query(sql, [statusId, movieId]);
+  if (statusId === 6) {
+    const sqlKeepRank = 'UPDATE movies SET status = ? WHERE id = ?';
+    return await query(sqlKeepRank, [statusId, movieId]);
+  }
+
+  const sqlResetRank = 'UPDATE movies SET status = ?, top5_rank = NULL WHERE id = ?';
+  return await query(sqlResetRank, [statusId, movieId]);
+};
+
+export const getMovieTop5RankById = async (movieId) => {
+  const sql = 'SELECT top5_rank AS top5Rank FROM movies WHERE id = ? LIMIT 1';
+  const rows = await query(sql, [movieId]);
+  return rows?.[0]?.top5Rank ?? null;
+};
+
+export const getMovieIdByTop5Rank = async (rank) => {
+  const sql = 'SELECT id FROM movies WHERE status = 6 AND top5_rank = ? LIMIT 1';
+  const rows = await query(sql, [rank]);
+  return rows?.[0]?.id ?? null;
+};
+
+export const updateMovieTop5Rank = async (movieId, rank) => {
+  const sql = 'UPDATE movies SET top5_rank = ? WHERE id = ?';
+  return await query(sql, [rank, movieId]);
 };
 
 export const getMovieStatusById = async (movieId) => {
@@ -181,6 +206,7 @@ export const getMovieDetailById = async (movieId, userId) => {
         WHERE ua.movie_id = m.id
       ) AS usedAisRaw,
       m.status AS statusId,
+      m.top5_rank AS top5Rank,
       s.status AS statusLabel,
       m.created_at AS createdAt,
       dp.firstname AS directorFirstName,

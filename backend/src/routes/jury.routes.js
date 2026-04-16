@@ -5,12 +5,13 @@ import { requireAuth } from '../middlewares/auth.middleware.js';
 import {
   getMovieByIdSchema,
   updateMovieStatusSchema,
+  updateTop5RankSchema,
   getJuryCommentsSchema,
   postJuryCommentSchema
 } from '../schemas/jury.schema.js';
 
 // Import des contrôleurs
-import { getAssignedMovies, getMovieById, validateMovieStatus } from '../controllers/juryMovie.controller.js';
+import { getAssignedMovies, getMovieById, updateTop5Rank, validateMovieStatus } from '../controllers/juryMovie.controller.js';
 import { getJuryComments, postJuryComment } from '../controllers/juryComment.controller.js';
 
 const router = express.Router();
@@ -46,6 +47,9 @@ router.get('/movies/:id', validateRequest(getMovieByIdSchema), getMovieById);
 
 // Mise à jour du statut (Vote)
 router.put('/movies/:id/status', validateRequest(updateMovieStatusSchema), validateMovieStatus);
+
+// Mise à jour du rang podium Top 5 (1, 2, 3 ou null)
+router.put('/movies/:id/top5-rank', validateRequest(updateTop5RankSchema), updateTop5Rank);
 
 
 // ==========================================

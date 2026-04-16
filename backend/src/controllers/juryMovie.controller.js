@@ -122,6 +122,67 @@ export const validateMovieStatus = async (req, res) => {
   }
 };
 
+export const updateTop5Rank = async (req, res) => {
+  try {
+    const movieId = Number(req.params.id);
+    const { rank } = req.body;
+
+    if (!Number.isInteger(movieId) || movieId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID de film invalide.'
+      });
+    }
+
+    if (!isTop5Phase(req)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Le classement Top 5 est disponible uniquement pendant la phase Top 5.'
+      });
+    }
+
+    const currentStatusId = await JuryMovieModel.getMovieStatusById(movieId);
+    if (currentStatusId === null) {
+      return res.status(404).json({
+        success: false,
+        message: 'Film introuvable.'
+      });
+    }
+
+    if (currentStatusId !== TOP5_STATUS_ID) {
+      return res.status(409).json({
+        success: false,
+        message: 'Ce film doit etre dans le Top 5 avant de recevoir un rang de podium.'
+      });
+    }
+
+    if (rank !== null) {
+      const assignedMovieId = await JuryMovieModel.getMovieIdByTop5Rank(rank);
+      if (assignedMovieId && Number(assignedMovieId) !== movieId) {
+        return res.status(409).json({
+          success: false,
+          message: `La position ${rank} est deja attribuee a un autre film.`
+        });
+      }
+    }
+
+    await JuryMovieModel.updateMovieTop5Rank(movieId, rank);
+
+    return res.status(200).json({
+      success: true,
+      message: rank === null
+        ? 'Rang podium retire avec succes.'
+        : `Rang podium ${rank} enregistre avec succes.`
+    });
+  } catch (error) {
+    console.error('Erreur lors de la mise a jour du rang Top 5 :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Une erreur est survenue lors de la mise a jour du rang Top 5.'
+    });
+  }
+};
+
 export const getMovieById = async (req, res) => {
   try {
     const movieId = parseInt(req.params.id, 10);
@@ -173,6 +234,7 @@ export const getMovieById = async (req, res) => {
       usedAis: movieData.usedAis || [],
 
       statusId: movieData.statusId || 1,
+      top5Rank: movieData.top5Rank ?? null,
       status: movieData.statusLabel || 'En attente',
 
       directorName,

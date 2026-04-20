@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Status } from '../../ui/StatusBadge.jsx';
 import Button from '../../ui/Button.jsx';
+import { resolveMediaUrl } from '../../../utils/media.js';
 
 const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
 
@@ -45,6 +46,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
     : getCardStyle(movie.statusId);
 
   const statusInfo = getStatusLabel(movie.statusId);
+  const resolvedThumbnail = resolveMediaUrl(movie.thumbnail || movie.screenshotLink);
 
   return (
     <div className={`flex backdrop-blur-sm transition-all duration-300 ${cardStyle} ${
@@ -64,7 +66,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
       >
         {imageError ? FALLBACK_SVG : (
           <img 
-            src={movie.thumbnail || movie.screenshotLink || DEFAULT_THUMBNAIL}
+            src={resolvedThumbnail || DEFAULT_THUMBNAIL}
             alt={`Vignette de ${movieTitle}`} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
             onError={() => setImageError(true)}

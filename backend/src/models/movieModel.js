@@ -314,22 +314,193 @@ export const movieModel = {
     }));
   },
 
-  async postMovie(moviedata) {
-    console.log("model received movie...");
-    const sql_movies = `INSERT INTO movies 
-    (classification, created_at, description, language, 
-    movie_duration, prompt, status, subtitles, synopsis_english, 
-    synopsis_original, thumbnail, title_english, title_original, updated_at, 
-    videofile, youtube_url) 
-    VALUES (:classification, :created_at, :description, :language, 
-    :movie_duration, :prompt, :status, :subtitles, :synopsis_english, 
-    :synopsis_original, :thumbnail, :title_english, :title_original, 
-    :updated_at, :videofile, :youtube_url);
-  `;
+  async createMovieSubmission({
+    movie,
+    directorProfile,
+    usedAi = [],
+    soundData = [],
+    socials = [],
+    screenshotLinks = [],
+  }) {
+    const connection = await pool.getConnection();
 
-    //const movies = moviedata.movies;
+    try {
+      await connection.beginTransaction();
+
+      const [movieResult] = await connection.execute(
+        `INSERT INTO movies (
+          title_original,
+          subtitles,
+          videofile,
+          language,
+          description,
+          prompt,
+          status,
+          synopsis_original,
+          classification,
+          thumbnail,
+          created_at,
+          updated_at,
+          title_english,
+          synopsis_english,
+          youtube_url,
+          movie_duration
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?, ?, ?)` ,
+        [
+          movie.title_original,
+          movie.subtitles,
+          movie.videofile,
+          movie.language,
+          movie.description,
+          movie.prompt,
+          movie.status,
+          movie.synopsis_original,
+          movie.classification,
+          movie.thumbnail,
+          movie.title_english,
+          movie.synopsis_english,
+          movie.youtube_url,
+          movie.movie_duration,
+        ],
+      );
+
+      const movieId = Number(movieResult.insertId);
+
+      await connection.execute(
+        `INSERT INTO director_profile (
+          movie_id,
+          email,
+          firstname,
+          lastname,
+          address,
+          address2,
+          postal_code,
+          city,
+          country,
+          marketting,
+          date_of_birth,
+          gender,
+          fix_phone,
+          mobile_phone,
+          school,
+          current_job,
+          director_language
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)` ,
+        [
+          movieId,
+          directorProfile.email,
+          directorProfile.firstname,
+          directorProfile.lastname,
+          directorProfile.address,
+          directorProfile.address2,
+          directorProfile.postal_code,
+          directorProfile.city,
+          directorProfile.country,
+          directorProfile.marketting,
+          directorProfile.date_of_birth,
+          directorProfile.gender,
+          directorProfile.fix_phone,
+          directorProfile.mobile_phone,
+          directorProfile.school,
+          directorProfile.current_job,
+          directorProfile.director_language,
+        ],
+      );
+
+      for (const screenshotLink of screenshotLinks) {
+        await connection.execute(
+          `INSERT INTO screenshots (movie_id, link) VALUES (?, ?)`,
+          [movieId, screenshotLink],
+        );
+      }
+
+      for (const social of socials) {
+        await connection.execute(
+          `INSERT INTO socials (movie_id, social_name, social_link) VALUES (?, ?, ?)`,
+          [movieId, social.social_name, social.social_link],
+        );
+      }
+
+      for (const sound of soundData) {
+        await connection.execute(
+          `INSERT INTO sound_data (sound, type, movie_id) VALUES (?, ?, ?)`,
+          [sound.sound, sound.type, movieId],
+        );
+      }
+
+      for (const usedAiItem of usedAi) {
+        const [existingAiRows] = await connection.execute(
+          `SELECT id FROM ai_list WHERE LOWER(ai_name) = LOWER(?) LIMIT 1`,
+          [usedAiItem.ai_name],
+        );
+
+        let aiId = Number(existingAiRows?.[0]?.id || 0);
+
+        if (!aiId) {
+          const [createdAi] = await connection.execute(
+            `INSERT INTO ai_list (ai_name, included) VALUES (?, 1)`,
+            [usedAiItem.ai_name],
+          );
+          aiId = Number(createdAi.insertId);
+        }
+
+        await connection.execute(
+          `INSERT INTO used_ai (movie_id, ai_name, category) VALUES (?, ?, ?)`,
+          [movieId, aiId, usedAiItem.category],
+        );
+      }
+
+      await connection.commit();
+      return { movieId };
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  async postMovie(moviedata) {
+    const sql_movies = `
+      INSERT INTO movies (
+        classification,
+        created_at,
+        description,
+        language,
+        movie_duration,
+        prompt,
+        status,
+        subtitles,
+        synopsis_english,
+        synopsis_original,
+        thumbnail,
+        title_english,
+        title_original,
+        updated_at,
+        videofile,
+        youtube_url
+      ) VALUES (
+        :classification,
+        NOW(),
+        :description,
+        :language,
+        :movie_duration,
+        :prompt,
+        :status,
+        :subtitles,
+        :synopsis_english,
+        :synopsis_original,
+        :thumbnail,
+        :title_english,
+        :title_original,
+        NOW(),
+        :videofile,
+        :youtube_url
+      )
+    `;
+
     const result = await query(sql_movies, moviedata);
-    return { id: result.id, movieinfo: movies };
+    return { id: Number(result.insertId), movieinfo: moviedata };
   }
 };
 

@@ -5,6 +5,6 @@
 /frontend/.env
 /node_modules
 /.vscode
-
+/uploads/submissions
 # Ignore les fichier documentations utilisateurs
 .help/*

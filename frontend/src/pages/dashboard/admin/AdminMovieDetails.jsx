@@ -15,6 +15,7 @@ import Spinner from '../../../components/ui/Spinner.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
 import JuryAssignmentModal from '../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx';
+import { resolveMediaUrl } from '../../../utils/media.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -239,6 +240,8 @@ function AdminMovieDetails() {
     }
   })();
   const usedAis = movie.usedAis || [];
+  const screenshotCandidates = [movie.screenshotLink, movie.thumbnail].filter(Boolean);
+  const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)).filter(Boolean))];
   const totalComments = Array.isArray(movie.publicComments) ? movie.publicComments.length : 0;
   const movieKey = movieId ? String(movieId) : null;
   const storageKey = movieKey ? `admin_seen_comments_${movieKey}` : null;
@@ -394,7 +397,29 @@ function AdminMovieDetails() {
               <div className="text-gris-magneti font-medium">Sous-titres :</div>
               <div>{movie.subtitles || "lien_vers_fichier_sous_titres"}</div>
               <div className="text-gris-magneti font-medium">Screenshots :</div>
-              <div>{movie.screenshotLink || "Non renseigné."}</div>
+              {screenshotUrls.length > 0 ? (
+                <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {screenshotUrls.map((url, index) => (
+                    <a
+                      key={`${url}-${index}`
+                      }
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block overflow-hidden rounded-lg border border-gris-magneti/30 bg-noir-bleute"
+                    >
+                      <img
+                        src={url}
+                        alt={`Screenshot ${index + 1} de ${movie.title || 'la vidéo'}`}
+                        className="w-full aspect-video object-cover"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div>Non renseigné.</div>
+              )}
             </>
           )}
 

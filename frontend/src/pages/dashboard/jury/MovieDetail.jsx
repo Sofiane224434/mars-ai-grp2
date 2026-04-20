@@ -12,6 +12,7 @@ import NotesSection from '../../../components/sections/DashboardJury/NotesSectio
 import Button from '../../../components/ui/Button.jsx';
 import Spinner from '../../../components/ui/Spinner.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
+import { resolveMediaUrl } from '../../../utils/media.js';
 
 // 🚀 NOUVEL IMPORT : Ton Custom Hook
 import useApi from '../../../hooks/useApi.js';
@@ -180,6 +181,8 @@ function MovieDetail() {
   const canPromoteTop50 = isJudgmentPhase ? movie.statusId === 4 : movie.statusId === 4;
   const canRemoveTop50 = isJudgmentPhase && movie.statusId === 5;
   const usedAis = movie.usedAis || [];
+  const screenshotCandidates = [movie.screenshotLink, movie.thumbnail].filter(Boolean);
+  const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)).filter(Boolean))];
 
   const getAiCategoryStyle = (category) => {
     const normalizedCategory = String(category || '').toLowerCase().trim();
@@ -297,8 +300,29 @@ function MovieDetail() {
               <div>{movie.videofile || "Non renseigné."}</div>
               <div className="text-gris-magneti font-medium">Sous-titres :</div>
               <div>{movie.subtitles || "Non renseigné."}</div>
-              <div className="text-gris-magneti font-medium">Screenshot :</div>
-              <div>{movie.screenshotLink || movie.thumbnail || "Non renseigné."}</div>
+              <div className="text-gris-magneti font-medium">Screenshots :</div>
+              {screenshotUrls.length > 0 ? (
+                <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {screenshotUrls.map((url, index) => (
+                    <a
+                      key={`${url}-${index}`}
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block overflow-hidden rounded-lg border border-gris-magneti/30 bg-noir-bleute"
+                    >
+                      <img
+                        src={url}
+                        alt={`Screenshot ${index + 1} de ${movie.title || 'la vidéo'}`}
+                        className="w-full aspect-video object-cover"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div>Non renseigné.</div>
+              )}
             </>
           )}
 

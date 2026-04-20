@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import useMovie from "../../hooks/useMovie";
 
 import FormMovieInfo from "./Forms/FormMovieInfo";
@@ -10,205 +11,242 @@ import FormDirectorInfo from "./Forms/FormDirectorInfo";
 import StepsTrack from "./StepsTrack";
 
 export default function FormParent() {
+  const { t } = useTranslation();
+  const [currentStep, setCurrentStep] = useState(1);
+  const formTopRef = useRef(null);
 
-    const { t } = useTranslation();
-    const [currentStep, setCurrentStep] = useState(1);
-    const formTopRef = useRef(null);
+  const { createMovie } = useMovie();
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState("");
+  const [isSubmissionComplete, setIsSubmissionComplete] = useState(false);
 
-    const { createMovie } = useMovie();
-    const [loading, setLoading] = useState(false);
+  const [formMovieInfo, setFormMovieInfo] = useState({});
+  const [formAIUse, setFormAIUse] = useState({});
+  const [formMultimedia, setFormMultimedia] = useState({});
 
-    const [formMovieInfo, setFormMovieInfo] = useState({});
-    const [formAIUse, setFormAIUse] = useState({});
-    const [formMultimedia, setFormMultimedia] = useState({});
-    const [formDirectorInfo, setFormDirectorInfo] = useState({});
+  const buildUsedAiPayload = () => {
+    const usedAi = [];
 
-    const myforms = [
-        <FormMovieInfo key="step-1" hide={currentStep == 1 ? false : true}
-            getFunction={setFormMovieInfo} stepfunc={handlestep} currentstep={currentStep}></FormMovieInfo>,
-        <FormAIUse key="step-2" hide={currentStep == 2 ? false : true} getFunction={setFormAIUse}
-            stepfunc={handlestep} currentstep={currentStep}></FormAIUse>,
-        <FormMultimedia key="step-3" hide={currentStep == 3 ? false : true}
-            getFunction={setFormMultimedia} stepfunc={handlestep} currentstep={currentStep}></FormMultimedia>,
-        <FormDirectorInfo key="step-4" hide={currentStep == 4 ? false : true}
-            sendfunc={sendtoback} currentstep={currentStep} stepfunc={handlestep}></FormDirectorInfo>
-    ]
+    const appendAiList = (aiList, category) => {
+      if (!Array.isArray(aiList)) {
+        return;
+      }
 
-    const maxstep = myforms.length;
-
-    let allvalues = [formMovieInfo, formMultimedia, formAIUse, formDirectorInfo];
-
-    function tester() {
-        //
-    }
-
-    async function sendtoback(lastvalues) {
-        // e.preventDefault();
-        setLoading(true);
-
-        setFormDirectorInfo(lastvalues);
-        console.log("Successfully filled form");
-        console.log(formMovieInfo, formMultimedia, formAIUse, lastvalues);
-        const directorInfo = lastvalues;
-
-        try {
-
-            //Construction des objets à envoyer dans le back
-            //NE PAS OUBLIER de rajouter plus tard "movie_id" dans tous les objets
-            //SAUF movies après que "movies" soit envoyé en bdd
-
-            const movies = {
-                classification: formAIUse["classification"],
-                created_at: "NOW()",
-                description: formMovieInfo["description"],
-                language: formMovieInfo["movielanguage"],
-                movie_duration: formMovieInfo["videolength"],
-                prompt: formAIUse["prompts"],
-                status: 0,
-                subtitles: formMultimedia["srtData"],
-                synopsis_english: formMovieInfo["synopsisEng"],
-                synopsis_original: formMovieInfo["synopsis"],
-                thumbnail: formMultimedia["thumbnail"],
-                title_english: formMovieInfo["movietitleeng"],
-                title_original: formMovieInfo["movietitle"],
-                updated_at: "NOW()",
-                videofile: formMovieInfo["movievideo"],
-                youtube_url: formMovieInfo["ytlink"],
-            };
-
-            //convert to formdata
-            let moviesformdata = new FormData();
-            for (let key in movies) {
-                moviesformdata.append(key, movies[key]);
-            }
-            console.log(moviesformdata);
-
-            const director_profile = {
-                address: directorInfo["address"],
-                address2: directorInfo["address2"],
-                city: directorInfo["city"],
-                country: directorInfo["country"],
-                current_job: directorInfo["job"],
-                date_of_birth: directorInfo["birthdate"],
-                director_language: directorInfo["language"],
-                email: directorInfo["email"],
-                firstname: directorInfo["firstname"],
-                fix_phone: directorInfo["fixtel"],
-                gender: directorInfo["gender"],
-                lastname: directorInfo["lastname"],
-                marketting: directorInfo["marketting"],
-                mobile_phone: directorInfo["tel"],
-                postal_code: directorInfo["postalcode"],
-                school: directorInfo["school"]
-            };
-
-            //can be multiple
-            let ex_sound_data = { sound: "", type: "" };
-            let sound_data = [];
-
-            //Construction de l'objet IAs utilisées
-            let ex_used_ai = { ai_name: "", category: "" };
-
-            let used_ai = [];
-
-            if (formAIUse["aiscenarioData"]) {
-                for (let n in formAIUse["aiscenarioData"]) {
-                    ex_used_ai.ai_name = formAIUse["aiscenarioData"][n];
-                    ex_used_ai.category = "script";
-                    used_ai.push(ex_used_ai);
-                }
-            }
-            if (formAIUse["aivideoData"]) {
-                for (let n in formAIUse["aivideoData"]) {
-                    ex_used_ai.ai_name = formAIUse["aivideoData"][n];
-                    ex_used_ai.category = "movie";
-                    used_ai.push(ex_used_ai);
-                }
-            }
-            if (formAIUse["aipostprodData"]) {
-                for (let n in formAIUse["aipostprodData"]) {
-                    ex_used_ai.ai_name = formAIUse["aipostprodData"][n];
-                    ex_used_ai.category = "postprod";
-                    used_ai.push(ex_used_ai);
-                }
-            }
-
-
-            //Construction de screenshots
-            //NE PAS OUBLIER dans le back, chaque fichier doit être:
-            //- Envoyé dans le bucket
-            //- Extraire le lien du bucket
-            //- Remplacer chaque "link" par le lien du bucket au lieu du fichier du formulaire
-            const screenshots = [
-                formMultimedia["screenshot1"] && { link: formMultimedia["screenshot1"] },
-                formMultimedia["screenshot2"] && { link: formMultimedia["screenshot2"] },
-                formMultimedia["screenshot3"] && { link: formMultimedia["screenshot3"] },
-            ];
-
-            //Construction de socials
-            //NE PAS OUBLIER de rajouter "movie_id" dans le back
-            let socialsData = formDirectorInfo["socials"];
-
-            let socials = [];
-
-            for (let n in socialsData) {
-                socials.push({
-                    social_link: socialsData[n]["sociallink"],
-                    social_name: socialsData[n]["socialname"]
-                })
-            }
-
-            const moviedata = {
-                movies: moviesformdata,
-                director_profile: director_profile,
-                sound_data: sound_data,
-                used_ai: used_ai,
-                screenshots: screenshots,
-                socials: socials
-            }
-
-            await createMovie(moviesformdata);
-
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setLoading(false);
+      for (const aiName of aiList) {
+        const normalized = String(aiName || "").trim();
+        if (!normalized) {
+          continue;
         }
 
-        //Should redirect to another page confirming form sent
+        usedAi.push({
+          ai_name: normalized,
+          category,
+        });
+      }
+    };
+
+    appendAiList(formAIUse?.aiscenarioData, "script");
+    appendAiList(formAIUse?.aivideoData, "movie");
+    appendAiList(formAIUse?.aipostprodData, "postprod");
+
+    return usedAi;
+  };
+
+  const buildSoundDataPayload = () => {
+    if (!formMovieInfo?.soundbankCheck || !Array.isArray(formMovieInfo?.soundbankData)) {
+      return [];
     }
 
-    //debugging
-    useEffect(() => {
-        console.log("ALL my forms info!");
-        console.log(formMovieInfo, formAIUse, formMultimedia, formDirectorInfo);
-    }, [currentStep])
+    return formMovieInfo.soundbankData
+      .map((soundName) => String(soundName || "").trim())
+      .filter(Boolean);
+  };
 
-    //-------------------------------
-    //Gestion des étapes
-    //-------------------------------
-
-    function handlestep(stepchange) {
-        //console.log("stepchange!", stepchange);
-        if (currentStep <= maxstep && currentStep >= 1) {
-            if (stepchange) {
-                setCurrentStep(stepchange);
-                formTopRef.current?.scrollIntoView({ behavior: "smooth" });
-            }
-
-        }
+  const buildSocialsPayload = (socialsData) => {
+    if (!Array.isArray(socialsData)) {
+      return [];
     }
 
-    return (
-        <div ref={formTopRef} className="flex flex-col items-center gap-6 bg-brun-brule pb-10">
-            <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule py-6 text-center text-4xl font-bold text-jaune-souffre">{t("form.title")}</div>
-            <StepsTrack step={currentStep} maxstep={maxstep}></StepsTrack>
-            <form className="flex w-[90%] flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-jaune-souffre">
-                {myforms.map(form => { return form }
-                )}
-                {/* <FormStepsButtons step={currentStep} maxstep={maxstep}
-                    getStepUpdate={handlestep}></FormStepsButtons> */}
-            </form>
+    return socialsData
+      .map((social) => ({
+        social_name: String(social?.socialname || "").trim(),
+        social_link: String(social?.sociallink || "").trim(),
+      }))
+      .filter((social) => social.social_name && social.social_link);
+  };
+
+  async function sendtoback(lastvalues) {
+    setLoading(true);
+    setSubmitError("");
+    setSubmitSuccess("");
+
+    try {
+      const directorInfo = lastvalues || {};
+
+      const directorProfile = {
+        email: String(directorInfo?.email || "").trim(),
+        firstname: String(directorInfo?.firstname || "").trim(),
+        lastname: String(directorInfo?.lastname || "").trim(),
+        address: String(directorInfo?.address || "").trim(),
+        address2: String(directorInfo?.address2 || "").trim(),
+        postal_code: String(directorInfo?.postalcode || "").trim(),
+        city: String(directorInfo?.city || "").trim(),
+        country: String(directorInfo?.country || "").trim(),
+        marketting: String(directorInfo?.marketting || "inconnu").trim(),
+        date_of_birth: String(directorInfo?.birthdate || "").trim(),
+        gender: String(directorInfo?.gender || "").trim(),
+        fix_phone: String(directorInfo?.fixtel || "").trim(),
+        mobile_phone: String(directorInfo?.tel || "").trim(),
+        school: String(directorInfo?.school || "").trim(),
+        current_job: String(directorInfo?.job || "").trim(),
+        director_language: String(directorInfo?.language || "").trim(),
+      };
+
+      const usedAi = buildUsedAiPayload();
+      const soundData = buildSoundDataPayload();
+      const socials = buildSocialsPayload(directorInfo?.socials);
+
+      const screenshotFiles = [
+        formMultimedia?.screenshot1?.file,
+        formMultimedia?.screenshot2?.file,
+        formMultimedia?.screenshot3?.file,
+      ].filter(Boolean);
+
+      const formData = new FormData();
+      formData.append("title_original", String(formMovieInfo?.movietitle || "").trim());
+      formData.append("title_english", String(formMovieInfo?.movietitleeng || "").trim());
+      formData.append("description", String(formMovieInfo?.description || "").trim());
+      formData.append("synopsis_original", String(formMovieInfo?.synopsis || "").trim());
+      formData.append("synopsis_english", String(formMovieInfo?.synopsisEng || "").trim());
+      formData.append("language", String(formMovieInfo?.movielanguage || "").trim());
+      formData.append("classification", String(formAIUse?.classification || "").trim());
+      formData.append("prompt", String(formAIUse?.prompts || "").trim());
+      formData.append("movie_duration_seconds", String(formMovieInfo?.videoLength || 0));
+      formData.append("youtube_link_input", String(formMovieInfo?.ytlink || "").trim());
+
+      formData.append("director_profile_json", JSON.stringify(directorProfile));
+      formData.append("used_ai_json", JSON.stringify(usedAi));
+      formData.append("sound_data_json", JSON.stringify(soundData));
+      formData.append("socials_json", JSON.stringify(socials));
+
+      if (formMovieInfo?.movievideo) {
+        formData.append("video_file", formMovieInfo.movievideo);
+      }
+
+      if (formMultimedia?.thumbnail) {
+        formData.append("thumbnail_file", formMultimedia.thumbnail);
+      }
+
+      if (formMultimedia?.srtCheck && formMultimedia?.srtData) {
+        formData.append("subtitles_file", formMultimedia.srtData);
+      }
+
+      for (const screenshotFile of screenshotFiles) {
+        formData.append("screenshot_files", screenshotFile);
+      }
+
+      const result = await createMovie(formData);
+      setSubmitSuccess(result?.message || "Votre film a ete envoye avec succes.");
+      setIsSubmissionComplete(true);
+      formTopRef.current?.scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+      setSubmitError(error?.message || "Une erreur est survenue lors de l'envoi du formulaire.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handlestep(stepchange) {
+    if (stepchange && stepchange >= 1 && stepchange <= 4) {
+      setCurrentStep(stepchange);
+      formTopRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  const myforms = [
+    <FormMovieInfo
+      key="step-1"
+      hide={currentStep !== 1}
+      getFunction={setFormMovieInfo}
+      stepfunc={handlestep}
+      currentstep={currentStep}
+    />,
+    <FormAIUse
+      key="step-2"
+      hide={currentStep !== 2}
+      getFunction={setFormAIUse}
+      stepfunc={handlestep}
+      currentstep={currentStep}
+    />,
+    <FormMultimedia
+      key="step-3"
+      hide={currentStep !== 3}
+      getFunction={setFormMultimedia}
+      stepfunc={handlestep}
+      currentstep={currentStep}
+    />,
+    <FormDirectorInfo
+      key="step-4"
+      hide={currentStep !== 4}
+      sendfunc={sendtoback}
+      currentstep={currentStep}
+      stepfunc={handlestep}
+    />,
+  ];
+
+  return (
+    <div ref={formTopRef} className="flex flex-col items-center gap-6 bg-brun-brule pb-10">
+      <div className="w-full bg-linear-to-b from-ocre-rouge to-brun-brule py-6 text-center text-4xl font-bold text-jaune-souffre">
+        {t("form.title")}
+      </div>
+
+      {isSubmissionComplete ? (
+        <div className="flex w-[90%] max-w-3xl flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-center text-jaune-souffre">
+          <h2 className="text-3xl font-bold">Film envoye avec succes</h2>
+
+          <p className="max-w-2xl text-base text-jaune-souffre/90">
+            {submitSuccess || "Votre film a bien ete enregistre."}
+          </p>
+
+          <p className="max-w-2xl text-sm text-jaune-souffre/70">
+            Vous pourrez proposer un nouveau film plus tard en revenant sur la page Participer.
+          </p>
+
+          <Link
+            to="/"
+            className="rounded-full border-2 border-jaune-souffre px-6 py-2 font-semibold text-jaune-souffre transition hover:bg-jaune-souffre hover:text-noir-bleute"
+          >
+            Retourner a l'accueil
+          </Link>
         </div>
-    )
+      ) : (
+        <>
+          <StepsTrack step={currentStep} maxstep={myforms.length} />
+
+          <form className="flex w-[90%] flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-jaune-souffre">
+            {myforms.map((form) => form)}
+
+            {loading && (
+              <div className="w-full rounded-md border border-jaune-souffre/40 bg-jaune-souffre/10 p-3 text-center text-jaune-souffre">
+                Envoi en cours...
+              </div>
+            )}
+
+            {submitError && (
+              <div className="w-full rounded-md border border-red-500/50 bg-red-500/10 p-3 text-center text-red-400">
+                {submitError}
+              </div>
+            )}
+
+            {submitSuccess && (
+              <div className="w-full rounded-md border border-green-500/50 bg-green-500/10 p-3 text-center text-green-300">
+                {submitSuccess}
+              </div>
+            )}
+          </form>
+        </>
+      )}
+    </div>
+  );
 }

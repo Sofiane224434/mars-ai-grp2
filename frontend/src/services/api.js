@@ -1,5 +1,7 @@
 // services/api.js
-const API_URL = 'http://localhost:5000/api';
+const defaultApiUrl = `${window.location.protocol}//${window.location.hostname}:5000/api`;
+const API_URL = import.meta.env.VITE_API_URL || defaultApiUrl;
+
 async function fetchAPI(endpoint, options = {}) {
     const token = localStorage.getItem('token');
     const headers = {
@@ -11,10 +13,15 @@ async function fetchAPI(endpoint, options = {}) {
             ...options,
             headers
         });
-        const data = await response.json();
+        const contentType = response.headers.get('content-type') || '';
+        const data = contentType.includes('application/json')
+            ? await response.json()
+            : null;
+
         if (!response.ok) {
-            throw { status: response.status, message: data.error || 'Erreur' };
+            throw { status: response.status, message: data?.error || 'Erreur' };
         }
+
         return data;
     } catch (error) {
         if (!error.status) {

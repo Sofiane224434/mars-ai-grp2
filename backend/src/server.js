@@ -22,6 +22,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const frontendDistPath = path.resolve(__dirname, "../../frontend/dist");
 const frontendIndexPath = path.join(frontendDistPath, "index.html");
+const uploadsPath = path.resolve(__dirname, "../uploads");
 const canServeFrontend = process.env.NODE_ENV === "production" && fs.existsSync(frontendIndexPath);
 
 // Connexion BDD
@@ -46,6 +47,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.use('/uploads', express.static(uploadsPath));
 
 // Logger (dev) - Réintégrer le logger pour le développement
 if (process.env.NODE_ENV !== 'production') {

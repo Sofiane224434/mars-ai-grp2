@@ -29,11 +29,11 @@ export default function FormAIUse({ hide = false, getFunction,
 
     let alldata = {
         aiscenarioCheck: aiscenarioCheck,
-        aiscenarioData: aiscenarioData,
+        aiscenarioData: aiscenarioCheck ? aiscenarioData : null,
         aivideoCheck: aivideoCheck,
-        aivideoData: aivideoData,
+        aivideoData: aivideoCheck ? aivideoData : null,
         aipostprodCheck: aipostprodCheck,
-        aipostprodData: aipostprodData,
+        aipostprodData: aipostprodCheck ? aipostprodData : null,
         classification: classification,
         prompts: prompts
     }

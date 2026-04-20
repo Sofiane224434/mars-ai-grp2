@@ -26,12 +26,12 @@ export default function FormMultimedia({ hide = false, getFunction,
     const [errorScreenshot3, setErrorScreenshot3] = useState("");
 
     let alldata = {
-        thumbnail: thumbnail,
+        thumbnail: thumbnail.file,
         srtCheck: srtCheck,
-        srtData: srtData,
-        screenshot1: screenshot1,
-        screenshot2: screenshot2,
-        screenshot3: screenshot3
+        srtData: srtCheck ? srtData.file : null,
+        screenshot1: screenshot1.file == "" ? null : screenshot1,
+        screenshot2: screenshot2.file == "" ? null : screenshot2,
+        screenshot3: screenshot3.file == "" ? null : screenshot3
     }
 
     function sendData() {

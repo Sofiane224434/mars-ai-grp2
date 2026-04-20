@@ -1,5 +1,4 @@
-import { hostname, z } from "zod";
-import { da } from "zod/v4/locales";
+import { z } from "zod";
 import i18n from "../../i18n";
 
 /**
@@ -286,7 +285,14 @@ export function verifyVideo({ file, maxsize = null, minsize = null, required = f
         }
     }
 
-    if (file.type != "video/mp4" && file.type != "video/mov") {
+    const acceptedVideoTypes = new Set([
+        "video/mp4",
+        "video/mov",
+        "video/quicktime",
+        "video/x-m4v",
+    ]);
+
+    if (!acceptedVideoTypes.has(file.type)) {
         if (!currentmessage) {
             currentmessage = error_messages.notvideo;
         }

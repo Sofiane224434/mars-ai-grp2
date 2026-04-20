@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Status } from '../../ui/StatusBadge.jsx';
 import Button from '../../ui/Button.jsx';
+import { resolveMediaUrl } from '../../../utils/media.js';
 
 const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
 
@@ -49,6 +50,7 @@ const MovieAdminCard = ({ movie, onOpenEmailModal, layout = 'grid' }) => {
     : getCardStyle(movie.statusId);
 
   const statusInfo = getStatusLabel(movie.statusId);
+  const resolvedThumbnail = resolveMediaUrl(movie.thumbnail || movie.screenshotLink);
 
   return (
     <div className={`flex backdrop-blur-sm transition-all duration-300 ${cardStyle} ${layout === 'list'

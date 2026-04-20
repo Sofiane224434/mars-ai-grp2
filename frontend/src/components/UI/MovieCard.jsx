@@ -1,6 +1,7 @@
 import Button from "./Button.jsx";
 import { Status } from "./StatusBadge.jsx";
 import { useState } from "react";
+import { resolveMediaUrl } from "../../utils/media.js";
 
 const STATUS_VARIANT = {
   pending: "pending",
@@ -52,6 +53,7 @@ function MovieCard({
   showAdminAssignmentControls = true,
 }) {
   const [imageError, setImageError] = useState(false);
+  const resolvedThumbnailSrc = resolveMediaUrl(thumbnailSrc);
 
   const isAdmin = variant === "admin-assign" || variant === "admin-assigned";
   const showAssignedJurors = variant === "admin-assigned";
@@ -114,7 +116,7 @@ function MovieCard({
         >
           {imageError ? FALLBACK_SVG : (
             <img
-              src={thumbnailSrc || DEFAULT_THUMBNAIL}
+              src={resolvedThumbnailSrc || DEFAULT_THUMBNAIL}
               alt={`Miniature de ${title}`}
               className="aspect-video w-full object-cover"
               onError={() => setImageError(true)}
@@ -189,7 +191,7 @@ function MovieCard({
           FALLBACK_SVG
         ) : (
           <img
-            src={thumbnailSrc || DEFAULT_THUMBNAIL}
+            src={resolvedThumbnailSrc || DEFAULT_THUMBNAIL}
             alt={`Miniature de ${title}`}
             className="aspect-video w-full object-cover"
             onError={() => setImageError(true)}

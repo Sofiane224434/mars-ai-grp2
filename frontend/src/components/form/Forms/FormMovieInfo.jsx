@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
@@ -6,8 +6,6 @@ import InputAdditive from "../InputAdditive";
 import { Button } from "../../ui/Button";
 
 import { verifyInputText, verifyVideo } from "../VerifyInputFuncs";
-
-import { z } from "zod";
 
 /**
  * Premier formulaire : Fiche Film
@@ -39,7 +37,6 @@ export default function FormMovieInfo({ hide = false, getFunction,
     const [errorMovieLanguage, setErrorMovieLanguage] = useState("");
     const [errorMovieVideo, setErrorMovieVideo] = useState("");
     const [errorSoundbankCheck, setErrorSoundbankCheck] = useState("");
-    const [errorSoundbankData, setErrorSoundbankData] = useState("");
     const [errorYtLink, setErrorYtLink] = useState("");
     const [errorDescription, setErrorDescription] = useState("");
 
@@ -48,19 +45,14 @@ export default function FormMovieInfo({ hide = false, getFunction,
         movietitleeng: movietitleeng,
         synopsis: synopsis,
         synopsisEng: synopsisEng,
-        movielanguage: movielanguage,
-        movievideo: movievideo,
+        movielanguage: movielanguage == "" ? null : movielanguage,
+        movievideo: movievideo.file,
         soundbankCheck: soundbankCheck,
-        soundbankData: soundbankData,
+        soundbankData: soundbankCheck ? soundbankData : null,
         ytlink: ytlink,
         description: description,
         videoLength: videoLength
     }
-
-    //debug
-    useEffect(() => {
-        console.log(alldata);
-    }, [alldata])
 
     function sendData() {
         if (getFunction) {
@@ -72,7 +64,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
     //     sendData();
     // }, [alldata])
 
-    const ytregex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/img;
+    const ytregex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be)\/(?:[\w-]+\?v=|embed\/|v\/)?[\w-]+(\S+)?$/i;
 
     function clearAllErrors() {
         setErrorMovieTitle("");
@@ -82,7 +74,6 @@ export default function FormMovieInfo({ hide = false, getFunction,
         setErrorMovieLanguage("");
         setErrorMovieVideo("");
         setErrorSoundbankCheck("");
-        setErrorSoundbankData("");
         setErrorYtLink("");
         setErrorDescription("");
     }
@@ -119,7 +110,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errorSetFunction: setErrorMovieLanguage
             }),
             verifyInputText({
-                value: ytlink, required: true, regex: ytregex,
+                value: ytlink, required: false, regex: ytregex,
                 errorSetFunction: setErrorYtLink
             }),
             verifyVideo({
@@ -133,9 +124,9 @@ export default function FormMovieInfo({ hide = false, getFunction,
         }
 
         if (soundbankCheck) {
-            //Vérifier si la première valeur n'est pas vide..
-            if (soundbankData.length < 0 || soundbankData[0] == "") {
-                setErrorSoundbankData("Vous devez en renseigner au moins un.");
+            //Verifier si au moins une valeur de son est renseignee
+            if (!Array.isArray(soundbankData) || soundbankData.length === 0 || soundbankData[0] === "") {
+                setErrorSoundbankCheck("Vous devez en renseigner au moins un.");
                 error = true;
             }
         }

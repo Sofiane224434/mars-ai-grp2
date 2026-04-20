@@ -14,8 +14,6 @@ import {
 
 // Import des contrôleurs
 import { getAssignedMovies, getMovieById, updateTop5Rank, validateMovieStatus } from '../controllers/juryMovie.controller.js';
-import { getJuryComments, postJuryComment } from '../controllers/juryComment.controller.js';
-import { getAssignedMovies, getMovieById, validateMovieStatus } from '../controllers/juryMovie.controller.js';
 import {
   deleteJuryComment,
   getJuryComments,

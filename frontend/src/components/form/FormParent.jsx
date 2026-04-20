@@ -59,7 +59,7 @@ export default function FormParent() {
 
             const movies = {
                 classification: formAIUse["classification"],
-                created_at: Date.now(),
+                created_at: "NOW()",
                 description: formMovieInfo["description"],
                 language: formMovieInfo["movielanguage"],
                 movie_duration: formMovieInfo["videolength"],
@@ -71,10 +71,17 @@ export default function FormParent() {
                 thumbnail: formMultimedia["thumbnail"],
                 title_english: formMovieInfo["movietitleeng"],
                 title_original: formMovieInfo["movietitle"],
-                updated_at: Date.now(),
+                updated_at: "NOW()",
                 videofile: formMovieInfo["movievideo"],
-                youtube_url: formMovieInfo["ytlink"]
+                youtube_url: formMovieInfo["ytlink"],
             };
+
+            //convert to formdata
+            let moviesformdata = new FormData();
+            for (let key in movies) {
+                moviesformdata.append(key, movies[key]);
+            }
+            console.log(moviesformdata);
 
             const director_profile = {
                 address: directorInfo["address"],
@@ -104,21 +111,21 @@ export default function FormParent() {
 
             let used_ai = [];
 
-            if (formAIUse["aiscenarioData"].length > 0) {
+            if (formAIUse["aiscenarioData"]) {
                 for (let n in formAIUse["aiscenarioData"]) {
                     ex_used_ai.ai_name = formAIUse["aiscenarioData"][n];
                     ex_used_ai.category = "script";
                     used_ai.push(ex_used_ai);
                 }
             }
-            if (formAIUse["aivideoData"].length > 0) {
+            if (formAIUse["aivideoData"]) {
                 for (let n in formAIUse["aivideoData"]) {
                     ex_used_ai.ai_name = formAIUse["aivideoData"][n];
                     ex_used_ai.category = "movie";
                     used_ai.push(ex_used_ai);
                 }
             }
-            if (formAIUse["aipostprodData"].length > 0) {
+            if (formAIUse["aipostprodData"]) {
                 for (let n in formAIUse["aipostprodData"]) {
                     ex_used_ai.ai_name = formAIUse["aipostprodData"][n];
                     ex_used_ai.category = "postprod";
@@ -152,7 +159,7 @@ export default function FormParent() {
             }
 
             const moviedata = {
-                movies: movies,
+                movies: moviesformdata,
                 director_profile: director_profile,
                 sound_data: sound_data,
                 used_ai: used_ai,
@@ -160,7 +167,7 @@ export default function FormParent() {
                 socials: socials
             }
 
-            await createMovie(moviedata);
+            await createMovie(moviesformdata);
 
         } catch (err) {
             console.log(err);

@@ -65,7 +65,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         birthdate: birthdate,
         country: country,
         address: address,
-        address2: address2,
+        address2: address2 ? address2 : null,
         postalcode: postalcode,
         city: city,
         marketting: marketting == "other" ? markettingOther : marketting,
@@ -74,7 +74,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         job: job,
         school: school,
         language: language,
-        fixtel: fixtel
+        fixtel: fixtel ? fixtel : null
     }
 
     function sendData() {

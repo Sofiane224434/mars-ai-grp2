@@ -3,7 +3,7 @@ const API_URL = 'http://localhost:5000/api';
 async function fetchAPI(endpoint, options = {}) {
     const token = localStorage.getItem('token');
     const headers = {
-        'Content-Type': 'application/json',
+        //'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` })
     };
     try {
@@ -39,6 +39,7 @@ async function fetchAPI(endpoint, options = {}) {
 export const movieService = {
     savedata: (moviedata) => fetchAPI('/movies', {
         method: 'POST',
-        body: JSON.stringify(moviedata)
+        // body: JSON.stringify(moviedata)
+        body: moviedata
     })
 }

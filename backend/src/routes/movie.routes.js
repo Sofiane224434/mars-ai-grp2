@@ -27,7 +27,7 @@ const upload = multer({ dest: "uploads/" });
 // Upload d'un fichier video:
 // - stockage S3
 // - envoi YouTube
-router.post("/movies", upload.single("video_file"), addMovie);
+router.post("/movies", upload.any(), addMovie);
 
 // Liste admin de tous les films avec statut d'evaluation et jurys assignes
 router.get("/movies", requireAuth("admin"), getAllMoviesForAdmin);

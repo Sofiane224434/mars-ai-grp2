@@ -327,8 +327,8 @@ export const movieModel = {
     :updated_at, :videofile, :youtube_url);
   `;
 
-    const movies = moviedata.movies;
-    const result = await connection.execute(sql_movies, movies);
+    //const movies = moviedata.movies;
+    const result = await query(sql_movies, moviedata);
     return { id: result.id, movieinfo: movies };
   }
 };

@@ -8,6 +8,7 @@ import { Button } from "../../ui/Button";
 import { verifyInputText, verifyVideo } from "../VerifyInputFuncs";
 
 import { z } from "zod";
+import { movieService } from "../../../services/api";
 
 /**
  * Premier formulaire : Fiche Film
@@ -48,10 +49,10 @@ export default function FormMovieInfo({ hide = false, getFunction,
         movietitleeng: movietitleeng,
         synopsis: synopsis,
         synopsisEng: synopsisEng,
-        movielanguage: movielanguage,
-        movievideo: movievideo,
+        movielanguage: movielanguage == "" ? null : movielanguage,
+        movievideo: movievideo.file,
         soundbankCheck: soundbankCheck,
-        soundbankData: soundbankData,
+        soundbankData: soundbankCheck ? soundbankData : null,
         ytlink: ytlink,
         description: description,
         videoLength: videoLength

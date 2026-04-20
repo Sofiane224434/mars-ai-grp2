@@ -110,7 +110,7 @@ function MovieCard({
         <button
           type="button"
           onClick={onThumbnailClick}
-          className="block w-full md:w-64 shrink-0 overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+          className="block w-full md:w-64 shrink-0 overflow-hidden rounded-2xl bg-gris-magneti cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
         >
           {imageError ? FALLBACK_SVG : (
             <img
@@ -183,7 +183,7 @@ function MovieCard({
       <button
         type="button"
         onClick={onThumbnailClick}
-        className="mt-0 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+        className="mt-0 block w-full overflow-hidden rounded-2xl bg-gris-magneti cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
       >
         {imageError ? (
           FALLBACK_SVG

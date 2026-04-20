@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Button from "../../components/ui/Button.jsx";
 
 function Error() {
     return (
@@ -14,11 +15,10 @@ function Error() {
                     La page que vous cherchez n&apos;existe pas ou a été déplacée.
                 </p>
 
-                <Link
-                    to="/"
-                    className="mt-8 inline-flex items-center rounded-full border border-jaune-simpson px-6 py-3 text-sm font-semibold uppercase tracking-wider text-jaune-simpson transition hover:bg-jaune-simpson hover:text-reglisse"
-                >
-                    Retour à l&apos;accueil
+                <Link to="/" className="mt-8">
+                    <Button variant="filled-yellow" interactive className="h-12 px-8 min-w-[250px] text-base font-semibold">
+                        Retour à l&apos;accueil
+                    </Button>
                 </Link>
             </div>
         </section>

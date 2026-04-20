@@ -412,6 +412,28 @@ export const movieModel = {
       email: row.email,
       assignedMoviesCount: Number(row.assignedMoviesCount || 0),
     }));
+  },
+
+  async getMovieStatusById(movieId) {
+    const sql = 'SELECT status FROM movies WHERE id = ? LIMIT 1';
+    const rows = await query(sql, [movieId]);
+    return rows?.[0]?.status ?? null;
+  },
+
+  async countMoviesByStatus(statusId) {
+    const sql = 'SELECT COUNT(*) AS count FROM movies WHERE status = ?';
+    const rows = await query(sql, [statusId]);
+    return Number(rows?.[0]?.count || 0);
+  },
+
+  async updateMovieStatus(movieId, statusId) {
+    if (statusId === 6) {
+      const sqlKeepRank = 'UPDATE movies SET status = ? WHERE id = ?';
+      return await query(sqlKeepRank, [statusId, movieId]);
+    }
+
+    const sqlResetRank = 'UPDATE movies SET status = ?, top5_rank = NULL WHERE id = ?';
+    return await query(sqlResetRank, [statusId, movieId]);
   }
 };
 

@@ -3,7 +3,7 @@ import multer from "multer";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { addMovie, getMovieImage } from "../controllers/movie.controller.js";
+import { addMovie, getMovieImage, getPublicMovieDetailById, getPublicMoviesList } from "../controllers/movie.controller.js";
 import { getAllMoviesForAdmin, assignMovieToJuries, getJuryAssignmentOptions } from "../controllers/admin.controller.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { assignMovieSchema } from "../schemas/admin.schema.js";
@@ -64,6 +64,10 @@ const upload = multer({
         fileSize: 300 * 1024 * 1024,
     },
 });
+
+// Films publics (Top 50 / Top 5 selon la phase) - pas d'authentification requise
+router.get("/movies/public", getPublicMoviesList);
+router.get("/movies/public/:movieId", getPublicMovieDetailById);
 
 // Upload d'un fichier video:
 // - stockage S3

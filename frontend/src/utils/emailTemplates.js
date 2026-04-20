@@ -57,6 +57,38 @@ export const EMAIL_TEMPLATES = {
     getBody: (firstName) => `Bonjour ${firstName},\n\n\n\nCréativement,\nL'équipe MarsAI`
   },
 
+  // --- 🏆 TOP 50 ---
+  top50: {
+    id: 'top50',
+    scope: 'movie',
+    name: '🏆 Sélectionné Top 50 (FR)',
+    getSubject: (title) => `MarsAI - Votre film "${title}" fait partie du Top 50 !`,
+    getBody: (firstName, title) => `Bonjour ${firstName},\n\nNous avons le plaisir de vous annoncer que votre court métrage "${title}" a été sélectionné parmi les 50 meilleurs films de cette édition du festival MarsAI !\n\nC'est une reconnaissance exceptionnelle de votre travail créatif. Votre film sera désormais visible sur notre site officiel et soumis au vote final du jury pour la sélection du Top 5.\n\nQuelle est la prochaine étape ? Notre jury va maintenant visionner une dernière fois l'ensemble des 50 films sélectionnés afin de désigner les 5 grands finalistes. Vous recevrez un nouvel e-mail pour vous informer du résultat final.\n\nNote de l'équipe : Nous vous remercions pour votre patience tout au long de ce processus de sélection. Quelle que soit l'issue des délibérations finales, faire partie du Top 50 est déjà une formidable réussite.\n\nCréativement,\nL'équipe MarsAI`
+  },
+  top50_en: {
+    id: 'top50_en',
+    scope: 'movie',
+    name: '🏆 Sélectionné Top 50 (EN)',
+    getSubject: (title) => `MarsAI - Your film "${title}" has been selected for the Top 50!`,
+    getBody: (firstName, title) => `Hi ${firstName},\n\nWe are delighted to inform you that your short film "${title}" has been selected among the top 50 films of this edition of the MarsAI festival!\n\nThis is an exceptional recognition of your creative work. Your film will now be showcased on our official website and submitted to the jury's final vote for the Top 5 selection.\n\nWhat's next? Our jury will now watch all 50 selected films one last time to determine the 5 grand finalists. You will receive a new email to inform you of the final result.\n\nA note from the team: We thank you for your patience throughout this selection process. Regardless of the outcome of the final deliberations, being part of the Top 50 is already a tremendous achievement.\n\nStay creative,\nThe MarsAI Team`
+  },
+
+  // --- 🥇 TOP 5 ---
+  top5: {
+    id: 'top5',
+    scope: 'movie',
+    name: '🥇 Finaliste Top 5 (FR)',
+    getSubject: (title) => `MarsAI - Votre film "${title}" est dans le Top 5 !`,
+    getBody: (firstName, title) => `Bonjour ${firstName},\n\nFélicitations ! Nous avons l'immense honneur de vous annoncer que votre court métrage "${title}" a été sélectionné parmi les 5 finalistes du festival MarsAI !\n\nSur l'ensemble des films soumis cette année, le jury a unanimement reconnu la qualité exceptionnelle de votre œuvre. Votre film figure désormais parmi les 5 meilleurs et sera mis à l'honneur lors de la cérémonie officielle du festival.\n\nQuelle est la prochaine étape ? Vous recevrez prochainement un e-mail avec tous les détails concernant la cérémonie de remise des prix et les modalités de diffusion de votre film.\n\nNote de l'équipe : Être finaliste du Top 5 est une distinction remarquable. Nous sommes fiers de compter votre œuvre parmi les meilleures de cette édition et nous vous remercions pour votre talent et votre confiance.\n\nCréativement,\nL'équipe MarsAI`
+  },
+  top5_en: {
+    id: 'top5_en',
+    scope: 'movie',
+    name: '🥇 Finaliste Top 5 (EN)',
+    getSubject: (title) => `MarsAI - Your film "${title}" is in the Top 5!`,
+    getBody: (firstName, title) => `Hi ${firstName},\n\nCongratulations! We are thrilled to announce that your short film "${title}" has been selected among the 5 finalists of the MarsAI festival!\n\nOut of all the films submitted this year, the jury has unanimously recognized the outstanding quality of your work. Your film now stands among the top 5 and will be honored at the official festival ceremony.\n\nWhat's next? You will soon receive an email with all the details regarding the awards ceremony and how your film will be showcased.\n\nA note from the team: Being a Top 5 finalist is a remarkable distinction. We are proud to feature your work among the best of this edition and we thank you for your talent and trust.\n\nStay creative,\nThe MarsAI Team`
+  },
+
   jury_invitation: {
     id: 'jury_invitation',
     scope: 'jury',
@@ -71,6 +103,8 @@ export const getTemplatesByScope = (scope) =>
 
 // Fonction exportée pour être réutilisée si besoin
 export const getDefaultTemplateId = (statusId) => {
+  if (statusId === 5) return 'top50';
+  if (statusId === 6) return 'top5';
   if (statusId === 4) return 'approved';
   if (statusId === 3) return 'review';
   if (statusId === 2) return 'rejected';

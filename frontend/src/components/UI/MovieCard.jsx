@@ -9,6 +9,7 @@ const STATUS_VARIANT = {
   review: "review",
   rejected: "rejected",
   top50: "top50",
+  top5: "top5",
 };
 
 const STATUS_LABEL = {
@@ -17,6 +18,7 @@ const STATUS_LABEL = {
   review: "À revoir",
   rejected: "Refusé",
   top50: "Top 50",
+  top5: "Top 5",
 };
 
 const DEFAULT_THUMBNAIL = "https://picsum.photos/id/1005/1200/675";
@@ -57,6 +59,7 @@ function MovieCard({
   const showAssignedJurors = variant === "admin-assigned";
   const isJuryPending = variant === "jury-pending";
   const isJuryReviewed = variant === "jury-reviewed";
+  const isPublicCard = variant === "basic";
   const showStatus = variant !== "basic";
   const uniqueAssignedJurors = [...new Set(
     assignedJurors
@@ -85,14 +88,14 @@ function MovieCard({
         {description}
       </p>
 
-      {(isAdmin || isJuryPending || isJuryReviewed) && (
+      {(isAdmin || isJuryPending || isJuryReviewed || isPublicCard) && (
         <Button
           interactive
           variant="filled-yellow"
           onClick={onMoreInfo}
           className="h-12! w-full! rounded-full px-4 text-sm sm:text-base font-semibold text-center flex items-center justify-center leading-tight [&_.btn-bg-base]:h-full [&_.btn-bg-base]:top-0 [&_.btn-bg-base]:rounded-full"
         >
-          Voir plus d&apos;informations
+          {isPublicCard ? "Accéder aux détails" : "Voir plus d'informations"}
         </Button>
       )}
     </div>
@@ -109,7 +112,7 @@ function MovieCard({
         <button
           type="button"
           onClick={onThumbnailClick}
-          className="block w-full md:w-64 shrink-0 overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+          className="block w-full md:w-64 shrink-0 overflow-hidden rounded-2xl bg-gris-magneti cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
         >
           {imageError ? FALLBACK_SVG : (
             <img
@@ -182,7 +185,7 @@ function MovieCard({
       <button
         type="button"
         onClick={onThumbnailClick}
-        className="mt-0 block w-full overflow-hidden rounded-2xl bg-gris-magneti focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
+        className="mt-0 block w-full overflow-hidden rounded-2xl bg-gris-magneti cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-bleu-ocean/80"
       >
         {imageError ? (
           FALLBACK_SVG

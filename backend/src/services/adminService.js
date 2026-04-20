@@ -1,12 +1,12 @@
 import { movieModel } from '../models/movieModel.js';
-import { adminModel } from '../models/adminModel.js'; 
+import { adminModel } from '../models/adminModel.js';
 import { sendCustomEmail } from './email.service.js';
 import { getNewsPublicCampaignStats } from './brevoCampaign.service.js';
 
 export const adminService = {
 
   async getDashboardStats() {
-    
+
     const [totalMovies, statusCounts, juryProgress, emailsPending, newsPublicCampaign] = await Promise.all([
       adminModel.countTotalMovies(),
       adminModel.countMoviesByStatus(),
@@ -15,23 +15,23 @@ export const adminService = {
       getNewsPublicCampaignStats(),
     ]);
 
-    const statusMap = { 
-      1: 'pending',     
-      2: 'rejected',    
-      3: 'review',      
-      4: 'approved'     
+    const statusMap = {
+      1: 'pending',
+      2: 'rejected',
+      3: 'review',
+      4: 'approved'
     };
 
     const defaultStats = { pending: 0, approved: 0, review: 0, rejected: 0 };
 
-    const moviesByStatus = Array.isArray(statusCounts) 
+    const moviesByStatus = Array.isArray(statusCounts)
       ? statusCounts.reduce((acc, row) => {
-          const key = statusMap[row.status] || statusMap[row.statusId]; 
-          if (key) {
-            acc[key] = Number(row.count);
-          }
-          return acc;
-        }, { ...defaultStats }) 
+        const key = statusMap[row.status] || statusMap[row.statusId];
+        if (key) {
+          acc[key] = Number(row.count);
+        }
+        return acc;
+      }, { ...defaultStats })
       : defaultStats;
 
     return {
@@ -47,7 +47,7 @@ export const adminService = {
     };
   },
 
- 
+
   async getAllMovies() {
     return await movieModel.getAllAdminMovies();
   },
@@ -67,6 +67,18 @@ export const adminService = {
 
   async getMovieDetail(movieId) {
     return await movieModel.getMovieDetailForAdmin(movieId);
+  },
+
+  async getMovieStatusById(movieId) {
+    return await movieModel.getMovieStatusById(movieId);
+  },
+
+  async countMoviesByStatus(statusId) {
+    return await movieModel.countMoviesByStatus(statusId);
+  },
+
+  async updateMovieStatus(movieId, statusId) {
+    return await movieModel.updateMovieStatus(movieId, statusId);
   },
 
   async processOfficialEmail(movieId, subject, body, senderUserId) {

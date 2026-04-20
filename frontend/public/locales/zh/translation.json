@@ -6,34 +6,6 @@
     "faq": "常见问题解答",
     "participate": "参与"
   },
-  "home": {
-    "HeroSection": "以人为本的AI",
-    "titles1": "1分钟",
-    "description1": "每部影片时长不超过1分钟",
-    "titles2": "1 主题",
-    "description2": "每部电影都有一个共同的主题：一个理想的未来",
-    "titles3": "1 名获奖者",
-    "description3": "只有一位大赢家！",
-    "PodiumGraphic": "精选自20,000多部视频",
-    "quickAccess": {
-      "title": "探索艺术节",
-      "description": "快速浏览电影节的重点页面，了解影片信息，深入了解MarsAI，并获取所有实用信息。",
-      "cards": {
-        "movies": {
-          "description": "了解入选的短片，关注当前阶段的进展，并敬请期待即将公布的获奖名单。",
-          "cta": "观看电影"
-        },
-        "about": {
-          "description": "了解电影节的愿景、目标及其独特的竞赛形式。",
-          "cta": "了解 MarsAI"
-        },
-        "faq": {
-          "description": "一目了然地查看实用信息：交通指南、开放时间、工作坊及活动安排。",
-          "cta": "阅读常见问题解答"
-        }
-      }
-    }
-  },
   "about": {
     "blocks": {
       "block1": {
@@ -102,13 +74,44 @@
     "newsletterLoading": "正在注册...",
     "newsletterSubscribeSuccess": "注册已确认。谢谢！",
     "newsletterSubscribeError": "目前无法注册。",
-    "newsletterInvalidEmail": "请输入一个有效的电子邮件地址。"
+    "newsletterInvalidEmail": "请输入一个有效的电子邮件地址。",
+    "rgpd": "隐私政策（GDPR）"
   },
   "movies": {
     "empty-title": "即将推出",
     "empty-description": "评审团选出的50部影片将在报名阶段结束后在此公布。敬请期待！",
     "current-phase-label": "当前阶段",
-    "current-phase": "提交申请"
+    "current-phase": "提交申请",
+    "phase-judgment": "前50名评选结果",
+    "phase-top50": "50强榜单",
+    "phase-top5": "精选前五名",
+    "results-title": "获奖名单",
+    "results-description": "查看评委会评选出的前5名，以及完整的50强榜单。",
+    "top5-title": "前五名",
+    "top5-description": "来看看评委会选出的5部入围影片。",
+    "top50-title": "前50名",
+    "top50-description": "您还可以查看完整的“前50名”榜单。",
+    "back-to-list": "返回电影列表",
+    "detail-loading": "正在加载影片……",
+    "detail-error-title": "影片不可用",
+    "detail-not-found": "您请求的影片无法找到，或尚未对公众开放。",
+    "detail-no-video": "该影片暂无视频链接。",
+    "detail-film-info-title": "影片信息",
+    "detail-synopsis-label": "剧情简介",
+    "detail-description-label": "描述",
+    "detail-language-label": "语言",
+    "detail-classification-label": "分类",
+    "detail-ai-tools-title": "使用的AI工具",
+    "detail-ai-tools-label": "工具列表",
+    "detail-no-ai-tools": "目前尚未为该影片添加任何AI工具。",
+    "by-director": "作者：{{director}}",
+    "unknown-director": "导演不详",
+    "not-provided": "未填写。",
+    "podium-title": "前五名领奖台",
+    "podium-first": "第1名",
+    "podium-second": "第2名",
+    "podium-third": "第3名",
+    "view-movie": "观看影片"
   },
   "countdown": {
     "nextSelection": "下一期精选",
@@ -217,5 +220,44 @@
       "fileTooSmall": "该文件太小了，大小必须至少为 {{min}} MB。",
       "notImage": "文件必须为图像格式（.png / .jpeg / .jpg）。"
     }
+  },
+  "home": {
+    "results-available": "获奖名单已公布！",
+    "HeroSection": "以人为本的AI",
+    "titles1": "1分钟",
+    "description1": "每部影片时长不超过1分钟",
+    "titles2": "1 主题",
+    "description2": "每部电影都有一个共同的主题：一个理想的未来",
+    "titles3": "1 名获奖者",
+    "description3": "只有一位大赢家！",
+    "PodiumGraphic": "精选自20,000多部视频",
+    "quickAccess": {
+      "title": "探索艺术节",
+      "description": "快速浏览电影节的重点页面，了解影片信息，深入了解MarsAI，并获取所有实用信息。",
+      "cards": {
+        "movies": {
+          "description": "了解入选的短片，关注当前阶段的进展，并敬请期待即将公布的获奖名单。",
+          "cta": "观看电影"
+        },
+        "about": {
+          "description": "了解电影节的愿景、目标及其独特的竞赛形式。",
+          "cta": "了解 MarsAI"
+        },
+        "faq": {
+          "description": "一目了然地查看实用信息：交通指南、开放时间、工作坊及活动安排。",
+          "cta": "阅读常见问题解答"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "《通用数据保护条例》（GDPR）",
+    "pageTitle": "隐私政策与法律声明",
+    "intro": "本页面说明MarsAI如何收集、使用、保护和保存访客、导演及评委的个人数据。",
+    "summaryAriaLabel": "《通用数据保护条例》摘要",
+    "summaryTitle": "目录",
+    "backToTop": "返回页面顶部",
+    "backHome": "返回首页",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
   }
 }

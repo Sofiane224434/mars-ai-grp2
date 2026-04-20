@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 // Hooks
 import { useAdminMovieNavigation } from '../../../hooks/useAdminMovieNavigation.js';
@@ -13,6 +14,7 @@ import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx'
 import Button from '../../../components/ui/Button.jsx';
 import Spinner from '../../../components/ui/Spinner.jsx';
 import { Status } from '../../../components/ui/StatusBadge.jsx';
+import ConfirmModal from '../../../components/ui/ConfirmModal.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
 import JuryAssignmentModal from '../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx';
 import { resolveMediaUrl } from '../../../utils/media.js';
@@ -42,15 +44,25 @@ function AdminMovieDetails() {
   const [selectedJuryId, setSelectedJuryId] = useState('');
   const [assignError, setAssignError] = useState('');
   const [isAssigning, setIsAssigning] = useState(false);
+  const [isVoting, setIsVoting] = useState(false);
+  const [statusActionError, setStatusActionError] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, statusId: null, actionLabel: '' });
   const commentsSectionRef = useRef(null);
 
   const getAuthConfig = useCallback(() => {
     const token = localStorage.getItem('token');
     return {
-      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      headers: token
+        ? {
+          Authorization: `Bearer ${token}`,
+          'x-festival-phase-index': String(currentPhase),
+        }
+        : {
+          'x-festival-phase-index': String(currentPhase),
+        },
       withCredentials: true,
     };
-  }, []);
+  }, [currentPhase]);
 
   const loadMovieDetail = useCallback(async () => {
     if (!movieId) return;
@@ -157,6 +169,8 @@ function AdminMovieDetails() {
       2: { variant: 'rejected', label: 'Refusé' },
       3: { variant: 'review', label: 'À revoir' },
       4: { variant: 'approved', label: 'Validé' },
+      5: { variant: 'top50', label: 'Top 50' },
+      6: { variant: 'top5', label: 'Top 5' },
     };
 
     if (statusIdMap[statusId]) return statusIdMap[statusId];
@@ -179,6 +193,79 @@ function AdminMovieDetails() {
       default:
         return { label: category, classes: 'bg-gray-800 text-gray-300 border-gray-600' };
     }
+  };
+
+  const handleStatusUpdate = async (nextStatusId) => {
+    if (!movie?.id) return;
+
+    setIsVoting(true);
+    setStatusActionError('');
+
+    try {
+      await axios.put(
+        `${API_BASE_URL}/admin/movies/${movie.id}/status`,
+        { statusId: Number(nextStatusId) },
+        getAuthConfig(),
+      );
+
+      await loadMovieDetail();
+
+      const statusLabelMap = {
+        1: 'En attente',
+        2: 'Refusé',
+        3: 'À revoir',
+        4: 'Validé',
+        5: 'Top 50',
+        6: 'Top 5',
+      };
+
+      toast.success(`Statut mis à jour: ${statusLabelMap[Number(nextStatusId)] || 'modifié'}.`, {
+        duration: 3000,
+        position: 'bottom-right',
+        style: { background: '#1A232C', color: '#fff', border: '1px solid #4DB8B9' },
+      });
+    } catch (requestError) {
+      const zodFirstIssue = requestError?.response?.data?.erreurs?.[0]?.message;
+      const message =
+        requestError?.response?.data?.message ||
+        requestError?.response?.data?.error ||
+        zodFirstIssue ||
+        'Erreur lors de la mise à jour du statut.';
+      setStatusActionError(message);
+      toast.error(message, {
+        duration: 4000,
+        position: 'bottom-right'
+      });
+    } finally {
+      setIsVoting(false);
+    }
+  };
+
+  const openStatusConfirmation = (statusId, actionLabel) => {
+    setConfirmDialog({ isOpen: true, statusId, actionLabel });
+  };
+
+  const confirmStatusUpdate = async () => {
+    const nextStatusId = confirmDialog.statusId;
+    setConfirmDialog({ isOpen: false, statusId: null, actionLabel: '' });
+
+    if (nextStatusId === null) return;
+    await handleStatusUpdate(nextStatusId);
+  };
+
+  const handleBaseStatusToggle = (targetStatusId) => {
+    const currentStatusId = Number(movie?.statusId);
+    const nextStatusId = currentStatusId === Number(targetStatusId) ? 1 : Number(targetStatusId);
+    const actionLabelMap = {
+      1: 'remettre en attente',
+      2: 'refuser',
+      3: 'mettre à revoir',
+      4: 'valider',
+      5: 'mettre dans le Top 50',
+      6: 'mettre dans le Top 5',
+    };
+
+    openStatusConfirmation(nextStatusId, actionLabelMap[nextStatusId] || 'modifier le statut de');
   };
 
   const goToComments = () => {
@@ -218,9 +305,15 @@ function AdminMovieDetails() {
 
   // Assignations et IA
   const assignedJuries = movie.assignedJuries || [];
+  const isJudgmentPhase = currentPhase === 1;
+  const isTop5Phase = currentPhase === 2;
   const currentStatus = (currentPhase === 1 && assignedJuries.length === 0)
     ? { variant: 'pending', label: 'En attente' }
     : getStatusBadgeFromDb(movie.statusId, movie.status);
+  const canPromoteTop50 = (isJudgmentPhase || isTop5Phase) && movie.statusId !== 5;
+  const canRemoveTop50 = (isJudgmentPhase || isTop5Phase) && movie.statusId === 5;
+  const canPromoteTop5 = isTop5Phase && movie.statusId !== 6;
+  const canRemoveTop5 = isTop5Phase && movie.statusId === 6;
   const showAssignmentControls = currentPhase === 0;
   const showAssignedJuriesInJudgmentPhase = currentPhase === 1 && assignedJuries.length > 0 && movie.statusId !== 5;
   const juryDecisionLabel = (() => {
@@ -257,6 +350,7 @@ function AdminMovieDetails() {
 
   return (
     <div className="min-h-screen background-gradient-black p-4 md:p-8">
+      <Toaster />
       <div className="max-w-4xl mx-auto flex flex-col items-center">
 
         {/* HEADER */}
@@ -286,6 +380,77 @@ function AdminMovieDetails() {
             <span className="text-white font-medium">Statut de la vidéo :</span>
             <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
           </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
+            <Button
+              interactive
+              variant="approved-jury"
+              onClick={() => handleBaseStatusToggle(4)}
+              disabled={isVoting}
+            >
+              Valider
+            </Button>
+            <Button
+              interactive
+              variant="pending-jury"
+              onClick={() => handleBaseStatusToggle(3)}
+              disabled={isVoting}
+            >
+              A revoir
+            </Button>
+            <Button
+              interactive
+              variant="rejected-jury"
+              onClick={() => handleBaseStatusToggle(2)}
+              disabled={isVoting}
+            >
+              Refuser
+            </Button>
+
+            {(isJudgmentPhase || isTop5Phase) ? (
+              <Button
+                interactive
+                variant={canRemoveTop50 ? 'rejected-jury' : 'approved-jury'}
+                onClick={() => openStatusConfirmation(
+                  canRemoveTop50 ? 4 : 5,
+                  canRemoveTop50 ? 'retirer du Top 50' : 'mettre dans le Top 50'
+                )}
+                disabled={isVoting || (!canPromoteTop50 && !canRemoveTop50)}
+              >
+                {canRemoveTop50 ? 'Retirer Top 50' : 'Top 50'}
+              </Button>
+            ) : null}
+
+            {isTop5Phase ? (
+              <Button
+                interactive
+                variant={canRemoveTop5 ? 'rejected-jury' : 'approved-jury'}
+                onClick={() => openStatusConfirmation(
+                  canRemoveTop5 ? 5 : 6,
+                  canRemoveTop5 ? 'retirer du Top 5' : 'mettre dans le Top 5'
+                )}
+                disabled={isVoting || (!canPromoteTop5 && !canRemoveTop5)}
+              >
+                {canRemoveTop5 ? 'Retirer Top 5' : 'Top 5'}
+              </Button>
+            ) : null}
+          </div>
+
+          {statusActionError && (
+            <p className="text-brulure-despespoir text-xs mt-2 italic">{statusActionError}</p>
+          )}
+
+          {isJudgmentPhase && (
+            <p className="text-gris-magneti text-xs mt-1 italic">
+              L'admin peut activer Top 50 uniquement en phase 2.
+            </p>
+          )}
+
+          {isTop5Phase && (
+            <p className="text-gris-magneti text-xs mt-1 italic">
+              En phase 3, l'admin peut gérer Top 50 et Top 5.
+            </p>
+          )}
 
           {/* Ligne 2 : Assignation Jury OU Bouton d'assignation (phase 1 uniquement) */}
           {(showAssignmentControls || showAssignedJuriesInJudgmentPhase) && (
@@ -534,6 +699,17 @@ function AdminMovieDetails() {
         onClose={closeAssignModal}
         onConfirm={handleAssignMovie}
       />
+
+      <ConfirmModal
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog({ isOpen: false, statusId: null, actionLabel: '' })}
+        onConfirm={confirmStatusUpdate}
+        title="Confirmer la modification"
+        confirmText="Oui, confirmer"
+        cancelText="Annuler"
+      >
+        Êtes-vous sûr de vouloir <span className="text-bleu-ciel font-bold">{confirmDialog.actionLabel}</span> ce film ?
+      </ConfirmModal>
 
       {emailModalOpen && (
         <EmailTemplateModal

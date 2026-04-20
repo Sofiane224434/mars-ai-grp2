@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4, 5];
+const ALLOWED_VOTE_STATUS_IDS = [1, 2, 3, 4, 5, 6];
 
 const movieIdSchema = z.coerce
     .number({
@@ -18,7 +18,7 @@ const voteStatusIdSchema = z
     .int("L'ID doit etre un nombre entier.")
     .positive("L'ID doit etre superieur a zero.")
     .refine((value) => ALLOWED_VOTE_STATUS_IDS.includes(value), {
-        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3, 4 ou 5."
+        message: "Cet ID de statut n'est pas reconnu. Utilisez 1, 2, 3, 4, 5 ou 6."
     });
 
 const responseStatusIdSchema = z.coerce
@@ -44,6 +44,18 @@ export const updateMovieStatusSchema = z.object({
     })
 });
 
+export const updateTop5RankSchema = z.object({
+    params: movieIdParamsSchema,
+    body: z.object({
+        rank: z.union([
+            z.literal(1),
+            z.literal(2),
+            z.literal(3),
+            z.null()
+        ])
+    })
+});
+
 export const movieDetailResponseSchema = z.object({
     id: movieIdSchema,
     title: z.string().min(1, 'Le titre est obligatoire.'),
@@ -63,6 +75,7 @@ export const movieDetailResponseSchema = z.object({
     createdAt: z.union([z.string(), z.date()]),
     aiTools: z.string().nullable(),
     statusId: responseStatusIdSchema,
+    top5Rank: z.union([z.literal(1), z.literal(2), z.literal(3), z.null()]).default(null),
     status: z.string().min(1, 'Le statut est obligatoire.'),
     directorName: z.string().min(1, 'Le nom du réalisateur est obligatoire.'),
     directorFirstName: z.string().nullable(),
@@ -101,6 +114,27 @@ export const postJuryCommentSchema = z.object({
         content: z.string()
             .min(2, "La note doit contenir au moins 2 caractères.")
             .max(2000, "La note est trop longue (maximum 2000 caractères.)"),
-        isPrivate: z.coerce.number().int().default(1)
+        isPrivate: z.coerce.number().int().min(0).max(1).default(1)
+    })
+});
+
+export const putJuryCommentSchema = z.object({
+    params: z.object({
+        commentId: z.string().regex(/^\d+$/, "Le paramètre commentId doit être un nombre entier valide.")
+    }),
+    body: z.object({
+        content: z.string()
+            .min(2, "La note doit contenir au moins 2 caractères.")
+            .max(2000, "La note est trop longue (maximum 2000 caractères.)")
+            .optional(),
+        isPrivate: z.coerce.number().int().min(0).max(1).optional()
+    }).refine((data) => data.content !== undefined || data.isPrivate !== undefined, {
+        message: "Au moins un champ (content ou isPrivate) doit être fourni."
+    })
+});
+
+export const deleteJuryCommentSchema = z.object({
+    params: z.object({
+        commentId: z.string().regex(/^\d+$/, "Le paramètre commentId doit être un nombre entier valide.")
     })
 });

@@ -5,7 +5,7 @@ import cors from "cors";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { testConnection } from "./config/db.js";
+import { ensureSchemaUpdates, testConnection } from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
 import emailRoutes from './routes/email.routes.js';
@@ -26,7 +26,10 @@ const uploadsPath = path.resolve(__dirname, "../uploads");
 const canServeFrontend = process.env.NODE_ENV === "production" && fs.existsSync(frontendIndexPath);
 
 // Connexion BDD
-testConnection(); // Appeler la fonction de test de connexion à la BDD
+const bootstrapDatabase = async () => {
+  await testConnection();
+  await ensureSchemaUpdates();
+};
 
 // Middlewares
 // CORS dev: autorise localhost/127.0.0.1 sur n'importe quel port (Vite peut changer de port).
@@ -99,7 +102,13 @@ app.use((req, res) => {
   return res.status(404).json({ error: 'Route non trouvée' });
 });
 
-app.listen(PORT, () => {
-  // Rendre le message de démarrage cohérent avec l'ancienne version
-  console.log(`Serveur sur http://localhost:${PORT}`);
-});
+bootstrapDatabase()
+  .catch((error) => {
+    console.error('Echec de l\'initialisation base de donnees:', error);
+  })
+  .finally(() => {
+    app.listen(PORT, () => {
+      // Rendre le message de démarrage cohérent avec l'ancienne version
+      console.log(`Serveur sur http://localhost:${PORT}`);
+    });
+  });

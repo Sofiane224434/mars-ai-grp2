@@ -44,7 +44,8 @@ input[type="checkbox"].appearance-none:checked {
 
 @font-face {
   font-family: "Marseille";
-  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf") format("opentype");
+  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")
+    format("opentype");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -77,7 +78,13 @@ p {
   }
 
   .btn-bg-admin-base {
-    @apply pointer-events-none absolute h-14 top-[17%] -left-4 -right-4 rounded-full justify-center;
+    @apply pointer-events-none absolute h-14 justify-center;
+    top: 17%;
+    left: -16px;
+    right: -16px;
+    bottom: 17%;
+    border-radius: 4px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
   }
 
   .btn-bg-filter {
@@ -220,23 +227,27 @@ p {
     font-weight: 400;
     color: var(--color-white);
     font-family: "Inter-Regular", Helvetica;
-    font-size: medium;
+    font-size: 14px;
     padding-left: 30px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
   }
 
   .home-admin {
     position: relative;
     width: 168px;
     height: 42px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 5px;
     padding: 3px 15px;
     border-radius: 50px;
-    background: linear-gradient(90deg,
-        rgba(253, 255, 107, 1) 0%,
-        rgba(213, 139, 82, 1) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(253, 255, 107, 1) 0%,
+      rgba(213, 139, 82, 1) 100%
+    );
   }
 
   .form-page {

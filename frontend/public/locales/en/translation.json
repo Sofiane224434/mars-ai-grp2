@@ -32,7 +32,8 @@
           "cta": "Read the FAQ"
         }
       }
-    }
+    },
+    "results-available": "The winners&#x27; results are in!"
   },
   "about": {
     "blocks": {
@@ -96,7 +97,42 @@
     "empty-title": "Coming soon",
     "empty-description": "The 50 films selected by the jury will be posted here once the submission period has ended. Check back soon!",
     "current-phase-label": "Current phase",
-    "current-phase": "Submission of Applications"
+    "current-phase": "Submission of applications",
+    "phase-judgment": "Ranking of the top 50",
+    "phase-top50": "Top 50 Selection",
+    "phase-top5": "Top 5 Picks",
+    "results-title": "Winners&#x27; Results",
+    "results-description": "Check out the Top 5, followed by the full Top 50 selected by the jury.",
+    "top5-title": "Top 5",
+    "top5-description": "Check out the five films selected as finalists by the jury.",
+    "podium-title": "Top 5 Podium",
+    "podium-first": "1st",
+    "podium-second": "2nd",
+    "podium-third": "3rd",
+    "view-movie": "View movie",
+    "top50-title": "Top 50",
+    "top50-description": "You can also view the complete Top 50 list.",
+    "back-to-list": "Back to the list of movies",
+    "detail-loading": "Loading the movie...",
+    "detail-error-title": "Movie unavailable",
+    "detail-not-found": "The requested movie cannot be found or is not yet available to the public.",
+    "detail-no-video": "No video link is available for this movie.",
+    "detail-film-info-title": "Information about the film",
+    "detail-synopsis-label": "Synopsis",
+    "detail-description-label": "Description",
+    "detail-language-label": "Language",
+    "detail-classification-label": "Classification",
+    "detail-ai-tools-title": "AI tools used",
+    "detail-ai-tools-label": "List of tools",
+    "detail-no-ai-tools": "No AI tools are listed for this film.",
+    "by-director": "By: {{director}}",
+    "unknown-director": "Director unknown",
+    "not-provided": "Not specified.",
+    "podium-title": "Top 5 Podium",
+    "podium-first": "1st",
+    "podium-second": "2nd",
+    "podium-third": "3rd",
+    "view-movie": "Watch the movie"
   },
   "countdown": {
     "nextSelection": "Next selection",
@@ -205,5 +241,28 @@
       "fileTooSmall": "The file is too small; it must be at least {{min}} MB.",
       "notImage": "The file must be in image format (.png / .jpeg / .jpg)."
     }
+  },
+  "footer": {
+    "collaborator": "In collaboration with",
+    "textcontact": "Stay in touch",
+    "newsletter": "Subscribe to the newsletter",
+    "emailplaceholder": "Your email address",
+    "subscribe": "Sign up for the newsletter",
+    "newsletterLoading": "Registration in progress...",
+    "newsletterSubscribeSuccess": "Registration confirmed. Thank you!",
+    "newsletterSubscribeError": "We&#x27;re unable to register you at this time.",
+    "newsletterInvalidEmail": "Please enter a valid email address.",
+    "rgpd": "Privacy Policy (GDPR)",
+    "rights": "All rights reserved"
+  },
+  "rgpd": {
+    "badge": "GDPR",
+    "pageTitle": "Privacy Policy and Legal Notice",
+    "intro": "This page explains how MarsAI collects, uses, protects, and retains the personal data of visitors, filmmakers, and jury members.",
+    "summaryAriaLabel": "GDPR Summary",
+    "summaryTitle": "Table of Contents",
+    "backToTop": "Back to top",
+    "backHome": "Back to Home",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
   }
 }

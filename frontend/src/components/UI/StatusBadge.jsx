@@ -24,6 +24,10 @@ const STATUS_VARIANTS = {
     container: "bg-bleu-ocean border-blue-900 text-white",
     icon: icon_valid,
   },
+  top5: {
+    container: "bg-bleu-ocean border-blue-900 text-white",
+    icon: icon_valid,
+  },
 };
 
 const StatusBadge = ({

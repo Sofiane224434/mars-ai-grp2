@@ -7,24 +7,25 @@ import Button from '../../../components/ui/Button.jsx';
 import MovieAdminCard from '../../../components/sections/DashboardAdmin/MovieAdminCard.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
 import ToggleSwitch from '../../../components/ui/ToggleSwitch.jsx';
+import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 const AdminEmailConfirmation = () => {
+  const { currentPhase } = useFestivalPhase();
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
   const [emailModal, setEmailModal] = useState({ isOpen: false, movie: null });
   const [currentPage, setCurrentPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  
-  const [viewMode, setViewMode] = useState('list'); 
-  
+
+  const [viewMode, setViewMode] = useState('list');
+
   // État des filtres
   const [selectedFilters, setSelectedFilters] = useState({
-    assignation: [],
     status: [],
   });
 
   const ITEMS_PER_PAGE = 18;
   const reviewedMovies = Array.isArray(movies) ? movies : [];
-  
+
   // Handlers pour les filtres
   const handleFilterChange = (filterType, filterValue, isChecked) => {
     setSelectedFilters(prev => {
@@ -40,7 +41,6 @@ const AdminEmailConfirmation = () => {
 
   const handleClearFilters = () => {
     setSelectedFilters({
-      assignation: [],
       status: [],
     });
   };
@@ -48,25 +48,15 @@ const AdminEmailConfirmation = () => {
   // Filtrage des films
   const getFilteredMovies = () => {
     if (!reviewedMovies || reviewedMovies.length === 0) return [];
-    
+
     return reviewedMovies.filter(movie => {
-      // Filtre assignation
-      if (selectedFilters.assignation.length > 0) {
-        const hasJury = movie.assignedJuries && movie.assignedJuries.length > 0;
-        const isAssigned = selectedFilters.assignation.includes('assigned');
-        const isNotAssigned = selectedFilters.assignation.includes('unassigned');
-        
-        if (isAssigned && !hasJury) return false;
-        if (isNotAssigned && hasJury) return false;
-      }
-      
       // Filtre status
       if (selectedFilters.status.length > 0) {
-        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved' };
+        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved', 5: 'top50', 6: 'top5' };
         const movieStatus = statusMap[movie.statusId] || 'pending';
         if (!selectedFilters.status.includes(movieStatus)) return false;
       }
-      
+
       return true;
     });
   };
@@ -131,7 +121,7 @@ const AdminEmailConfirmation = () => {
   return (
     <div className="min-h-screen background-gradient-black px-4 pb-4 pt-20 sm:pt-4 md:px-8 md:pb-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
@@ -142,9 +132,9 @@ const AdminEmailConfirmation = () => {
             </p>
           </div>
           <div className="sm:shrink-0">
-            <ToggleSwitch 
-              isListMode={viewMode === 'list'} 
-              onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')} 
+            <ToggleSwitch
+              isListMode={viewMode === 'list'}
+              onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')}
             />
           </div>
         </div>
@@ -173,54 +163,54 @@ const AdminEmailConfirmation = () => {
 
           {/* Panneau déroulant des filtres */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="mt-2 rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
               {/* Mobile / tablette */}
               <div className="lg:hidden">
                 <div className="mx-auto w-fit flex flex-col gap-2">
-                  <div className="flex flex-wrap justify-center gap-2">
-                    <Filter 
-                      variant="assignation"
-                      checked={selectedFilters.assignation.includes('unassigned')}
-                      onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
-                    >
-                      Non assigné
-                    </Filter>
-                    <Filter 
-                      variant="assignation"
-                      checked={selectedFilters.assignation.includes('assigned')}
-                      onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
-                    >
-                      Assigné
-                    </Filter>
-                  </div>
-
                   <div className="flex flex-wrap items-center justify-center gap-2">
-                    <Filter 
+                    {currentPhase >= 1 && (
+                      <Filter
+                        variant="top50"
+                        checked={selectedFilters.status.includes('top50')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
+                      >
+                        Top 50
+                      </Filter>
+                    )}
+                    {currentPhase >= 2 && (
+                      <Filter
+                        variant="top5"
+                        checked={selectedFilters.status.includes('top5')}
+                        onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
+                      >
+                        Top 5
+                      </Filter>
+                    )}
+                    <Filter
                       variant="approved"
                       checked={selectedFilters.status.includes('approved')}
                       onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
                     >
                       Validé
                     </Filter>
-                    <Filter 
+                    <Filter
                       variant="rejected"
                       checked={selectedFilters.status.includes('rejected')}
                       onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
                     >
                       Refusé
                     </Filter>
-                    <Filter 
+                    <Filter
                       variant="review"
                       checked={selectedFilters.status.includes('review')}
                       onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
                     >
                       À revoir
                     </Filter>
-                    <Filter 
+                    <Filter
                       variant="pending"
                       checked={selectedFilters.status.includes('pending')}
                       onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
@@ -244,53 +234,53 @@ const AdminEmailConfirmation = () => {
 
               {/* Desktop */}
               <div className="hidden lg:flex items-center justify-between gap-3">
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-wrap gap-2">
-                    <Filter 
-                      variant="assignation"
-                      checked={selectedFilters.assignation.includes('unassigned')}
-                      onChange={(isChecked) => handleFilterChange('assignation', 'unassigned', isChecked)}
+                <div className="flex flex-wrap items-center gap-2">
+                  {currentPhase >= 1 && (
+                    <Filter
+                      variant="top50"
+                      checked={selectedFilters.status.includes('top50')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top50', isChecked)}
                     >
-                      Non assigné
+                      Top 50
                     </Filter>
-                    <Filter 
-                      variant="assignation"
-                      checked={selectedFilters.assignation.includes('assigned')}
-                      onChange={(isChecked) => handleFilterChange('assignation', 'assigned', isChecked)}
+                  )}
+                  {currentPhase >= 2 && (
+                    <Filter
+                      variant="top5"
+                      checked={selectedFilters.status.includes('top5')}
+                      onChange={(isChecked) => handleFilterChange('status', 'top5', isChecked)}
                     >
-                      Assigné
+                      Top 5
                     </Filter>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Filter 
-                      variant="approved"
-                      checked={selectedFilters.status.includes('approved')}
-                      onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
-                    >
-                      Validé
-                    </Filter>
-                    <Filter 
-                      variant="rejected"
-                      checked={selectedFilters.status.includes('rejected')}
-                      onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
-                    >
-                      Refusé
-                    </Filter>
-                    <Filter 
-                      variant="review"
-                      checked={selectedFilters.status.includes('review')}
-                      onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
-                    >
-                      À revoir
-                    </Filter>
-                    <Filter 
-                      variant="pending"
-                      checked={selectedFilters.status.includes('pending')}
-                      onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
-                    >
-                      En attente
-                    </Filter>
-                  </div>
+                  )}
+                  <Filter
+                    variant="approved"
+                    checked={selectedFilters.status.includes('approved')}
+                    onChange={(isChecked) => handleFilterChange('status', 'approved', isChecked)}
+                  >
+                    Validé
+                  </Filter>
+                  <Filter
+                    variant="rejected"
+                    checked={selectedFilters.status.includes('rejected')}
+                    onChange={(isChecked) => handleFilterChange('status', 'rejected', isChecked)}
+                  >
+                    Refusé
+                  </Filter>
+                  <Filter
+                    variant="review"
+                    checked={selectedFilters.status.includes('review')}
+                    onChange={(isChecked) => handleFilterChange('status', 'review', isChecked)}
+                  >
+                    À revoir
+                  </Filter>
+                  <Filter
+                    variant="pending"
+                    checked={selectedFilters.status.includes('pending')}
+                    onChange={(isChecked) => handleFilterChange('status', 'pending', isChecked)}
+                  >
+                    En attente
+                  </Filter>
                 </div>
                 <Button
                   interactive
@@ -313,11 +303,11 @@ const AdminEmailConfirmation = () => {
               : "flex flex-col gap-4 px-4 sm:px-10"
           }>
             {currentMovies.map((movie) => (
-              <MovieAdminCard 
-                key={movie.id} 
+              <MovieAdminCard
+                key={movie.id}
                 movie={movie}
                 layout={viewMode} // 🚀 AJOUT 5 : On transmet la disposition à la carte !
-                onOpenEmailModal={handleOpenEmailModal} 
+                onOpenEmailModal={handleOpenEmailModal}
               />
             ))}
           </div>
@@ -339,10 +329,10 @@ const AdminEmailConfirmation = () => {
 
       {/* La Modale isolée */}
       {emailModal.isOpen && (
-        <EmailTemplateModal 
-          isOpen={emailModal.isOpen} 
-          onClose={handleCloseEmailModal} 
-          movie={emailModal.movie} 
+        <EmailTemplateModal
+          isOpen={emailModal.isOpen}
+          onClose={handleCloseEmailModal}
+          movie={emailModal.movie}
         />
       )}
 

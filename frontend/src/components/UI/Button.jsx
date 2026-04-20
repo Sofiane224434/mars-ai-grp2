@@ -9,6 +9,8 @@ const Button = ({
   iconImg = "",
   iconClassName = "",
   iconOnly = false,
+  iconOnlyButtonSizeClass = "",
+  iconOnlyImageSizeClass = "",
   className = "",
   interactive = false,
   type = "button",
@@ -17,15 +19,18 @@ const Button = ({
   ariaLabel,
 }) => {
   const iconToDisplay = iconImg || panel_icon_home;
+  const resolvedIconOnlyButtonSizeClass =
+    iconOnlyButtonSizeClass || "w-14 h-14";
+  const resolvedIconOnlyImageSizeClass = iconOnlyImageSizeClass || "h-7 w-auto";
   const panelBgClass = iconOnly
-    ? "pointer-events-none absolute inset-0 rounded-full bg-bleu-ocean"
-    : "btn-bg-admin-base bg-bleu-ocean rounded-none";
+    ? "pointer-events-none absolute top-0 left-0 right-0 bottom-0 rounded-[50px] bg-bleu-ocean transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]"
+    : "btn-bg-admin-base bg-bleu-ocean transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
   const panelIconClass = iconOnly
-    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    ? `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain ${resolvedIconOnlyImageSizeClass}`
     : "status-base-icon-jury";
   const panelIconWithOffsetClass = `${panelIconClass} ${iconClassName}`.trim();
   const homePanelIconClass = iconOnly
-    ? "absolute left-1/2 top-1/2 h-7 w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
+    ? `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain ${resolvedIconOnlyImageSizeClass}`
     : "status-base-icon-jury-accueil";
 
   //---------------------------------------------------------------------------------------------------------
@@ -166,12 +171,14 @@ const Button = ({
 
     // Variante 1 : Bouton Annuler - Bordure turquoise
     "email-cancel": {
-      container: "px-5 py-2 rounded-xl border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors font-medium disabled:opacity-50 cursor-pointer",
+      container:
+        "px-5 py-2 rounded-xl border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors font-medium disabled:opacity-50 cursor-pointer",
     },
 
     // Variante 2 : Bouton Envoyer - Gradient bleu
     "email-send": {
-      container: "px-5 py-2 rounded-xl bg-linear-to-r from-bleu-canard to-bleu-ciel text-white font-bold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
+      container:
+        "px-5 py-2 rounded-xl bg-linear-to-r from-bleu-canard to-bleu-ciel text-white font-bold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
     },
   };
 
@@ -187,12 +194,12 @@ const Button = ({
       : isJuryActionVariant
         ? "pl-6 translate-y-px"
         : ["email-cancel", "email-send"].includes(variant)
-        ? "flex items-center gap-2"
-        : "";
+          ? "flex items-center gap-2"
+          : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
-      ? "!w-14 !h-14 !p-0 !pl-0 justify-center"
-      : "";
+      ? `${resolvedIconOnlyButtonSizeClass} p-0 pl-0 justify-center w-14 transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]`
+      : "transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
   const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 
   const pressWrapperClass = [
@@ -217,13 +224,15 @@ const Button = ({
         {currentVariant.bg}
 
         {/* Contenu du texte */}
-        {!iconOnly && (
-          <span
-            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
-          >
-            {children}
-          </span>
-        )}
+        <span
+          className={`relative z-10 pointer-events-none overflow-hidden transition-all ease-in-out text-sm md:text-[15px] leading-tight ${
+            iconOnly
+              ? "max-w-0 opacity-0 duration-0 delay-0 p-0 m-0 whitespace-nowrap"
+              : "max-w-[500px] opacity-100 duration-500 delay-150"
+          } ${textOffsetClass}`}
+        >
+          {children}
+        </span>
       </span>
     );
   }
@@ -255,13 +264,15 @@ const Button = ({
         {currentVariant.bg}
 
         {/* Contenu du texte */}
-        {!iconOnly && (
-          <span
-            className={`relative z-10 pointer-events-none ${textOffsetClass}`}
-          >
-            {children}
-          </span>
-        )}
+        <span
+          className={`relative z-10 pointer-events-none overflow-hidden transition-all ease-in-out text-sm md:text-[15px] leading-tight ${
+            iconOnly
+              ? "max-w-0 opacity-0 duration-0 delay-0 p-0 m-0 whitespace-nowrap"
+              : "max-w-[500px] opacity-100 duration-500 delay-150"
+          } ${textOffsetClass}`}
+        >
+          {children}
+        </span>
       </button>
     </div>
   );

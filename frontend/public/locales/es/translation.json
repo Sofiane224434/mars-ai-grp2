@@ -6,34 +6,6 @@
     "faq": "Preguntas frecuentes",
     "participate": "Participar"
   },
-  "home": {
-    "HeroSection": "El ser humano en el centro de la IA",
-    "titles1": "1 MINUTO",
-    "description1": "Cada vídeo dura como máximo 1 minuto",
-    "titles2": "1 TEMA",
-    "description2": "Todas las películas tienen un tema en común: un futuro deseable",
-    "titles3": "1 GANADOR",
-    "description3": "¡Solo habrá un gran ganador!",
-    "PodiumGraphic": "Entre una selección de más de 20 000 vídeos",
-    "quickAccess": {
-      "title": "Explora el festival",
-      "description": "Accede rápidamente a las páginas principales del festival para descubrir las películas, conocer mejor MarsAI y obtener toda la información práctica.",
-      "cards": {
-        "movies": {
-          "description": "Descubre los cortometrajes seleccionados, sigue la fase actual y pronto podrás consultar la lista de ganadores.",
-          "cta": "Ver las películas"
-        },
-        "about": {
-          "description": "Conoce la visión del festival, sus objetivos y el formato único del concurso.",
-          "cta": "Descubre MarsAI"
-        },
-        "faq": {
-          "description": "Consulta de un vistazo la información práctica: cómo llegar, horarios, talleres y organización.",
-          "cta": "Leer las preguntas frecuentes"
-        }
-      }
-    }
-  },
   "about": {
     "blocks": {
       "block1": {
@@ -102,13 +74,44 @@
     "newsletterLoading": "Inscripción en curso...",
     "newsletterSubscribeSuccess": "Inscripción confirmada. ¡Gracias!",
     "newsletterSubscribeError": "Por el momento no es posible registrarse.",
-    "newsletterInvalidEmail": "Introduce una dirección de correo electrónico válida."
+    "newsletterInvalidEmail": "Introduce una dirección de correo electrónico válida.",
+    "rgpd": "Política de privacidad (RGPD)"
   },
   "movies": {
     "empty-title": "Próximamente disponible",
     "empty-description": "Las 50 películas seleccionadas por el jurado se publicarán aquí una vez finalizada la fase de inscripción. ¡Vuelve pronto!",
     "current-phase-label": "Fase actual",
-    "current-phase": "Presentación de candidaturas"
+    "current-phase": "Presentación de candidaturas",
+    "phase-judgment": "Clasificación de los 50 mejores",
+    "phase-top50": "Selección de los 50 mejores",
+    "phase-top5": "Selección de los 5 mejores",
+    "results-title": "Resultados de los ganadores",
+    "results-description": "Descubre el Top 5 y, a continuación, el Top 50 completo seleccionado por el jurado.",
+    "top5-title": "Las 5 mejores",
+    "top5-description": "Descubre las 5 películas finalistas seleccionadas por el jurado.",
+    "top50-title": "Las 50 mejores",
+    "top50-description": "Consulta también la selección completa del Top 50.",
+    "back-to-list": "Volver a la lista de películas",
+    "detail-loading": "Cargando la película...",
+    "detail-error-title": "Película no disponible",
+    "detail-not-found": "La película solicitada no se encuentra o aún no está disponible para el público.",
+    "detail-no-video": "No hay ningún vídeo disponible para esta película.",
+    "detail-film-info-title": "Información sobre la película",
+    "detail-synopsis-label": "Sinopsis",
+    "detail-description-label": "Descripción",
+    "detail-language-label": "Idioma",
+    "detail-classification-label": "Clasificación",
+    "detail-ai-tools-title": "Herramientas de IA utilizadas",
+    "detail-ai-tools-label": "Lista de herramientas",
+    "detail-no-ai-tools": "No hay ninguna herramienta de IA registrada para esta película.",
+    "by-director": "Por: {{director}}",
+    "unknown-director": "Director desconocido",
+    "not-provided": "No se ha indicado.",
+    "podium-title": "Podio del Top 5",
+    "podium-first": "1.º",
+    "podium-second": "2.º",
+    "podium-third": "3.º",
+    "view-movie": "Ver la película"
   },
   "countdown": {
     "nextSelection": "Próxima selección",
@@ -217,5 +220,44 @@
       "fileTooSmall": "El archivo es demasiado pequeño; debe tener al menos {{min}} MB.",
       "notImage": "El archivo debe estar en formato de imagen (.png / .jpeg / .jpg)."
     }
+  },
+  "home": {
+    "results-available": "¡Ya están disponibles los resultados de los ganadores!",
+    "HeroSection": "El ser humano en el centro de la IA",
+    "titles1": "1 MINUTO",
+    "description1": "Cada vídeo dura como máximo 1 minuto",
+    "titles2": "1 TEMA",
+    "description2": "Todas las películas tienen un tema en común: un futuro deseable",
+    "titles3": "1 GANADOR",
+    "description3": "¡Solo habrá un gran ganador!",
+    "PodiumGraphic": "Entre una selección de más de 20 000 vídeos",
+    "quickAccess": {
+      "title": "Explora el festival",
+      "description": "Accede rápidamente a las páginas principales del festival para descubrir las películas, conocer mejor MarsAI y obtener toda la información práctica.",
+      "cards": {
+        "movies": {
+          "description": "Descubre los cortometrajes seleccionados, sigue la fase actual y pronto podrás consultar la lista de ganadores.",
+          "cta": "Ver las películas"
+        },
+        "about": {
+          "description": "Conoce la visión del festival, sus objetivos y el formato único del concurso.",
+          "cta": "Descubre MarsAI"
+        },
+        "faq": {
+          "description": "Consulta de un vistazo la información práctica: cómo llegar, horarios, talleres y organización.",
+          "cta": "Leer las preguntas frecuentes"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "RGPD",
+    "pageTitle": "Política de privacidad y aviso legal",
+    "intro": "En esta página se explica cómo MarsAI recopila, utiliza, protege y conserva los datos personales de los visitantes, los realizadores y los miembros del jurado.",
+    "summaryAriaLabel": "Resumen del RGPD",
+    "summaryTitle": "Índice",
+    "backToTop": "Volver al inicio de la página",
+    "backHome": "Volver a la página de inicio",
+    "sections": "[objeto Objeto],[objeto Objeto],[objeto Objeto],[objeto Objeto],[objeto Objeto],[objeto Objeto],[objeto Objeto]"
   }
 }

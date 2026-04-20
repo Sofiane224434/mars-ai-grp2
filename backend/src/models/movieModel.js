@@ -1,5 +1,100 @@
 import pool, { query } from "../config/db.js";
 
+// Recuperer les films publics (Top 50 ou Top 5 selon la phase)
+export const getPublicMovies = async (phaseIndex) => {
+  // A partir de la phase publique, on garde Top 50 et Top 5 accessibles.
+  const statusFilter = [5, 6];
+  const placeholders = statusFilter.map(() => '?').join(', ');
+
+  const sql = `
+    SELECT
+      m.id,
+      m.title_original AS title,
+      m.status AS statusId,
+      m.top5_rank AS top5Rank,
+      m.description,
+      m.title_english,
+      m.language,
+      m.thumbnail,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName
+    FROM movies m
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.status IN (${placeholders})
+    ORDER BY
+      CASE WHEN m.status = 6 THEN 0 ELSE 1 END ASC,
+      CASE WHEN m.status = 6 AND m.top5_rank IS NULL THEN 1 ELSE 0 END ASC,
+      CASE WHEN m.status = 6 THEN m.top5_rank ELSE NULL END ASC,
+      m.id ASC
+  `;
+
+  return await query(sql, statusFilter);
+};
+
+export const getPublicMovieDetail = async (movieId, phaseIndex) => {
+  const statusFilter = [5, 6];
+  const placeholders = statusFilter.map(() => '?').join(', ');
+
+  const sqlMovie = `
+    SELECT
+      m.id,
+      m.title_original AS title,
+      m.title_english,
+      m.synopsis_original AS synopsis,
+      m.synopsis_english,
+      m.description,
+      m.youtube_url AS videoUrl,
+      m.top5_rank AS top5Rank,
+      m.thumbnail,
+      m.language,
+      m.classification,
+      (
+        SELECT sc.link
+        FROM screenshots sc
+        WHERE sc.movie_id = m.id
+        ORDER BY sc.id ASC
+        LIMIT 1
+      ) AS screenshotLink,
+      dp.firstname AS directorFirstName,
+      dp.lastname AS directorLastName,
+      TRIM(CONCAT(COALESCE(dp.firstname, ''), ' ', COALESCE(dp.lastname, ''))) AS directorName
+    FROM movies m
+    LEFT JOIN director_profile dp ON dp.movie_id = m.id
+    WHERE m.id = ? AND m.status IN (${placeholders})
+    LIMIT 1
+  `;
+
+  const rows = await query(sqlMovie, [movieId, ...statusFilter]);
+  const movie = rows[0];
+
+  if (!movie) {
+    return null;
+  }
+
+  const sqlUsedAis = `
+    SELECT al.ai_name, ua.category
+    FROM used_ai ua
+    JOIN ai_list al ON ua.ai_name = al.id
+    WHERE ua.movie_id = ?
+    ORDER BY ua.id ASC
+  `;
+
+  const usedAis = await query(sqlUsedAis, [movieId]);
+
+  return {
+    ...movie,
+    usedAis,
+  };
+};
+
 export const movieModel = {
   // 1. Récupérer la liste d'attente
   async getMoviesPendingReview() {
@@ -20,7 +115,7 @@ export const movieModel = {
         ORDER BY dp.id ASC
         LIMIT 1
       )
-      WHERE m.status IN (2, 3, 4)
+      WHERE m.status IN (2, 3, 4, 5, 6)
         AND NOT EXISTS (
           SELECT 1
           FROM email e
@@ -112,14 +207,19 @@ export const movieModel = {
         c.id,
         c.comment AS content,
         c.movie_id AS movieId,
-        0 AS isPrivate,
+        c.isprivate AS isPrivate,
         u.email AS authorEmail
       FROM comments c
       LEFT JOIN users u ON u.id = c.user_id
       WHERE c.movie_id = ?
+        AND COALESCE(c.isprivate, 1) = 0
       ORDER BY c.id ASC
     `;
-    const publicComments = await query(sqlPublicComments, [movieId]);
+    const publicCommentsRows = await query(sqlPublicComments, [movieId]);
+    const publicComments = publicCommentsRows.map((row) => ({
+      ...row,
+      isPrivate: Number(row.isPrivate) !== 0,
+    }));
 
     // 4. On assemble l'objet final comme ton frontend l'attend
     return {
@@ -501,6 +601,26 @@ export const movieModel = {
 
     const result = await query(sql_movies, moviedata);
     return { id: Number(result.insertId), movieinfo: moviedata };
+  async getMovieStatusById(movieId) {
+    const sql = 'SELECT status FROM movies WHERE id = ? LIMIT 1';
+    const rows = await query(sql, [movieId]);
+    return rows?.[0]?.status ?? null;
+  },
+
+  async countMoviesByStatus(statusId) {
+    const sql = 'SELECT COUNT(*) AS count FROM movies WHERE status = ?';
+    const rows = await query(sql, [statusId]);
+    return Number(rows?.[0]?.count || 0);
+  },
+
+  async updateMovieStatus(movieId, statusId) {
+    if (statusId === 6) {
+      const sqlKeepRank = 'UPDATE movies SET status = ? WHERE id = ?';
+      return await query(sqlKeepRank, [statusId, movieId]);
+    }
+
+    const sqlResetRank = 'UPDATE movies SET status = ?, top5_rank = NULL WHERE id = ?';
+    return await query(sqlResetRank, [statusId, movieId]);
   }
 };
 

@@ -3,6 +3,9 @@ import { fileURLToPath } from "node:url";
 import { getFileStream } from "../config/s3.js";
 import { uploadVideoToYouTube } from "../config/youtube.js";
 import { movieModel } from "../models/movieModel.js";
+import { getPublicMovieDetail, getPublicMovies } from "../models/movieModel.js";
+import fs from "fs";
+import { promisify } from "util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -338,5 +341,64 @@ export const getMovieImage = async (req, res) => {
   } catch (error) {
     console.error("Erreur de recuperation du fichier depuis S3:", error);
     return res.status(500).json({ error: "Erreur de recuperation du fichier depuis S3" });
+  }
+};
+
+export const getPublicMoviesList = async (req, res) => {
+  try {
+    const rawPhase = req.headers['x-festival-phase-index'];
+    const phaseIndex = Number.parseInt(String(rawPhase ?? ''), 10);
+
+    if (Number.isNaN(phaseIndex) || phaseIndex < 2) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+
+    const movies = await getPublicMovies(phaseIndex);
+    return res.status(200).json({ success: true, data: movies });
+  } catch (error) {
+    console.error('Erreur lors de la recuperation des films publics :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Impossible de recuperer les films.'
+    });
+  }
+};
+
+export const getPublicMovieDetailById = async (req, res) => {
+  try {
+    const rawPhase = req.headers['x-festival-phase-index'];
+    const phaseIndex = Number.parseInt(String(rawPhase ?? ''), 10);
+    const movieId = Number.parseInt(String(req.params.movieId ?? ''), 10);
+
+    if (!Number.isInteger(movieId) || movieId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Identifiant de film invalide.'
+      });
+    }
+
+    if (Number.isNaN(phaseIndex) || phaseIndex < 2) {
+      return res.status(404).json({
+        success: false,
+        message: 'Film introuvable.'
+      });
+    }
+
+    const movie = await getPublicMovieDetail(movieId, phaseIndex);
+
+    if (!movie) {
+      return res.status(404).json({
+        success: false,
+        message: 'Film introuvable.'
+      });
+    }
+
+    return res.status(200).json({ success: true, data: movie });
+  } catch (error) {
+    console.error('Erreur lors de la recuperation du detail film public :', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Impossible de recuperer le detail du film.'
+    });
   }
 };

@@ -5,13 +5,21 @@ import { requireAuth } from '../middlewares/auth.middleware.js';
 import {
   getMovieByIdSchema,
   updateMovieStatusSchema,
+  updateTop5RankSchema,
   getJuryCommentsSchema,
-  postJuryCommentSchema
+  postJuryCommentSchema,
+  putJuryCommentSchema,
+  deleteJuryCommentSchema
 } from '../schemas/jury.schema.js';
 
 // Import des contrôleurs
-import { getAssignedMovies, getMovieById, validateMovieStatus } from '../controllers/juryMovie.controller.js';
-import { getJuryComments, postJuryComment } from '../controllers/juryComment.controller.js';
+import { getAssignedMovies, getMovieById, updateTop5Rank, validateMovieStatus } from '../controllers/juryMovie.controller.js';
+import {
+  deleteJuryComment,
+  getJuryComments,
+  postJuryComment,
+  putJuryComment
+} from '../controllers/juryComment.controller.js';
 
 const router = express.Router();
 
@@ -47,6 +55,9 @@ router.get('/movies/:id', validateRequest(getMovieByIdSchema), getMovieById);
 // Mise à jour du statut (Vote)
 router.put('/movies/:id/status', validateRequest(updateMovieStatusSchema), validateMovieStatus);
 
+// Mise à jour du rang podium Top 5 (1, 2, 3 ou null)
+router.put('/movies/:id/top5-rank', validateRequest(updateTop5RankSchema), updateTop5Rank);
+
 
 // ==========================================
 // 💬 ROUTES : NOTES (COMMENTAIRES)
@@ -57,5 +68,11 @@ router.get('/comments', validateRequest(getJuryCommentsSchema), getJuryComments)
 
 // Ajouter une nouvelle note
 router.post('/comments', validateRequest(postJuryCommentSchema), postJuryComment);
+
+// Modifier une note existante
+router.put('/comments/:commentId', validateRequest(putJuryCommentSchema), putJuryComment);
+
+// Supprimer une note
+router.delete('/comments/:commentId', validateRequest(deleteJuryCommentSchema), deleteJuryComment);
 
 export default router;

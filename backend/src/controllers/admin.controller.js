@@ -274,22 +274,22 @@ export const sendOfficialEmail = async (req, res) => {
   }
 };
 
-  export const getAdminStats = async (req, res) => {
-    try {
-      // On appelle la logique métier (le Service)
-      const statsData = await adminService.getDashboardStats();
+export const getAdminStats = async (req, res) => {
+  try {
+    // On appelle la logique métier (le Service)
+    const statsData = await adminService.getDashboardStats();
 
-      // On renvoie le JSON avec la structure EXACTE
-      return res.status(200).json({
-        success: true,
-        data: statsData
-      });
-    } catch (error) {
-      console.error("Erreur Controller GET /admin/stats :", error);
-      return res.status(500).json({
-        success: false,
-        message: "Erreur serveur interne lors du calcul des statistiques."
-      });
-    }
-  };
+    // On renvoie le JSON avec la structure EXACTE
+    return res.status(200).json({
+      success: true,
+      data: statsData
+    });
+  } catch (error) {
+    console.error("Erreur Controller GET /admin/stats :", error);
+    return res.status(500).json({
+      success: false,
+      message: "Erreur serveur interne lors du calcul des statistiques."
+    });
+  }
+};
 

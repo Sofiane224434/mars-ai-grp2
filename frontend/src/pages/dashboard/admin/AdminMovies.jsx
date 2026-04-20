@@ -479,6 +479,7 @@ function AdminMovies() {
                   thumbnailSrc={movie.thumbnail || movie.screenshotLink}
                   assignedJurors={hasJury ? movie.assignedJuries.map(j => j.name || j.email) : []}
                   onAssign={() => openAssignModal(movie)}
+                  onThumbnailClick={() => navigate(`/dashboard/admin/movies/${movie.id}`)}
                   onMoreInfo={() => navigate(`/dashboard/admin/movies/${movie.id}`)}
                 />
               );

@@ -69,6 +69,18 @@ export const adminService = {
     return await movieModel.getMovieDetailForAdmin(movieId);
   },
 
+  async getMovieStatusById(movieId) {
+    return await movieModel.getMovieStatusById(movieId);
+  },
+
+  async countMoviesByStatus(statusId) {
+    return await movieModel.countMoviesByStatus(statusId);
+  },
+
+  async updateMovieStatus(movieId, statusId) {
+    return await movieModel.updateMovieStatus(movieId, statusId);
+  },
+
   async processOfficialEmail(movieId, subject, body, senderUserId) {
     if (!senderUserId) {
       const err = new Error("Session invalide: utilisateur introuvable.");

@@ -3,6 +3,20 @@ import { inviteJurySchema } from "../schemas/auth.schema.js";
 import { adminService } from '../services/adminService.js';
 import { success, z } from "zod";
 
+const TOP50_STATUS_ID = 5;
+const TOP50_MAX_COUNT = 50;
+const TOP5_STATUS_ID = 6;
+const TOP5_MAX_COUNT = 5;
+
+const getPhaseIndexFromRequest = (req) => {
+  const rawPhase = req.headers['x-festival-phase-index'];
+  const parsed = Number.parseInt(String(rawPhase ?? ''), 10);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const isJudgmentPhase = (req) => getPhaseIndexFromRequest(req) === 1;
+const isTop5Phase = (req) => getPhaseIndexFromRequest(req) === 2;
+
 export const inviteJury = async (req, res) => {
   // 1. Validation du body avec Zod
   //    Si emails[] est absent ou contient un email invalide → 400 immédiat
@@ -130,6 +144,66 @@ export const getAllMoviesForAdmin = async (req, res) => {
   } catch (error) {
     console.error("Erreur Controller GET /admin/movies :", error);
     return res.status(500).json({ success: false, message: "Erreur serveur interne lors de la récupération des films." });
+  }
+};
+
+export const updateMovieStatusForAdmin = async (req, res) => {
+  try {
+    const movieId = Number(req.params.movieId);
+    const { statusId } = req.body;
+
+    if (!Number.isInteger(movieId) || movieId <= 0) {
+      return res.status(400).json({ success: false, message: 'ID de film invalide.' });
+    }
+
+    const currentStatusId = await adminService.getMovieStatusById(movieId);
+    if (currentStatusId === null) {
+      return res.status(404).json({ success: false, message: 'Film introuvable.' });
+    }
+
+    if (statusId === TOP50_STATUS_ID && !isJudgmentPhase(req) && !isTop5Phase(req)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Le statut Top 50 est disponible uniquement pendant les phases 2 et 3.'
+      });
+    }
+
+    if (statusId === TOP5_STATUS_ID && !isTop5Phase(req)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Le statut Top 5 est disponible uniquement pendant la phase 3.'
+      });
+    }
+
+    if (statusId === TOP50_STATUS_ID && currentStatusId !== TOP50_STATUS_ID) {
+      const currentTop50Count = await adminService.countMoviesByStatus(TOP50_STATUS_ID);
+      if (currentTop50Count >= TOP50_MAX_COUNT) {
+        return res.status(409).json({
+          success: false,
+          message: 'Limite atteinte : le Top 50 contient deja 50 films.'
+        });
+      }
+    }
+
+    if (statusId === TOP5_STATUS_ID && currentStatusId !== TOP5_STATUS_ID) {
+      const currentTop5Count = await adminService.countMoviesByStatus(TOP5_STATUS_ID);
+      if (currentTop5Count >= TOP5_MAX_COUNT) {
+        return res.status(409).json({
+          success: false,
+          message: 'Limite atteinte : le Top 5 contient deja 5 films.'
+        });
+      }
+    }
+
+    const updateResult = await adminService.updateMovieStatus(movieId, statusId);
+    if (updateResult && updateResult.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Film introuvable ou statut déjà identique.' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Statut mis à jour avec succès.' });
+  } catch (error) {
+    console.error('Erreur Controller PUT /admin/movies/:movieId/status :', error);
+    return res.status(500).json({ success: false, message: 'Erreur serveur interne lors de la mise à jour du statut.' });
   }
 };
 

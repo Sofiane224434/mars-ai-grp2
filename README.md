@@ -446,6 +446,7 @@ VITE_API_URL=http://localhost:5000
 | GET     | `/api/movies`               | Liste complète des films avec statut d'évaluation et jurys assignés       | 🔒 Admin   |
 | GET     | `/api/movies/juries`        | Liste des jurys (email) avec leur nombre de films déjà assignés           | 🔒 Admin   |
 | POST    | `/api/movies/assign`        | Assigner un film à un seul jury (relation 1:1 logique métier)             | 🔒 Admin   |
+| PUT     | `/api/admin/movies/:movieId/status` | Modifier le statut d'un film (Top 50 uniquement en phase 2, Top 5 uniquement en phase 3) | 🔒 Admin   |
 
 Exemple de body pour l'assignation :
 

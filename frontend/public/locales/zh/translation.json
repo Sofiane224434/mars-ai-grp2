@@ -140,7 +140,10 @@
       "soundbankCheck": "该视频包含音乐和/或使用了音效库。",
       "soundbankAdd": "添加音效库/音乐",
       "soundbankLabel": "请注明所使用的音效库或音乐。",
-      "ytLink": "该视频的YouTube链接："
+      "ytLink": "该视频的YouTube链接：",
+      "movieTitleeng": "电影英文片名",
+      "description": "影片简介：",
+      "synopsisEng": "您的英文剧情简介。"
     },
     "step2": {
       "title": "步骤 2：人工智能使用声明",
@@ -219,6 +222,10 @@
       "fileTooLarge": "该文件太大，大小必须小于 {{max}} MB。",
       "fileTooSmall": "该文件太小了，大小必须至少为 {{min}} MB。",
       "notImage": "文件必须为图像格式（.png / .jpeg / .jpg）。"
+    },
+    "file": {
+      "choose": "选择文件",
+      "noneSelected": "未选择任何文件"
     }
   },
   "home": {

@@ -145,7 +145,10 @@ const CountdownTimer = ({
 
           {isSubmissionPhase && (
             <Link to="/participate">
-              <Button variant="gradient-blue" className="px-60 py-15 text-3xl m-4">
+              <Button
+                variant="gradient-blue"
+                className="m-4 w-80 h-24 md:w-105 md:h-30 [&>span]:text-2xl [&>span]:md:text-3xl"
+              >
                 {t('countdown.participate')}
               </Button>
             </Link>

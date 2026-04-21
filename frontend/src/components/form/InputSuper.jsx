@@ -196,14 +196,29 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     }
 
     if (type === "file") {
+        const selectedFileName = value && typeof value === "object" && value.file
+            ? value.file.name
+            : "";
+        const fileButtonClass = classInput
+            ? classInput
+            : "inline-flex cursor-pointer items-center rounded-full border-2 border-jaune-souffre px-4 py-1.5 text-sm font-semibold text-jaune-souffre transition hover:bg-jaune-souffre hover:text-noir-bleute";
+
         return (
             <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
                 {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
-                <input name={name} type={type} max={max_numdate} maxLength={max_string}
-                    accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
-                    required={required} value={value.value} files={value.file} onChange={handleChange}
-                    className={classInput ? classInput : classDefaultInput}
-                ></input>
+                <div className="flex items-center gap-3">
+                    <label className={fileButtonClass}>
+                        {t("form.file.choose")}
+                        <input name={name} type={type} max={max_numdate} maxLength={max_string}
+                            accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
+                            required={required} onChange={handleChange}
+                            className="hidden"
+                        ></input>
+                    </label>
+                    <span className="text-sm text-jaune-souffre/80">
+                        {selectedFileName || t("form.file.noneSelected")}
+                    </span>
+                </div>
                 {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
         )

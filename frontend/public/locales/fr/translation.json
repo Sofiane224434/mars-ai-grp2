@@ -234,11 +234,18 @@
         "add": "Ajouter",
         "select": "Sélectionnez...",
         "specify": "Précisez...",
+        "file": {
+            "choose": "Choisir un fichier",
+            "noneSelected": "Aucun fichier choisi"
+        },
         "step1": {
             "title": "Etape 1 : Fiche Film",
             "movieTitle": "Titre du film",
+            "movieTitleeng": "Titre du film en anglais",
             "movieTitleFr": "Titre du film traduit en français (si possible)",
+            "description": "Description de votre film :",
             "synopsis": "Synopsis (résumé) de votre film :",
+            "synopsisEng": "Votre synopsis en anglais.",
             "movieLanguage": "Langue de votre film (si a un dialogue ou du texte)",
             "soundbankCheck": "Cette vidéo possède de la musique et/ou utilise une banque son.",
             "soundbankAdd": "AJOUTER UNE SOUNDBANK/MUSIQUE",

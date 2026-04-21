@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next"
  * les valeurs des inputs au parent.
  */
 export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc, declareSelfFunc,
-    btntitle = "Ajouter", classInput, classContainer,
+    btntitle = null, classInput, classContainer,
     classLabel, formstep = null }) {
 
     const { t } = useTranslation();

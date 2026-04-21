@@ -140,7 +140,10 @@
       "soundbankCheck": "Este vídeo contém música e/ou utiliza uma biblioteca de sons.",
       "soundbankAdd": "ADICIONAR UM BANCO DE SONS/MÚSICA",
       "soundbankLabel": "Por favor, indique os bancos de sons ou as músicas utilizados.",
-      "ytLink": "Link do YouTube para este vídeo:"
+      "ytLink": "Link do YouTube para este vídeo:",
+      "movieTitleeng": "Título do filme em inglês",
+      "description": "Descrição do seu filme:",
+      "synopsisEng": "A sua sinopse em inglês."
     },
     "step2": {
       "title": "Passo 2: Declaração de utilização da IA",
@@ -219,6 +222,10 @@
       "fileTooLarge": "O ficheiro é demasiado pesado; deve ter menos de {{max}} MB.",
       "fileTooSmall": "O ficheiro é demasiado pequeno; deve ter pelo menos {{min}} MB.",
       "notImage": "O ficheiro deve estar no formato de imagem (.png / .jpeg / .jpg)."
+    },
+    "file": {
+      "choose": "Selecionar um ficheiro",
+      "noneSelected": "Nenhum ficheiro selecionado"
     }
   },
   "home": {

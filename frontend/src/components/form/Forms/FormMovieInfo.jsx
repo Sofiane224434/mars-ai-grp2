@@ -192,7 +192,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
                 errormessage={errorSynopsis}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsisEng}
-                max_string={500} label={"Votre synopsis en anglais."}
+                max_string={500} label={t("form.step1.synopsisEng")}
                 errormessage={errorSynopsisEng}></InputSuper>
 
             <InputSuper type={"text"} label={t("form.step1.movieLanguage")}

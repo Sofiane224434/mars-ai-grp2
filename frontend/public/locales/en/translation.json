@@ -109,7 +109,7 @@
     "podium-first": "1st",
     "podium-second": "2nd",
     "podium-third": "3rd",
-    "view-movie": "View movie",
+    "view-movie": "Watch the movie",
     "top50-title": "Top 50",
     "top50-description": "You can also view the complete Top 50 list.",
     "back-to-list": "Back to the list of movies",
@@ -127,12 +127,7 @@
     "detail-no-ai-tools": "No AI tools are listed for this film.",
     "by-director": "By: {{director}}",
     "unknown-director": "Director unknown",
-    "not-provided": "Not specified.",
-    "podium-title": "Top 5 Podium",
-    "podium-first": "1st",
-    "podium-second": "2nd",
-    "podium-third": "3rd",
-    "view-movie": "Watch the movie"
+    "not-provided": "Not specified."
   },
   "countdown": {
     "nextSelection": "Next selection",
@@ -161,7 +156,10 @@
       "soundbankCheck": "This video contains music and/or uses sound effects.",
       "soundbankAdd": "ADD A SOUNDBANK/MUSIC",
       "soundbankLabel": "Please list the sound banks or music used.",
-      "ytLink": "YouTube link to this video:"
+      "ytLink": "YouTube link to this video:",
+      "movieTitleeng": "English title of the film",
+      "description": "Description of your film:",
+      "synopsisEng": "Your synopsis in English."
     },
     "step2": {
       "title": "Step 2: Declaration of AI Use",
@@ -240,6 +238,10 @@
       "fileTooLarge": "The file is too large; it must be less than {{max}} MB.",
       "fileTooSmall": "The file is too small; it must be at least {{min}} MB.",
       "notImage": "The file must be in image format (.png / .jpeg / .jpg)."
+    },
+    "file": {
+      "choose": "Select a file",
+      "noneSelected": "No files selected"
     }
   },
   "footer": {

@@ -140,7 +140,10 @@
       "soundbankCheck": "この動画には音楽が含まれており、またはサウンドライブラリが使用されています。",
       "soundbankAdd": "サウンドバンク／音楽を追加する",
       "soundbankLabel": "使用したサウンドバンクや楽曲についてお知らせください。",
-      "ytLink": "この動画のYouTubeリンク："
+      "ytLink": "この動画のYouTubeリンク：",
+      "movieTitleeng": "映画の英語タイトル",
+      "description": "作品の概要：",
+      "synopsisEng": "英語でのあらすじ。"
     },
     "step2": {
       "title": "ステップ2：AI利用に関する申告",
@@ -219,6 +222,10 @@
       "fileTooLarge": "ファイルが大きすぎます。サイズは{{max}} MB未満にする必要があります。",
       "fileTooSmall": "ファイルが小さすぎます。少なくとも {{min}} MB 以上である必要があります。",
       "notImage": "ファイルは画像形式（.png / .jpeg / .jpg）である必要があります。"
+    },
+    "file": {
+      "choose": "ファイルを選択してください",
+      "noneSelected": "ファイルが選択されていません"
     }
   },
   "home": {

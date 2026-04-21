@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next"
  * @param getValuesFunc Fonction callback qui permet de renvoyer les valeurs au parent.
  */
 export default function InputAdditiveGrouped({ name, inputnames, labels, addlimit = 5,
-    getValuesFunc, declareSelfFunc, btntitle = "Ajouter", classInput,
+    getValuesFunc, declareSelfFunc, btntitle = null, classInput,
     classContainer, classLabel, classGroup, formstep = null }) {
 
     const { t } = useTranslation();

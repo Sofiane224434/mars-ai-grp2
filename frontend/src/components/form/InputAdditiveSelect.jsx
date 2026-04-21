@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
  * @param options Les options à utiliser dans un format array. Exemple :
  * [<option value="...">...</option>, ...]
  */
-export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle,
+export default function InputAdditiveSelect({ name, addlimit = 5, options, label, btntitle = null,
     valueother, getValuesFunc, declareSelfFunc, formstep = null
 }) {
 

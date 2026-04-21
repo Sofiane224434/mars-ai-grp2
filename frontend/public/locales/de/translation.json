@@ -140,7 +140,10 @@
       "soundbankCheck": "Dieses Video enthält Musik und/oder nutzt eine Soundbibliothek.",
       "soundbankAdd": "SOUNDBANK/MUSIK HINZUFÜGEN",
       "soundbankLabel": "Bitte geben Sie an, welche Soundbänke oder Musikstücke verwendet wurden.",
-      "ytLink": "YouTube-Link zu diesem Video:"
+      "ytLink": "YouTube-Link zu diesem Video:",
+      "movieTitleeng": "Englischer Filmtitel",
+      "description": "Beschreibung Ihres Films:",
+      "synopsisEng": "Ihre Inhaltsangabe auf Englisch."
     },
     "step2": {
       "title": "Schritt 2: Erklärung zur Nutzung von KI",
@@ -219,6 +222,10 @@
       "fileTooLarge": "Die Datei ist zu groß; sie darf nicht mehr als {{max}} MB haben.",
       "fileTooSmall": "Die Datei ist zu klein; sie muss mindestens {{min}} MB groß sein.",
       "notImage": "Die Datei muss im Bildformat (.png / .jpeg / .jpg) vorliegen."
+    },
+    "file": {
+      "choose": "Datei auswählen",
+      "noneSelected": "Es wurde keine Datei ausgewählt"
     }
   },
   "home": {

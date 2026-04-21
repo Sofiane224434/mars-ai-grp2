@@ -601,6 +601,8 @@ export const movieModel = {
 
     const result = await query(sql_movies, moviedata);
     return { id: Number(result.insertId), movieinfo: moviedata };
+  },
+
   async getMovieStatusById(movieId) {
     const sql = 'SELECT status FROM movies WHERE id = ? LIMIT 1';
     const rows = await query(sql, [movieId]);

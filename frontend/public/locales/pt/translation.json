@@ -1,0 +1,270 @@
+{
+  "nav": {
+    "home": "Página inicial",
+    "movies": "Filmes",
+    "about": "Sobre",
+    "faq": "Perguntas frequentes",
+    "participate": "Participar"
+  },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "O que é o MarsAI?",
+        "text": "Um festival de <strong>curtas-metragens de 1 minuto</strong> realizados por <strong>IA</strong>\n\nConferências e workshops <strong>gratuitos</strong>\n\n<strong>Partilha de experiências de especialistas em IA</strong> para profissionais e para o público em geral\n\n<strong>2 dias de festival em Marselha,</strong> no coração da IA"
+      },
+      "block2": {
+        "title": "Objetivo do festival",
+        "text": "Colocar o ser humano no centro da criação de obras geradas por IA\n\nDesafiar a criatividade dos participantes através de um <strong>formato muito curto</strong>\n\nAproveitar o potencial da IA em torno de um tema: <strong>Imagine futuros desejáveis</strong>"
+      },
+      "block3": {
+        "title": "Formato da seleção",
+        "text": "<strong>Convite à apresentação</strong> de <strong>projetos</strong> com duração de 2 meses\n\n<strong>50 curtas-metragens de um minuto</strong> selecionadas para a competição oficial\n\nDivulgação online das obras (web e redes sociais)\n\n<strong>Exibição em salas de cinema</strong> e festivais de cinema"
+      },
+      "block4": {
+        "title": "O local",
+        "subtitle": "A plataforma",
+        "text": "<strong>4 000 m² de espaço</strong> no centro de Marselha, para acolher o evento"
+      }
+    }
+  },
+  "faq": {
+    "title": "Perguntas Frequentes (FAQ) - Festival MarsAi",
+    "disclaimer": "Talvez a resposta à sua pergunta se encontre abaixo! ",
+    "informations-title": "Informações práticas:",
+    "informations-content": "Onde e quando se realiza o festival MarsAi? O festival decorrerá durante dois dias, sexta-feira, 5 de junho, e domingo, 7 de junho. O evento terá lugar no Dock des Suds (12 Rue Urbain V, 13002 Marselha). As portas abrem às 10h00 e fecham às 19h00.",
+    "question1": "Como posso chegar lá?",
+    "answer1-1": "De transportes públicos: Metro, linha 2 (paragem Désirée Clary) ou elétrico T2/T3 (paragem Arenc Le Silo).",
+    "answer1-2": "De carro: Existem parques de estacionamento públicos pagos (Indigo Quai d'Arenc, Espercieux) nas imediações.",
+    "answer1-3": "Transporte sustentável: Está disponível um espaço para estacionar bicicletas e trotinetas no pátio.",
+    "answer1-4": "O local é acessível a pessoas com mobilidade reduzida (PMR)? Sim, o Dock des Suds é um edifício de um único piso e totalmente acessível. Existem casas de banho adaptadas disponíveis no interior do edifício",
+    "access-title": "🎟️ Acesso e inscrição 🎟️",
+    "question2": "Devo comprar ou reservar um bilhete? ",
+    "answer2": "Não, o acesso ao festival MarsAi é totalmente gratuito e não é necessário bilhete. Pode vir quando quiser.",
+    "question3": "Existe um limite máximo?",
+    "answer3": "A entrada é gratuita, mas está sujeita à capacidade do Dock des Suds. Em caso de grande afluência, poderá ser criada uma fila de espera à entrada por motivos de segurança.",
+    "programation-title": "🤖 Programação e Oficinas 🤖 ",
+    "question4": "A quem se destina o festival MarsAi?",
+    "answer4": "O festival foi concebido para todos! Quer seja um profissional da área da tecnologia, um estudante ou simplesmente alguém curioso por descobrir os últimos avanços em inteligência artificial, encontrará palestras e demonstrações adequadas ao seu nível.",
+    "question5": "É necessário inscrever-se com antecedência para os workshops práticos?",
+    "answer5": " A entrada geral é gratuita, mas algumas oficinas específicas exigem inscrição no local, na receção do festival, no próprio dia. Os lugares são atribuídos por ordem de chegada."
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "Alterar o idioma",
+      "french": "Português",
+      "english": "Inglês",
+      "spanish": "Espanhol",
+      "arabic": "Árabe",
+      "portuguese": "Português",
+      "mandarin": "Mandarim",
+      "german": "Alemão",
+      "hindi": "Hindi",
+      "russian": "Russo",
+      "japanese": "Japonês"
+    }
+  },
+  "footer": {
+    "collaborator": "Em colaboração com",
+    "textcontact": "Mantenha-se em contacto",
+    "newsletter": "Inscrição na newsletter",
+    "emailplaceholder": "O seu endereço de e-mail",
+    "subscribe": "Inscrever-se na newsletter",
+    "rights": "Todos os direitos reservados",
+    "newsletterLoading": "Inscrição em curso...",
+    "newsletterSubscribeSuccess": "Inscrição confirmada. Obrigado!",
+    "newsletterSubscribeError": "Não é possível inscrever-se neste momento.",
+    "newsletterInvalidEmail": "Por favor, introduza um endereço de e-mail válido.",
+    "rgpd": "Política de Privacidade (RGPD)"
+  },
+  "movies": {
+    "empty-title": "Em breve disponível",
+    "empty-description": "Os 50 filmes selecionados pelo júri serão publicados aqui após o encerramento do período de candidaturas. Volte em breve!",
+    "current-phase-label": "Fase atual",
+    "current-phase": "Apresentação das candidaturas",
+    "phase-judgment": "Classificação dos 50 melhores",
+    "phase-top50": "Seleção dos 50 melhores",
+    "phase-top5": "Seleção dos 5 melhores",
+    "results-title": "Resultados dos vencedores",
+    "results-description": "Descubra o Top 5 e, em seguida, o Top 50 completo selecionado pelo júri.",
+    "top5-title": "Top 5",
+    "top5-description": "Descubra os 5 filmes finalistas selecionados pelo júri.",
+    "top50-title": "Top 50",
+    "top50-description": "Veja também a seleção completa do Top 50.",
+    "back-to-list": "Voltar à lista de filmes",
+    "detail-loading": "A carregar o filme...",
+    "detail-error-title": "Filme indisponível",
+    "detail-not-found": "O filme solicitado não foi encontrado ou ainda não está disponível ao público.",
+    "detail-no-video": "Não há nenhum vídeo disponível para este filme.",
+    "detail-film-info-title": "Informações sobre o filme",
+    "detail-synopsis-label": "Sinopse",
+    "detail-description-label": "Descrição",
+    "detail-language-label": "Idioma",
+    "detail-classification-label": "Classificação",
+    "detail-ai-tools-title": "Ferramentas de IA utilizadas",
+    "detail-ai-tools-label": "Lista de ferramentas",
+    "detail-no-ai-tools": "Não há nenhuma ferramenta de IA registada para este filme.",
+    "by-director": "Por: {{director}}",
+    "unknown-director": "Realizador desconhecido",
+    "not-provided": "Não indicado.",
+    "podium-title": "Pódio do Top 5",
+    "podium-first": "1.º",
+    "podium-second": "2.º",
+    "podium-third": "3.º",
+    "view-movie": "Ver o filme"
+  },
+  "countdown": {
+    "nextSelection": "Próxima seleção",
+    "days": "Dias",
+    "hours": "Horário",
+    "minutes": "Ata",
+    "seconds": "Segundos",
+    "top50": "Top 50",
+    "participate": "Participar"
+  },
+  "form": {
+    "title": "Envie o seu vídeo",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "submit": "ENVIAR",
+    "send": "Enviar",
+    "add": "Adicionar",
+    "select": "Selecione...",
+    "specify": "Especifique...",
+    "step1": {
+      "title": "Passo 1: Ficha do filme",
+      "movieTitle": "Título do filme",
+      "movieTitleFr": "Título do filme traduzido para o português (se possível)",
+      "synopsis": "Sinopse (resumo) do seu filme:",
+      "movieLanguage": "Idioma do seu filme (se tiver diálogos ou texto)",
+      "soundbankCheck": "Este vídeo contém música e/ou utiliza uma biblioteca de sons.",
+      "soundbankAdd": "ADICIONAR UM BANCO DE SONS/MÚSICA",
+      "soundbankLabel": "Por favor, indique os bancos de sons ou as músicas utilizados.",
+      "ytLink": "Link do YouTube para este vídeo:",
+      "movieTitleeng": "Título do filme em inglês",
+      "description": "Descrição do seu filme:",
+      "synopsisEng": "A sua sinopse em inglês."
+    },
+    "step2": {
+      "title": "Passo 2: Declaração de utilização da IA",
+      "aiUsedFor": "Utilizou a IA para:",
+      "aiScenario": "A criação do cenário",
+      "aiVideo": "A produção do vídeo",
+      "aiPostprod": "A geração da pós-produção",
+      "chooseAIs": "Selecione as IA a utilizar.",
+      "aiGemini": "Google (Gemini)",
+      "aiMidjourney": "Midjourney",
+      "aiChatGPT": "OpenAI (ChatGPT)",
+      "aiClaude": "Anthropic (Claude)",
+      "aiGrok": "Grok",
+      "aiOther": "Outros...",
+      "classificationLabel": "Escolha a classificação do seu filme:",
+      "classificationAllAI": "Geração integral (100% IA)",
+      "classificationHybrid": "Produção híbrida (imagens reais + contributos da IA)",
+      "promptsLabel": "Prompts que utilizou para a geração por IA:",
+      "errorAtLeastOne": "Tem de selecionar pelo menos uma opção."
+    },
+    "step3": {
+      "title": "Etapa 3: Multimédia e acessibilidade",
+      "thumbnail": "A miniatura do seu filme (uma imagem que será utilizada para o representar):",
+      "screenshots": "Algumas capturas de ecrã do seu filme:",
+      "dialogueCheck": "Este filme contém diálogos",
+      "srtLabel": "Por favor, indique um ficheiro de legendas (.srt):",
+      "errorAtLeastOneScreenshot": "Deve incluir pelo menos uma captura de ecrã."
+    },
+    "step4": {
+      "title": "Passo 4: Os seus dados",
+      "lastName": "Nome",
+      "firstName": "Nome",
+      "gender": "Tratamento:",
+      "genderMale": "Senhor",
+      "genderFemale": "Senhora",
+      "genderOther": "Outros",
+      "socials": "As suas redes sociais:",
+      "socialName": "Nome da rede social",
+      "socialLink": "Link para a rede social",
+      "email": "E-mail",
+      "phone": "Número de telefone",
+      "birthdate": "Data de nascimento",
+      "country": "País de residência atual",
+      "address": "A sua morada",
+      "address2": "O seu endereço, linha 2",
+      "postalCode": "Código postal",
+      "city": "Cidade",
+      "marketingLabel": "Como é que ficou a conhecer o festival MarsAI?",
+      "marketingWordOfMouth": "Boca a boca",
+      "marketingSocialMedia": "Nas redes sociais",
+      "marketingNews": "Através de um jornal",
+      "marketingSchool": "Através da minha escola",
+      "marketingPoster": "Através de um cartaz ou de um folheto",
+      "marketingOther": "Outro (especifique)",
+      "specifyLabel": "Especifique:",
+      "tosCheck": "Aceito os termos de utilização.",
+      "rulesCheck": "Aceito o regulamento para o envio de vídeos do festival MarsAI.",
+      "errorTos": "Tem de aceitar os termos de utilização.",
+      "errorRules": "Tem de aceitar o regulamento do festival.",
+      "errorAge": "Tem de ter pelo menos 18 anos para poder participar."
+    },
+    "validation": {
+      "required": "Preencha este campo.",
+      "invalidFormat": "O formato deste campo não é válido.",
+      "textTooLong": "Texto demasiado longo; deve ter menos de {{max}} caracteres.",
+      "textTooShort": "Texto demasiado curto; deve ter pelo menos {{min}} caracteres.",
+      "notANumber": "Erro: isto não é um número.",
+      "numberTooSmall": "O número deve ser superior a: {{min}}.",
+      "numberTooLarge": "O número deve ser inferior a: {{max}}.",
+      "invalidDate": "Formato inválido; deve ser uma data (ano-mês-dia)",
+      "dateTooLate": "A data não deve ser posterior a {{max}}.",
+      "dateTooEarly": "A data deve ser posterior a {{min}}.",
+      "videoRequired": "Tem de indicar um ficheiro de vídeo.",
+      "noFile": "Não foi encontrado nenhum ficheiro.",
+      "notVideo": "O ficheiro deve estar no formato de vídeo (.mp4 ou .mov).",
+      "fileTooLarge": "O ficheiro é demasiado pesado; deve ter menos de {{max}} MB.",
+      "fileTooSmall": "O ficheiro é demasiado pequeno; deve ter pelo menos {{min}} MB.",
+      "notImage": "O ficheiro deve estar no formato de imagem (.png / .jpeg / .jpg)."
+    },
+    "file": {
+      "choose": "Selecionar um ficheiro",
+      "noneSelected": "Nenhum ficheiro selecionado"
+    }
+  },
+  "home": {
+    "results-available": "Os resultados dos vencedores já estão disponíveis!",
+    "HeroSection": "O ser humano no centro da IA",
+    "titles1": "1 MINUTO",
+    "description1": "Cada vídeo tem uma duração máxima de 1 minuto",
+    "titles2": "1 TEMA",
+    "description2": "Todos os filmes têm um tema comum: um futuro desejável",
+    "titles3": "1 VENCEDOR",
+    "description3": "Um único grande vencedor!",
+    "PodiumGraphic": "De uma seleção de mais de 20 000 vídeos",
+    "quickAccess": {
+      "title": "Explore o festival",
+      "description": "Aceda rapidamente às páginas principais do festival para descobrir os filmes, compreender melhor o MarsAI e obter todas as informações práticas.",
+      "cards": {
+        "movies": {
+          "description": "Descubra os curtas-metragens selecionados, acompanhe a fase atual e fique atento ao anúncio dos vencedores, que será feito em breve.",
+          "cta": "Ver os filmes"
+        },
+        "about": {
+          "description": "Compreenda a visão do festival, os seus objetivos e o formato único do concurso.",
+          "cta": "Conheça a MarsAI"
+        },
+        "faq": {
+          "description": "Aceda rapidamente às informações práticas: acesso, horários, workshops e organização.",
+          "cta": "Ler as perguntas frequentes"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "RGPD",
+    "pageTitle": "Política de privacidade e aviso legal",
+    "intro": "Esta página explica como a MarsAI recolhe, utiliza, protege e conserva os dados pessoais dos visitantes, realizadores e membros do júri.",
+    "summaryAriaLabel": "Índice do RGPD",
+    "summaryTitle": "Índice",
+    "backToTop": "Voltar ao topo da página",
+    "backHome": "Voltar à página inicial",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+  }
+}

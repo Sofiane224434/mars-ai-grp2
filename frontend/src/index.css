@@ -1,8 +1,294 @@
-/* 1 seule ligne ! */
 @import "tailwindcss";
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-gris-anthracite);
+}
+
+/* Checkmark pour les checkbox custom du formulaire */
+input[type="checkbox"].appearance-none:checked {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23171c28' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Scrollbar discrète pour les zones scrollables internes (ex: modales). */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(143 143 143 / 0.4) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(143 143 143 / 0.35);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(143 143 143 / 0.55);
+}
+
+@font-face {
+  font-family: "Marseille";
+  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")
+    format("opentype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+h1,
+h2 {
+  font-family: "Marseille", serif;
+}
+
+h3,
+p {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.font-title {
+  font-family: "Marseille", serif;
+}
+
 /* Classes réutilisables (optionnel) */
 @layer components {
-.btn { @apply px-6 py-2 rounded-lg font-medium transition-all; }
-.btn-primary { @apply bg-indigo-600 text-white hover:bg-indigo-700; }
-.form-input { @apply w-full px-4 py-2 border-2 rounded-lg; }
+  .btn-base {
+    @apply relative inline-flex items-center justify-center text-xl text-center leading-normal cursor-pointer;
+    letter-spacing: 0;
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .btn-bg-base {
+    @apply pointer-events-none absolute w-full h-[65%] top-[15%] left-0 right-0 rounded-full;
+  }
+
+  .btn-bg-admin-base {
+    @apply pointer-events-none absolute h-14 justify-center;
+    top: 17%;
+    left: -16px;
+    right: -16px;
+    bottom: 17%;
+    border-radius: 4px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
+  }
+
+  .btn-bg-filter {
+    @apply pointer-events-none absolute inset-0;
+  }
+
+  .filter-checkbox {
+    @apply absolute left-2.5 top-1/2 flex h-3.5 w-3.5 -translate-y-1/2 items-center justify-center rounded-xs border border-black/70 bg-white transition-colors;
+  }
+
+  .filter-checkbox-checked {
+    @apply border-reglisse bg-reglisse text-white;
+  }
+
+  .filter-checkbox-unchecked {
+    @apply border-black/60 bg-white text-transparent;
+  }
+
+  .filter-checkmark {
+    @apply text-[11px] leading-none font-black transition-opacity;
+  }
+
+  .status-base {
+    @apply relative flex items-center gap-1.5 w-4.5 h-0 font-medium text-xs tracking-[0] leading-4 whitespace-nowrap;
+  }
+
+  .status-base-icon {
+    @apply relative h-5 w-auto shrink-0 object-contain;
+  }
+
+  .status-base-icon-jury {
+    @apply relative h-7 w-auto shrink-0 object-contain mt-1 mr-3 ml-0;
+  }
+
+  .status-base-icon-jury-action {
+    @apply pointer-events-none absolute left-2.5 top-1/2 h-5 w-auto -translate-y-1/2 object-contain;
+  }
+
+  .status-base-icon-jury-accueil {
+    @apply absolute left-2 top-1/2 -translate-y-1/2 h-7 w-auto shrink-0 object-contain;
+  }
+
+  .color-gradient-blue-yellow-green {
+    @apply bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent;
+  }
+
+  .concept-festival {
+    @apply pt-10 px-10 mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent drop-shadow-sm;
+  }
+
+  .background-gradient-black {
+    @apply bg-linear-to-b from-black via-noir-bleute to-gris-anthracite;
+  }
+
+  .neon-yellow {
+    width: 134px;
+    height: 63px;
+    font-weight: 400;
+    color: var(--color-jaune-souffre);
+  }
+
+  .gradient-blue {
+    width: 197px;
+    height: 63px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .filled-yellow {
+    width: 168px;
+    height: 70px;
+    font-weight: 400;
+    color: var(--color-ocre-rouge);
+  }
+
+  .square-yellow {
+    width: 168px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-ocre-rouge);
+  }
+
+  .filled-jury {
+    width: 114px;
+    height: 50px;
+    font-weight: 400;
+    color: var(--color-slate-800);
+  }
+
+  .jury-action {
+    min-width: 130px;
+    width: auto;
+    height: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1;
+    padding-bottom: 1px;
+    padding-left: 16px;
+    padding-right: 16px;
+    white-space: nowrap;
+    text-align: center;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 0.14);
+  }
+
+  .jury-action-bg {
+    @apply pointer-events-none absolute inset-0 rounded-full;
+    box-shadow: inset 0 -6px 0 rgb(0 0 0 / 0.12);
+  }
+
+  .jury-action-icon {
+    @apply pointer-events-none absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 object-contain;
+    filter: drop-shadow(0 3px 4px rgb(0 0 0 / 0.2));
+  }
+
+  .jury-action-icon-refuse {
+    @apply -translate-y-[54%];
+  }
+
+  .status-filter {
+    width: 150px;
+    height: 38px;
+    font-weight: 700;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .status-filter-checked {
+    @apply opacity-100;
+  }
+
+  .status-filter-unchecked {
+    @apply opacity-55;
+  }
+
+  .square-admin {
+    width: 193px;
+    height: 80px;
+    font-weight: 400;
+    color: var(--color-white);
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    padding-left: 30px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
+  }
+
+  .home-admin {
+    position: relative;
+    width: 168px;
+    height: 42px;
+    transition: all 1.2s cubic-bezier(0.1, 0.9, 0.1, 1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 15px;
+    border-radius: 50px;
+    background: linear-gradient(
+      90deg,
+      rgba(253, 255, 107, 1) 0%,
+      rgba(213, 139, 82, 1) 100%
+    );
+  }
+
+  .form-page {
+    @apply flex flex-col items-center gap-2.5 bg-brun-brule;
+  }
+
+  .form-title {
+    @apply w-full bg-linear-to-b from-ocre-rouge to-brun-brule text-center text-[30px] text-jaune-souffre;
+  }
+
+  .form-container {
+    @apply mb-5 flex w-[90%] flex-col items-center gap-2.5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-[15px] text-jaune-souffre;
+  }
+
+  .form-step-base {
+    @apply flex h-[100px] w-[100px] items-center justify-center rounded-full p-2.5 text-center text-[40px];
+  }
+
+  .form-input-base {
+    @apply my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre;
+  }
+}
+
+@theme {
+  --color-brun-brule: #803110;
+  --color-brulure-despespoir: #6e1515;
+  --color-vert-insecateur: #34ff38;
+  --color-vert-picollo: #14ae5c;
+  --color-ocre-rouge: #be6422;
+  --color-fauve: #d58b52;
+  --color-jaune-souffre: #fdff6b;
+  --color-jaune-simpson: #ffea00;
+  --color-orange-genial: #ff9d00;
+  --color-turquoise-vif: #4df6ff;
+  --color-bleu-bulma: #42cbe6;
+  --color-bleu-ciel: #42cbe6;
+  --color-bleu-canard: #2b9498;
+  --color-bleu-ocean: #42cbe6;
+  --color-gris-anthracite: #383839;
+  --color-gris-steelix: #4a4a4a;
+  --color-gris-magneti: #8f8f8f;
+  --color-reglisse: #232323;
+  --color-noir-bleute: #1d1d24;
 }

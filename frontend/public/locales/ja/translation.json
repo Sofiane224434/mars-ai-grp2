@@ -1,0 +1,270 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "movies": "映画",
+    "about": "について",
+    "faq": "よくある質問",
+    "participate": "参加する"
+  },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "MarsAIとは何ですか？",
+        "text": "<strong>AI</strong>が制作した<strong>1分間の短編映画</strong>フェスティバル\n\n<strong>無料の</strong>講演会とワークショップ\n\nプロや一般の方に向けた、<strong>AI専門家による経験談の共有</strong>\n\n<strong>マルセイユで開催される</strong>、AIをテーマにした<strong>2日間のフェスティバル</strong>"
+      },
+      "block2": {
+        "title": "フェスティバルの目的",
+        "text": "AI生成作品の制作において、人間を主役に据える\n\n<strong>非常に短い</strong>形式を通じて、参加者の創造性に挑む\n\n「<strong>望ましい未来を想像する</strong>」というテーマのもと、AIの力を活用する"
+      },
+      "block3": {
+        "title": "選択形式",
+        "text": "2ヶ月間の<strong>作品募集</strong>\n\n公式コンペティション部門に選出された<strong>1分間の短編映画50本</strong>\n\n作品のオンライン配信（ウェブサイトおよびSNS）\n\n<strong>映画館</strong>および映画祭<strong>での上映</strong>"
+      },
+      "block4": {
+        "title": "場所",
+        "subtitle": "プラットフォーム",
+        "text": "マルセイユ中心部に<strong>4,000平方メートルの会場を設け</strong>、このイベントを開催する"
+      }
+    }
+  },
+  "faq": {
+    "title": "よくある質問（FAQ） - マルサイ・フェスティバル",
+    "disclaimer": "ご質問への回答は、以下にあるかもしれません！ ",
+    "informations-title": "実用情報：",
+    "informations-content": "MarsAiフェスティバルはいつ、どこで開催されますか？ フェスティバルは6月5日（金）と6月7日（日）の2日間開催されます。会場はドック・デ・スッド（12 Rue Urbain V, 13002 Marseille）です。開場は10:00、閉場は19:00です。",
+    "question1": "現地へはどう行けばいいですか？",
+    "answer1-1": "公共交通機関をご利用の場合：地下鉄2号線（デジレ・クラリ駅）またはトラムT2/T3（アレン・ル・シロ駅）。",
+    "answer1-2": "車でお越しの場合：すぐ近くに有料の公共駐車場（Indigo Quai d'Arenc, Espercieux）があります。",
+    "answer1-3": "環境にやさしい移動手段について：広場には自転車やキックボードを駐輪できるスペースが用意されています。",
+    "answer1-4": "この施設は身体障害者の方にも利用可能ですか？はい、ドック・デ・スッドは段差がなく、全面的にバリアフリー対応となっています。建物内には、身体障害者用のトイレも完備されています。",
+    "access-title": "🎟️ アクセスと登録 🎟️",
+    "question2": "チケットを購入すべきですか、それとも予約すべきですか？ ",
+    "answer2": "いいえ、MarsAiフェスティバルへの入場は完全無料で、チケットも不要です。ご希望の時間に自由にお越しいただけます。",
+    "question3": "上限はありますか？",
+    "answer3": "入場は無料ですが、ドック・デ・スッドの収容人数に限りがあります。来場者が非常に多い場合は、安全上の理由から、入口に列ができる可能性があります。",
+    "programation-title": "🤖 プログラムとワークショップ 🤖 ",
+    "question4": "MarsAiフェスティバルはどのような方々を対象としていますか？",
+    "answer4": "このフェスティバルは、どなたでも楽しめるように企画されています！テクノロジー業界の専門家、学生、あるいは単に人工知能の最新動向に興味がある方でも、ご自身のレベルに合わせた講演やデモンストレーションが見つかるはずです。",
+    "question5": "実践ワークショップには事前に登録する必要がありますか？",
+    "answer5": " 入場は基本的に無料ですが、一部のワークショップについては、当日フェスティバルの受付にてその場で申し込みが必要です。席は先着順となります。"
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "言語を変更する",
+      "french": "フランス語",
+      "english": "英語",
+      "spanish": "スペイン語",
+      "arabic": "アラビア語",
+      "portuguese": "ポルトガル語",
+      "mandarin": "マンダリン",
+      "german": "ドイツ語",
+      "hindi": "ヒンディー語",
+      "russian": "ロシア人",
+      "japanese": "日本語"
+    }
+  },
+  "footer": {
+    "collaborator": "協力：",
+    "textcontact": "ぜひ連絡を取り合いましょう",
+    "newsletter": "ニュースレターの登録",
+    "emailplaceholder": "メールアドレス",
+    "subscribe": "ニュースレターに登録する",
+    "rights": "無断転載禁止",
+    "newsletterLoading": "登録中...",
+    "newsletterSubscribeSuccess": "登録が完了しました。ありがとうございます！",
+    "newsletterSubscribeError": "現在、登録できません。",
+    "newsletterInvalidEmail": "有効なメールアドレスを入力してください。",
+    "rgpd": "プライバシーポリシー（GDPR）"
+  },
+  "movies": {
+    "empty-title": "近日公開予定",
+    "empty-description": "審査員によって選出された50本の映画は、応募期間終了後にこちらに掲載されます。また近いうちにご覧ください！",
+    "current-phase-label": "現在の段階",
+    "current-phase": "応募の受付",
+    "phase-judgment": "トップ50の判定",
+    "phase-top50": "トップ50の選出",
+    "phase-top5": "トップ5の選出",
+    "results-title": "当選結果",
+    "results-description": "審査員が選んだトップ5、そしてトップ50の全リストをご覧ください。",
+    "top5-title": "トップ5",
+    "top5-description": "審査員が選んだファイナリスト5作品をご覧ください。",
+    "top50-title": "トップ50",
+    "top50-description": "トップ50の全リストもご覧ください。",
+    "back-to-list": "映画一覧に戻る",
+    "detail-loading": "動画を読み込んでいます...",
+    "detail-error-title": "この動画は利用できません",
+    "detail-not-found": "お探しの動画は見つかりません、またはまだ一般公開されていません。",
+    "detail-no-video": "この映画の動画リンクはありません。",
+    "detail-film-info-title": "映画情報",
+    "detail-synopsis-label": "あらすじ",
+    "detail-description-label": "説明",
+    "detail-language-label": "言語",
+    "detail-classification-label": "分類",
+    "detail-ai-tools-title": "使用したAIツール",
+    "detail-ai-tools-label": "ツール一覧",
+    "detail-no-ai-tools": "この映画に関するAIツールは登録されていません。",
+    "by-director": "著者：{{director}}",
+    "unknown-director": "監督：不明",
+    "not-provided": "未入力。",
+    "podium-title": "トップ5の表彰台",
+    "podium-first": "第1位",
+    "podium-second": "2位",
+    "podium-third": "3位",
+    "view-movie": "映画を見る"
+  },
+  "countdown": {
+    "nextSelection": "次の選択",
+    "days": "日",
+    "hours": "時間",
+    "minutes": "議事録",
+    "seconds": "秒",
+    "top50": "トップ50",
+    "participate": "参加する"
+  },
+  "form": {
+    "title": "動画を投稿してください",
+    "next": "次へ",
+    "previous": "前へ",
+    "submit": "送信",
+    "send": "送信",
+    "add": "追加",
+    "select": "選択してください...",
+    "specify": "詳しく教えてください…",
+    "step1": {
+      "title": "ステップ1：映画情報",
+      "movieTitle": "映画のタイトル",
+      "movieTitleFr": "映画のタイトル（可能であればフランス語訳）",
+      "synopsis": "映画のあらすじ：",
+      "movieLanguage": "映画の言語（台詞や字幕がある場合）",
+      "soundbankCheck": "この動画には音楽が含まれており、またはサウンドライブラリが使用されています。",
+      "soundbankAdd": "サウンドバンク／音楽を追加する",
+      "soundbankLabel": "使用したサウンドバンクや楽曲についてお知らせください。",
+      "ytLink": "この動画のYouTubeリンク：",
+      "movieTitleeng": "映画の英語タイトル",
+      "description": "作品の概要：",
+      "synopsisEng": "英語でのあらすじ。"
+    },
+    "step2": {
+      "title": "ステップ2：AI利用に関する申告",
+      "aiUsedFor": "AIをどのような目的で使用しましたか：",
+      "aiScenario": "シナリオの生成",
+      "aiVideo": "動画の生成",
+      "aiPostprod": "ポストプロダクションの世代",
+      "chooseAIs": "使用するAIを選択してください。",
+      "aiGemini": "Google（Gemini）",
+      "aiMidjourney": "ミッドジャーニー",
+      "aiChatGPT": "OpenAI（ChatGPT）",
+      "aiClaude": "アンソロピック（クロード）",
+      "aiGrok": "Grok",
+      "aiOther": "その他...",
+      "classificationLabel": "作品のジャンルを選択してください：",
+      "classificationAllAI": "完全生成（100% AI）",
+      "classificationHybrid": "ハイブリッド制作（実写＋AIによる生成）",
+      "promptsLabel": "AI生成に使用したプロンプト：",
+      "errorAtLeastOne": "少なくとも1つ選択してください。"
+    },
+    "step3": {
+      "title": "ステップ3：マルチメディアとアクセシビリティ",
+      "thumbnail": "映画のサムネイル（その映画を表す画像）：",
+      "screenshots": "映画のスクリーンショットをいくつかご紹介します：",
+      "dialogueCheck": "この映画には会話が含まれています",
+      "srtLabel": "字幕ファイル（.srt）を入力してください：",
+      "errorAtLeastOneScreenshot": "スクリーンショットを少なくとも1枚アップロードしてください。"
+    },
+    "step4": {
+      "title": "ステップ4：お客様の情報",
+      "lastName": "氏名",
+      "firstName": "名前",
+      "gender": "敬称：",
+      "genderMale": "ご担当者様",
+      "genderFemale": "奥様",
+      "genderOther": "その他",
+      "socials": "ソーシャルメディア：",
+      "socialName": "ソーシャルネットワーク名",
+      "socialLink": "ソーシャルメディアのリンク",
+      "email": "メールアドレス",
+      "phone": "電話番号",
+      "birthdate": "生年月日",
+      "country": "現在の居住国",
+      "address": "ご住所",
+      "address2": "住所（2行目）",
+      "postalCode": "郵便番号",
+      "city": "都市",
+      "marketingLabel": "MarsAIフェスティバルをどのように知りましたか？",
+      "marketingWordOfMouth": "口コミ",
+      "marketingSocialMedia": "ソーシャルメディア上で",
+      "marketingNews": "新聞を通じて",
+      "marketingSchool": "学校を通じて",
+      "marketingPoster": "看板やチラシを通じて",
+      "marketingOther": "その他（詳細を記入してください）",
+      "specifyLabel": "詳細を記入してください：",
+      "tosCheck": "利用規約に同意します。",
+      "rulesCheck": "MarsAIフェスティバルの動画投稿規定に同意します。",
+      "errorTos": "利用規約に同意する必要があります。",
+      "errorRules": "フェスティバルの規約に同意する必要があります。",
+      "errorAge": "参加するには、18歳以上である必要があります。"
+    },
+    "validation": {
+      "required": "この欄にご記入ください。",
+      "invalidFormat": "このフィールドの形式が無効です。",
+      "textTooLong": "テキストが長すぎます。{{max}}文字以内に収める必要があります。",
+      "textTooShort": "テキストが短すぎます。少なくとも {{min}} 文字必要です。",
+      "notANumber": "エラー：これは数値ではありません。",
+      "numberTooSmall": "数値は {{min}} より大きくなければなりません。",
+      "numberTooLarge": "数値は以下より小さくなければなりません：{{max}}。",
+      "invalidDate": "形式が不正です。日付（年-月-日）で入力してください",
+      "dateTooLate": "日付は{{max}}を超えてはなりません。",
+      "dateTooEarly": "日付は {{min}} より後でなければなりません。",
+      "videoRequired": "動画ファイルを選択してください。",
+      "noFile": "ファイルが見つかりませんでした。",
+      "notVideo": "ファイルは動画形式（.mp4 または .mov）である必要があります。",
+      "fileTooLarge": "ファイルが大きすぎます。サイズは{{max}} MB未満にする必要があります。",
+      "fileTooSmall": "ファイルが小さすぎます。少なくとも {{min}} MB 以上である必要があります。",
+      "notImage": "ファイルは画像形式（.png / .jpeg / .jpg）である必要があります。"
+    },
+    "file": {
+      "choose": "ファイルを選択してください",
+      "noneSelected": "ファイルが選択されていません"
+    }
+  },
+  "home": {
+    "results-available": "受賞者の結果が発表されました！",
+    "HeroSection": "AIの中心にある人間",
+    "titles1": "1分",
+    "description1": "各動画の再生時間は最大1分です",
+    "titles2": "1 テーマ",
+    "description2": "どの映画にも共通するテーマは、「望ましい未来」です",
+    "titles3": "1名の当選者",
+    "description3": "優勝者はただ一人！",
+    "PodiumGraphic": "2万本以上の動画の中から厳選",
+    "quickAccess": {
+      "title": "フェスティバルを探索しよう",
+      "description": "フェスティバルの主要ページをすぐに確認して、上映作品をチェックしたり、MarsAIについて詳しく知ったり、実用的な情報をすべて手に入れましょう。",
+      "cards": {
+        "movies": {
+          "description": "選出された短編映画をご覧ください。現在進行中の選考状況をチェックし、まもなく発表される受賞作品リストもお見逃しなく。",
+          "cta": "映画を見る"
+        },
+        "about": {
+          "description": "このフェスティバルのビジョン、目的、そしてユニークなコンペティション形式についてご理解ください。",
+          "cta": "MarsAIについて"
+        },
+        "faq": {
+          "description": "アクセス方法、営業時間、ワークショップ、開催概要などの実用的な情報を一目で確認できます。",
+          "cta": "よくある質問を読む"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "GDPR",
+    "pageTitle": "プライバシーポリシーおよび法的通知",
+    "intro": "このページでは、MarsAIが訪問者、制作者、審査員の個人情報をどのように収集、利用、保護、保管しているかについて説明します。",
+    "summaryAriaLabel": "GDPRの概要",
+    "summaryTitle": "目次",
+    "backToTop": "ページの上部へ戻る",
+    "backHome": "トップページに戻る",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "nav": {
+    "home": "首页",
+    "movies": "电影",
+    "about": "关于",
+    "faq": "常见问题解答",
+    "participate": "参与"
+  },
+  "about": {
+    "blocks": {
+      "block1": {
+        "title": "什么是MarsAI？",
+        "text": "一场由<strong>人工智能</strong>制作的<strong>1分钟短片</strong>电影节\n\n<strong>免费</strong>讲座与工作坊\n\n<strong>人工智能专家</strong>面向专业人士及公众<strong>的经验分享</strong>\n\n<strong>为期两天的马赛电影节</strong>，聚焦人工智能核心领域"
+      },
+      "block2": {
+        "title": "电影节的宗旨",
+        "text": "将人置于AI生成作品创作的核心\n\n通过<strong>极短篇形式</strong>激发参与者的创造力\n\n围绕<strong>“畅想理想未来</strong>”这一主题，充分发挥AI的强大能力"
+      },
+      "block3": {
+        "title": "选择格式",
+        "text": "为期2个月<strong>的项目征集</strong>\n\n<strong>50部</strong>入选主竞赛<strong>单元的1分钟短片</strong>\n\n作品在线发布（网站及社交媒体）\n\n<strong>在影院</strong>及电影节<strong>展映</strong>"
+      },
+      "block4": {
+        "title": "地点",
+        "subtitle": "该平台",
+        "text": "位于马赛市中心的<strong>4000平方米场地</strong>，将承办此次活动"
+      }
+    }
+  },
+  "faq": {
+    "title": "常见问题解答（FAQ）——MarsAi音乐节",
+    "disclaimer": "您的问题答案或许就在下面！ ",
+    "informations-title": "实用信息：",
+    "informations-content": "MarsAi 音乐节何时何地举行？音乐节为期两天，分别于6月5日（星期五）和6月7日（星期日）举行。活动地点位于 Dock des Suds（马赛市第2区，乌尔班五世街12号，邮编13002）。入场时间为上午10点，闭场时间为晚上7点。",
+    "question1": "我该怎么去那里？",
+    "answer1-1": "乘坐公共交通：地铁2号线（Désirée Clary站）或有轨电车T2/T3线（Arenc Le Silo站）。",
+    "answer1-2": "自驾：附近设有收费公共停车场（Indigo Quai d'Arenc, Espercieux）。",
+    "answer1-3": "关于绿色出行：广场上设有自行车和电动滑板车停放区。",
+    "answer1-4": "该场所是否对行动不便人士开放？是的，Dock des Suds 采用无障碍设计，地面平坦，完全无障碍。建筑内部设有无障碍卫生间。",
+    "access-title": "🎟️ 报名与注册 🎟️",
+    "question2": "我应该买票还是预订票？ ",
+    "answer2": "不，MarsAi艺术节完全免费，无需门票。您可以随时前来参观。",
+    "question3": "有最大载重限制吗？",
+    "answer3": "入场免费，但需视Dock des Suds的接待容量而定。若人流过多，出于安全考虑，入口处可能会设置排队区域。",
+    "programation-title": "🤖 活动安排与工作坊 🤖 ",
+    "question4": "MarsAi 音乐节面向哪些人群？",
+    "answer4": "本届大会面向所有人！无论您是科技从业者、学生，还是单纯对人工智能的最新进展感兴趣，都能找到适合您水平的讲座和演示。",
+    "question5": "参加实践工作坊需要提前报名吗？",
+    "answer5": " 活动免费向公众开放，但部分特定工作坊需于活动当天在节庆接待处现场报名。名额按先到先得的原则分配。"
+  },
+  "header": {
+    "title": "MarsAi",
+    "language": {
+      "change": "更改语言",
+      "french": "法语",
+      "english": "英语",
+      "spanish": "西班牙语",
+      "arabic": "阿拉伯语",
+      "portuguese": "葡萄牙语",
+      "mandarin": "普通话",
+      "german": "德语",
+      "hindi": "印地语",
+      "russian": "俄语",
+      "japanese": "日语"
+    }
+  },
+  "footer": {
+    "collaborator": "与……合作",
+    "textcontact": "保持联系",
+    "newsletter": "订阅电子报",
+    "emailplaceholder": "您的电子邮件地址",
+    "subscribe": "订阅电子报",
+    "rights": "保留所有权利",
+    "newsletterLoading": "正在注册...",
+    "newsletterSubscribeSuccess": "注册已确认。谢谢！",
+    "newsletterSubscribeError": "目前无法注册。",
+    "newsletterInvalidEmail": "请输入一个有效的电子邮件地址。",
+    "rgpd": "隐私政策（GDPR）"
+  },
+  "movies": {
+    "empty-title": "即将推出",
+    "empty-description": "评审团选出的50部影片将在报名阶段结束后在此公布。敬请期待！",
+    "current-phase-label": "当前阶段",
+    "current-phase": "提交申请",
+    "phase-judgment": "前50名评选结果",
+    "phase-top50": "50强榜单",
+    "phase-top5": "精选前五名",
+    "results-title": "获奖名单",
+    "results-description": "查看评委会评选出的前5名，以及完整的50强榜单。",
+    "top5-title": "前五名",
+    "top5-description": "来看看评委会选出的5部入围影片。",
+    "top50-title": "前50名",
+    "top50-description": "您还可以查看完整的“前50名”榜单。",
+    "back-to-list": "返回电影列表",
+    "detail-loading": "正在加载影片……",
+    "detail-error-title": "影片不可用",
+    "detail-not-found": "您请求的影片无法找到，或尚未对公众开放。",
+    "detail-no-video": "该影片暂无视频链接。",
+    "detail-film-info-title": "影片信息",
+    "detail-synopsis-label": "剧情简介",
+    "detail-description-label": "描述",
+    "detail-language-label": "语言",
+    "detail-classification-label": "分类",
+    "detail-ai-tools-title": "使用的AI工具",
+    "detail-ai-tools-label": "工具列表",
+    "detail-no-ai-tools": "目前尚未为该影片添加任何AI工具。",
+    "by-director": "作者：{{director}}",
+    "unknown-director": "导演不详",
+    "not-provided": "未填写。",
+    "podium-title": "前五名领奖台",
+    "podium-first": "第1名",
+    "podium-second": "第2名",
+    "podium-third": "第3名",
+    "view-movie": "观看影片"
+  },
+  "countdown": {
+    "nextSelection": "下一期精选",
+    "days": "天",
+    "hours": "时间",
+    "minutes": "会议纪要",
+    "seconds": "秒",
+    "top50": "前50名",
+    "participate": "参与"
+  },
+  "form": {
+    "title": "上传您的视频",
+    "next": "下一页",
+    "previous": "上一页",
+    "submit": "发送",
+    "send": "发送",
+    "add": "添加",
+    "select": "请选择...",
+    "specify": "请说明……",
+    "step1": {
+      "title": "步骤 1：电影简介",
+      "movieTitle": "电影名称",
+      "movieTitleFr": "电影标题的法语译名（如可行）",
+      "synopsis": "影片简介：",
+      "movieLanguage": "影片语言（如有对话或字幕）",
+      "soundbankCheck": "该视频包含音乐和/或使用了音效库。",
+      "soundbankAdd": "添加音效库/音乐",
+      "soundbankLabel": "请注明所使用的音效库或音乐。",
+      "ytLink": "该视频的YouTube链接：",
+      "movieTitleeng": "电影英文片名",
+      "description": "影片简介：",
+      "synopsisEng": "您的英文剧情简介。"
+    },
+    "step2": {
+      "title": "步骤 2：人工智能使用声明",
+      "aiUsedFor": "您使用人工智能来：",
+      "aiScenario": "生成剧本",
+      "aiVideo": "视频的生成",
+      "aiPostprod": "后期制作时代",
+      "chooseAIs": "请选择要使用的AI。",
+      "aiGemini": "谷歌（Gemini）",
+      "aiMidjourney": "Midjourney",
+      "aiChatGPT": "OpenAI（ChatGPT）",
+      "aiClaude": "Anthropic（克劳德）",
+      "aiGrok": "Grok",
+      "aiOther": "其他...",
+      "classificationLabel": "请选择您影片的分类：",
+      "classificationAllAI": "完全生成（100% AI）",
+      "classificationHybrid": "混合制作（实景拍摄 + 人工智能生成内容）",
+      "promptsLabel": "您用于生成AI的提示词：",
+      "errorAtLeastOne": "您必须至少选择一项。"
+    },
+    "step3": {
+      "title": "第三步：多媒体与无障碍访问",
+      "thumbnail": "您影片的缩略图（用于展示该影片的一张图片）：",
+      "screenshots": "您影片的几张截图：",
+      "dialogueCheck": "本片包含对话",
+      "srtLabel": "请提供一个字幕文件（.srt）：",
+      "errorAtLeastOneScreenshot": "您必须至少上传一张截图。"
+    },
+    "step4": {
+      "title": "第4步：您的信息",
+      "lastName": "姓名",
+      "firstName": "名字",
+      "gender": "称谓：",
+      "genderMale": "先生",
+      "genderFemale": "女士",
+      "genderOther": "其他",
+      "socials": "您的社交媒体：",
+      "socialName": "社交网络名称",
+      "socialLink": "社交媒体链接",
+      "email": "电子邮件",
+      "phone": "电话号码",
+      "birthdate": "出生日期",
+      "country": "当前居住地",
+      "address": "您的地址",
+      "address2": "您的地址（第2行）",
+      "postalCode": "邮政编码",
+      "city": "城市",
+      "marketingLabel": "您是如何了解到MarsAI音乐节的？",
+      "marketingWordOfMouth": "口口相传",
+      "marketingSocialMedia": "在社交媒体上",
+      "marketingNews": "通过一份报纸",
+      "marketingSchool": "通过我的学校",
+      "marketingPoster": "通过告示牌或传单",
+      "marketingOther": "其他（请说明）",
+      "specifyLabel": "请注明：",
+      "tosCheck": "我接受使用条款。",
+      "rulesCheck": "我接受MarsAI电影节的视频提交规则。",
+      "errorTos": "您必须接受使用条款。",
+      "errorRules": "您必须同意遵守电影节的规章制度。",
+      "errorAge": "您必须年满18周岁方可参与。"
+    },
+    "validation": {
+      "required": "请填写此栏。",
+      "invalidFormat": "该字段的格式无效。",
+      "textTooLong": "文本过长，必须少于 {{max}} 个字符。",
+      "textTooShort": "文本过短，必须至少有 {{min}} 个字符。",
+      "notANumber": "错误：这不是一个数字。",
+      "numberTooSmall": "该数值必须大于：{{min}}。",
+      "numberTooLarge": "该数值必须小于：{{max}}。",
+      "invalidDate": "格式不正确，必须为日期（年-月-日）",
+      "dateTooLate": "日期不得晚于 {{max}}。",
+      "dateTooEarly": "日期必须大于 {{min}}。",
+      "videoRequired": "您需要上传一个视频文件。",
+      "noFile": "未找到任何文件。",
+      "notVideo": "文件必须为视频格式（.mp4 或 .mov）。",
+      "fileTooLarge": "该文件太大，大小必须小于 {{max}} MB。",
+      "fileTooSmall": "该文件太小了，大小必须至少为 {{min}} MB。",
+      "notImage": "文件必须为图像格式（.png / .jpeg / .jpg）。"
+    },
+    "file": {
+      "choose": "选择文件",
+      "noneSelected": "未选择任何文件"
+    }
+  },
+  "home": {
+    "results-available": "获奖名单已公布！",
+    "HeroSection": "以人为本的AI",
+    "titles1": "1分钟",
+    "description1": "每部影片时长不超过1分钟",
+    "titles2": "1 主题",
+    "description2": "每部电影都有一个共同的主题：一个理想的未来",
+    "titles3": "1 名获奖者",
+    "description3": "只有一位大赢家！",
+    "PodiumGraphic": "精选自20,000多部视频",
+    "quickAccess": {
+      "title": "探索艺术节",
+      "description": "快速浏览电影节的重点页面，了解影片信息，深入了解MarsAI，并获取所有实用信息。",
+      "cards": {
+        "movies": {
+          "description": "了解入选的短片，关注当前阶段的进展，并敬请期待即将公布的获奖名单。",
+          "cta": "观看电影"
+        },
+        "about": {
+          "description": "了解电影节的愿景、目标及其独特的竞赛形式。",
+          "cta": "了解 MarsAI"
+        },
+        "faq": {
+          "description": "一目了然地查看实用信息：交通指南、开放时间、工作坊及活动安排。",
+          "cta": "阅读常见问题解答"
+        }
+      }
+    }
+  },
+  "rgpd": {
+    "badge": "《通用数据保护条例》（GDPR）",
+    "pageTitle": "隐私政策与法律声明",
+    "intro": "本页面说明MarsAI如何收集、使用、保护和保存访客、导演及评委的个人数据。",
+    "summaryAriaLabel": "《通用数据保护条例》摘要",
+    "summaryTitle": "目录",
+    "backToTop": "返回页面顶部",
+    "backHome": "返回首页",
+    "sections": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+  }
+}

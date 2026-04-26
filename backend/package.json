@@ -2,23 +2,34 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --passWithNoTests",
+    "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch --passWithNoTests",
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "sync:newsletter-unsubscribed": "node scripts/syncBrevoUnsubscribed.js",
+    "seed:movies50": "node scripts/seedMoviesFromExistingVideo.js 50",
+    "seed:movies:normalize-submission": "node scripts/normalizeSeededMoviesForSubmissionPhase.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.1",
+    "aws-sdk": "^2.1693.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
-    "dotenv": "^17.2.4",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "googleapis": "^171.4.0",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
     "mysql2": "^3.16.3",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0"
   }
 }

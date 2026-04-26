@@ -1,0 +1,334 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "movies": "Films",
+        "about": "À propos",
+        "faq": "FAQ",
+        "participate": "Participer"
+    },
+    "home": {
+        "HeroSection": "L'humain au coeur de l'IA",
+        "titles1": "1 MINUTE",
+        "description1": "Chaque film dure 1 minute maximum", 
+        "titles2": "1 THÈME",
+        "description2": "Chaque film a pour thème commun : Un futur souhaitable",
+        "titles3": "1 GAGNANT",
+        "description3": "Un seul grand gagnant !",
+        "PodiumGraphic": "Sur une sélection de plus de 20 000 vidéos",
+        "quickAccess": {
+            "title": "Explorez le festival",
+            "description": "Retrouvez rapidement les pages clés du festival pour découvrir les films, mieux comprendre MarsAI et obtenir toutes les réponses pratiques.",
+            "cards": {
+                "movies": {
+                    "description": "Découvrez les courts-métrages sélectionnés, suivez la phase en cours et retrouvez bientôt le palmarès.",
+                    "cta": "Voir les films"
+                },
+                "about": {
+                    "description": "Comprenez la vision du festival, ses objectifs et le format unique de la compétition.",
+                    "cta": "Découvrir MarsAI"
+                },
+                "faq": {
+                    "description": "Accédez en un coup d'oeil aux infos pratiques: accès, horaires, ateliers et organisation.",
+                    "cta": "Lire la FAQ"
+                }
+            }
+        },
+        "results-available": "Les Résultats des Gagnants sont disponibles !"
+    },
+    "about": {
+        "blocks": {
+            "block1": {
+                "title": "Qu'est-ce que MarsAI ?",
+                "text": "Un Festival de <strong>courts-métrages de 1 minute</strong> réalisés par <strong>IA</strong>\n\nDes conférences et workshops <strong>gratuits</strong>\n\nDes <strong>partages d'expériences d'experts en IA</strong> pour les pros et le grand public\n\n<strong>2 jours de festival à Marseille</strong> au coeur de l'IA"
+            },
+            "block2": {
+                "title": "Objectif du festival",
+                "text": "Mettre l'humain au coeur de la création d'oeuvres générées par IA\n\nChallenger la créativité des participants grâce à un <strong>format très court</strong>\n\nMettre à profit la puissance de l'IA autour d'un thème : <strong>Imaginez des futurs souhaitables</strong>"
+            },
+            "block3": {
+                "title": "Format de la sélection",
+                "text": "<strong>Appel à projet</strong> de 2 mois\n\n<strong>50 courts-métrages d'une minute</strong> sélectionnés en compétition officielle\n\nDiffusion en ligne des oeuvres (web et réseaux sociaux)\n\n<strong>Diffusion en salles de cinéma</strong> et festivals de films"
+            },
+            "block4": {
+                "title": "Le lieu",
+                "subtitle": "La plateforme",
+                "text": "<strong>4 000 m2 d'espaces</strong> dans le centre de Marseille, pour accueillir l'événement"
+            }
+        }
+    },
+    "faq": {
+        "title": "Foire Aux Questions (FAQ) - Festival MarsAi",
+        "disclaimer": "La réponse à votre question se trouve peut-être ci-dessous ! ",
+        "informations-title": "Informations Pratiques:",
+        "informations-content": "Où et quand se déroule le festival MarsAi ? Le festival se tiendra sur deux jours, le vendredi 5 juin et le dimanche 7 juin. L'événement aura lieu au Dock des Suds (12 Rue Urbain V, 13002 Marseille). Les portes ouvrent à 10h00 et ferment à 19h00.",
+        "question1": "Comment puis-je me rendre sur place ?",
+        "answer1-1": "En transports en commun : Métro ligne 2 (arrêt Désirée Clary) ou Tramway T2/T3 (arrêt Arenc Le Silo).",
+        "answer1-2": "En voiture : Des parkings publics payants (Indigo Quai d'Arenc, Espercieux) sont situés à proximité immédiate.",
+        "answer1-3": "En mobilité douce : Un espace pour stationner les vélos et trottinettes est disponible sur le parvis.",
+        "answer1-4": "Le site est-il accessible aux personnes à mobilité réduite (PMR) ? Oui, le Dock des Suds est de plain-pied et entièrement accessible. Des sanitaires adaptés sont à disposition dans l'enceinte du bâtiment",
+        "access-title": "🎟️ Accès et Inscription 🎟️",
+        "question2": "Dois-je acheter ou réserver un billet ? ",
+        "answer2": "Non, l'accès au festival MarsAi est entièrement gratuit et sans billet. Vous pouvez venir librement à l'heure qui vous souhaitez.",
+        "question3": "Y a-t-il une jauge maximale ?",
+        "answer3": "L'entrée est libre, mais soumise à la capacité d'accueil du Dock des Suds. En cas de très forte affluence, une file d'attente pourra être mise en place à l'entrée pour des raisons de sécurité.",
+        "programation-title": "🤖 Programmation et Ateliers 🤖 ",
+        "question4": "À qui s'adresse le festival MarsAi ?",
+        "answer4": "Le festival est pensé pour tout le monde ! Que vous soyez un professionnel de la tech, un étudiant, ou simplement curieux de découvrir les dernières avancées en intelligence artificielle, vous trouverez des conférences et des démonstrations adaptées à votre niveau.",
+        "question5": "Faut-il s'inscrire à l'avance pour les ateliers pratiques ?",
+        "answer5": " L'entrée générale est libre, mais certains ateliers spécifiques nécessitent une inscription sur place, à l'accueil du festival, le jour même. Les places sont attribuées par ordre d'arrivée."
+    },  
+        "header": {
+            "title": "MarsAi",
+            "language": {
+                "change": "Changer la langue",
+                "french": "Français",
+                "english": "Anglais",
+                "spanish": "Espagnol",
+                "arabic": "Arabe",
+                "portuguese": "Portugais",
+                "mandarin": "Mandarin",
+                "german": "Allemand",
+                "hindi": "Hindi",
+                "russian": "Russe",
+                "japanese": "Japonais"
+            }
+        },
+        "footer": {
+            "collaborator": "En collaboration avec",
+        "textcontact": "Restez en contact",
+        "newsletter": "Inscription à la newsletter",
+        "emailplaceholder": "Votre adresse e-mail",
+        "subscribe": "S'inscrire à la newsletter",
+        "newsletterLoading": "Inscription en cours...",
+        "newsletterSubscribeSuccess": "Inscription confirmée. Merci !",
+        "newsletterSubscribeError": "Impossible de vous inscrire pour le moment.",
+        "newsletterInvalidEmail": "Merci de saisir une adresse e-mail valide.",
+        "rgpd": "Politique de confidentialité (RGPD)",
+        "rights": "Tous droits réservés"
+    },
+    "rgpd": {
+        "badge": "RGPD",
+        "pageTitle": "Politique de confidentialité et mentions légales",
+        "intro": "Cette page explique comment MarsAI collecte, utilise, protège et conserve les données personnelles des visiteurs, réalisateurs et membres du jury.",
+        "summaryAriaLabel": "Sommaire RGPD",
+        "summaryTitle": "Sommaire",
+        "backToTop": "Retour en haut de page",
+        "backHome": "Retour à l'accueil",
+        "sections": [
+            {
+                "id": "editeur",
+                "title": "1. Mentions légales",
+                "paragraphs": [
+                    "Le site MarsAI est édité pour l'organisation du festival MarsAI. Les informations diffusées sur cette plateforme ont pour objectif de faciliter la participation au festival, la communication avec les utilisateurs et la diffusion des contenus liés aux films."
+                ]
+            },
+            {
+                "id": "donnees-collectees",
+                "title": "2. Données collectées (principe de minimisation)",
+                "paragraphs": [
+                    "Nous appliquons un principe de minimisation: seules les données strictement nécessaires sont demandées pour les parcours essentiels."
+                ],
+                "bullets": [
+                    "Données requises pour les interactions de base: nom, prénom et email.",
+                    "Pour les dépôts de films, des informations complémentaires peuvent être nécessaires au traitement de la candidature.",
+                    "Aucune collecte de données de ciblage publicitaire n'est effectuée sur le site."
+                ]
+            },
+            {
+                "id": "finalites",
+                "title": "3. Finalités du traitement",
+                "bullets": [
+                    "Gestion des inscriptions et de la relation utilisateur (newsletter, notifications).",
+                    "Gestion des candidatures réalisateurs et du suivi du festival.",
+                    "Gestion des accès jury/admin et sécurisation des sessions."
+                ]
+            },
+            {
+                "id": "hebergement",
+                "title": "4. Hébergement et stockage sécurisé",
+                "paragraphs": [
+                    "Le site et ses services sont hébergés sur des infrastructures sécurisées. Les vidéos déposées peuvent être stockées sur un stockage objet de type Bucket S3 avec contrôle des accès.",
+                    "Des mesures techniques et organisationnelles sont mises en oeuvre pour limiter les accès non autorisés, pertes ou altérations de données."
+                ]
+            },
+            {
+                "id": "cookies",
+                "title": "5. Cookies",
+                "paragraphs": [
+                    "Le site utilise uniquement des cookies techniques nécessaires à son fonctionnement."
+                ],
+                "bullets": [
+                    "Maintien de session (ex: token JWT pour les espaces Jury/Admin).",
+                    "Sécurisation des accès et continuités de navigation.",
+                    "Aucun cookie de ciblage publicitaire n'est déposé."
+                ]
+            },
+            {
+                "id": "droits",
+                "title": "6. Droits des utilisateurs",
+                "paragraphs": [
+                    "Conformément au RGPD, vous pouvez demander l'accès, la rectification, la suppression de vos données personnelles et, le cas échéant, la suppression de votre film déposé.",
+                    "Pour exercer vos droits, contactez l'organisation via l'adresse de contact du festival. Une vérification d'identité peut être demandée pour protéger les données."
+                ]
+            },
+            {
+                "id": "conservation",
+                "title": "7. Durée de conservation",
+                "paragraphs": [
+                    "Les données sont conservées pendant la durée strictement nécessaire aux finalités du festival et aux obligations légales associées."
+                ]
+            }
+        ]
+    },
+    "movies": {
+        "empty-title": "Bientôt disponible",
+        "empty-description": "Les 50 films sélectionnés par le jury seront affichés ici à l'issue de la phase de candidature. Revenez prochainement !",
+        "current-phase-label": "Phase actuelle",
+        "current-phase": "Dépôt des candidatures",
+        "phase-judgment": "Jugement pour le top 50",
+        "phase-top50": "Sélection du top 50",
+        "phase-top5": "Sélection du top 5",
+        "results-title": "Résultats des gagnants",
+        "results-description": "Découvrez le Top 5 puis l'ensemble du Top 50 sélectionné par le jury.",
+        "top5-title": "Top 5",
+        "top5-description": "Découvrez les 5 films finalistes sélectionnés par le jury.",
+        "podium-title": "Podium du Top 5",
+        "podium-first": "1er",
+        "podium-second": "2e",
+        "podium-third": "3e",
+        "view-movie": "Voir le film",
+        "top50-title": "Top 50",
+        "top50-description": "Retrouvez également la sélection complète du Top 50.",
+        "back-to-list": "Retour à la liste des films",
+        "detail-loading": "Chargement du film...",
+        "detail-error-title": "Film indisponible",
+        "detail-not-found": "Le film demandé est introuvable ou n'est pas encore accessible publiquement.",
+        "detail-no-video": "Aucun lien vidéo disponible pour ce film.",
+        "detail-film-info-title": "Informations sur le film",
+        "detail-synopsis-label": "Synopsis",
+        "detail-description-label": "Description",
+        "detail-language-label": "Langue",
+        "detail-classification-label": "Classification",
+        "detail-ai-tools-title": "Outils IA utilisés",
+        "detail-ai-tools-label": "Liste des outils",
+        "detail-no-ai-tools": "Aucun outil IA renseigné pour ce film.",
+        "by-director": "Par : {{director}}",
+        "unknown-director": "Réalisateur inconnu",
+        "not-provided": "Non renseigné."
+    },
+    "countdown": {
+        "nextSelection": "Prochaine sélection",
+        "days": "Jours",
+        "hours": "Heures",
+        "minutes": "Minutes",
+        "seconds": "Secondes",
+        "top50": "Top 50",
+        "participate": "Participer"
+    },
+    "form": {
+        "title": "Envoyez votre vidéo",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "submit": "ENVOYER",
+        "send": "Envoyer",
+        "add": "Ajouter",
+        "select": "Sélectionnez...",
+        "specify": "Précisez...",
+        "file": {
+            "choose": "Choisir un fichier",
+            "noneSelected": "Aucun fichier choisi"
+        },
+        "step1": {
+            "title": "Etape 1 : Fiche Film",
+            "movieTitle": "Titre du film",
+            "movieTitleeng": "Titre du film en anglais",
+            "movieTitleFr": "Titre du film traduit en français (si possible)",
+            "description": "Description de votre film :",
+            "synopsis": "Synopsis (résumé) de votre film :",
+            "synopsisEng": "Votre synopsis en anglais.",
+            "movieLanguage": "Langue de votre film (si a un dialogue ou du texte)",
+            "soundbankCheck": "Cette vidéo possède de la musique et/ou utilise une banque son.",
+            "soundbankAdd": "AJOUTER UNE SOUNDBANK/MUSIQUE",
+            "soundbankLabel": "Veuillez informer les soundbanks ou musiques utilisés.",
+            "ytLink": "Lien youtube vers cette vidéo :"
+        },
+        "step2": {
+            "title": "Etape 2 : Déclaration d'usage de l'IA",
+            "aiUsedFor": "Vous avez utilisé l'IA pour :",
+            "aiScenario": "La génération du scénario",
+            "aiVideo": "La génération de la vidéo",
+            "aiPostprod": "La génération de la post production",
+            "chooseAIs": "Choisissez les IAs utilisées.",
+            "aiGemini": "Google (Gemini)",
+            "aiMidjourney": "Midjourney",
+            "aiChatGPT": "OpenAI (ChatGPT)",
+            "aiClaude": "Anthropic (Claude)",
+            "aiGrok": "Grok",
+            "aiOther": "Autre...",
+            "classificationLabel": "Choisissez la classification de votre film :",
+            "classificationAllAI": "Génération intégrale (100% IA)",
+            "classificationHybrid": "Production hybride (Prises de vues réelles + apports IA)",
+            "promptsLabel": "Prompts que vous avez utilisé pour la génération IA :",
+            "errorAtLeastOne": "Vous devez en sélectionner au moins un."
+        },
+        "step3": {
+            "title": "Etape 3 : Multimédia et accessibilité",
+            "thumbnail": "La vignette de votre film (une image qui sera utilisée pour la représenter) :",
+            "screenshots": "Quelques captures d'écrans de votre film :",
+            "dialogueCheck": "Ce film contient des dialogues",
+            "srtLabel": "Veuillez renseigner un fichier sous-titre (.srt) :",
+            "errorAtLeastOneScreenshot": "Vous devez renseigner au moins un screenshot."
+        },
+        "step4": {
+            "title": "Etape 4 : Vos Informations",
+            "lastName": "Nom",
+            "firstName": "Prénom",
+            "gender": "Civilité :",
+            "genderMale": "Monsieur",
+            "genderFemale": "Madame",
+            "genderOther": "Autre",
+            "socials": "Vos réseaux sociaux :",
+            "socialName": "Nom du réseau social",
+            "socialLink": "Lien du réseau social",
+            "email": "Email",
+            "phone": "Numéro de téléphone",
+            "birthdate": "Date de naissance",
+            "country": "Pays de résidence actuel",
+            "address": "Votre adresse",
+            "address2": "Votre adresse ligne 2",
+            "postalCode": "Code postal",
+            "city": "Ville",
+            "marketingLabel": "Comment avez-vous connu le festival MarsAI ?",
+            "marketingWordOfMouth": "Bouche à oreille",
+            "marketingSocialMedia": "Sur les réseaux sociaux",
+            "marketingNews": "Via un journal",
+            "marketingSchool": "Via mon école",
+            "marketingPoster": "Via un panneau ou un prospectus",
+            "marketingOther": "Autre (précisez)",
+            "specifyLabel": "Précisez :",
+            "tosCheck": "J'accepte les conditions d'utilisation.",
+            "rulesCheck": "J'accepte le règlement d'envoi de vidéos du festival MarsAI.",
+            "errorTos": "Vous devez accepter les conditions d'utilisation.",
+            "errorRules": "Vous devez accepter le règlement du festival.",
+            "errorAge": "Vous devez avoir au moins 18 ans pour pouvoir participer."
+        },
+        "validation": {
+            "required": "Veuillez remplir ce champ.",
+            "invalidFormat": "Format de ce champ est invalide.",
+            "textTooLong": "Texte trop long, doit avoir moins de {{max}} caractères.",
+            "textTooShort": "Texte trop court, doit avoir au moins {{min}} caractères.",
+            "notANumber": "Erreur : ceci n'est pas un nombre.",
+            "numberTooSmall": "Nombre doit être supérieur à : {{min}}.",
+            "numberTooLarge": "Nombre doit être inférieur à : {{max}}.",
+            "invalidDate": "Format invalide, doit être une date (année-mois-jour)",
+            "dateTooLate": "La date ne doit pas dépasser {{max}}.",
+            "dateTooEarly": "La date doit être supérieure à {{min}}.",
+            "videoRequired": "Vous devez renseigner un fichier vidéo.",
+            "noFile": "Aucun fichier n'a été trouvé.",
+            "notVideo": "Le fichier doit être sous format vidéo (.mp4 ou .mov).",
+            "fileTooLarge": "Le fichier est trop lourd, il doit faire moins de {{max}} mo.",
+            "fileTooSmall": "Le fichier est trop léger, il doit faire au moins {{min}} mo.",
+            "notImage": "Le fichier doit être sous format image (.png / .jpeg / .jpg)."
+        }
+    }
+}

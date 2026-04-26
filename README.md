@@ -1,30 +1,34 @@
-# 🚀 Marsai - Application Fullstack
+# 🚀 MarsAI Festival — Application Fullstack
 
-[![Node.js](https://img.shields.io/badge/Node.js-16%2B-green)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
-[![Express](https://img.shields.io/badge/Express-4-lightgrey)](https://expressjs.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
+[![Express](https://img.shields.io/badge/Express-5-lightgrey)](https://expressjs.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Une application web fullstack moderne avec authentification JWT, architecture MVC et composants React réutilisables.
+Application web fullstack pour le festival MarsAI : soumission de films, accès jury/admin, et diffusion publique.
 
-##  Table des Matières
+## Table des matières
 
-- [Démarrage Rapide](#-démarrage-rapide)
-- [Fonctionnalités](#-fonctionnalités)
-- [Architecture](#️-architecture-du-projet)
-- [Shared / Zod](#-shared)
-- [Technologies](#-technologies)
+- [Démarrage rapide](#-démarrage-rapide)
+- [Architecture du projet](#-architecture-du-projet)
+- [Stack technique](#-stack-technique)
+- [Variables d'environnement](#-variables-denvironnement)
 - [API Endpoints](#-api-endpoints)
-- [Scripts Disponibles](#️-scripts-disponibles)
-- [Bonnes Pratiques](#-bonnes-pratiques)
-- [Contribuer](#-contribuer)
+- [Stockage médias (Scaleway S3)](#-stockage-médias-scaleway-s3)
+- [Scripts disponibles](#-scripts-disponibles)
+- [Troubleshooting](#-troubleshooting)
+- [Conventions de commit](#-conventions-de-commit)
+- [Licence](#-licence)
 
-## 🚀 Démarrage Rapide
+---
+
+## ⚡ Démarrage rapide
 
 ### Prérequis
-- Node.js (v16 ou supérieur)
-- MySQL
-- npm ou yarn
+
+- Node.js 18+
+- MySQL 8+
+- npm
 
 ### Installation
 
@@ -33,14 +37,14 @@ Une application web fullstack moderne avec authentification JWT, architecture MV
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 
+# Installation de concurrently (racine du projet)
+npm install
+
 # Installation des dépendances Backend
 cd backend && npm install
 
 # Installation des dépendances Frontend
 cd ../frontend && npm install
-
-# Installation de concurrently (racine du projet)
-cd .. && npm install
 ```
 
 ### Lancement
@@ -49,12 +53,21 @@ cd .. && npm install
 # Lancer Backend et Frontend simultanément (depuis la racine)
 npm run dev
 
+# Lancer tous les tests (backend + frontend)
+npm test
+
 # Ou séparément
 npm run dev:backend   # Backend uniquement
 npm run dev:frontend  # Frontend uniquement
+npm run test:backend  # Tests backend uniquement
+npm run test:frontend # Tests frontend uniquement
 ```
 
+> Tous les tests utilisent Jest avec Testing Library côté frontend.
+
 > `concurrently` permet de démarrer le backend et le frontend en une seule commande depuis la racine du projet.
+
+> Le backend et le frontend disposent chacun de leur propre `node_modules` et de leur propre `package-lock.json`.
 
 - **Backend** : `http://localhost:5000`
 - **Frontend** : `http://localhost:5173`
@@ -64,6 +77,7 @@ npm run dev:frontend  # Frontend uniquement
 ## ✨ Fonctionnalités
 
 ### Authentification et Sécurité
+
 - ✅ Authentification JWT (JSON Web Tokens)
 - ✅ Protection des routes backend avec middleware
 - ✅ Protection des routes frontend avec `PrivateRoute`
@@ -71,6 +85,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ Gestion de session utilisateur
 
 ### Architecture Frontend
+
 - ✅ Architecture React moderne avec Hooks
 - ✅ Gestion d'état global avec Context API
 - ✅ Routing avec React Router
@@ -79,6 +94,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ Qualité de code avec ESLint
 
 ### Architecture Backend
+
 - ✅ API REST avec Express.js
 - ✅ Architecture MVC (Models, Views, Controllers)
 - ✅ Connexion base de données MySQL
@@ -87,6 +103,7 @@ npm run dev:frontend  # Frontend uniquement
 - ✅ CORS configuré pour le développement
 
 ### Développement
+
 - ✅ Hot reload (Frontend et Backend)
 - ✅ Variables d'environnement (.env)
 - ✅ Code modulaire et maintenable
@@ -97,10 +114,11 @@ npm run dev:frontend  # Frontend uniquement
 ## 🛠️ Technologies
 
 ### Backend
+
 | Technologie | Description | Version |
 |-------------|-------------|---------|
-| **Node.js** | Environnement d'exécution JavaScript | 16+ |
-| **Express.js** | Framework web minimaliste et flexible | 4.x |
+| **Node.js** | Environnement d'exécution JavaScript | 18+ |
+| **Express.js** | Framework web minimaliste et flexible | 5.2.1 |
 | **MySQL** | Système de gestion de base de données | 8.x |
 | **JWT** | Authentification par tokens | - |
 | **bcrypt** | Hashage sécurisé des mots de passe | - |
@@ -109,16 +127,18 @@ npm run dev:frontend  # Frontend uniquement
 | **Zod** | Validation de schémas TypeScript-first | 3.x |
 
 ### Frontend
+
 | Technologie | Description | Version |
 |-------------|-------------|---------|
-| **React** | Bibliothèque UI pour construire des interfaces | 18.x |
+| **React** | Bibliothèque UI pour construire des interfaces | 19.2.0 |
 | **Vite** | Build tool ultra-rapide pour le développement | 5.x |
-| **React Router** | Bibliothèque de routing pour React | 6.x |
+| **React Router** | Bibliothèque de routing pour React | 7.13.0 |
 | **Axios** | Client HTTP pour les appels API | - |
 | **ESLint** | Linter pour maintenir la qualité du code | - |
-| **Zod** | Validation de schémas partagés avec le backend | 3.x |
+| **Zod** | Validation de schémas partagés avec le backend | 4.3.6 |
 
 ### Outils de Développement
+
 - **npm/yarn** : Gestionnaires de paquets
 - **Nodemon** : Auto-restart du serveur backend
 - **Git** : Contrôle de version
@@ -129,52 +149,12 @@ npm run dev:frontend  # Frontend uniquement
 
 Le projet est organisé en deux parties principales :
 
-```
+```markdown
 marsai/
 ├── backend/          # API REST Node.js
 ├── frontend/         # Application React
-├── shared/           # Ressources partagées (schémas Zod)
 └── README.md
 ```
-
----
-
-## � Shared
-
-### Schémas de Validation Partagés
-
-Le dossier `shared/` contient les schémas [Zod](https://zod.dev/) utilisés à la fois par le **frontend** et le **backend** pour garantir une validation cohérente des données.
-
-```
-shared/
-└── schemas.js    # Schémas Zod partagés (login, register, etc.)
-```
-
-#### Schémas disponibles
-
-| Schéma | Description | Champs validés |
-|--------|-------------|----------------|
-| `loginSchema` | Validation du formulaire de connexion | `email` (email valide), `password` (min. 6 caractères) |
-
-#### Exemple d'utilisation
-
-```js
-import { loginSchema } from '../shared/schemas.js';
-
-// Validation côté backend (Express)
-const result = loginSchema.safeParse(req.body);
-if (!result.success) {
-  return res.status(400).json({ errors: result.error.errors });
-}
-
-// Validation côté frontend (React)
-const result = loginSchema.safeParse(formData);
-if (!result.success) {
-  setErrors(result.error.flatten().fieldErrors);
-}
-```
-
-> **Avantage clé** : un seul schéma de validation défini une fois, réutilisé des deux côtés pour éviter toute divergence entre le frontend et le backend.
 
 ---
 
@@ -182,7 +162,7 @@ if (!result.success) {
 
 ### Structure du Dossier
 
-```
+```markdown
 backend/
 ├── config/               # Configuration de l'application
 │   └── db.js            # Configuration et connexion MySQL
@@ -237,16 +217,19 @@ JWT_EXPIRES_IN=24h
 
 ### Structure du Dossier
 
-```
+```markdown
 frontend/
 ├── public/              # Fichiers statiques publics
 │   └── assets/          # Images, icônes statiques
 ├── src/
 │   ├── assets/          # Ressources (images, fonts, icônes)
+│   │   ├── fonts/       # Polices personnalisées
 │   │   └── icons/       # Icônes de l'application
 │   ├── components/      # Composants React réutilisables
-│   │   ├── Footer.jsx       # Pied de page
-│   │   ├── Header.jsx       # En-tête navigation
+│   │   ├── layout/
+│   │   │   ├── Footer.jsx   # Pied de page
+│   │   │   ├── Header.jsx   # En-tête avec logo + navbar
+│   │   │   └── Navbar.jsx   # Barre de navigation principale
 │   │   └── PrivateRoute.jsx # HOC protection routes
 │   ├── contexts/        # Contextes React (state global)
 │   │   └── AuthContext.jsx  # État authentification
@@ -276,6 +259,7 @@ frontend/
 ### Architecture des Composants
 
 #### 📦 Components (`components/`)
+
 Composants réutilisables et génériques :
 
 - **Header** : Barre de navigation avec liens et état d'authentification
@@ -283,22 +267,49 @@ Composants réutilisables et génériques :
 - **PrivateRoute** : Composant HOC pour protéger les routes nécessitant une authentification
 
 #### 🌐 Contexts (`contexts/`)
+
 Gestion d'état global avec Context API :
 
 - **AuthContext** : Fournit l'état d'authentification (user, login, logout, register)
 
 #### 🪝 Hooks (`hooks/`)
+
 Hooks personnalisés pour la réutilisabilité :
 
 - **useAuth** : Simplifie l'accès au AuthContext dans les composants
 
 #### 📐 Layouts (`layouts/`)
+
 Templates de mise en page :
 
 - **AuthLayout** : Layout minimaliste pour les pages d'authentification
 - **MainLayout** : Layout complet avec Header et Footer pour les pages principales
+- **AdminLayout** : Layout dashboard admin avec `HeaderAdmin` + `Outlet` + `Footer`
+- **JuryLayout** : Layout dashboard jury avec `HeaderJury` + `Outlet` + `Footer`
+
+#### 🧭 Routing des Dashboards
+
+Les pages dashboard doivent être déclarées comme routes enfants de leurs layouts pour charger correctement les en-têtes dédiés :
+
+- Routes admin sous `AdminLayout` pour afficher `HeaderAdmin`
+- Routes jury sous `JuryLayout` pour afficher `HeaderJury`
+
+Exemple dans `App.jsx` :
+
+```jsx
+<Route element={<AdminLayout />}>
+  <Route path="/dashboard/adminpanel" element={<AdminPanel />} />
+  {/* ...autres routes admin */}
+</Route>
+
+<Route element={<JuryLayout />}>
+  <Route path="/dashboard/jury/:id" element={<JuryPanel />} />
+  {/* ...autres routes jury */}
+</Route>
+```
 
 #### 📄 Pages (`pages/`)
+
 Composants de pages complètes :
 
 - **Home** : Page d'accueil accessible à tous
@@ -307,6 +318,7 @@ Composants de pages complètes :
 - **Dashboard** : Page privée pour utilisateurs authentifiés
 
 #### 🔌 Services (`services/`)
+
 Communication avec le backend :
 
 - **api.js** : Instance Axios configurée avec intercepteurs pour gérer les tokens JWT
@@ -325,7 +337,7 @@ VITE_API_URL=http://localhost:5000
 
 ### Flow d'Authentification
 
-```
+```markdown
 ┌─────────────┐          ┌─────────────┐          ┌──────────────┐
 │   Frontend  │          │   Backend   │          │   Database   │
 │   (React)   │          │  (Express)  │          │    (MySQL)   │
@@ -368,6 +380,7 @@ VITE_API_URL=http://localhost:5000
 ### Étapes Détaillées
 
 #### 1️⃣ Inscription (Register)
+
 - L'utilisateur remplit le formulaire sur la page [Register.jsx](frontend/src/pages/Register.jsx)
 - Le frontend envoie `POST /api/auth/register` avec `{ email, password, name }`
 - Le backend hash le mot de passe avec **bcrypt**
@@ -377,6 +390,7 @@ VITE_API_URL=http://localhost:5000
 - L'utilisateur est automatiquement connecté
 
 #### 2️⃣ Connexion (Login)
+
 - L'utilisateur remplit le formulaire sur [Login.jsx](frontend/src/pages/Login.jsx)
 - Le frontend envoie `POST /api/auth/login` avec `{ email, password }`
 - Le backend vérifie les credentials
@@ -389,6 +403,7 @@ VITE_API_URL=http://localhost:5000
 - L'[AuthContext.jsx](frontend/src/contexts/AuthContext.jsx) maintient l'état global d'authentification
 
 #### 4️⃣ Déconnexion (Logout)
+
 - Le token est supprimé du `localStorage`
 - L'état d'authentification est réinitialisé
 - L'utilisateur est redirigé vers la page d'accueil
@@ -417,9 +432,41 @@ VITE_API_URL=http://localhost:5000
 | GET     | `/api/auth/profile`  | Récupérer profil utilisateur   | 🔒 Privé   | - |
 | PUT     | `/api/auth/profile`  | Mettre à jour profil           | 🔒 Privé   | `{ "name": "string", "email": "string" }` |
 
+### Médias (S3)
+
+| Méthode | Endpoint                              | Description                               | Protection |
+|---------|---------------------------------------|-------------------------------------------|------------|
+| POST    | `/api/movies`                         | Upload fichier vers S3 (`video_file`)     | Public*    |
+| GET     | `/api/movies/images?key=<s3Key>`      | Lecture d’un fichier depuis S3            | Public*    |
+
+### Administration (Pilotage)
+
+| Méthode | Endpoint                    | Description                                                                 | Protection |
+|---------|-----------------------------|-----------------------------------------------------------------------------|------------|
+| GET     | `/api/movies`               | Liste complète des films avec statut d'évaluation et jurys assignés       | 🔒 Admin   |
+| GET     | `/api/movies/juries`        | Liste des jurys (email) avec leur nombre de films déjà assignés           | 🔒 Admin   |
+| POST    | `/api/movies/assign`        | Assigner un film à un seul jury (relation 1:1 logique métier)             | 🔒 Admin   |
+| PUT     | `/api/admin/movies/:movieId/status` | Modifier le statut d'un film (Top 50 uniquement en phase 2, Top 5 uniquement en phase 3) | 🔒 Admin   |
+
+Exemple de body pour l'assignation :
+
+```json
+{
+  "movieId": 12,
+  "juryId": 4
+}
+```
+
+Validation appliquée (Zod stricte) :
+
+- `movieId` requis, entier positif
+- `juryId` requis, entier positif
+- rejet des clés inattendues dans le body
+
 ### Réponses API
 
 #### Succès (200/201)
+
 ```json
 {
   "success": true,
@@ -436,6 +483,7 @@ VITE_API_URL=http://localhost:5000
 ```
 
 #### Erreur (400/401/404/500)
+
 ```json
 {
   "success": false,
@@ -452,6 +500,101 @@ Pour les routes protégées, incluez le token JWT dans l'en-tête :
 Authorization: Bearer <votre_token_jwt>
 ```
 
+## 🗂️ Stockage médias (Scaleway S3)
+
+Le backend utilise Scaleway Object Storage (compatible S3) pour les uploads de fichiers.
+
+### Variables d’environnement backend
+
+À définir dans `backend/.env` :
+
+- `SCALEWAY_ACCESS_KEY`
+- `SCALEWAY_SECRET_KEY`
+- `SCALEWAY_ENDPOINT` (ex: `https://s3.fr-par.scw.cloud`)
+- `SCALEWAY_BUCKET_NAME` (ex: `tln`)
+- `SCALEWAY_REGION` (ex: `fr-par`)
+- `SCALEWAY_FOLDER` (ex: `grp2`)
+
+### Endpoints S3 implémentés
+
+- `POST /api/movies`  
+  Upload d’un fichier via `multipart/form-data` avec le champ `video_file`.
+- `GET /api/movies/images?key=<s3KeyEncodée>`  
+  Récupération d’un fichier depuis S3 via la clé (`key`) encodée URL.
+
+Exemple :
+`/api/movies/images?key=grp2%2Fdbccbef00084f21c17278c94d5158294`
+
+### Dépendances backend liées
+
+- `aws-sdk`
+- `multer`
+- `dotenv`
+
+## ▶️ Intégration YouTube OAuth (dev)
+
+Cette branche intègre un upload vidéo en 2 étapes dans `POST /api/movies` :
+
+1. Upload du fichier vers S3 (Scaleway)
+2. Upload du même fichier vers YouTube (Data API v3)
+
+Le backend retourne ensuite les informations S3 + YouTube.
+
+### Variables d'environnement backend (YouTube)
+
+À définir dans `backend/.env` :
+
+- `YT_CLIENT_ID`
+- `YT_CLIENT_SECRET`
+- `YT_REDIRECT_URI` (local: `http://localhost:5000/api/youtube/oauth/callback`)
+- `YT_REFRESH_TOKEN`
+- `YT_UPLOAD_PRIVACY` (ex: `unlisted`)
+
+### Endpoints OAuth implémentés
+
+- `GET /api/youtube/oauth/start`
+  - Génère l'URL OAuth Google avec le scope `youtube.upload`
+  - Redirige le navigateur vers Google
+- `GET /api/youtube/oauth/callback`
+  - Reçoit le `code` OAuth
+  - Échange `code` -> `tokens`
+  - Retourne le `refreshToken` (à copier dans `backend/.env`)
+
+### Endpoints upload implémentés
+
+- `POST /api/movies`
+  - Form-data attendu: `video_file`
+  - Flux serveur:
+    - upload S3
+    - upload YouTube
+    - suppression du fichier temporaire local
+  - Réponse inclut:
+    - `s3Location`
+    - `s3Key`
+    - `youtubeVideoId`
+    - `youtubeUrl`
+    - `youtubeEmbedUrl`
+    - `youtubePrivacyStatus`
+
+### Procédure de setup équipe
+
+1. Pull de la branche + installation dépendances (`npm install` et `npm --prefix backend install`)
+2. Vérifier sur Google Cloud:
+   - Origine JS autorisée: `http://localhost:5173`
+   - Redirect URI autorisée: `http://localhost:5000/api/youtube/oauth/callback`
+3. Remplir les variables YouTube dans `backend/.env`
+4. Démarrer le backend
+5. Ouvrir `http://localhost:5000/api/youtube/oauth/start`
+6. Autoriser le compte Google/YouTube cible
+7. Copier le `refreshToken` renvoyé dans `YT_REFRESH_TOKEN`
+8. Redémarrer le backend
+
+### Notes importantes
+
+- `backend/.env` ne doit jamais être versionné.
+- Si le consentement est en mode test, ajouter les comptes Google des développeurs dans les Test users du projet OAuth.
+- L'insertion des métadonnées réalisateur en base est traitée sur une autre branche (le endpoint upload de cette branche renvoie déjà les infos utiles S3/YouTube).
+  
 ---
 
 ## 🛠️ Scripts Disponibles
@@ -463,6 +606,7 @@ Authorization: Bearer <votre_token_jwt>
 | `npm start` | Lance le serveur en mode production | Production |
 | `npm run dev` | Lance le serveur avec nodemon (hot reload) | Développement |
 | `npm test` | Exécute les tests | Test |
+| `npm run sync:newsletter-unsubscribed` | Synchronise les désinscriptions Brevo vers la table `newsletter` locale | Maintenance |
 
 ### Frontend (`cd frontend`)
 
@@ -481,10 +625,10 @@ Authorization: Bearer <votre_token_jwt>
 
 ```json
 {
-  "express": "^4.18.0",           // Framework web
+  "express": "^5.18.0",           // Framework web
   "mysql2": "^3.0.0",             // Driver MySQL
   "jsonwebtoken": "^9.0.0",       // Génération et vérification JWT
-  "bcryptjs": "^2.4.3",           // Hashage mots de passe
+  "bcrypt": "^2.4.3",           // Hashage mots de passe
   "dotenv": "^16.0.0",            // Variables d'environnement
   "cors": "^2.8.5",               // Middleware CORS
   "express-validator": "^7.0.0",  // Validation des données
@@ -507,9 +651,11 @@ Authorization: Bearer <votre_token_jwt>
 ### Dev Dependencies
 
 **Backend:**
-- `nodemon` : Redémarrage automatique du serveur
+
+- `node --watch` : Redémarrage automatique du serveur 
 
 **Frontend:**
+
 - `vite` : Build tool et dev server
 - `eslint` : Linter JavaScript/React
 - `@vitejs/plugin-react` : Plugin React pour Vite
@@ -519,12 +665,14 @@ Authorization: Bearer <votre_token_jwt>
 ## 🎯 Bonnes Pratiques
 
 ### Architecture et Organisation
+
 - ✅ **Séparation des préoccupations** : Backend et Frontend totalement découplés
 - ✅ **Architecture MVC** : Models, Controllers, Routes clairement séparés
 - ✅ **Composants modulaires** : Components React réutilisables et testables
 - ✅ **Single Responsibility** : Chaque fichier a une responsabilité unique
 
 ### Sécurité
+
 - ✅ **Hashage sécurisé** : Bcrypt pour les mots de passe
 - ✅ **JWT tokens** : Authentification stateless et sécurisée
 - ✅ **Validation Zod** : Schémas partagés entre frontend et backend pour une cohérence garantie
@@ -532,12 +680,14 @@ Authorization: Bearer <votre_token_jwt>
 - ✅ **Variables d'environnement** : Secrets jamais commités dans le code
 
 ### Code Quality
+
 - ✅ **ESLint** : Maintien de la qualité et cohérence du code
 - ✅ **Structure claire** : Dossiers et fichiers organisés logiquement
 - ✅ **Nommage explicite** : Variables et fonctions avec des noms descriptifs
 - ✅ **Comments** : Documentation des parties complexes
 
 ### Performance
+
 - ✅ **Vite build tool** : Build et HMR ultra-rapides
 - ✅ **Code splitting** : Chargement optimisé avec React Router
 - ✅ **Async/Await** : Gestion asynchrone propre
@@ -550,36 +700,48 @@ Authorization: Bearer <votre_token_jwt>
 ### Problèmes Courants
 
 #### ❌ Erreur de connexion à la base de données
+
 ```bash
 Error: connect ECONNREFUSED 127.0.0.1:3306
 ```
+
 **Solution :**
+
 - Vérifiez que MySQL est démarré
 - Vérifiez les credentials dans `.env`
 - Assurez-vous que la base de données existe
 
 #### ❌ CORS Error
-```
+
+```markdown
 Access to XMLHttpRequest blocked by CORS policy
 ```
+
 **Solution :**
+
 - Vérifiez que le backend accepte l'origine du frontend
 - Vérifiez `VITE_API_URL` dans le `.env` du frontend
 
 #### ❌ JWT Token invalide
-```
+
+```markdown
 401 Unauthorized: Invalid token
 ```
+
 **Solution :**
+
 - Vérifiez que `JWT_SECRET` est identique dans votre environnement
 - Reconnectez-vous pour obtenir un nouveau token
 - Vérifiez que le token est bien envoyé dans les headers
 
 #### ❌ Port déjà utilisé
-```
+
+```markdown
 Error: listen EADDRINUSE: address already in use :::5000
 ```
+
 **Solution :**
+
 ```bash
 # Windows
 netstat -ano | findstr :5000
@@ -596,23 +758,27 @@ lsof -ti:5000 | xargs kill -9
 Les contributions sont les bienvenues ! Voici comment vous pouvez contribuer :
 
 ### 1. Fork le projet
+
 ```bash
 git clone https://github.com/votre-username/mars-ai-grp2.git
 cd mars-ai-grp2
 ```
 
 ### 2. Créer une branche
+
 ```bash
 git checkout -b feature/nouvelle-fonctionnalite
 ```
 
 ### 3. Commiter vos changements
+
 ```bash
 git add .
 git commit -m "feat: ajout d'une nouvelle fonctionnalité"
 ```
 
 ### 4. Pousser vers la branche
+
 ```bash
 git push origin feature/nouvelle-fonctionnalite
 ```
@@ -636,6 +802,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 ## 📚 Ressources et Documentation
 
 ### Documentation Officielle
+
 - [React](https://react.dev/) - Documentation React
 - [Express.js](https://expressjs.com/) - Documentation Express
 - [Vite](https://vitejs.dev/) - Documentation Vite
@@ -644,6 +811,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 - [Zod](https://zod.dev/) - Documentation Zod
 
 ### Tutoriels Recommandés
+
 - [JWT Authentication Best Practices](https://jwt.io/introduction)
 - [React Context API](https://react.dev/reference/react/useContext)
 - [Express.js Guide](https://expressjs.com/en/guide/routing.html)
@@ -654,7 +822,7 @@ Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) :
 
 Ce projet est sous licence MIT. Vous êtes libre de l'utiliser, le modifier et le distribuer.
 
-```
+```markdown
 MIT License
 
 Copyright (c) 2026 Marsai
@@ -682,7 +850,7 @@ SOFTWARE.
 
 ## 👨‍💻 Auteurs
 
-Développé avec ❤️ par l'équipe Marsai.
+Développé avec ❤️ par l'équipe MarsAI.
 
 ---
 

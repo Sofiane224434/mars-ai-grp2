@@ -143,7 +143,8 @@
       "ytLink": "YouTube-Link zu diesem Video:",
       "movieTitleeng": "Englischer Filmtitel",
       "description": "Beschreibung Ihres Films:",
-      "synopsisEng": "Ihre Inhaltsangabe auf Englisch."
+      "synopsisEng": "Ihre Inhaltsangabe auf Englisch.",
+      "videofile": "Ihre Videodatei:"
     },
     "step2": {
       "title": "Schritt 2: Erklärung zur Nutzung von KI",
@@ -203,7 +204,8 @@
       "rulesCheck": "Ich akzeptiere die Richtlinien für die Einreichung von Videos beim MarsAI-Festival.",
       "errorTos": "Sie müssen den Nutzungsbedingungen zustimmen.",
       "errorRules": "Sie müssen die Festivalordnung akzeptieren.",
-      "errorAge": "Sie müssen mindestens 18 Jahre alt sein, um teilnehmen zu können."
+      "errorAge": "Sie müssen mindestens 18 Jahre alt sein, um teilnehmen zu können.",
+      "directorlanguage": "Ihre Sprache"
     },
     "validation": {
       "required": "Bitte füllen Sie dieses Feld aus.",

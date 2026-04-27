@@ -9,7 +9,7 @@
     "home": {
         "HeroSection": "L'humain au coeur de l'IA",
         "titles1": "1 MINUTE",
-        "description1": "Chaque film dure 1 minute maximum", 
+        "description1": "Chaque film dure 1 minute maximum",
         "titles2": "1 THÈME",
         "description2": "Chaque film a pour thème commun : Un futur souhaitable",
         "titles3": "1 GAGNANT",
@@ -76,25 +76,25 @@
         "answer4": "Le festival est pensé pour tout le monde ! Que vous soyez un professionnel de la tech, un étudiant, ou simplement curieux de découvrir les dernières avancées en intelligence artificielle, vous trouverez des conférences et des démonstrations adaptées à votre niveau.",
         "question5": "Faut-il s'inscrire à l'avance pour les ateliers pratiques ?",
         "answer5": " L'entrée générale est libre, mais certains ateliers spécifiques nécessitent une inscription sur place, à l'accueil du festival, le jour même. Les places sont attribuées par ordre d'arrivée."
-    },  
-        "header": {
-            "title": "MarsAi",
-            "language": {
-                "change": "Changer la langue",
-                "french": "Français",
-                "english": "Anglais",
-                "spanish": "Espagnol",
-                "arabic": "Arabe",
-                "portuguese": "Portugais",
-                "mandarin": "Mandarin",
-                "german": "Allemand",
-                "hindi": "Hindi",
-                "russian": "Russe",
-                "japanese": "Japonais"
-            }
-        },
-        "footer": {
-            "collaborator": "En collaboration avec",
+    },
+    "header": {
+        "title": "MarsAi",
+        "language": {
+            "change": "Changer la langue",
+            "french": "Français",
+            "english": "Anglais",
+            "spanish": "Espagnol",
+            "arabic": "Arabe",
+            "portuguese": "Portugais",
+            "mandarin": "Mandarin",
+            "german": "Allemand",
+            "hindi": "Hindi",
+            "russian": "Russe",
+            "japanese": "Japonais"
+        }
+    },
+    "footer": {
+        "collaborator": "En collaboration avec",
         "textcontact": "Restez en contact",
         "newsletter": "Inscription à la newsletter",
         "emailplaceholder": "Votre adresse e-mail",
@@ -246,6 +246,7 @@
             "description": "Description de votre film :",
             "synopsis": "Synopsis (résumé) de votre film :",
             "synopsisEng": "Votre synopsis en anglais.",
+            "videofile": "Votre fichier vidéo :",
             "movieLanguage": "Langue de votre film (si a un dialogue ou du texte)",
             "soundbankCheck": "Cette vidéo possède de la musique et/ou utilise une banque son.",
             "soundbankAdd": "AJOUTER UNE SOUNDBANK/MUSIQUE",
@@ -293,6 +294,7 @@
             "email": "Email",
             "phone": "Numéro de téléphone",
             "birthdate": "Date de naissance",
+            "directorlanguage": "Votre langue",
             "country": "Pays de résidence actuel",
             "address": "Votre adresse",
             "address2": "Votre adresse ligne 2",

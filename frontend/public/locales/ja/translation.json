@@ -143,7 +143,8 @@
       "ytLink": "この動画のYouTubeリンク：",
       "movieTitleeng": "映画の英語タイトル",
       "description": "作品の概要：",
-      "synopsisEng": "英語でのあらすじ。"
+      "synopsisEng": "英語でのあらすじ。",
+      "videofile": "動画ファイル："
     },
     "step2": {
       "title": "ステップ2：AI利用に関する申告",
@@ -203,7 +204,8 @@
       "rulesCheck": "MarsAIフェスティバルの動画投稿規定に同意します。",
       "errorTos": "利用規約に同意する必要があります。",
       "errorRules": "フェスティバルの規約に同意する必要があります。",
-      "errorAge": "参加するには、18歳以上である必要があります。"
+      "errorAge": "参加するには、18歳以上である必要があります。",
+      "directorlanguage": "ご使用の言語"
     },
     "validation": {
       "required": "この欄にご記入ください。",

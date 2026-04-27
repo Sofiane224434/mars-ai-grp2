@@ -201,7 +201,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
             <InputSuper type={"file"} accept={"video/mp4,video/x-m4v,video/mov"}
                 getValueFunc={getVideoInfo} required={true}
-                errormessage={errorMovieVideo}></InputSuper>
+                errormessage={errorMovieVideo} label={t("form.step1.videofile")}></InputSuper>
 
             <InputSuper type={"checkbox"} label={t("form.step1.soundbankCheck")} getValueFunc={setSoundbankCheck}
                 errormessage={errorSoundbankCheck}></InputSuper>

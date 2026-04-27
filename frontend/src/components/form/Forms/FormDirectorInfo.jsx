@@ -291,7 +291,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
 
             <InputSuper type={"text"} max_string={100}
                 getValueFunc={setLanguage}
-                label={t("form.step4.languague")}
+                label={t("form.step4.directorlanguage")}
                 errormessage={errorLanguage}></InputSuper>
 
             <InputSuper type={"text"} max_string={100}

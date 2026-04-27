@@ -159,7 +159,8 @@
       "ytLink": "YouTube link to this video:",
       "movieTitleeng": "English title of the film",
       "description": "Description of your film:",
-      "synopsisEng": "Your synopsis in English."
+      "synopsisEng": "Your synopsis in English.",
+      "videofile": "Your video file:"
     },
     "step2": {
       "title": "Step 2: Declaration of AI Use",
@@ -219,7 +220,8 @@
       "rulesCheck": "I agree to the MarsAI Festival&#x27;s video submission guidelines.",
       "errorTos": "You must agree to the terms of use.",
       "errorRules": "You must agree to the festival rules.",
-      "errorAge": "You must be at least 18 years old to participate."
+      "errorAge": "You must be at least 18 years old to participate.",
+      "directorlanguage": "Your language"
     },
     "validation": {
       "required": "Please fill in this field.",

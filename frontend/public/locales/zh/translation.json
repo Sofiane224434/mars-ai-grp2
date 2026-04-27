@@ -143,7 +143,8 @@
       "ytLink": "该视频的YouTube链接：",
       "movieTitleeng": "电影英文片名",
       "description": "影片简介：",
-      "synopsisEng": "您的英文剧情简介。"
+      "synopsisEng": "您的英文剧情简介。",
+      "videofile": "您的视频文件："
     },
     "step2": {
       "title": "步骤 2：人工智能使用声明",
@@ -203,7 +204,8 @@
       "rulesCheck": "我接受MarsAI电影节的视频提交规则。",
       "errorTos": "您必须接受使用条款。",
       "errorRules": "您必须同意遵守电影节的规章制度。",
-      "errorAge": "您必须年满18周岁方可参与。"
+      "errorAge": "您必须年满18周岁方可参与。",
+      "directorlanguage": "您的语言"
     },
     "validation": {
       "required": "请填写此栏。",

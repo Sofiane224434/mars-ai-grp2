@@ -143,7 +143,8 @@
       "ytLink": "Enlace de YouTube a este vídeo:",
       "movieTitleeng": "Título de la película en inglés",
       "description": "Descripción de tu película:",
-      "synopsisEng": "Tu sinopsis en inglés."
+      "synopsisEng": "Tu sinopsis en inglés.",
+      "videofile": "Tu archivo de vídeo:"
     },
     "step2": {
       "title": "Paso 2: Declaración de uso de la IA",
@@ -203,7 +204,8 @@
       "rulesCheck": "Acepto las normas para el envío de vídeos del festival MarsAI.",
       "errorTos": "Debe aceptar las condiciones de uso.",
       "errorRules": "Debes aceptar el reglamento del festival.",
-      "errorAge": "Debes tener al menos 18 años para poder participar."
+      "errorAge": "Debes tener al menos 18 años para poder participar.",
+      "directorlanguage": "Tu idioma"
     },
     "validation": {
       "required": "Rellene este campo.",

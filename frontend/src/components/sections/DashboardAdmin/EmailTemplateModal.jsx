@@ -3,8 +3,6 @@ import toast from 'react-hot-toast';
 import Button from '../../ui/Button.jsx';
 import { getDefaultTemplateId, getTemplatesByScope, EMAIL_TEMPLATES } from '../../../utils/emailTemplates.js';
 
-const JURY_TEMPLATE_VARIABLES = ['{{displayName}}', '{{loginUrl}}', '{{invitationToken}}', '{{expiryDate}}'];
-
 const EmailTemplateModal = ({ onClose, movie, variant = 'movie' }) => {
   const sendTimeoutRef = useRef(null);
   const isJuryVariant = variant === 'jury';
@@ -343,7 +341,7 @@ const EmailTemplateModal = ({ onClose, movie, variant = 'movie' }) => {
 
         {isJuryVariant && (
           <div className="rounded-xl border border-bleu-canard/30 bg-bleu-canard/10 px-3 py-2 text-xs text-bleu-ciel md:text-sm">
-            Variables disponibles : {JURY_TEMPLATE_VARIABLES.join(', ')}
+            Le nom du juré, le lien de connexion sécurisé, le token d&apos;accès personnel et sa date d&apos;expiration sont générés et ajoutés automatiquement avant l&apos;envoi. Inutile de les inclure dans le message.
           </div>
         )}
 

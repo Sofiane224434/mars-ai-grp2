@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import InputSuper from "../InputSuper";
 import { Button } from "../../ui/Button";
 import InputAdditiveSelect from "../InputAdditiveSelect";
+import InputRequirementStar from "../InputRequirementStar";
 
 import { verifyInputText } from "../VerifyInputFuncs";
 
@@ -112,7 +113,11 @@ export default function FormAIUse({ hide = false, getFunction,
     return (
         <div style={hide ? { display: "none" } : null} className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">{t("form.step2.title")}</h2>
-            <div>{t("form.step2.aiUsedFor")}</div>
+            <div>
+                <div className="float-left">{t("form.step2.aiUsedFor")}</div>
+                <InputRequirementStar></InputRequirementStar>
+            </div>
+
 
             <InputSuper type={"checkbox"}
                 label={t("form.step2.aiScenario")} getValueFunc={setAiScenarioCheck}
@@ -144,11 +149,11 @@ export default function FormAIUse({ hide = false, getFunction,
             <InputSuper type={"select"} options={classificationsoptions}
                 label={t("form.step2.classificationLabel")}
                 getValueFunc={setClassification}
-                errormessage={errorClassification}></InputSuper>
+                errormessage={errorClassification} required={true}></InputSuper>
 
             <InputSuper type={"textarea"} max_string={500} getValueFunc={setPrompts}
                 label={t("form.step2.promptsLabel")}
-                errormessage={errorPrompts}></InputSuper>
+                errormessage={errorPrompts} required={true}></InputSuper>
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
                 <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} {t("form.previous")}</Button>

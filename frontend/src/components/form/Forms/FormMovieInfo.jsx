@@ -177,23 +177,23 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
             <InputSuper label={t("form.step1.movieTitle")} type={"text"}
                 getValueFunc={setMovieTitle} errormessage={errorMovieTitle}
-                max_string={100}></InputSuper>
+                max_string={100} required={true}></InputSuper>
 
             <InputSuper label={t("form.step1.movieTitleeng")}
                 type={"text"} getValueFunc={setMovieTitleeng}
-                errormessage={errorMovieTitleeng} max_string={100}></InputSuper>
+                errormessage={errorMovieTitleeng} max_string={100} required={true}></InputSuper>
 
             <InputSuper type={"textarea"} label={t("form.step1.description")}
                 getValueFunc={setDescription} max_string={300}
-                errormessage={errorDescription}></InputSuper>
+                errormessage={errorDescription} required={true}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsis}
                 max_string={500} label={t("form.step1.synopsis")}
-                errormessage={errorSynopsis}></InputSuper>
+                errormessage={errorSynopsis} required={true}></InputSuper>
 
             <InputSuper type={"textarea"} getValueFunc={setSynopsisEng}
                 max_string={500} label={t("form.step1.synopsisEng")}
-                errormessage={errorSynopsisEng}></InputSuper>
+                errormessage={errorSynopsisEng} required={true}></InputSuper>
 
             <InputSuper type={"text"} label={t("form.step1.movieLanguage")}
                 getValueFunc={setMovieLanguage} max_string={100}
@@ -216,7 +216,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
 
             <InputSuper type={"url"} getValueFunc={setYTlink}
                 label={t("form.step1.ytLink")}
-                errormessage={errorYtLink}></InputSuper>
+                errormessage={errorYtLink} required={true}></InputSuper>
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
                 <Button variant="filled-yellow" interactive type="button" onClick={verify}>{t("form.next")} {">"}  </Button>

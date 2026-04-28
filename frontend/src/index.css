@@ -44,8 +44,7 @@ input[type="checkbox"].appearance-none:checked {
 
 @font-face {
   font-family: "Marseille";
-  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")
-    format("opentype");
+  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf") format("opentype");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -243,11 +242,9 @@ p {
     gap: 5px;
     padding: 3px 15px;
     border-radius: 50px;
-    background: linear-gradient(
-      90deg,
-      rgba(253, 255, 107, 1) 0%,
-      rgba(213, 139, 82, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(253, 255, 107, 1) 0%,
+        rgba(213, 139, 82, 1) 100%);
   }
 
   .form-page {
@@ -268,6 +265,29 @@ p {
 
   .form-input-base {
     @apply my-[5px] w-[90%] resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre;
+  }
+
+  .requiredhover {
+    cursor: default;
+    position: relative;
+    margin-left: 8px;
+  }
+
+  .tooltip_form {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
+    bottom: 100%;
+    left: -85px;
+    width: 180px;
+    background-color: black;
+    text-align: center;
+    padding: 2px;
+    border-radius: 5px;
+  }
+
+  .requiredhover:hover .tooltip_form {
+    visibility: visible;
   }
 }
 

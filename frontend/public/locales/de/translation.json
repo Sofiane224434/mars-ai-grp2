@@ -205,7 +205,10 @@
       "errorTos": "Sie müssen den Nutzungsbedingungen zustimmen.",
       "errorRules": "Sie müssen die Festivalordnung akzeptieren.",
       "errorAge": "Sie müssen mindestens 18 Jahre alt sein, um teilnehmen zu können.",
-      "directorlanguage": "Ihre Sprache"
+      "directorlanguage": "Ihre Sprache",
+      "school": "Die Schule, die Sie besuchen (oder in der Vergangenheit besucht haben)",
+      "job": "Ihre derzeitige Tätigkeit (Wenn Sie Student sind, geben Sie bitte „Student“ an)",
+      "phonefix": "Ihre Festnetznummer"
     },
     "validation": {
       "required": "Bitte füllen Sie dieses Feld aus.",

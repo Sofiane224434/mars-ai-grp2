@@ -205,7 +205,10 @@
       "errorTos": "Tem de aceitar os termos de utilização.",
       "errorRules": "Tem de aceitar o regulamento do festival.",
       "errorAge": "Tem de ter pelo menos 18 anos para poder participar.",
-      "directorlanguage": "O seu idioma"
+      "directorlanguage": "O seu idioma",
+      "school": "A escola que frequenta (ou frequentou no passado)",
+      "job": "O seu emprego atual (Se for estudante, indique «estudante»)",
+      "phonefix": "O seu número de telefone fixo"
     },
     "validation": {
       "required": "Preencha este campo.",

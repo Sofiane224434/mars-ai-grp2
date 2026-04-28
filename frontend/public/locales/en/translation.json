@@ -221,7 +221,10 @@
       "errorTos": "You must agree to the terms of use.",
       "errorRules": "You must agree to the festival rules.",
       "errorAge": "You must be at least 18 years old to participate.",
-      "directorlanguage": "Your language"
+      "directorlanguage": "Your language",
+      "school": "The school you currently attend (or attended in the past)",
+      "job": "Your current job (If you are a student, please indicate &quot;student&quot;)",
+      "phonefix": "Your landline number"
     },
     "validation": {
       "required": "Please fill in this field.",

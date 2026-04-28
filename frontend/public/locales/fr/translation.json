@@ -311,6 +311,9 @@
             "tosCheck": "J'accepte les conditions d'utilisation.",
             "rulesCheck": "J'accepte le règlement d'envoi de vidéos du festival MarsAI.",
             "errorTos": "Vous devez accepter les conditions d'utilisation.",
+            "school": "L'école que vous fréquentez (ou avez fréquenté dans le passé)",
+            "job": "Votre travail actuel (Si vous êtes étudiant, rensignez étudiant)",
+            "phonefix": "Votre numéro de téléphone fix",
             "errorRules": "Vous devez accepter le règlement du festival.",
             "errorAge": "Vous devez avoir au moins 18 ans pour pouvoir participer."
         },

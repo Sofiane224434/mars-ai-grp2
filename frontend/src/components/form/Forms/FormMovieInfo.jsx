@@ -61,7 +61,7 @@ export default function FormMovieInfo({ hide = false, getFunction,
     }
 
     // useEffect(() => {
-    //     sendData();
+    //     console.log(alldata);
     // }, [alldata])
 
     const ytregex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be)\/(?:[\w-]+\?v=|embed\/|v\/)?[\w-]+(\S+)?$/i;

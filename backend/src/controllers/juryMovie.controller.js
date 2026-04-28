@@ -70,6 +70,16 @@ export const validateMovieStatus = async (req, res) => {
         message: 'Film introuvable.'
       });
     }
+    if (
+      !isJudgmentPhase(req)
+      && !isTop5Phase(req)
+      && [2, 3, 4].includes(currentStatusId)
+    ) {
+      return res.status(409).json({
+        success: false,
+        message: 'Vous avez déjà statué sur ce film. Le vote est verrouillé.'
+      });
+    }
 
     if (
       isJudgmentPhase(req)

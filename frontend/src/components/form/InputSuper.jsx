@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import InputLengthUI from "./InputLengthUI";
+import InputRequirementStar from "./InputRequirementStar";
 
 
 const acceptable_types = ["text", "file", "tel", "email", "number", "select", "textarea",
@@ -27,7 +28,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         ? "h-5 w-5 shrink-0 cursor-pointer appearance-none rounded border-2 border-jaune-souffre bg-noir-bleute checked:bg-jaune-souffre checked:border-jaune-souffre transition"
         : "w-full resize-none rounded-[7px] border-[3px] border-gris-anthracite bg-noir-bleute p-2.5 text-jaune-souffre outline-none transition duration-300 focus:border-jaune-souffre";
     const classDefaultContainer = type == "checkbox" ? "flex items-center gap-2.5 py-1" : "";
-    const classDefaultLabel = "text-jaune-souffre";
+    const classDefaultLabel = "text-jaune-souffre float-left";
     const classBaseContainer = "w-full";
     const classErrorMessage = "text-red-500";
     const classInputError = "border-red-500 focus:border-red-500";
@@ -144,8 +145,11 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
             if (Array.isArray(options)) {
                 return (
                     <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
-                        {label && <div className={classLabel ? classLabel : classDefaultLabel}
-                        >{label}</div>}
+                        {label &&
+                            <div>
+                                <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>
+                                {required && <InputRequirementStar></InputRequirementStar>}
+                            </div>}
                         <select required={required} name={name} value={value}
                             onChange={handleChange}
                             className={classUseInput}>
@@ -167,8 +171,10 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
     if (type === "textarea") {
         return (
             <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
-                {label && <div className={classLabel ? classLabel : classDefaultLabel}
-                >{label}</div>}
+                {label && <div>
+                    <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>
+                    {required && <InputRequirementStar></InputRequirementStar>}
+                </div>}
                 <textarea name={name} value={value} maxLength={max_string} minLength={min_string}
                     placeholder={placeholder} required={required} onChange={handleChange}
                     className={classUseInput}></textarea>
@@ -188,7 +194,10 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
                         required={required} value={value} onChange={handleChange}
                         className={classUseInput}
                     ></input>
-                    {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+                    {label && <div>
+                        <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>
+                        {required && <InputRequirementStar></InputRequirementStar>}
+                    </div>}
                 </div>
                 {errormessage && <div className={classErrorMessage}>{errormessage}</div>}
             </div>
@@ -205,7 +214,10 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
         return (
             <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
-                {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+                {label && <div>
+                    <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>
+                    {required && <InputRequirementStar></InputRequirementStar>}
+                </div>}
                 <div className="flex items-center gap-3">
                     <label className={fileButtonClass}>
                         {t("form.file.choose")}
@@ -226,7 +238,11 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
 
     return (
         <div className={`${classBaseContainer} ${classContainer ? classContainer : classDefaultContainer}`.trim()}>
-            {label && <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>}
+            {label &&
+                <div>
+                    <div className={classLabel ? classLabel : classDefaultLabel}>{label}</div>
+                    {required && <InputRequirementStar></InputRequirementStar>}
+                </div>}
             <input name={name} type={type} max={max_numdate} maxLength={max_string}
                 accept={accept} min={min_numdate} minLength={min_string} placeholder={placeholder}
                 required={required} value={value} onChange={handleChange}

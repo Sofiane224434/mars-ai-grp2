@@ -124,7 +124,7 @@ export default function InputAdditive({ name, label, addlimit = 5, getValuesFunc
         <div className={classContainer ? classContainer : classDefaultContainer}>
             {label && <div className={classLabel ? classLabel : classDefaultLabel}> {label} </div>}
             <input className={classInput ? classInput : classDefaultInput}
-                onChange={(e) => { setFirstInput(e.target.value) }} name={1} type="text"
+                onChange={updateFirstInput} name={1} type="text"
                 value={firstInput}></input>
             {/* Map des valeurs additives */}
             {myValues.map((inp, index) => {

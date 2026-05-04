@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
 import { Button } from "../../ui/Button";
+import InputRequirementStar from "../InputRequirementStar";
 
 import { verifyImage } from "../VerifyInputFuncs";
 
@@ -105,13 +106,16 @@ export default function FormMultimedia({ hide = false, getFunction,
             <InputSuper type={"file"}
                 getValueFunc={setThumbnail}
                 label={t("form.step3.thumbnail")} accept={"image/png, image/jpeg"}
-                errormessage={errorThumbnail}
+                errormessage={errorThumbnail} required={true}
             ></InputSuper>
 
+            <div>
+                <div className="float-left">{t("form.step3.screenshots")}</div>
+                <InputRequirementStar></InputRequirementStar>
+            </div>
 
             <InputSuper type={"file"}
                 getValueFunc={setScreenshot1}
-                label={t("form.step3.screenshots")}
                 accept={"image/png, image/jpeg"}></InputSuper>
 
             <InputSuper type={"file"}

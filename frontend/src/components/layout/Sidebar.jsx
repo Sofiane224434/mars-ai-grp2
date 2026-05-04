@@ -188,7 +188,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             type="button"
             variant="email-cancel"
             interactive
-            className="w-11/12 max-w-xs justify-center text-sm"
+            className="w-auto px-6 justify-center text-sm mt-3 whitespace-nowrap"
             onClick={handleLogout}
             disabled={isLoggingOut}
           >

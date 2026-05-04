@@ -96,12 +96,6 @@ export const adminService = {
       throw err;
     }
 
-    if (Number(movie.emailAlreadySent) === 1) {
-      const err = new Error("L'email officiel a déjà été envoyé pour ce film.");
-      err.statusCode = 400;
-      throw err;
-    }
-
     await sendCustomEmail({
       to: movie.email,
       name: `${movie.firstname} ${movie.lastname}`,

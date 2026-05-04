@@ -221,7 +221,7 @@ function MovieDetail() {
     ? ![5, 6].includes(movie.statusId)
     : isJudgmentPhase
       ? ![4, 5].includes(movie.statusId)
-      : ![1, 4].includes(movie.statusId);
+      : movie.statusId !== 1;
   const canPromoteTop50 = isJudgmentPhase ? movie.statusId === 4 : movie.statusId === 4;
   const canRemoveTop50 = isJudgmentPhase && movie.statusId === 5;
   const canPromoteTop5 = isTop5Phase && movie.statusId === 5;
@@ -277,7 +277,7 @@ function MovieDetail() {
             <Status variant={currentStatus.variant}>{currentStatus.label}</Status>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
             {!isJudgmentPhase && !isTop5Phase && (
               <>
                 <Button interactive variant="approved-jury" onClick={() => initiateVote(4)} disabled={isVoting || isVoteLocked}>
@@ -315,9 +315,9 @@ function MovieDetail() {
             ) : null}
           </div>
 
-          {!isJudgmentPhase && !isTop5Phase && movie.statusId === 4 && (
+          {!isJudgmentPhase && !isTop5Phase && isVoteLocked && (
             <p className="text-gris-magneti text-xs mt-4 italic">
-              Film validé : vous pouvez le passer en Top 50 si vous le souhaitez.
+              Vous avez déjà statué sur ce film. Le vote est verrouillé.
             </p>
           )}
 
@@ -361,12 +361,6 @@ function MovieDetail() {
                 Position actuelle : {movie.top5Rank ? `${movie.top5Rank}${movie.top5Rank === 1 ? 'er' : 'e'}` : 'aucune'}.
               </p>
             </div>
-          )}
-
-          {!isJudgmentPhase && !isTop5Phase && isVoteLocked && movie.statusId !== 4 && (
-            <p className="text-gris-magneti text-xs mt-4 italic">
-              Vous avez déjà statué sur ce film. Le vote est verrouillé.
-            </p>
           )}
         </div>
 

@@ -44,7 +44,8 @@ input[type="checkbox"].appearance-none:checked {
 
 @font-face {
   font-family: "Marseille";
-  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf") format("opentype");
+  src: url("./assets/fonts/fonnts.com-Marseille_SemiBold.otf")
+    format("opentype");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -153,8 +154,8 @@ p {
   }
 
   .filled-yellow {
-    width: 168px;
-    height: 70px;
+    width: 134px;
+    height: 63px;
     font-weight: 400;
     color: var(--color-ocre-rouge);
   }
@@ -242,9 +243,11 @@ p {
     gap: 5px;
     padding: 3px 15px;
     border-radius: 50px;
-    background: linear-gradient(90deg,
-        rgba(253, 255, 107, 1) 0%,
-        rgba(213, 139, 82, 1) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(253, 255, 107, 1) 0%,
+      rgba(213, 139, 82, 1) 100%
+    );
   }
 
   .form-page {

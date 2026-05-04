@@ -28,10 +28,10 @@
     }
   },
   "faq": {
-    "title": "Häufig gestellte Fragen (FAQ) – MarsAi-Festival",
+    "title": "Häufig gestellte Fragen (FAQ) – MarsAI-Festival",
     "disclaimer": "Vielleicht finden Sie die Antwort auf Ihre Frage weiter unten! ",
     "informations-title": "Praktische Informationen:",
-    "informations-content": "Wo und wann findet das MarsAi-Festival statt? Das Festival dauert zwei Tage, am Freitag, den 5. Juni, und am Sonntag, den 7. Juni. Die Veranstaltung findet im Dock des Suds (12 Rue Urbain V, 13002 Marseille) statt. Die Tore öffnen um 10:00 Uhr und schließen um 19:00 Uhr.",
+    "informations-content": "Wo und wann findet das MarsAI-Festival statt? Das Festival dauert zwei Tage, am Freitag, den 5. Juni, und am Sonntag, den 7. Juni. Die Veranstaltung findet im Dock des Suds (12 Rue Urbain V, 13002 Marseille) statt. Die Tore öffnen um 10:00 Uhr und schließen um 19:00 Uhr.",
     "question1": "Wie komme ich dorthin?",
     "answer1-1": "Mit öffentlichen Verkehrsmitteln: U-Bahn-Linie 2 (Haltestelle Désirée Clary) oder Straßenbahn T2/T3 (Haltestelle Arenc Le Silo).",
     "answer1-2": "Mit dem Auto: In unmittelbarer Nähe befinden sich gebührenpflichtige öffentliche Parkplätze (Indigo Quai d'Arenc, Espercieux).",
@@ -39,17 +39,17 @@
     "answer1-4": "Ist der Veranstaltungsort für Menschen mit eingeschränkter Mobilität zugänglich? Ja, das Dock des Suds ist ebenerdig und vollständig barrierefrei. Im Gebäude stehen behindertengerechte Sanitäranlagen zur Verfügung.",
     "access-title": "🎟️ Zugang und Anmeldung 🎟️",
     "question2": "Muss ich ein Ticket kaufen oder reservieren? ",
-    "answer2": "Nein, der Eintritt zum MarsAi-Festival ist völlig kostenlos und es sind keine Eintrittskarten erforderlich. Sie können jederzeit vorbeikommen, wann immer Sie möchten.",
+    "answer2": "Nein, der Eintritt zum MarsAI-Festival ist völlig kostenlos und es sind keine Eintrittskarten erforderlich. Sie können jederzeit vorbeikommen, wann immer Sie möchten.",
     "question3": "Gibt es eine maximale Belegung?",
     "answer3": "Der Eintritt ist frei, hängt jedoch von der Kapazität des Dock des Suds ab. Bei sehr großem Andrang kann aus Sicherheitsgründen am Eingang eine Warteschlange gebildet werden.",
     "programation-title": "🤖 Programm und Workshops 🤖 ",
-    "question4": "An wen richtet sich das MarsAi-Festival?",
+    "question4": "An wen richtet sich das MarsAI-Festival?",
     "answer4": "Das Festival richtet sich an alle! Egal, ob Sie in der Tech-Branche tätig sind, studieren oder einfach nur neugierig auf die neuesten Entwicklungen im Bereich der künstlichen Intelligenz sind – hier finden Sie Vorträge und Vorführungen, die genau auf Ihr Niveau zugeschnitten sind.",
     "question5": "Muss man sich für die praktischen Workshops im Voraus anmelden?",
     "answer5": " Der allgemeine Eintritt ist frei, für bestimmte Workshops ist jedoch eine Anmeldung vor Ort am Festivaltag am Empfang erforderlich. Die Plätze werden in der Reihenfolge der Ankunft vergeben."
   },
   "header": {
-    "title": "MarsAi",
+    "title": "MarsAI",
     "language": {
       "change": "Sprache ändern",
       "french": "Deutsch",

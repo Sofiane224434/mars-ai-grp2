@@ -39,7 +39,7 @@ const parseJsonField = (rawValue, fallbackValue, fieldName) => {
   // Tolere les payloads encapsules entre quotes ou echappes en multipart.
   const withoutOuterQuotes =
     (normalizedValue.startsWith("\"") && normalizedValue.endsWith("\"")) ||
-    (normalizedValue.startsWith("'") && normalizedValue.endsWith("'"))
+      (normalizedValue.startsWith("'") && normalizedValue.endsWith("'"))
       ? normalizedValue.slice(1, -1)
       : normalizedValue;
 
@@ -292,7 +292,7 @@ export const addMovie = async (req, res) => {
     const createdMovie = await movieModel.createMovieSubmission(submissionPayload);
 
     return res.status(201).json({
-      message: "Film envoye avec succes.",
+      message: "Film envoyé avec succes.",
       data: {
         movieId: createdMovie.movieId,
         youtubeUrl,

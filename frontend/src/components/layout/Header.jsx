@@ -7,16 +7,16 @@ import LanguageIcon from '../../assets/icons/language-svgrepo-com.svg?react';
 import Navbar from './Navbar';
 
 const LANGUAGES = [
-    { code: 'fr', labelKey: 'header.language.french' },
-    { code: 'en', labelKey: 'header.language.english' },
-    { code: 'es', labelKey: 'header.language.spanish' },
-    { code: 'ar', labelKey: 'header.language.arabic' },
-    { code: 'pt', labelKey: 'header.language.portuguese' },
-    { code: 'zh', labelKey: 'header.language.mandarin' },
-    { code: 'de', labelKey: 'header.language.german' },
-    { code: 'hi', labelKey: 'header.language.hindi' },
-    { code: 'ru', labelKey: 'header.language.russian' },
-    { code: 'ja', labelKey: 'header.language.japanese' },
+    { code: 'fr', labelKey: 'Français' },
+    { code: 'en', labelKey: 'English' },
+    { code: 'es', labelKey: 'Español' },
+    { code: 'ar', labelKey: 'العربية' },
+    { code: 'pt', labelKey: 'Português' },
+    { code: 'zh', labelKey: '普通话' },
+    { code: 'de', labelKey: 'Deutsch' },
+    { code: 'hi', labelKey: 'हिंदी' },
+    { code: 'ru', labelKey: 'Русскийs' },
+    { code: 'ja', labelKey: '日本語' },
 ];
 
 function Header() {
@@ -84,7 +84,7 @@ function Header() {
                                         onClick={() => changeLanguage(code)}
                                         className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-reglisse transition ${activeLanguage === code ? 'text-jaune-souffre' : 'text-white'}`}
                                     >
-                                        {t(labelKey)}
+                                        {labelKey}
                                     </button>
                                 ))}
                             </div>

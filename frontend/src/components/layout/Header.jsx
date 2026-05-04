@@ -1,5 +1,5 @@
 // components/Header.jsx
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import MarsLogo from '../../assets/icons/Marsai.svg?react';
@@ -30,6 +30,27 @@ function Header() {
         setIsLanguageOpen(false);
     };
 
+    //Contient la référence de l'élément qui affiche tous les boutons d'options de langues
+    const dropDownRef = useRef(null);
+
+    //Fonction à utiliser lors d'un click qui peut être en dehors du tableau des langues
+    function handleClickOutisde(e) {
+        //Si la cible événement (clique) ne contient pas la ref (tableau de langues)...
+        if (!dropDownRef.current?.contains(e.target)) {
+            setIsLanguageOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        //Si le menu est ouvert, écoute l'événement clique et utilise la fonction
+        if (isLanguageOpen) {
+            document.addEventListener("mousedown", handleClickOutisde);
+        }
+
+        //Une fois terminé, enlène l'eventlistener
+        return () => document.removeEventListener("mousedown", handleClickOutisde);
+    }, [isLanguageOpen])
+
     return (
         <>
             <header
@@ -54,7 +75,8 @@ function Header() {
                         </button>
 
                         {isLanguageOpen && (
-                            <div className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-y-auto z-20 min-w-36 max-h-56">
+                            <div ref={dropDownRef} className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-y-auto z-20 min-w-36 max-h-56"
+                            >
                                 {LANGUAGES.map(({ code, labelKey }) => (
                                     <button
                                         key={code}

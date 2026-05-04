@@ -94,7 +94,7 @@ function Movies() {
         return (
             <div className="min-h-screen bg-gris-anthracite text-white">
                 <section className="flex flex-col items-center justify-center px-6 py-28 text-center">
-                    <h2 className="text-3xl font-bold md:text-4xl">{t("movies.empty-title")}</h2>
+                    <h2 className="color-gradient-yellow-green-blue text-3xl font-bold md:text-4xl">{t("movies.empty-title")}</h2>
                     <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-white/50">
                         {t("movies.empty-description")}
                     </p>
@@ -113,7 +113,7 @@ function Movies() {
             <section className="px-6 py-16">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-10 text-center">
-                        <h2 className="text-3xl font-bold md:text-4xl">
+                        <h2 className="movie-page-title-gradient text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
                             {isWinnersPhase ? t("movies.results-title") : t("movies.phase-top50")}
                         </h2>
                         <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-white/50">
@@ -132,7 +132,7 @@ function Movies() {
                             {isWinnersPhase && top5Movies.length > 0 && (
                                 <div className="mb-16">
                                     <div className="mb-8 text-center">
-                                        <h3 className="text-2xl font-bold md:text-3xl">
+                                        <h3 className="movie-page-title-gradient text-3xl sm:text-4xl md:text-5xl">
                                             {t("movies.top5-title")}
                                         </h3>
                                         <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-white/50 md:text-lg">
@@ -142,7 +142,7 @@ function Movies() {
 
                                     {podiumMovies.length > 0 && (
                                         <div className="mb-10 rounded-3xl border border-jaune-souffre/20 bg-[#1e2124]/70 p-6 md:p-8">
-                                            <h4 className="text-center text-xl font-bold text-jaune-souffre md:text-2xl mb-6">
+                                            <h4 className="color-gradient-yellow-green-blue text-center text-xl font-bold md:text-2xl mb-6">
                                                 {t("movies.podium-title")}
                                             </h4>
                                             <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-end">
@@ -232,12 +232,9 @@ function Movies() {
 
                             <div>
                                 <div className="mb-8 text-center">
-                                    <h3 className="text-2xl font-bold md:text-3xl">
+                                    <h3 className="movie-page-title-gradient text-3xl sm:text-4xl md:text-5xl">
                                         {t("movies.top50-title")}
                                     </h3>
-                                    <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-white/50 md:text-lg">
-                                        {t("movies.top50-description")}
-                                    </p>
                                 </div>
 
                                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center pb-8">

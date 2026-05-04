@@ -131,6 +131,16 @@ p {
     @apply bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent;
   }
 
+  .color-gradient-yellow-green-blue {
+    @apply bg-linear-to-r from-[#d9de96] via-[#0b714a] to-[#408ad8] bg-clip-text text-transparent;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.14);
+  }
+
+  .movie-page-title-gradient {
+    @apply bg-linear-to-r from-[#FFF36B] via-[#68F0B1] to-[#28D7FF] bg-clip-text text-transparent font-black uppercase tracking-tight;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.18), 0 0 18px rgba(40, 215, 255, 0.15);
+  }
+
   .concept-festival {
     @apply pt-10 px-10 mt-8 text-5xl md:text-6xl font-black uppercase tracking-widest bg-linear-to-r from-[#FFFC5D] via-[#2DE2FF] to-[#149BFF] bg-clip-text text-transparent drop-shadow-sm;
   }

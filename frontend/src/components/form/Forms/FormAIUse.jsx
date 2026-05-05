@@ -61,8 +61,9 @@ export default function FormAIUse({ hide = false, getFunction,
 
     //Options pour inputsuper classification
     const classificationsoptions = [
-        <option value={"allai"}>{t("form.step2.classificationAllAI")}</option>,
-        <option value={"hybrid"}>{t("form.step2.classificationHybrid")}
+        <option value={""} disabled hidden>Sélectionnez une classification...</option>,
+        <option value={"100% IA"}>{t("form.step2.classificationAllAI")}</option>,
+        <option value={"Hybride"}>{t("form.step2.classificationHybrid")}
         </option>,
     ];
 
@@ -78,8 +79,13 @@ export default function FormAIUse({ hide = false, getFunction,
 
         let error = false;
 
-        if (!aiscenarioCheck && !aivideoCheck && !aipostprodCheck) {
-            setErrorAiCheck(t("form.step2.errorAtLeastOne"))
+        let hasActiveAi = false;
+        if (aiscenarioCheck && Array.isArray(aiscenarioData) && aiscenarioData.filter(v => v.trim() !== "").length > 0) hasActiveAi = true;
+        if (aivideoCheck && Array.isArray(aivideoData) && aivideoData.filter(v => v.trim() !== "").length > 0) hasActiveAi = true;
+        if (aipostprodCheck && Array.isArray(aipostprodData) && aipostprodData.filter(v => v.trim() !== "").length > 0) hasActiveAi = true;
+
+        if (!hasActiveAi) {
+            setErrorAiCheck(t("form.step2.errorAtLeastOne"));
             error = true;
         }
 

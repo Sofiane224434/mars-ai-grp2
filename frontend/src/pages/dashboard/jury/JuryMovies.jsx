@@ -52,7 +52,7 @@ function JuryMovies() {
 
   // 2. État pour la Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 6; // Changé à 6 pour mieux coller à une grille de 2 ou 3 colonnes
+  const ITEMS_PER_PAGE = 18;
 
   // 3. Hook d'API pour récupérer les films
   const { data: rawData, isLoading, error: apiError, execute: fetchMovies } = useApi();

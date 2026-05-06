@@ -79,130 +79,133 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
     `mt-1 relative min-h-screen h-full transition-all duration-500 ease-in-out ${className}`.trim();
   const containerStyle = collapsed ? { width: "110px" } : { width: "320px" };
   const contentClass =
-    `${currentVariant.content} flex-1 px-2 items-center gap-0 ${
-      collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
-    }`.trim();
+    `${currentVariant.content} min-h-0 flex-1 overflow-y-auto px-2 items-center gap-0 ${collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
+      }`.trim();
 
   return (
     <>
       {/* ── MOBILE : barre déroulante légère du haut ── */}
       <div
-        className={`fixed top-0 left-0 right-0 max-h-80 z-50 bg-noir-bleute transition-all duration-300 lg:hidden overflow-hidden ${
-          mobileOpen
+        className={`fixed top-0 left-0 right-0 max-h-80 z-50 bg-noir-bleute transition-all duration-300 lg:hidden overflow-hidden ${mobileOpen
             ? "translate-y-0 shadow-lg"
             : "-translate-y-full pointer-events-none"
-        }`}
+          }`}
       >
-        {/* En-tête fixe avec bouton fermer */}
-        <div className="flex items-center justify-end px-3 pt-2 pb-1 shrink-0">
-          <button
-            type="button"
-            className="h-8 w-8 flex items-center justify-center rounded-full border border-white/40 bg-noir-bleute/80 text-white hover:bg-bleu-ocean/70 transition-colors"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Fermer le menu"
-          >
-            <span className="relative block h-3 w-3">
-              <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded bg-white" />
-              <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded bg-white" />
-            </span>
-          </button>
-        </div>
-
-        {/* Contenu du menu */}
-        <nav className="flex flex-wrap justify-center gap-2 px-3 pb-3 overflow-y-auto max-h-64">
-          <Link
-            to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}
-          >
-            <Button
-              variant="btn-panel-home"
-              iconImg={panel_icon_home}
-              {...mobileIconOnlyProps}
+        <div className="flex max-h-80 flex-col">
+          {/* En-tête fixe avec bouton fermer */}
+          <div className="flex items-center justify-end px-3 pt-2 pb-1 shrink-0">
+            <button
+              type="button"
+              className="h-8 w-8 flex items-center justify-center rounded-full border border-white/40 bg-noir-bleute/80 text-white hover:bg-bleu-ocean/70 transition-colors"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Fermer le menu"
             >
-              ACCUEIL
-            </Button>
-          </Link>
+              <span className="relative block h-3 w-3">
+                <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded bg-white" />
+                <span className="absolute left-1/2 top-1/2 h-0.5 w-3.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded bg-white" />
+              </span>
+            </button>
+          </div>
 
-          {!isJuryPanel && (
-            <Link to="/dashboard/admin/movies">
-              <Button
-                variant="btn-panel"
-                iconImg={panel_icon_assign1}
-                {...mobileIconOnlyProps}
+          {/* Contenu du menu */}
+          <nav className="flex-1 overflow-y-auto px-3 pb-2">
+            <div className="flex flex-wrap justify-center gap-2">
+              <Link
+                to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}
               >
-                GÉRER LES VIDEOS
-              </Button>
-            </Link>
-          )}
+                <Button
+                  variant="btn-panel-home"
+                  iconImg={panel_icon_home}
+                  {...mobileIconOnlyProps}
+                >
+                  ACCUEIL
+                </Button>
+              </Link>
 
-          {!isJuryPanel && (
-            <Link to="/dashboard/admin/email-confirmation">
+              {!isJuryPanel && (
+                <Link to="/dashboard/admin/movies">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_assign1}
+                    {...mobileIconOnlyProps}
+                  >
+                    GÉRER LES VIDEOS
+                  </Button>
+                </Link>
+              )}
+
+              {!isJuryPanel && (
+                <Link to="/dashboard/admin/email-confirmation">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_mail}
+                    {...mobileIconOnlyProps}
+                  >
+                    CONFIRMATION EMAIL
+                  </Button>
+                </Link>
+              )}
+
+              {isJuryPanel && (
+                <Link to={`/dashboard/jury/${juryId}/movies`}>
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_not_watched}
+                    {...mobileIconOnlyProps}
+                  >
+                    JUGER LES VIDÉOS
+                  </Button>
+                </Link>
+              )}
+
+              {!isJuryPanel && (
+                <Link to="/dashboard/admin/invite-jury">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_add}
+                    {...mobileIconOnlyProps}
+                  >
+                    AJOUTER JURY
+                  </Button>
+                </Link>
+              )}
+
+              {!isJuryPanel && (
+                <Link to="/dashboard/admin/edit-site">
+                  <Button
+                    variant="btn-panel"
+                    iconImg={panel_icon_setting}
+                    {...mobileIconOnlyProps}
+                  >
+                    MODIFIER LE SITE
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </nav>
+
+          <div className="shrink-0 border-t border-white/10 px-3 pb-3 pt-2">
+            <div className="flex justify-center">
               <Button
-                variant="btn-panel"
-                iconImg={panel_icon_mail}
-                {...mobileIconOnlyProps}
+                type="button"
+                variant="email-cancel"
+                interactive
+                className="w-11/12 max-w-xs justify-center text-sm"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
               >
-                CONFIRMATION EMAIL
+                {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
               </Button>
-            </Link>
-          )}
-
-          {isJuryPanel && (
-            <Link to={`/dashboard/jury/${juryId}/movies`}>
-              <Button
-                variant="btn-panel"
-                iconImg={panel_icon_not_watched}
-                {...mobileIconOnlyProps}
-              >
-                JUGER LES VIDÉOS
-              </Button>
-            </Link>
-          )}
-
-          {!isJuryPanel && (
-            <Link to="/dashboard/admin/invite-jury">
-              <Button
-                variant="btn-panel"
-                iconImg={panel_icon_add}
-                {...mobileIconOnlyProps}
-              >
-                AJOUTER JURY
-              </Button>
-            </Link>
-          )}
-
-          {!isJuryPanel && (
-            <Link to="/dashboard/admin/edit-site">
-              <Button
-                variant="btn-panel"
-                iconImg={panel_icon_setting}
-                {...mobileIconOnlyProps}
-              >
-                MODIFIER LE SITE
-              </Button>
-            </Link>
-          )}
-
-          <div className="w-full border-t border-noir-bleute" />
-
-          <Button
-            type="button"
-            variant="email-cancel"
-            interactive
-            className="w-11/12 max-w-xs justify-center text-sm"
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          >
-            {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
-          </Button>
-        </nav>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Hamburger – mobile uniquement */}
       <button
         type="button"
-        className={`fixed top-4 left-4 z-40 lg:hidden flex flex-col gap-1.5 items-center justify-center w-10 h-10 rounded-md bg-bleu-ocean transition-all duration-300 ${
-          mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        className={`fixed top-4 left-4 z-40 lg:hidden flex flex-col gap-1.5 items-center justify-center w-10 h-10 rounded-md bg-bleu-ocean transition-all duration-300 ${mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
         onClick={() => setMobileOpen(true)}
         aria-label="Ouvrir le menu"
         aria-expanded={mobileOpen}
@@ -258,7 +261,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
               <div className={contentClass}>
                 <div
-                  className={`w-full flex flex-col items-center pb-28 ${collapsed ? "gap-3" : ""}`}
+                  className={`w-full flex flex-col items-center pb-6 ${collapsed ? "gap-3" : ""}`}
                 >
                   <Link
                     to={
@@ -354,44 +357,84 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                     </Link>
                   )}
                 </div>
-              </div>
-
-              <div className="absolute bottom-6 left-1/2 z-50 -translate-x-1/2">
-                {collapsed ? (
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    aria-label="Déconnexion"
-                    className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="email-cancel"
-                    interactive
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                  >
-                    {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
-                  </Button>
+                {!isJuryPanel && (
+                  <div className="w-full shrink-0 px-2 pb-6 pt-3 flex justify-center">
+                    {collapsed ? (
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        aria-label="Déconnexion"
+                        className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                          />
+                        </svg>
+                      </button>
+                    ) : (
+                      <Button
+                        type="button"
+                        variant="email-cancel"
+                        interactive
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                      >
+                        {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                      </Button>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {isJuryPanel && (
+                <div className="mt-auto shrink-0 px-2 pb-6 flex justify-center">
+                  {collapsed ? (
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                      aria-label="Déconnexion"
+                      className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="email-cancel"
+                      interactive
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                    >
+                      {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

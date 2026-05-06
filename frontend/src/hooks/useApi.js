@@ -9,7 +9,7 @@ const useApi = () => {
 
     //Fonction d'exécution asynchrone mémorisée avec useCallback
     const execute = useCallback(async (apiCall) => {
-       
+
         setIsLoading(true);
         setError(null);
 
@@ -26,22 +26,22 @@ const useApi = () => {
 
         } catch (err) {
             // Échec : Capture de l'erreur (gestion propre des erreurs Axios vs Natives)
-            const errorMessage = 
+            const errorMessage =
                 err.response?.data?.message ||
                 err.message ||
                 "Une erreur inattendue est survenue.";
 
-                setError(errorMessage);
+            setError(errorMessage);
 
-                // On rejette l'erreur pour permettre au composant d'afficher un Toast si besoin
-                throw err;
+            // On rejette l'erreur pour permettre au composant d'afficher un Toast si besoin
+            throw err;
         } finally {
             setIsLoading(false);
         }
     }, []);
     // 3. Valeurs retournées (API du Hook)
-  return { data, isLoading, error, execute, setData };
-    
+    return { data, isLoading, error, execute, setData };
+
 };
 
 export default useApi;

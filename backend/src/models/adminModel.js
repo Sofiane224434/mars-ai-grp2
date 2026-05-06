@@ -2,7 +2,7 @@
 import { query } from '../config/db.js';
 
 const countTotalMovies = async () => {
- 
+
   const rows = await query(`SELECT COUNT(id) as total FROM movies`);
   return rows[0].total;
 };
@@ -32,7 +32,7 @@ const countPendingEmails = async () => {
     SELECT COUNT(DISTINCT m.id) as count
     FROM movies m
     LEFT JOIN email e ON m.id = e.movie_id AND e.sent_at IS NOT NULL
-    WHERE m.status IN (2, 3, 4)
+    WHERE m.status != 1
       AND e.id IS NULL
   `);
   return rows[0].count;

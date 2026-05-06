@@ -148,7 +148,7 @@ function MovieCard({
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <p className="text-base sm:text-lg leading-snug">Assignée à :</p>
                     {uniqueAssignedJurors.map((juryName) => (
-                      <span key={juryName} className="rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white">
+                          <span key={juryName} className="max-w-full break-all rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white">
                         {juryName}
                       </span>
                     ))}
@@ -221,7 +221,7 @@ function MovieCard({
                 {uniqueAssignedJurors.map((juryName) => (
                   <span
                     key={juryName}
-                    className="rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white"
+                    className="max-w-full break-all rounded-sm bg-bleu-ocean px-2 py-1 text-base text-white"
                   >
                     {juryName}
                   </span>

@@ -2,7 +2,7 @@
 import { query } from '../config/db.js';
 
 const countTotalMovies = async () => {
-  // 👉 CORRECTION : Plus de crochets [ ] autour de rows
+
   const rows = await query(`SELECT COUNT(id) as total FROM movies`);
   return rows[0].total;
 };
@@ -29,15 +29,11 @@ const getJuryProgress = async () => {
 
 const countPendingEmails = async () => {
   const rows = await query(`
-    SELECT COUNT(*) as count
+    SELECT COUNT(DISTINCT m.id) as count
     FROM movies m
-    WHERE m.status IN (2, 3, 4)
-      AND NOT EXISTS (
-        SELECT 1
-        FROM email e
-        WHERE e.movie_id = m.id
-          AND e.sent_at IS NOT NULL
-      )
+    LEFT JOIN email e ON m.id = e.movie_id AND e.sent_at IS NOT NULL
+    WHERE m.status != 1
+      AND e.id IS NULL
   `);
   return rows[0].count;
 };

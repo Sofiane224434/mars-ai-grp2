@@ -151,6 +151,16 @@ export default function FormParent() {
         formData.append("screenshot_files", screenshotFile);
       }
 
+      if (directorInfo.newsletterCheck) {
+        let email = directorInfo.email;
+        const response = await fetch("/api/newsletter/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+      }
       const result = await createMovie(formData);
       setSubmitSuccess(result?.message || "Votre film a ete envoye avec succes.");
       setIsSubmissionComplete(true);

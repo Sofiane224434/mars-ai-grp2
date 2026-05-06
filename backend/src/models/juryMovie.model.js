@@ -182,13 +182,6 @@ export const getMovieDetailById = async (movieId, userId) => {
       m.videofile,
       m.thumbnail,
       m.classification,
-      (
-        SELECT sc.link
-        FROM screenshots sc
-        WHERE sc.movie_id = m.id
-        ORDER BY sc.id ASC
-        LIMIT 1
-      ) AS screenshotLink,
       m.language,
       m.description,
       m.prompt,
@@ -230,16 +223,74 @@ export const getMovieDetailById = async (movieId, userId) => {
         JOIN users u ON u.id = um2.user_id
         WHERE um2.movie_id = m.id AND u.status = 'jury'
       ) AS assignedJuriesRaw,
-      um.user_id AS isAssigned
+      um.user_id AS isAssigned,
+      scr.scrnshotlinks
     FROM movies m
+    LEFT JOIN(
+          SELECT movie_id, 
+          JSON_ARRAYAGG(link) as scrnshotlinks
+          FROM screenshots
+          WHERE movie_id = ?
+          GROUP BY movie_id
+          ) AS scr
+          ON scr.movie_id = m.id
     LEFT JOIN users_movies um ON m.id = um.movie_id AND um.user_id = ?
     LEFT JOIN status s ON s.id = m.status
     LEFT JOIN director_profile dp ON dp.movie_id = m.id
     WHERE m.id = ?
   `;
 
+  // let tempsql = `
+  // SELECT
+  //       m.id,
+  //       m.title_original AS title,
+  //       m.synopsis_original AS synopsis,
+  //       m.youtube_url AS videoUrl,
+  //       m.subtitles,
+  //       m.videofile,
+  //       m.thumbnail,
+  //       m.language,
+  //       m.status AS statusId,
+  //       s.status AS statusLabel,
+  //       m.created_at AS createdAt,
+  //       m.description,
+  //       m.prompt,
+  //       m.classification,
+  //       m.title_english,
+  //       m.synopsis_english,
+  //       m.movie_duration,
+  //       dp.firstname AS directorFirstName,
+  //       dp.lastname AS directorLastName,
+  //       dp.email AS directorEmail,
+  //       dp.date_of_birth,
+  //       dp.address,
+  //       dp.address2,
+  //       dp.postal_code,
+  //       dp.city,
+  //       dp.country,
+  //       dp.director_language,
+  //       dp.fix_phone,
+  //       dp.mobile_phone,
+  //       dp.school,
+  //       dp.current_job,
+  //       dp.gender,
+  //       scr.scrnshotlinks
+  //     FROM movies m
+  //     LEFT JOIN(
+  //         SELECT movie_id, 
+  //         JSON_ARRAYAGG(link) as scrnshotlinks
+  //         FROM screenshots
+  //         WHERE movie_id = ?
+  //         GROUP BY movie_id
+  //         ) AS scr
+  //         ON scr.movie_id = m.id
+  //     LEFT JOIN status s ON s.id = m.status
+  //     LEFT JOIN director_profile dp ON dp.movie_id = m.id
+  //     WHERE m.id = ?;
+  // `
+
   // Le paramètre 1 (userId) remplace le premier ?, le paramètre 2 (movieId) le second ?
-  const rows = await query(sql, [userId, movieId]);
+  const rows = await query(sql, [movieId, userId, movieId]);
 
   // Retourne la ligne si le film existe, sinon undefined
   const row = rows.length > 0 ? rows[0] : null;

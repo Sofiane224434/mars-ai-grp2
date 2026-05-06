@@ -227,8 +227,8 @@ function MovieDetail() {
   const canPromoteTop5 = isTop5Phase && movie.statusId === 5;
   const canRemoveTop5 = isTop5Phase && movie.statusId === 6;
   const usedAis = movie.usedAis || [];
-  const screenshotCandidates = [movie.screenshotLink, movie.thumbnail].filter(Boolean);
-  const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)).filter(Boolean))];
+  const screenshotCandidates = [movie.thumbnail].concat(movie.screenshotLink);
+  const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)))];
 
   const getAiCategoryStyle = (category) => {
     const normalizedCategory = String(category || '').toLowerCase().trim();

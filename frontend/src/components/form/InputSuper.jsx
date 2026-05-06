@@ -103,7 +103,7 @@ export default function InputSuper({ name, label, getValueFunc, declareSelfFunc,
         }
 
         if (numberonly) {
-            console.log("numberonly time...");
+            //console.log("numberonly time...");
             let stroke = e.nativeEvent.data;
             const numregex = /^\d+$/;
             if (numregex.test(stroke) || stroke == null) {

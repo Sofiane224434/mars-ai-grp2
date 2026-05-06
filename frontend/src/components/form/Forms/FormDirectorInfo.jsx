@@ -349,7 +349,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 label={t("form.step4.rulesCheck")} errormessage={errorRulesCheck}></InputSuper>
 
             <InputSuper type={"checkbox"}
-                getValueFunc={setNewsletterCheck} required={true}
+                getValueFunc={setNewsletterCheck}
                 label={"Je souhaite m'inscrire à la newsletter de MarsAI festival"}
             ></InputSuper>
 

@@ -91,6 +91,7 @@ export const getMovieByIdForAdmin = async (req, res) => {
     const directorLastName = movieData.directorLastName || '';
     const directorName = `${directorFirstName} ${directorLastName}`.trim() || 'Inconnu';
 
+    console.log("moviedata, admincontroller", movieData);
     // On renvoie TOUTES les données, y compris les jurys et les IA
     return res.status(200).json({
       id: movieData.id,
@@ -100,7 +101,7 @@ export const getMovieByIdForAdmin = async (req, res) => {
       subtitles: movieData.subtitles || null,
       videofile: movieData.videofile || null,
       thumbnail: movieData.thumbnail || null,
-      screenshotLink: movieData.screenshotLink || null,
+      screenshotLink: movieData["scrnshotlinks"] || null,
       language: movieData.language || 'Inconnue',
       description: movieData.description || null,
       prompt: movieData.prompt || null,

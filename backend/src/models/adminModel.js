@@ -29,15 +29,11 @@ const getJuryProgress = async () => {
 
 const countPendingEmails = async () => {
   const rows = await query(`
-    SELECT COUNT(*) as count
+    SELECT COUNT(DISTINCT m.id) as count
     FROM movies m
+    LEFT JOIN email e ON m.id = e.movie_id AND e.sent_at IS NOT NULL
     WHERE m.status IN (2, 3, 4)
-      AND NOT EXISTS (
-        SELECT 1
-        FROM email e
-        WHERE e.movie_id = m.id
-          AND e.sent_at IS NOT NULL
-      )
+      AND e.id IS NULL
   `);
   return rows[0].count;
 };

@@ -36,7 +36,7 @@ export default function FormStepsButtons({ step, maxstep, verificationFunction,
 
     function increaseStep(e) {
         e.preventDefault();
-        console.log("increasing")
+        //console.log("increasing")
         // if (currentStep < maxstep) {
         //     setCurrentStep(currentStep + 1);
         // }
@@ -47,7 +47,7 @@ export default function FormStepsButtons({ step, maxstep, verificationFunction,
 
     function decreaseStep(e) {
         e.preventDefault();
-        console.log("decreasinf")
+        //console.log("decreasinf")
         // if (currentStep > 1) {
         //     setCurrentStep(currentStep - 1);
         // }

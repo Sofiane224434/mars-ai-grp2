@@ -32,7 +32,6 @@ function AdminMovieDetails() {
     error,
     execute: fetchMovie,
   } = useApi();
-  console.log("moviedetails start", movie);
 
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
@@ -335,7 +334,6 @@ function AdminMovieDetails() {
   })();
   const usedAis = movie.usedAis || [];
   const screenshotCandidates = [movie.thumbnail].concat(movie.screenshotLink);
-  console.log("adminmoviedetail", screenshotCandidates);
   const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)).filter(Boolean))];
   const totalComments = Array.isArray(movie.publicComments) ? movie.publicComments.length : 0;
   const movieKey = movieId ? String(movieId) : null;

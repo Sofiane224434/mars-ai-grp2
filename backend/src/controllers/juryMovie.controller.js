@@ -265,7 +265,6 @@ export const getMovieById = async (req, res) => {
       gender: movieData.gender || null,
       assignedJuries: movieData.assignedJuries || []
     };
-    console.log("jurymoviecontroller", formattedResponse.screenshotLink)
 
     //const validatedResponse = movieDetailResponseSchema.parse(formattedResponse);
     return res.status(200).json(formattedResponse);

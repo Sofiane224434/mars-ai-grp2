@@ -88,7 +88,6 @@ export const getPublicMovieDetail = async (movieId, phaseIndex) => {
   `;
 
   const usedAis = await query(sqlUsedAis, [movieId]);
-  //console.log("further backend", movie);
 
   return {
     ...movie,
@@ -182,7 +181,6 @@ export const movieModel = {
     const rows = await query(sqlMovie, [movieId, movieId]);
 
     const movie = rows[0];
-    console.log("rowbackend", movie);
 
     // Si le film n'existe pas, on arrête tout de suite
     if (!movie) return null;

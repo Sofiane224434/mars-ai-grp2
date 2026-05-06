@@ -291,7 +291,6 @@ export const getMovieDetailById = async (movieId, userId) => {
 
   // Le paramètre 1 (userId) remplace le premier ?, le paramètre 2 (movieId) le second ?
   const rows = await query(sql, [movieId, userId, movieId]);
-  console.log("juryrow", rows);
 
   // Retourne la ligne si le film existe, sinon undefined
   const row = rows.length > 0 ? rows[0] : null;

@@ -229,7 +229,6 @@ function MovieDetail() {
   const usedAis = movie.usedAis || [];
   const screenshotCandidates = [movie.thumbnail].concat(movie.screenshotLink);
   const screenshotUrls = [...new Set(screenshotCandidates.map((value) => resolveMediaUrl(value)))];
-  console.log("jurydetails", screenshotCandidates, screenshotUrls);
 
   const getAiCategoryStyle = (category) => {
     const normalizedCategory = String(category || '').toLowerCase().trim();

@@ -2,7 +2,7 @@
 import { query } from '../config/db.js';
 
 const countTotalMovies = async () => {
-  // 👉 CORRECTION : Plus de crochets [ ] autour de rows
+ 
   const rows = await query(`SELECT COUNT(id) as total FROM movies`);
   return rows[0].total;
 };

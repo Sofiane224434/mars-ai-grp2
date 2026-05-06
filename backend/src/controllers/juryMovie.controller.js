@@ -231,7 +231,7 @@ export const getMovieById = async (req, res) => {
       subtitles: movieData.subtitles || null,
       videofile: movieData.videofile || null,
       thumbnail: movieData.thumbnail || null,
-      screenshotLink: movieData.screenshotLink || null,
+      screenshotLink: movieData["scrnshotlinks"] || null,
       language: movieData.language || 'Inconnue',
       createdAt: movieData.createdAt,
       description: movieData.description || null,
@@ -265,9 +265,10 @@ export const getMovieById = async (req, res) => {
       gender: movieData.gender || null,
       assignedJuries: movieData.assignedJuries || []
     };
+    console.log("jurymoviecontroller", formattedResponse.screenshotLink)
 
-    const validatedResponse = movieDetailResponseSchema.parse(formattedResponse);
-    return res.status(200).json(validatedResponse);
+    //const validatedResponse = movieDetailResponseSchema.parse(formattedResponse);
+    return res.status(200).json(formattedResponse);
 
   } catch (error) {
     console.error("Erreur GET /jury/movies/:id :", error);

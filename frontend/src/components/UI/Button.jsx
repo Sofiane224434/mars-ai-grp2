@@ -194,7 +194,7 @@ const Button = ({
       : isJuryActionVariant
         ? "pl-6 translate-y-px"
         : ["email-cancel", "email-send"].includes(variant)
-          ? "flex items-center gap-2"
+          ? "inline-flex items-center gap-2"
           : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")

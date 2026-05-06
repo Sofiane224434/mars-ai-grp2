@@ -34,6 +34,7 @@ export default function FormDirectorInfo({ hide = false, getFunction,
     const [fixtel, setFixtel] = useState("");
     const [school, setSchool] = useState("");
     const [language, setLanguage] = useState("");
+    const [newsletterCheck, setNewsletterCheck] = useState("");
 
     const [errorFirstname, setErrorFirstname] = useState("");
     const [errorLastname, setErrorLastname] = useState("");
@@ -75,7 +76,8 @@ export default function FormDirectorInfo({ hide = false, getFunction,
         job: job,
         school: school,
         language: language,
-        fixtel: fixtel ? fixtel : null
+        fixtel: fixtel ? fixtel : null,
+        newsletterCheck: newsletterCheck
     }
 
     function sendData() {
@@ -345,6 +347,11 @@ export default function FormDirectorInfo({ hide = false, getFunction,
             <InputSuper type={"checkbox"}
                 getValueFunc={setRulesCheck} required={true}
                 label={t("form.step4.rulesCheck")} errormessage={errorRulesCheck}></InputSuper>
+
+            <InputSuper type={"checkbox"}
+                getValueFunc={setNewsletterCheck} required={true}
+                label={"Je souhaite m'inscrire à la newsletter de MarsAI festival"}
+            ></InputSuper>
 
             <div className="mt-4 flex w-full items-center justify-center gap-4">
                 <Button variant="filled-yellow" interactive type="button" onClick={goback}>{"<"} {t("form.previous")}</Button>

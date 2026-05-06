@@ -28,10 +28,10 @@
     }
   },
   "faq": {
-    "title": "常见问题解答（FAQ）——MarsAi音乐节",
+    "title": "常见问题解答（FAQ）——MarsAI音乐节",
     "disclaimer": "您的问题答案或许就在下面！ ",
     "informations-title": "实用信息：",
-    "informations-content": "MarsAi 音乐节何时何地举行？音乐节为期两天，分别于6月5日（星期五）和6月7日（星期日）举行。活动地点位于 Dock des Suds（马赛市第2区，乌尔班五世街12号，邮编13002）。入场时间为上午10点，闭场时间为晚上7点。",
+    "informations-content": "MarsAI 音乐节何时何地举行？音乐节为期两天，分别于6月5日（星期五）和6月7日（星期日）举行。活动地点位于 Dock des Suds（马赛市第2区，乌尔班五世街12号，邮编13002）。入场时间为上午10点，闭场时间为晚上7点。",
     "question1": "我该怎么去那里？",
     "answer1-1": "乘坐公共交通：地铁2号线（Désirée Clary站）或有轨电车T2/T3线（Arenc Le Silo站）。",
     "answer1-2": "自驾：附近设有收费公共停车场（Indigo Quai d'Arenc, Espercieux）。",
@@ -39,17 +39,17 @@
     "answer1-4": "该场所是否对行动不便人士开放？是的，Dock des Suds 采用无障碍设计，地面平坦，完全无障碍。建筑内部设有无障碍卫生间。",
     "access-title": "🎟️ 报名与注册 🎟️",
     "question2": "我应该买票还是预订票？ ",
-    "answer2": "不，MarsAi艺术节完全免费，无需门票。您可以随时前来参观。",
+    "answer2": "不，MarsAI艺术节完全免费，无需门票。您可以随时前来参观。",
     "question3": "有最大载重限制吗？",
     "answer3": "入场免费，但需视Dock des Suds的接待容量而定。若人流过多，出于安全考虑，入口处可能会设置排队区域。",
     "programation-title": "🤖 活动安排与工作坊 🤖 ",
-    "question4": "MarsAi 音乐节面向哪些人群？",
+    "question4": "MarsAI 音乐节面向哪些人群？",
     "answer4": "本届大会面向所有人！无论您是科技从业者、学生，还是单纯对人工智能的最新进展感兴趣，都能找到适合您水平的讲座和演示。",
     "question5": "参加实践工作坊需要提前报名吗？",
     "answer5": " 活动免费向公众开放，但部分特定工作坊需于活动当天在节庆接待处现场报名。名额按先到先得的原则分配。"
   },
   "header": {
-    "title": "MarsAi",
+    "title": "MarsAI",
     "language": {
       "change": "更改语言",
       "french": "法语",

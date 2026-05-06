@@ -1,5 +1,7 @@
+// frontend/src/pages/dashboard/admin/AdminEmailConfirmation.jsx
 import React, { useState, useEffect } from 'react';
 import useApi from '../../../hooks/useApi.js';
+import usePagination from '../../../hooks/usePagination.js';
 import Spinner from '../../../components/ui/Spinner.jsx';
 import Pagination from '../../../components/ui/Pagination.jsx';
 import Filter from '../../../components/ui/Filter.jsx';
@@ -13,12 +15,10 @@ const AdminEmailConfirmation = () => {
   const { currentPhase } = useFestivalPhase();
   const { data: movies, isLoading, error, execute: fetchMovies } = useApi();
   const [emailModal, setEmailModal] = useState({ isOpen: false, movie: null });
-  const [currentPage, setCurrentPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
-
   const [viewMode, setViewMode] = useState('list');
 
-  // État des filtres
+  // Filtres actifs sur la liste.
   const [selectedFilters, setSelectedFilters] = useState({
     status: [],
   });
@@ -26,33 +26,37 @@ const AdminEmailConfirmation = () => {
   const ITEMS_PER_PAGE = 18;
   const reviewedMovies = Array.isArray(movies) ? movies : [];
 
-  // Handlers pour les filtres
   const handleFilterChange = (filterType, filterValue, isChecked) => {
-    setSelectedFilters(prev => {
+    setSelectedFilters((prev) => {
       const current = prev[filterType] || [];
       return {
         ...prev,
         [filterType]: isChecked
           ? [...current, filterValue]
-          : current.filter(f => f !== filterValue)
+          : current.filter((value) => value !== filterValue),
       };
     });
   };
 
   const handleClearFilters = () => {
-    setSelectedFilters({
-      status: [],
-    });
+    setSelectedFilters({ status: [] });
   };
 
-  // Filtrage des films
+  // Retourne uniquement les films qui respectent les filtres cochés.
   const getFilteredMovies = () => {
-    if (!reviewedMovies || reviewedMovies.length === 0) return [];
+    if (!reviewedMovies.length) return [];
 
-    return reviewedMovies.filter(movie => {
-      // Filtre status
+    return reviewedMovies.filter((movie) => {
       if (selectedFilters.status.length > 0) {
-        const statusMap = { 1: 'pending', 2: 'rejected', 3: 'review', 4: 'approved', 5: 'top50', 6: 'top5' };
+        const statusMap = {
+          1: 'pending',
+          2: 'rejected',
+          3: 'review',
+          4: 'approved',
+          5: 'top50',
+          6: 'top5',
+        };
+
         const movieStatus = statusMap[movie.statusId] || 'pending';
         if (!selectedFilters.status.includes(movieStatus)) return false;
       }
@@ -62,10 +66,17 @@ const AdminEmailConfirmation = () => {
   };
 
   const filteredMovies = getFilteredMovies();
-  const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
-  const safeCurrentPage = Math.min(currentPage, Math.max(totalPages, 1));
-  const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
-  const currentMovies = filteredMovies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Le hook centralise la pagination:
+  // - calcule la page courante
+  // - coupe la liste
+  // - expose la page safe à afficher
+  const {
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    currentItems: currentMovies,
+  } = usePagination(filteredMovies, ITEMS_PER_PAGE);
 
   useEffect(() => {
     const apiCall = async () => {
@@ -80,6 +91,7 @@ const AdminEmailConfirmation = () => {
 
       const raw = await response.text();
       let payload = {};
+
       if (raw) {
         try {
           payload = JSON.parse(raw);
@@ -99,7 +111,7 @@ const AdminEmailConfirmation = () => {
   }, [fetchMovies]);
 
   const handleOpenEmailModal = (movie) => {
-    setEmailModal({ isOpen: true, movie: movie });
+    setEmailModal({ isOpen: true, movie });
   };
 
   const handleCloseEmailModal = () => {
@@ -121,7 +133,6 @@ const AdminEmailConfirmation = () => {
   return (
     <div className="min-h-screen background-gradient-black px-4 pb-4 pt-20 sm:pt-4 md:px-8 md:pb-8">
       <div className="max-w-7xl mx-auto">
-
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold font-title text-white mb-2">
@@ -131,15 +142,15 @@ const AdminEmailConfirmation = () => {
               Liste des films évalués par le jury en attente d'une communication officielle.
             </p>
           </div>
+
           <div className="sm:shrink-0">
             <ToggleSwitch
               isListMode={viewMode === 'list'}
-              onToggle={() => setViewMode(prev => prev === 'grid' ? 'list' : 'grid')}
+              onToggle={() => setViewMode((prev) => (prev === 'grid' ? 'list' : 'grid'))}
             />
           </div>
         </div>
 
-        {/* Barre toggle des filtres */}
         <div className="mb-6 px-4 sm:px-10">
           <button
             type="button"
@@ -148,7 +159,7 @@ const AdminEmailConfirmation = () => {
           >
             <span>Filtres</span>
             <svg
-              className={`h-4 w-4 transition-transform duration-200 ${filtersOpen ? "rotate-180" : ""}`}
+              className={`h-4 w-4 transition-transform duration-200 ${filtersOpen ? 'rotate-180' : ''}`}
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -161,13 +172,12 @@ const AdminEmailConfirmation = () => {
             </svg>
           </button>
 
-          {/* Panneau déroulant des filtres */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersOpen ? "max-h-112 opacity-100" : "max-h-0 opacity-0"
-              }`}
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              filtersOpen ? 'max-h-112 opacity-100' : 'max-h-0 opacity-0'
+            }`}
           >
             <div className="mt-2 rounded-lg border border-white/10 bg-gris-steelix px-4 py-3">
-              {/* Mobile / tablette */}
               <div className="lg:hidden">
                 <div className="mx-auto w-fit flex flex-col gap-2">
                   <div className="flex flex-wrap items-center justify-center gap-2">
@@ -232,7 +242,6 @@ const AdminEmailConfirmation = () => {
                 </div>
               </div>
 
-              {/* Desktop */}
               <div className="hidden lg:flex items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
                   {currentPhase >= 1 && (
@@ -282,6 +291,7 @@ const AdminEmailConfirmation = () => {
                     En attente
                   </Filter>
                 </div>
+
                 <Button
                   interactive
                   className="shrink-0 self-center flex items-center justify-center text-center text-sm"
@@ -295,39 +305,42 @@ const AdminEmailConfirmation = () => {
           </div>
         </div>
 
-        {/* 🚀 AJOUT 4 : Le conteneur dynamique qui change de forme selon viewMode */}
+        {/* Cette zone affiche uniquement la page courante calculée par le hook. */}
         {currentMovies.length > 0 ? (
-          <div className={
-            viewMode === 'grid'
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-10"
-              : "flex flex-col gap-4 px-4 sm:px-10"
-          }>
+          <div
+            className={
+              viewMode === 'grid'
+                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-10'
+                : 'flex flex-col gap-4 px-4 sm:px-10'
+            }
+          >
             {currentMovies.map((movie) => (
               <MovieAdminCard
                 key={movie.id}
                 movie={movie}
-                layout={viewMode} // 🚀 AJOUT 5 : On transmet la disposition à la carte !
+                layout={viewMode}
                 onOpenEmailModal={handleOpenEmailModal}
               />
             ))}
           </div>
         ) : (
           <div className="text-gris-magneti text-center py-20">
-            {reviewedMovies.length === 0 ? "Aucun film en attente." : "Aucun film correspondant aux filtres appliqués."}
+            {reviewedMovies.length === 0
+              ? 'Aucun film en attente.'
+              : 'Aucun film correspondant aux filtres appliqués.'}
           </div>
         )}
 
+        {/* Pagination réutilisable, branchée sur le hook. */}
         {!isLoading && !error && filteredMovies.length > 0 && (
           <Pagination
-            currentPage={safeCurrentPage}
+            currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
         )}
-
       </div>
 
-      {/* La Modale isolée */}
       {emailModal.isOpen && (
         <EmailTemplateModal
           isOpen={emailModal.isOpen}
@@ -335,7 +348,6 @@ const AdminEmailConfirmation = () => {
           movie={emailModal.movie}
         />
       )}
-
     </div>
   );
 };

@@ -23,8 +23,8 @@ const Button = ({
     iconOnlyButtonSizeClass || "w-14 h-14";
   const resolvedIconOnlyImageSizeClass = iconOnlyImageSizeClass || "h-7 w-auto";
   const panelBgClass = iconOnly
-    ? "pointer-events-none absolute top-0 left-0 right-0 bottom-0 rounded-[50px] bg-bleu-ocean transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]"
-    : "btn-bg-admin-base bg-bleu-ocean transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
+    ? "pointer-events-none absolute top-0 left-0 right-0 bottom-0 rounded-[50px] bg-bleu-ocean transition-all duration-[600ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]"
+    : "btn-bg-admin-base bg-bleu-ocean transition-all duration-[600ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
   const panelIconClass = iconOnly
     ? `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-contain ${resolvedIconOnlyImageSizeClass}`
     : "status-base-icon-jury";
@@ -198,8 +198,8 @@ const Button = ({
           : "";
   const iconOnlyClass =
     iconOnly && (variant === "btn-panel" || variant === "btn-panel-home")
-      ? `${resolvedIconOnlyButtonSizeClass} p-0 pl-0 justify-center w-14 transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]`
-      : "transition-all duration-[1200ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
+      ? `${resolvedIconOnlyButtonSizeClass} p-0 pl-0 justify-center w-14 transition-all duration-[600ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]`
+      : "transition-all duration-[600ms] ease-[cubic-bezier(0.1,0.9,0.1,1)]";
   const classes = `btn-base ${currentVariant.container} ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${iconOnlyClass} ${className}`;
 
   const pressWrapperClass = [
@@ -225,10 +225,11 @@ const Button = ({
 
         {/* Contenu du texte */}
         <span
+          key="button-text"
           className={`relative z-10 pointer-events-none overflow-hidden transition-all ease-in-out text-sm md:text-[15px] leading-tight ${
             iconOnly
               ? "max-w-0 opacity-0 duration-0 delay-0 p-0 m-0 whitespace-nowrap"
-              : "max-w-[500px] opacity-100 duration-500 delay-150"
+              : "max-w-[500px] opacity-100 duration-150 delay-0"
           } ${textOffsetClass}`}
         >
           {children}
@@ -265,10 +266,11 @@ const Button = ({
 
         {/* Contenu du texte */}
         <span
+          key="button-text"
           className={`relative z-10 pointer-events-none overflow-hidden transition-all ease-in-out text-sm md:text-[15px] leading-tight ${
             iconOnly
               ? "max-w-0 opacity-0 duration-0 delay-0 p-0 m-0 whitespace-nowrap"
-              : "max-w-[500px] opacity-100 duration-500 delay-150"
+              : "max-w-[500px] opacity-100 duration-150 delay-0"
           } ${textOffsetClass}`}
         >
           {children}

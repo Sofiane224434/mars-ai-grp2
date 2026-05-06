@@ -28,10 +28,10 @@
     }
   },
   "faq": {
-    "title": "Preguntas frecuentes (FAQ) - Festival MarsAi",
+    "title": "Preguntas frecuentes (FAQ) - Festival MarsAI",
     "disclaimer": "¡Quizás encuentres la respuesta a tu pregunta a continuación! ",
     "informations-title": "Información práctica:",
-    "informations-content": "¿Dónde y cuándo se celebra el festival MarsAi? El festival tendrá lugar durante dos días, el viernes 5 de junio y el domingo 7 de junio. El evento se celebrará en el Dock des Suds (12 Rue Urbain V, 13002 Marsella). Las puertas se abrirán a las 10:00 y se cerrarán a las 19:00.",
+    "informations-content": "¿Dónde y cuándo se celebra el festival MarsAI? El festival tendrá lugar durante dos días, el viernes 5 de junio y el domingo 7 de junio. El evento se celebrará en el Dock des Suds (12 Rue Urbain V, 13002 Marsella). Las puertas se abrirán a las 10:00 y se cerrarán a las 19:00.",
     "question1": "¿Cómo puedo llegar hasta allí?",
     "answer1-1": "En transporte público: metro, línea 2 (parada Désirée Clary) o tranvía T2/T3 (parada Arenc Le Silo).",
     "answer1-2": "En coche: Hay aparcamientos públicos de pago (Indigo Quai d'Arenc, Espercieux) en las inmediaciones.",
@@ -39,17 +39,17 @@
     "answer1-4": "¿Es accesible el recinto para personas con movilidad reducida (PMR)? Sí, el Dock des Suds es una instalación de una sola planta y totalmente accesible. Hay aseos adaptados disponibles dentro del edificio.",
     "access-title": "🎟️ Acceso e inscripción 🎟️",
     "question2": "¿Tengo que comprar o reservar un billete? ",
-    "answer2": "No, el acceso al festival MarsAi es totalmente gratuito y no se necesita entrada. Puedes venir cuando quieras.",
+    "answer2": "No, el acceso al festival MarsAI es totalmente gratuito y no se necesita entrada. Puedes venir cuando quieras.",
     "question3": "¿Hay un aforo máximo?",
     "answer3": "La entrada es gratuita, pero está sujeta a la capacidad del Dock des Suds. En caso de gran afluencia de público, es posible que se forme una cola en la entrada por motivos de seguridad.",
     "programation-title": "🤖 Programación y talleres 🤖 ",
-    "question4": "¿A quién va dirigido el festival MarsAi?",
+    "question4": "¿A quién va dirigido el festival MarsAI?",
     "answer4": "¡El festival está pensado para todo el mundo! Tanto si eres un profesional del sector tecnológico, un estudiante o simplemente tienes curiosidad por descubrir los últimos avances en inteligencia artificial, encontrarás conferencias y demostraciones adaptadas a tu nivel.",
     "question5": "¿Hay que inscribirse con antelación para los talleres prácticos?",
     "answer5": " La entrada general es gratuita, pero para algunos talleres específicos es necesario inscribirse in situ, en la recepción del festival, el mismo día. Las plazas se asignan por orden de llegada."
   },
   "header": {
-    "title": "MarsAi",
+    "title": "MarsAI",
     "language": {
       "change": "Cambiar el idioma",
       "french": "Español",

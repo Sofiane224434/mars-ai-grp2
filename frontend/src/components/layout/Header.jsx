@@ -1,5 +1,5 @@
 // components/Header.jsx
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import MarsLogo from '../../assets/icons/Marsai.svg?react';
@@ -7,16 +7,16 @@ import LanguageIcon from '../../assets/icons/language-svgrepo-com.svg?react';
 import Navbar from './Navbar';
 
 const LANGUAGES = [
-    { code: 'fr', labelKey: 'header.language.french' },
-    { code: 'en', labelKey: 'header.language.english' },
-    { code: 'es', labelKey: 'header.language.spanish' },
-    { code: 'ar', labelKey: 'header.language.arabic' },
-    { code: 'pt', labelKey: 'header.language.portuguese' },
-    { code: 'zh', labelKey: 'header.language.mandarin' },
-    { code: 'de', labelKey: 'header.language.german' },
-    { code: 'hi', labelKey: 'header.language.hindi' },
-    { code: 'ru', labelKey: 'header.language.russian' },
-    { code: 'ja', labelKey: 'header.language.japanese' },
+    { code: 'fr', labelKey: 'Français' },
+    { code: 'en', labelKey: 'English' },
+    { code: 'es', labelKey: 'Español' },
+    { code: 'ar', labelKey: 'العربية' },
+    { code: 'pt', labelKey: 'Português' },
+    { code: 'zh', labelKey: '普通话' },
+    { code: 'de', labelKey: 'Deutsch' },
+    { code: 'hi', labelKey: 'हिंदी' },
+    { code: 'ru', labelKey: 'Русскийs' },
+    { code: 'ja', labelKey: '日本語' },
 ];
 
 function Header() {
@@ -29,6 +29,27 @@ function Header() {
         i18n.changeLanguage(language);
         setIsLanguageOpen(false);
     };
+
+    //Contient la référence de l'élément qui affiche tous les boutons d'options de langues
+    const dropDownRef = useRef(null);
+
+    //Fonction à utiliser lors d'un click qui peut être en dehors du tableau des langues
+    function handleClickOutisde(e) {
+        //Si la cible événement (clique) ne contient pas la ref (tableau de langues)...
+        if (!dropDownRef.current?.contains(e.target)) {
+            setIsLanguageOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        //Si le menu est ouvert, écoute l'événement clique et utilise la fonction
+        if (isLanguageOpen) {
+            document.addEventListener("mousedown", handleClickOutisde);
+        }
+
+        //Une fois terminé, enlène l'eventlistener
+        return () => document.removeEventListener("mousedown", handleClickOutisde);
+    }, [isLanguageOpen])
 
     return (
         <>
@@ -54,7 +75,8 @@ function Header() {
                         </button>
 
                         {isLanguageOpen && (
-                            <div className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-y-auto z-20 min-w-36 max-h-56">
+                            <div ref={dropDownRef} className="absolute top-12 right-0 bg-noir-bleute border border-gray-600 rounded-md shadow-2xl overflow-y-auto z-20 min-w-36 max-h-56"
+                            >
                                 {LANGUAGES.map(({ code, labelKey }) => (
                                     <button
                                         key={code}
@@ -62,7 +84,7 @@ function Header() {
                                         onClick={() => changeLanguage(code)}
                                         className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-reglisse transition ${activeLanguage === code ? 'text-jaune-souffre' : 'text-white'}`}
                                     >
-                                        {t(labelKey)}
+                                        {labelKey}
                                     </button>
                                 ))}
                             </div>

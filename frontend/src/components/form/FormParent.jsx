@@ -9,6 +9,7 @@ import FormMultimedia from "./Forms/FormMultimedia";
 import FormDirectorInfo from "./Forms/FormDirectorInfo";
 
 import StepsTrack from "./StepsTrack";
+import Button from "../ui/Button";
 
 export default function FormParent() {
   const { t } = useTranslation();
@@ -20,6 +21,10 @@ export default function FormParent() {
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
   const [isSubmissionComplete, setIsSubmissionComplete] = useState(false);
+  //console.log(isSubmissionComplete);
+  function onclickSetSubmissionComplete() {
+    setIsSubmissionComplete(prev => !prev);
+  }
 
   const [formMovieInfo, setFormMovieInfo] = useState({});
   const [formAIUse, setFormAIUse] = useState({});
@@ -203,15 +208,23 @@ export default function FormParent() {
 
       {isSubmissionComplete ? (
         <div className="flex w-[90%] max-w-3xl flex-col items-center gap-5 rounded-[20px] bg-linear-to-t from-gris-anthracite to-noir-bleute p-8 text-center text-jaune-souffre">
-          <h2 className="text-3xl font-bold">Film envoye avec succes</h2>
+          <h2 className="text-3xl font-bold">Film envoyé avec succes</h2>
 
           <p className="max-w-2xl text-base text-jaune-souffre/90">
-            {submitSuccess || "Votre film a bien ete enregistre."}
+            {/* {submitSuccess || "Votre film a bien été enregistré."} */}
+            Votre film a bien été enregistré.
           </p>
 
-          <p className="max-w-2xl text-sm text-jaune-souffre/70">
+          {/* <p className="max-w-2xl text-sm text-jaune-souffre/70">
             Vous pourrez proposer un nouveau film plus tard en revenant sur la page Participer.
-          </p>
+          </p> */}
+
+          <Link
+            onClick={onclickSetSubmissionComplete}
+            to="/participate"
+          >
+            <Button variant="gradient-blue">Participer de nouveau</Button>
+          </Link>
 
           <Link
             to="/"
@@ -219,6 +232,7 @@ export default function FormParent() {
           >
             Retourner a l'accueil
           </Link>
+
         </div>
       ) : (
         <>

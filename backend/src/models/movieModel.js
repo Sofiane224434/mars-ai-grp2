@@ -104,6 +104,14 @@ export const movieModel = {
         m.title_original,
         m.title_original AS title,
         m.status AS statusId,
+        m.thumbnail,
+        (
+          SELECT sc.link
+          FROM screenshots sc
+          WHERE sc.movie_id = m.id
+          ORDER BY sc.id ASC
+          LIMIT 1
+        ) AS screenshotLink,
         d.firstname AS directorFirstName,
         d.lastname AS directorLastName,
         d.email

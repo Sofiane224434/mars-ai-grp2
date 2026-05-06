@@ -325,6 +325,12 @@ export default function FormDirectorInfo({ hide = false, getFunction,
                 errormessage={errorMarketting}
             ></InputSuper>
 
+            {marketting == "other" &&
+                <InputSuper type={"text"} max_string={200}
+                    getValueFunc={setMarkettingOther}
+                    label={t("form.step4.specifyLabel")}
+                    errormessage={markettingOther}></InputSuper>}
+
             <InputSuper type={"text"} getValueFunc={setSchool}
                 label={t("form.step4.school")} required={true}
                 errormessage={errorSchool}></InputSuper>
@@ -332,11 +338,6 @@ export default function FormDirectorInfo({ hide = false, getFunction,
             <InputSuper type={"text"} getValueFunc={setJob}
                 label={t("form.step4.job")} required={true}
                 errormessage={errorJob}></InputSuper>
-
-            {marketting == "other" &&
-                <InputSuper type={"text"} max_string={200}
-                    getValueFunc={setMarkettingOther}
-                    label={t("form.step4.specifyLabel")} errormessage={markettingOther}></InputSuper>}
 
             <InputSuper type={"checkbox"}
                 getValueFunc={setTosCheck} required={true}

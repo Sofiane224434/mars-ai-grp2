@@ -79,7 +79,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
     `mt-1 relative min-h-screen h-full transition-all duration-500 ease-in-out ${className}`.trim();
   const containerStyle = collapsed ? { width: "110px" } : { width: "320px" };
   const contentClass =
-    `${currentVariant.content} flex-1 px-2 items-center gap-0 ${
+    `${currentVariant.content} min-h-0 flex-1 overflow-y-auto px-2 items-center gap-0 ${
       collapsed ? "lg:px-1 lg:items-center lg:gap-3" : ""
     }`.trim();
 
@@ -93,6 +93,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
             : "-translate-y-full pointer-events-none"
         }`}
       >
+        <div className="flex max-h-80 flex-col">
         {/* En-tête fixe avec bouton fermer */}
         <div className="flex items-center justify-end px-3 pt-2 pb-1 shrink-0">
           <button
@@ -109,7 +110,8 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
         </div>
 
         {/* Contenu du menu */}
-        <nav className="flex flex-wrap justify-center gap-2 px-3 pb-3 overflow-y-auto max-h-64">
+        <nav className="flex-1 overflow-y-auto px-3 pb-2">
+          <div className="flex flex-wrap justify-center gap-2">
           <Link
             to={isJuryPanel ? `/dashboard/jury/${juryId}` : "/dashboard/admin"}
           >
@@ -181,20 +183,24 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
               </Button>
             </Link>
           )}
-
-          <div className="w-full border-t border-noir-bleute" />
-
-          <Button
-            type="button"
-            variant="email-cancel"
-            interactive
-            className="w-11/12 max-w-xs justify-center text-sm"
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          >
-            {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
-          </Button>
+          </div>
         </nav>
+
+        <div className="shrink-0 border-t border-white/10 px-3 pb-3 pt-2">
+          <div className="flex justify-center">
+            <Button
+              type="button"
+              variant="email-cancel"
+              interactive
+              className="w-11/12 max-w-xs justify-center text-sm"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+            </Button>
+          </div>
+        </div>
+        </div>
       </div>
 
       {/* Hamburger – mobile uniquement */}
@@ -258,7 +264,7 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
 
               <div className={contentClass}>
                 <div
-                  className={`w-full flex flex-col items-center pb-28 ${collapsed ? "gap-3" : ""}`}
+                  className={`w-full flex flex-col items-center pb-6 ${collapsed ? "gap-3" : ""}`}
                 >
                   <Link
                     to={
@@ -354,44 +360,84 @@ const Sidebar = ({ variant = "admin", className = "" }) => {
                     </Link>
                   )}
                 </div>
-              </div>
-
-              <div className="absolute bottom-6 left-1/2 z-50 -translate-x-1/2">
-                {collapsed ? (
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    aria-label="Déconnexion"
-                    className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="email-cancel"
-                    interactive
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                  >
-                    {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
-                  </Button>
+                {!isJuryPanel && (
+                  <div className="w-full shrink-0 px-2 pb-6 pt-3 flex justify-center">
+                    {collapsed ? (
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        aria-label="Déconnexion"
+                        className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                          />
+                        </svg>
+                      </button>
+                    ) : (
+                      <Button
+                        type="button"
+                        variant="email-cancel"
+                        interactive
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                      >
+                        {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                      </Button>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {isJuryPanel && (
+                <div className="mt-auto shrink-0 px-2 pb-6 flex justify-center">
+                  {collapsed ? (
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                      aria-label="Déconnexion"
+                      className="h-14 w-14 flex items-center justify-center rounded-full border-2 border-turquoise-vif text-white hover:bg-gris-magneti/10 transition-colors disabled:opacity-50 cursor-pointer"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="email-cancel"
+                      interactive
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                    >
+                      {isLoggingOut ? "Déconnexion..." : "Déconnexion"}
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

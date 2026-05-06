@@ -61,7 +61,7 @@ export const getPublicMovieDetail = async (movieId, phaseIndex) => {
         FROM screenshots sc
         WHERE sc.movie_id = m.id
         ORDER BY sc.id ASC
-        LIMIT 1
+        LIMIT 3
       ) AS screenshotLink,
       dp.firstname AS directorFirstName,
       dp.lastname AS directorLastName,
@@ -88,6 +88,7 @@ export const getPublicMovieDetail = async (movieId, phaseIndex) => {
   `;
 
   const usedAis = await query(sqlUsedAis, [movieId]);
+  //console.log("further backend", movie);
 
   return {
     ...movie,
@@ -138,13 +139,6 @@ export const movieModel = {
         m.subtitles,
         m.videofile,
         m.thumbnail,
-        (
-          SELECT sc.link
-          FROM screenshots sc
-          WHERE sc.movie_id = m.id
-          ORDER BY sc.id ASC
-          LIMIT 1
-        ) AS screenshotLink,
         m.language,
         m.status AS statusId,
         s.status AS statusLabel,
@@ -169,19 +163,51 @@ export const movieModel = {
         dp.mobile_phone,
         dp.school,
         dp.current_job,
-        dp.gender
+        dp.gender,
+        scr.scrnshotlinks
       FROM movies m
+      LEFT JOIN(
+          SELECT movie_id, 
+          JSON_ARRAYAGG(link) as scrnshotlinks
+          FROM screenshots
+          WHERE movie_id = ?
+          GROUP BY movie_id
+          ) AS scr
+          ON scr.movie_id = m.id
       LEFT JOIN status s ON s.id = m.status
       LEFT JOIN director_profile dp ON dp.movie_id = m.id
-      WHERE m.id = ?
-      LIMIT 1
+      WHERE m.id = ?;
     `;
 
-    const rows = await query(sqlMovie, [movieId]);
+    const rows = await query(sqlMovie, [movieId, movieId]);
+
     const movie = rows[0];
+    console.log("rowbackend", movie);
 
     // Si le film n'existe pas, on arrête tout de suite
     if (!movie) return null;
+
+    //Tri des screenshots (ancient)
+    //Pour la requête avec left join
+
+    // let scrshots_links = []
+    // if (rows.length > 1) {
+    //   for (let n in rows) {
+    //     scrshots_links.push(rows[n]["scrnshotlinks"]);
+    //   }
+    // }
+    // if (scrshots_links.length > 0) {
+    //   movie["scrnshotlinks"] = scrshots_links;
+    // }
+
+    //Récupération des screenshots
+    // const sqlScreenshots = `
+    // SELECT screenshots.link
+    // FROM screenshots
+    // WHERE screenshots.movie_id = ?
+    // `;
+
+    //const movieScreenshots = await query(sqlScreenshots, [movieId]);
 
     // 2. Récupérer la liste des jurys assignés à ce film
     // (Dans ton schéma SQL, la table users n'a que l'email, on renvoie donc ça)
@@ -221,7 +247,9 @@ export const movieModel = {
       isPrivate: Number(row.isPrivate) !== 0,
     }));
 
+
     // 4. On assemble l'objet final comme ton frontend l'attend
+
     return {
       ...movie,
       assignedJuries: assignedJuries,

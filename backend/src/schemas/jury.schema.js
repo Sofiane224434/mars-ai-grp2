@@ -67,7 +67,7 @@ export const movieDetailResponseSchema = z.object({
     videofile: z.string().nullable(),
     thumbnail: z.string().nullable(),
     classification: z.string().nullable(),
-    screenshotLink: z.string().nullable(),
+    screenshotLink: z.array().nullable(),
     language: z.string().min(1, 'La langue est obligatoire.'),
     description: z.string().nullable(),
     prompt: z.string().nullable(),

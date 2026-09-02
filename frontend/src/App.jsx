@@ -11,7 +11,7 @@ import Movies from './pages/public/Movies.jsx';
 import PublicMovieDetail from './pages/public/MovieDetail.jsx';
 import Awards from './pages/public/Awards.jsx';
 import About from './pages/public/About.jsx';
-import FAQ from './pages/public/FAQ.jsx';
+import FAQ from './pages/public/Faq.jsx';
 import Rgpd from './pages/public/Rgpd.jsx';
 import Auth from './pages/public/Auth.jsx';
 import Error from './pages/public/Error.jsx';

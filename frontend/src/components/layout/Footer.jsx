@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../ui/Button";
+import Button from "../UI/Button";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import MarsLogo from "../../assets/icons/Marsai.svg?react";

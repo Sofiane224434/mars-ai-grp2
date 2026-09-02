@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Button } from "../ui/Button"
+import { Button } from "../UI/Button"
 
 export default function FormStepsButtons({ step, maxstep, verificationFunction,
     submitFunction, getStepUpdate

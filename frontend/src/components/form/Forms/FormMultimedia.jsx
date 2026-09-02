@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
-import { Button } from "../../ui/Button";
+import { Button } from "../../UI/Button";
 import InputRequirementStar from "../InputRequirementStar";
 
 import { verifyImage } from "../VerifyInputFuncs";

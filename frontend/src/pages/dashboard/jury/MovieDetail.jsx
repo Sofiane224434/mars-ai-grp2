@@ -4,14 +4,14 @@ import axios from 'axios';
 import { z } from 'zod';
 import { useJuryMovieNavigation } from '../../../hooks/useJuryMovieNavigation.js';
 import toast, { Toaster } from 'react-hot-toast';
-import ConfirmModal from '../../../components/ui/ConfirmModal.jsx';
+import ConfirmModal from '../../../components/UI/ConfirmModal.jsx';
 
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
 import NotesSection from '../../../components/sections/DashboardJury/NotesSection.jsx';
-import Button from '../../../components/ui/Button.jsx';
-import Spinner from '../../../components/ui/Spinner.jsx';
-import { Status } from '../../../components/ui/StatusBadge.jsx';
+import Button from '../../../components/UI/Button.jsx';
+import Spinner from '../../../components/UI/Spinner.jsx';
+import { Status } from '../../../components/UI/StatusBadge.jsx';
 import { resolveMediaUrl } from '../../../utils/media.js';
 
 // 🚀 NOUVEL IMPORT : Ton Custom Hook

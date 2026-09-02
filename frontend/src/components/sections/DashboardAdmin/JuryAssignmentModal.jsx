@@ -1,4 +1,4 @@
-import Button from "../../ui/Button.jsx";
+import Button from "../../UI/Button.jsx";
 
 function JuryAssignmentModal({
     isOpen,

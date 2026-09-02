@@ -11,10 +11,10 @@ import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 // Composants UI
 import VideoWrapper from '../../../components/sections/DashboardJury/VideoWrapper.jsx';
 import InfoPanel from '../../../components/sections/DashboardJury/InfoPanel.jsx';
-import Button from '../../../components/ui/Button.jsx';
-import Spinner from '../../../components/ui/Spinner.jsx';
-import { Status } from '../../../components/ui/StatusBadge.jsx';
-import ConfirmModal from '../../../components/ui/ConfirmModal.jsx';
+import Button from '../../../components/UI/Button.jsx';
+import Spinner from '../../../components/UI/Spinner.jsx';
+import { Status } from '../../../components/UI/StatusBadge.jsx';
+import ConfirmModal from '../../../components/UI/ConfirmModal.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
 import JuryAssignmentModal from '../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx';
 import { resolveMediaUrl } from '../../../utils/media.js';

@@ -1,4 +1,4 @@
-import Button from '../../ui/Button.jsx';
+import Button from '../../UI/Button.jsx';
 
 const AdminMovieDetailActions = ({ onAssignClick, onEmailClick }) => {
   return (

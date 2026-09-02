@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../ui/Button';
+import Button from '../../../UI/Button';
 import useFestivalCountdown from '../../../../hooks/useFestivalCountdown';
 import useFestivalPhase from '../../../../hooks/useFestivalPhase';
 

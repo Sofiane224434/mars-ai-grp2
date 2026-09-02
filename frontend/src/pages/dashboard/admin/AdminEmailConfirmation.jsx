@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import useApi from '../../../hooks/useApi.js';
 import usePagination from '../../../hooks/usePagination.js';
-import Spinner from '../../../components/ui/Spinner.jsx';
-import Pagination from '../../../components/ui/Pagination.jsx';
-import Filter from '../../../components/ui/Filter.jsx';
-import Button from '../../../components/ui/Button.jsx';
+import Spinner from '../../../components/UI/Spinner.jsx';
+import Pagination from '../../../components/UI/Pagination.jsx';
+import Filter from '../../../components/UI/Filter.jsx';
+import Button from '../../../components/UI/Button.jsx';
 import MovieAdminCard from '../../../components/sections/DashboardAdmin/MovieAdminCard.jsx';
 import EmailTemplateModal from '../../../components/sections/DashboardAdmin/EmailTemplateModal.jsx';
-import ToggleSwitch from '../../../components/ui/ToggleSwitch.jsx';
+import ToggleSwitch from '../../../components/UI/ToggleSwitch.jsx';
 import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 const AdminEmailConfirmation = () => {

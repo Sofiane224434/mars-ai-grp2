@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import Button from '../../components/ui/Button.jsx';
+import Button from '../../components/UI/Button.jsx';
 
 const API_URL = 'http://localhost:5000/api';
 

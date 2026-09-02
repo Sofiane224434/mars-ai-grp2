@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import useApi from '../../../hooks/useApi';
 import StatCard from '../admin/StatCard';
-import Button from '../../../components/ui/Button.jsx';
+import Button from '../../../components/UI/Button.jsx';
 import panel_icon_not_watched from '../../../assets/icons/panel_icon_not_watched.png';
 
 const JuryPanel = () => {

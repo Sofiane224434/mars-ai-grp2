@@ -4,8 +4,8 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import useFestivalPhase from "../../hooks/useFestivalPhase";
-import Button from "../../components/ui/Button";
-import Spinner from "../../components/ui/Spinner";
+import Button from "../../components/UI/Button";
+import Spinner from "../../components/UI/Spinner";
 import InfoPanel from "../../components/sections/DashboardJury/InfoPanel";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";

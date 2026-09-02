@@ -3,12 +3,12 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import useApi from '../../../hooks/useApi.js';
-import MovieCard from "../../../components/ui/MovieCard.jsx";
-import Filter from "../../../components/ui/Filter.jsx";
-import Button from "../../../components/ui/Button.jsx";
-import Spinner from "../../../components/ui/Spinner.jsx";
-import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
-import Pagination from '../../../components/ui/Pagination.jsx';
+import MovieCard from "../../../components/UI/MovieCard.jsx";
+import Filter from "../../../components/UI/Filter.jsx";
+import Button from "../../../components/UI/Button.jsx";
+import Spinner from "../../../components/UI/Spinner.jsx";
+import ToggleSwitch from "../../../components/UI/ToggleSwitch.jsx";
+import Pagination from '../../../components/UI/Pagination.jsx';
 import useFestivalPhase from '../../../hooks/useFestivalPhase.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

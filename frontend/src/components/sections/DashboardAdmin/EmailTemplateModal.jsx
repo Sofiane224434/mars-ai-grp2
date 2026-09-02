@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import Button from '../../ui/Button.jsx';
+import Button from '../../UI/Button.jsx';
 import { getDefaultTemplateId, getTemplatesByScope, EMAIL_TEMPLATES } from '../../../utils/emailTemplates.js';
 
 const EmailTemplateModal = ({ onClose, movie, variant = 'movie' }) => {

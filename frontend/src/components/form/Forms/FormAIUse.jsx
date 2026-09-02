@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
-import { Button } from "../../ui/Button";
+import { Button } from "../../UI/Button";
 import InputAdditiveSelect from "../InputAdditiveSelect";
 import InputRequirementStar from "../InputRequirementStar";
 

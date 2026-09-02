@@ -9,7 +9,7 @@ import FormMultimedia from "./Forms/FormMultimedia";
 import FormDirectorInfo from "./Forms/FormDirectorInfo";
 
 import StepsTrack from "./StepsTrack";
-import Button from "../ui/Button";
+import Button from "../UI/Button";
 
 export default function FormParent() {
   const { t } = useTranslation();

@@ -5,14 +5,14 @@ import axios from "axios";
 import useApi from "../../../hooks/useApi.js";
 import usePagination from "../../../hooks/usePagination.js";
 
-import MovieCard from "../../../components/ui/MovieCard.jsx";
-import Filter from "../../../components/ui/Filter.jsx";
-import Button from "../../../components/ui/Button.jsx";
-import Spinner from "../../../components/ui/Spinner.jsx";
+import MovieCard from "../../../components/UI/MovieCard.jsx";
+import Filter from "../../../components/UI/Filter.jsx";
+import Button from "../../../components/UI/Button.jsx";
+import Spinner from "../../../components/UI/Spinner.jsx";
 import JuryAssignmentModal from "../../../components/sections/DashboardAdmin/JuryAssignmentModal.jsx";
 import useFestivalPhase from "../../../hooks/useFestivalPhase.js";
-import ToggleSwitch from "../../../components/ui/ToggleSwitch.jsx";
-import Pagination from "../../../components/ui/Pagination.jsx";
+import ToggleSwitch from "../../../components/UI/ToggleSwitch.jsx";
+import Pagination from "../../../components/UI/Pagination.jsx";
 
 const ALLOWED_STATUSES = ["approved", "review", "rejected", "pending", "top50", "top5"];
 const ALLOWED_ASSIGNATIONS = ["assigned", "unassigned"];

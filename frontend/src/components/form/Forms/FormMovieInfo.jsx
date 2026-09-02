@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import InputSuper from "../InputSuper";
 import InputAdditive from "../InputAdditive";
-import { Button } from "../../ui/Button";
+import { Button } from "../../UI/Button";
 
 import { verifyInputText, verifyVideo } from "../VerifyInputFuncs";
 

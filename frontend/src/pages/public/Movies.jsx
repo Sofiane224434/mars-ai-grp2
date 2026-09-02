@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import useFestivalPhase from "../../hooks/useFestivalPhase";
-import MovieCard from "../../components/ui/MovieCard";
-import Pagination from "../../components/ui/Pagination";
-import Spinner from "../../components/ui/Spinner";
+import MovieCard from "../../components/UI/MovieCard";
+import Pagination from "../../components/UI/Pagination";
+import Spinner from "../../components/UI/Spinner";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const ITEMS_PER_PAGE = 20;

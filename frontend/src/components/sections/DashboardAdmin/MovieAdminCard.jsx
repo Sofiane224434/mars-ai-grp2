@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Status } from '../../ui/StatusBadge.jsx';
-import Button from '../../ui/Button.jsx';
+import { Status } from '../../UI/StatusBadge.jsx';
+import Button from '../../UI/Button.jsx';
 import { resolveMediaUrl } from '../../../utils/media.js';
 
 const DEFAULT_THUMBNAIL = "/assets/img/vignette-test.svg";
